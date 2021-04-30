@@ -449,7 +449,7 @@
 <td>定义表格中供格式化的列组</td>
 </tr>
 </tbody></table>
-<p><em>&emsp;&emsp;&emsp;表格标签的常用属性：</em><br><em>&emsp;&emsp;&emsp;1) table border（边框）、background（表格背景）、cellpadding（单元格边距）、cellspacing（单元格间距）、frame（框架-控制表格边框）</em><br><em>&emsp;&emsp;&emsp;2) th/td colspan（跨列）、rowspan（跨行）、background（单元格背景）、align（单元格对齐方式</em><br><em>&emsp;&emsp;&emsp;注: 空的单元格的边框不会显示，可使用 “&nbsp;” 处理没有内容的单元格显示边框；单元格内可嵌套其他HTML元素</em></p>
+<p><em>&emsp;&emsp;&emsp;表格标签的常用属性：</em><br><em>&emsp;&emsp;&emsp;1) table border（边框）、background（表格背景）、cellpadding（单元格边距）、cellspacing（单元格间距）、frame（框架-控制表格边框）</em><br><em>&emsp;&emsp;&emsp;2) th/td colspan（跨列）、rowspan（跨行）、background（单元格背景）、align（单元格对齐方式</em><br><em>&emsp;&emsp;&emsp;注: 空的单元格的边框不会显示，可使用 空格字符”&amp;nbsp;” 处理没有内容的单元格显示边框；单元格内可嵌套其他HTML元素</em></p>
 <h4 id="9-布局标签"><a href="#9-布局标签" class="headerlink" title="(9) 布局标签"></a>(9) 布局标签</h4><table>
 <thead>
 <tr>
@@ -574,7 +574,8 @@
 <td>定义内联的子窗口（框架）</td>
 </tr>
 </tbody></table>
-<h2 id="4、HTML标签属性"><a href="#4、HTML标签属性" class="headerlink" title="4、HTML标签属性"></a>4、HTML标签属性</h2><p>&emsp;&emsp;HTML 标签可以拥有属性。属性提供了有关 HTML 元素的更多的信息。属性总是以名称/值对的形式出现，属性总是在 HTML 元素的开始标签中规定。HTML标签属性对大小写不明感，推荐小写。<br>&emsp;&emsp;常用HTML标签属性：</p>
+<h2 id="4、HTML标签属性"><a href="#4、HTML标签属性" class="headerlink" title="4、HTML标签属性"></a>4、HTML标签属性</h2><p>&emsp;&emsp;HTML 标签可以拥有属性。属性提供了有关 HTML 元素的更多的信息。属性总是以名称/值对的形式出现，属性总是在 HTML 元素的开始标签中规定。HTML标签属性对大小写不明感，推荐小写。</p>
+<p>&emsp;&emsp;常用HTML标签属性：</p>
 <table>
 <thead>
 <tr>
@@ -623,8 +624,11 @@
 <td>元素的 tab 键选中次序</td>
 </tr>
 </tbody></table>
-<h2 id="5、HTML语义化"><a href="#5、HTML语义化" class="headerlink" title="5、HTML语义化"></a>5、HTML语义化</h2><p>&emsp;&emsp;HTML语义化的目的：用更合适的标签做更合适的事情，使文档内容结构化、代码语义化<br>&emsp;&emsp;优点：<br>&emsp;&emsp;&emsp;&emsp;(1) 提高代码可读性<br>&emsp;&emsp;&emsp;&emsp;(2) 利于浏览器解析与SEO搜索引擎优化<br>&emsp;&emsp;&emsp;&emsp;(3) 提高代码可维护性与重用性<br>&emsp;&emsp;提高代码语义化的方法：<br>&emsp;&emsp;&emsp;&emsp;(1) 减少使用没有语义的标签，例如div、span等<br>&emsp;&emsp;&emsp;&emsp;(2) 减少使用纯样式标签，例如b、i等<br>&emsp;&emsp;&emsp;&emsp;(3) 表单使用fieldset包裹；使用legend添加标题；使用label标签为input添加标注<br>&emsp;&emsp;&emsp;&emsp;(4) 表格使用caption添加标题，表头部分用thead、主体部分用tbody、脚注部分用tfoot包裹<br>&emsp;&emsp;&emsp;&emsp;(5) img元素附带alt信息，即对图片进行文本说明，当图像无法查看时会显示文本描述</p>
-<h2 id="6、网站SEO搜索引擎优化"><a href="#6、网站SEO搜索引擎优化" class="headerlink" title="6、网站SEO搜索引擎优化"></a>6、网站SEO搜索引擎优化</h2><p>&emsp;&emsp;SEO目的：为了提升网页在搜索引擎自然搜索结果中的收录数量以及排序位置而做的优化行为。简言之，就是希望搜索引擎能多多我们收录网站，并且在别人进行搜索时网站能排列在搜索结果的前面<br>&emsp;&emsp;(1) 提高网站代码的语义化<br>&emsp;&emsp;(2) 重要内容不使用JS输出<br>&emsp;&emsp;(3) 网站的标题（title）进行合理设置<br>&emsp;&emsp;(4) 对关键字、描述精心设计</p>
+<h2 id="5、HTML语义化"><a href="#5、HTML语义化" class="headerlink" title="5、HTML语义化"></a>5、HTML语义化</h2><p>HTML语义化的目的：用更合适的标签做更合适的事情，使文档内容结构化、代码语义化</p>
+<p>优点：<br>&emsp;&emsp;(1) 提高代码可读性<br>&emsp;&emsp;(2) 利于浏览器解析与SEO搜索引擎优化<br>&emsp;&emsp;(3) 提高代码可维护性与重用性</p>
+<p>提高代码语义化的方法：<br>&emsp;&emsp;(1) 减少使用没有语义的标签，例如div、span等<br>&emsp;&emsp;(2) 减少使用纯样式标签，例如b、i等<br>&emsp;&emsp;(3) 表单使用fieldset包裹；使用legend添加标题；使用label标签为input添加标注<br>&emsp;&emsp;(4) 表格使用caption添加标题，表头部分用thead、主体部分用tbody、脚注部分用tfoot包裹<br>&emsp;&emsp;(5) img元素附带alt信息，即对图片进行文本说明，当图像无法查看时会显示文本描述</p>
+<h2 id="6、网站SEO搜索引擎优化"><a href="#6、网站SEO搜索引擎优化" class="headerlink" title="6、网站SEO搜索引擎优化"></a>6、网站SEO搜索引擎优化</h2><p>SEO目的：为了提升网页在搜索引擎自然搜索结果中的收录数量以及排序位置而做的优化行为。简言之，就是希望搜索引擎能多多我们收录网站，并且在别人进行搜索时网站能排列在搜索结果的前面</p>
+<p>实现方式：<br>&emsp;&emsp;(1) 提高网站代码的语义化<br>&emsp;&emsp;(2) 重要内容不使用JS输出<br>&emsp;&emsp;(3) 网站的标题（title）进行合理设置<br>&emsp;&emsp;(4) 对关键字、描述精心设计</p>
 <pre><code>  &lt;meta name=&quot;description&quot; content=&quot;...&quot;&gt;
   &lt;meta name=&quot;keywords&quot; content=&quot;...&quot;&gt;
 </code></pre>
@@ -792,6 +796,20 @@
   </div>
 
    
+  <nav class="article-nav">
+    
+      <a href="/2020/09/15/CSS-3-%E6%A6%82%E8%BF%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            CSS(3)概述
+          
+        </div>
+      </a>
+    
+    
+  </nav>
+
   
    
      
@@ -906,7 +924,7 @@
 <!-- #reward -->
 <div id="reward">
   <span class="close"><i class="ri-close-line"></i></span>
-  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
   <div class="reward-box">
     
     <div class="reward-item">
