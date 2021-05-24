@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>JS预解析、作用域、执行上下文、this |  码农日志</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link rel="alternate" href="/atom.xml" title="码农日志" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-JS预解析、作用域、执行上下文、this"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  JS预解析、作用域、执行上下文、this
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/12/05/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/" class="article-date">
+  <time datetime="2020-12-05T03:28:36.000Z" itemprop="datePublished">2020-12-05</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">12 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻。会进行变量与函数申明（变量提升）、生成执行上下文（作用域）等工作。</p>
+<h2 id="1、作用域（链）"><a href="#1、作用域（链）" class="headerlink" title="1、作用域（链）"></a>1、作用域（链）</h2><p>&emsp;&emsp;JavaScript采用词法作用域，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文的变量对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
+<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。全局作用域的变量是全局对象的属性，不论在什么函数中都可以直接访问，而不需要通过全局对象，但加上全局对象，可以提供搜索效率。<br><em>&emsp;&emsp;[注] 隐式的申明变量，在最外层函数外部申明的变量，给window对象添加的属性都是全局变量</em><br>&emsp;&emsp;② 在函数内部用var关键字申明的变量，函数的参数会存在于该函数的局部作用域中。<br><em>&emsp;&emsp;[注] 局部变量的优先级高于全局变量</em><br>&emsp;&emsp;③ 用let、const申明的变量会存在于块级作用域中。</p>
+<h2 id="2、预解析与执行上下文"><a href="#2、预解析与执行上下文" class="headerlink" title="2、预解析与执行上下文"></a>2、预解析与执行上下文</h2><p>&emsp;&emsp;JavaScript代码在执行前的瞬间会存在预解析的阶段，会对代码进行相应的处理，对申明的变量与函数进行变量提升，以及生成对应的执行上下文，执行上下文除了保存代码执行信息外，还会将当前作用域信息也保存在执行上下文中，他们有相应的存储关系。随着代码进行的进行，执行上下文会进行相应的改变，执行上下文是用于跟踪代码的运行情况。同一个作用域下，不同的调用会产生不同的执行上下文环境，继而产生不同的变量的值。</p>
+<p>&emsp;&emsp;预解析处理创建执行上下文的步骤：<br>&emsp;&emsp;① 隐式的创建GO（全局上下文）/AO（函数上下文）对象<br>&emsp;&emsp;② 找形参和变量声明，将变量和形参名作为GO/AO的属性名，值为undefined（这个过程也常称为变量提升）<br>&emsp;&emsp;③ 将实参值和形参统一<br>&emsp;&emsp;④ 在函数体里面找函数声明，作为GO/AO的属性，值赋予函数体（这个过程也常称为函数提升）<br><em>&emsp;&emsp;[注] 在全局预解析中，由于全局中没有参数的的概念，所以省去了第2步的找参数、第3步实参形参相统一这两处处理。GO全局上下文对象，它优于局部预解析AO局部上下文对象的创建与执行</em></p>
+<p>&emsp;&emsp;例如下面的代码：</p>
+<pre><code>  1  console.log(a) // undefined
+  2  console.log(b) // Uncaught ReferenceError: b is not defined
+  3  var a = 5
+  4  console.log(a) // 5
+  5  console.log(test) // undefined
+  6  console.log(fn) // function fn () &#123;&#125;
+  7  console.log(fn(3)) // 11
+  8  var test = function () &#123;
+  9     return 10
+  10 &#125;
+  11 function fn(x) &#123;
+  12  console.log(a) // undefined
+  13  var a = b = 8
+  14  var c = 6
+  15  return a + x
+  16 &#125;
+  17 console.log(a) // 5
+  18 console.log(b) // 8
+  19 console.log(c) // Uncaught ReferenceError: c is not defined
+  20 console.log(test()) // 10
+</code></pre>
+<p>&emsp;&emsp;<strong>上面的代码在执行前的瞬间，会先进行全局预解析。过程如下：（这里只列举了执行上下文中的部分信息）</strong></p>
+<p>&emsp;&emsp;(1) 进行全局预解析的第1步：创建全局上下文GO对象</p>
+<pre><code>  GO: &#123;
+  
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(2) 进行全局预解析的第2步：找变量声明，将变量作为GO的属性名，值为undefined</p>
+<pre><code>  GO: &#123;
+    a: undefined,
+    test: undefined
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(3) 进行全局预解析3步：在函数体里面找函数声明，作为GO的属性，值赋予函数体</p>
+<pre><code>  GO: &#123;
+    a: undefined,
+    test: undefined
+    fn: function fn () &#123;&#125;
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;<strong>全局预解析完成，代码开始执行，执行过程如下：</strong><br>&emsp;&emsp;执行第1行，输出a为undefined<br>&emsp;&emsp;执行第2行，因为全局上下文没有申明b变量，所以程序抛出异常：Uncaught ReferenceError: b is not defined<br>&emsp;&emsp;执行第3行，将全局上下文中a赋值为5</p>
+<pre><code>  GO:&#123;
+    a: 5,
+    test: undefined
+    fn: function fn () &#123;&#125;
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;执行第4行，输出a为5<br>&emsp;&emsp;执行第5行，输出test为undefined<br>&emsp;&emsp;执行第6行，输出fn为function fn () {}</p>
+<p>&emsp;&emsp;<strong>执行第7行，调用fn并传入参数3，在fn执行前瞬间，会进行局部预编译，过程如下：</strong></p>
+<p>&emsp;&emsp;(1) 进行局部预解析的第1步： 创建对应的函数上下文AO对象</p>
+<pre><code>  AO: &#123;
+    
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(2) 进行局部预解析的第2步：找形参和变量声明，将变量和形参名作为AO的属性名，值为undefined</p>
+<pre><code>  AO: &#123;
+    x: undefined,
+    a: undefined,
+    c: undefined
+  &#125;
+</code></pre>
+<p><em>&emsp;&emsp;[注] <u>在第13行’var a = b = 8’，这里隐式的申明了全局变量b，此时应该将变量b添加到GO对象中，</u>此时的GO对象为：</em></p>
+<pre><code>  GO: &#123;
+    a: 5,
+    test: undefined,
+    fn: function fn () &#123;&#125;,
+    b: undefined
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(3) 进行局部预解析第3步：将实参与形参统一</p>
+<pre><code>  AO:&#123;
+    x: 3,
+    a: undefined,
+    c: undefined
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(4) 对应fn函数，进行预解析第4步：在函数体里面找函数声明，作为AO的属性，值赋予函数体<br>&emsp;&emsp;fn函数内无函数申明，AO对象不变<br>&emsp;&emsp;<strong>fn函数执行前预解析完成，11-16行的<u>函数入栈执行！</u></strong><br>&emsp;&emsp;执行第12行，输出a为undefined（先在当前执行的函数上下文AO的作用域对象中查找变量a，若AO的作用域对象中没有，通过AO中的作用域链，再去全局上下文GO中去查找）<br>&emsp;&emsp;执行第13行，将变量b赋值为8，变量a赋值为8。其中变量b存在于全局上下文GO中，这里的a为当前执行的函数上下文AO中的a，此时的GO、AO对象为：</p>
+<pre><code>  GO:&#123;
+    a: 5,
+    test: undefined,
+    fn: function fn () &#123;&#125;,
+    b: 8
+  &#125;
+  AO:&#123;
+      x: 3,
+      a: 8,
+      c:undefined
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;执行第14行，将AO中的c变量赋值为6，此时的AO为：</p>
+<pre><code>  AO:&#123;
+    x: 3,
+    a: 8,
+    c: 6
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;<strong>执行第15行，计算a+x的值为11，并返回函数调用的地方。所以第7行输出函数fn(3)的执行结果11。<u>函数执行完成，函数出栈，当前执行上下文AO对象被销毁。 </u></strong><br>&emsp;&emsp;执行第8行，将GO中test赋值为function () { return 10 }，此时的GO对象为：</p>
+<pre><code>  GO: &#123;
+    a: 5,
+    test: undefined,
+    fn: function fn () &#123;&#125;,
+    b: 8
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;执行第17行，输出a为5<br>&emsp;&emsp;执行第18行，输出b为8<br>&emsp;&emsp;执行第19行，因为全局上下文没有申明c变量，所以程序抛出异常：Uncaught ReferenceError: c is not defined<br>&emsp;&emsp;执行第20行，<u>这里调用test()函数与上面调用fn(3)函数类似，执行前也会进行相应的局部预解析，然后执行函数，</u>这里输出函数返回的10<br>&emsp;&emsp;代码执行完成！</p>
+<p><em>&emsp;&emsp;[注] 这里分析比较简单的一段代码的执行过程，这里在函数内部没有函数的申明，也没有异步处理。一般的，如果函数内部存在函数，在内部函数调用时也会进行对应的局部预处理以及入栈执行；如果代码内包含异步逻辑，会把异步逻辑放在异步队列里面进行相应的调度执行。</em><br><em>&emsp;&emsp;[注] 如果在某个作用域中使用了某变量，而该变量并未在对应的（静态）作用域中声明（在其它作用域中声明），该变量称为<u>自由变量。</u></em></p>
+<h2 id="3、闭包"><a href="#3、闭包" class="headerlink" title="3、闭包"></a>3、闭包</h2><p>&emsp;&emsp;一个函数和对其周围状态（词法环境）的引用捆绑在一起，这样的组合就是闭包（closure）。闭包让你可以在一个内层函数中访问到其外层函数的作用域（即能够读取其他函数内部变量的函数）。在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来。<strong>函数就会形成闭包。</strong><u>闭包是由函数以及声明该函数的词法环境组合而成的。</u>该环境包含了这个闭包创建时作用域内的任何局部变量。</p>
+<p>&emsp;&emsp;例如下面的代码：</p>
+<pre><code>  function add(x) &#123;
+    console.log(inner.__proto__)
+    function inner(y) &#123;
+        return x + y;
+    &#125;
+    return inner;
+  &#125;
+  console.log(add(3)(4))
+
+  // 输出
+  &#123;constructor: ƒ&#125;
+  constructor: ƒ inner(y)
+  arguments: null
+  caller: null
+  length: 1
+  name: &quot;inner&quot;
+  prototype: &#123;constructor: ƒ&#125;
+  __proto__: ƒ ()
+  [[FunctionLocation]]: scopes.html:14
+  [[Scopes]]: Scopes[2]
+  0: Closure (add) &#123;x: 3&#125;
+  1: Global &#123;window: Window, self: Window, document: document, name: &quot;&quot;, location: Location, …&#125;
+  __proto__: Object
+
+  7
+</code></pre>
+<p>&emsp;&emsp;上面的代码中：add函数内部定义了inner函数，inner函数可以访问词法环境外部add函数作用域中变量，如这里的形参x。从打印的inner.prototype对象可以看出，在inner函数的作用域链的栈底为Global全局作用域，栈顶为inner函数所在的add函数的作用域，这里形成了Closure闭包。add(3)函数调用后返回的inner(y){ return x + y; }函数与inner函数的词法环境形成了闭包，inner函数中保留了对add函数内部变量x的应用，且此时x=3，所以在add(3)(4)继续调用inner函数时返回结果7。</p>
+<p><em>&emsp;&emsp;[注] 这里是否形成闭包与内部的inner函数是否返回无关。</em></p>
+<h2 id="4、this关键字"><a href="#4、this关键字" class="headerlink" title="4、this关键字"></a>4、this关键字</h2><p>&emsp;&emsp;在绝大多数情况下，<u>函数的调用方式决定了 this 的值（<strong>运行时绑定</strong>）。this 不能在执行期间被赋值，并且在每次函数被调用时 this 的值也可能会不同（<strong>与调用方式有关</strong>）。</u>ES5 引入了 bind 方法来设置函数的 this 值，而不用考虑函数如何被调用的。ES2015 引入了箭头函数，箭头函数不提供自身的 this 绑定，此时this 的值将保持为闭合词法上下文的值。函数中this的取值为当前执行上下文（global、function 或 eval）的一个属性，在非严格模式下，总是指向一个对象，在严格模式下可以是任意值。</p>
+<p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，在全局执行环境中（在任何函数体外部）this 都指向全局对象。<br>&emsp;&emsp;② 在函数上下文中，this指向取决于函数被调用的方式：在非严格模式下，this的值不由调用者设置，this指向window。在严格模式下，this指向调用者，若执行前没有设置this的值，也没有作为对象的属性或方法而是直接调用，this为undefined。<br><em>&emsp;&emsp;[注] 可以通过call、apply方法修改this指向的环境。</em><br>&emsp;&emsp;③ 类上下文中，基类与派生类构造函数constructor()中this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象，所有非静态方法会被添加到this的原型中。在派生类中的构造函数没有初始的this绑定，在构造函数中调用super()才能生成一个this绑定。<u>注意的是，使用super对象时，super 调用父类的方法时，super 会绑定当前子类的 this。</u><br><em>&emsp;&emsp;[注] 静态方法不是this的属性，它们只是类自身的属性。派生类（子类）在super()前调用this会抛出异常，派生类不能在调用super前返回，除非没有构造函数或者构造函数返回了对象。</em></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/12/05/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/" rel="tag">前端基础</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/12/23/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            JS原型（prototype）链与继承（Class）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/12/03/JavaScript%E6%A6%82%E8%BF%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">JavaScript概述</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Xiong Gang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="码农日志"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay-payment-code.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat-payment-code.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+</body>
+
+</html>

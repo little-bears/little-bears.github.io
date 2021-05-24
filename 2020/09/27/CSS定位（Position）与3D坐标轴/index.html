@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>CSS |  码农日志</title>
+      <title>CSS定位（Position）与3D坐标轴 |  码农日志</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,182 +54,179 @@
       
     <main class="content on">
       <section class="outer">
-  
-  <ul class="ads">
+  <article
+  id="post-CSS定位（Position）与3D坐标轴"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
-</ul>
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  CSS定位（Position）与3D坐标轴
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/09/27/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/" class="article-date">
+  <time datetime="2020-09-27T06:59:46.000Z" itemprop="datePublished">2020-09-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CSS/">CSS</a>
+  </div>
   
-  
-  <article class="articles">
-    
-    
-    <h1 class="page-type-title">CSS</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2020" class="archive-year">2020</a>
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">982</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">3 分钟</span>
+        </span>
+    </span>
+</div>
+ 
     </div>
-    <div class="archives">
       
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/11/26/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/" class="archive-article-date">
-  <time datetime="2020-11-26T03:03:30.000Z" itemprop="datePublished">11/26</time>
-</a>
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
        
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/11/26/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/"
-    >CSS动画（过渡、关键帧、3次贝塞尔曲线）</a> 
-</h2>
+  <p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终位置。</p>
+<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上方、右方、下方与左方的距离。</p>
+<p><img src="/images/css3/%E5%B9%B3%E9%9D%A2%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="平面空间坐标轴"></p>
+<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative, absolute, fixed，sticky与inherit<br>&emsp;&emsp;定位元素：是其计算后位置属性为relative,absolute,fixed或sticky的一个元素<br>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。<br>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置（x，y）作为原点（0，0）。在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。而且position:relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
+<p><img src="/images/css3/%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D(relative).png" alt="相对定位(relative)"></p>
+<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位祖先元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margins），且不会与其他边距合并。特别的，fixed绝对定位-固定定位是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。打印时，元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
+<p><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(absolute).png" alt="绝对定位(absolute)"><br><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(fixed).png" alt="绝对定位(fixed)"></p>
+<p>&emsp;&emsp;(4) 粘性定位(sticky)：元素根据正常文档流进行定位，然后相对它的最近滚动祖先和最近块级祖先，包括table-related元素，基于top, right, bottom, 和 left的值进行偏移。偏移值不会影响任何其他元素的位置。粘性定位表现为相对定位和固定定位叠加的效果。元素在跨越特定阈值前为相对定位(relative)，之后为固定定位(fixed)。</p>
+<p><img src="/images/css3/%E7%B2%98%E6%80%A7%E5%AE%9A%E4%BD%8D(sticky).png" alt="粘性定位(sticky)"></p>
+<h2 id="3、三维空间坐标轴（3D）"><a href="#3、三维空间坐标轴（3D）" class="headerlink" title="3、三维空间坐标轴（3D）"></a>3、三维空间坐标轴（3D）</h2><p>&emsp;&emsp;CSS中3D初始坐标系，其XYZ轴的正方向分别是：向右、向下、向屏幕外。如下图：</p>
+<p><img src="/images/css3/%E4%B8%89%E7%BB%B4%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="三维空间坐标轴"></p>
+<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
  
-
-    </header>
-    
+      <!-- reward -->
       
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/CSS/">CSS</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/11/02/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/" class="archive-article-date">
-  <time datetime="2020-11-02T06:22:39.000Z" itemprop="datePublished">11/02</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/11/02/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/"
-    >CSS布局（自适应、响应式、Layout）</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/CSS/">CSS</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/09/27/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/" class="archive-article-date">
-  <time datetime="2020-09-27T07:12:22.000Z" itemprop="datePublished">09/27</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/09/27/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/"
-    >CSS布局类型（Display、Flex、Grid）</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/CSS/">CSS</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/09/27/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/" class="archive-article-date">
-  <time datetime="2020-09-27T06:59:46.000Z" itemprop="datePublished">09/27</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/09/27/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/"
-    >CSS定位（Position）与3D坐标轴</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/CSS/">CSS</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/09/24/CSS-3-%E6%A6%82%E8%BF%B0/" class="archive-article-date">
-  <time datetime="2020-09-24T01:10:16.000Z" itemprop="datePublished">09/24</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/09/24/CSS-3-%E6%A6%82%E8%BF%B0/"
-    >CSS(3)概述</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/CSS/">CSS</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/09/27/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/" rel="tag">前端基础</a></li></ul>
+
+    </footer>
   </div>
-  
-  
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/09/27/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            CSS布局类型（Display、Flex、Grid）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/09/24/CSS-3-%E6%A6%82%E8%BF%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">CSS(3)概述</div>
+      </a>
+    
+  </nav>
 
   
+   
+     
+</article>
+
 </section>
       <footer class="footer">
   <div class="outer">
@@ -361,6 +358,22 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
 <link
