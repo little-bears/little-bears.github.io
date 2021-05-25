@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CSS定位（Position）与3D坐标轴</title>
-    <url>/2020/09/27/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/</url>
-    <content><![CDATA[<p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终位置。</p>
-<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上方、右方、下方与左方的距离。</p>
-<p><img src="/images/css3/%E5%B9%B3%E9%9D%A2%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="平面空间坐标轴"></p>
-<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative, absolute, fixed，sticky与inherit<br>&emsp;&emsp;定位元素：是其计算后位置属性为relative,absolute,fixed或sticky的一个元素<br>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。<br>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置（x，y）作为原点（0，0）。在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。而且position:relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
-<p><img src="/images/css3/%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D(relative).png" alt="相对定位(relative)"></p>
-<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位祖先元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margins），且不会与其他边距合并。特别的，fixed绝对定位-固定定位是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。打印时，元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
-<p><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(absolute).png" alt="绝对定位(absolute)"><br><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(fixed).png" alt="绝对定位(fixed)"></p>
-<p>&emsp;&emsp;(4) 粘性定位(sticky)：元素根据正常文档流进行定位，然后相对它的最近滚动祖先和最近块级祖先，包括table-related元素，基于top, right, bottom, 和 left的值进行偏移。偏移值不会影响任何其他元素的位置。粘性定位表现为相对定位和固定定位叠加的效果。元素在跨越特定阈值前为相对定位(relative)，之后为固定定位(fixed)。</p>
-<p><img src="/images/css3/%E7%B2%98%E6%80%A7%E5%AE%9A%E4%BD%8D(sticky).png" alt="粘性定位(sticky)"></p>
-<h2 id="3、三维空间坐标轴（3D）"><a href="#3、三维空间坐标轴（3D）" class="headerlink" title="3、三维空间坐标轴（3D）"></a>3、三维空间坐标轴（3D）</h2><p>&emsp;&emsp;CSS中3D初始坐标系，其XYZ轴的正方向分别是：向右、向下、向屏幕外。如下图：</p>
-<p><img src="/images/css3/%E4%B8%89%E7%BB%B4%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="三维空间坐标轴"></p>
-<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>前端基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSS动画（过渡、关键帧、3次贝塞尔曲线）</title>
     <url>/2020/11/26/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/</url>
     <content><![CDATA[<p>CSS 动画可以在不借助 Javascript 的情况下做出一些相对简单的动画效果，例如缩放、移动、2D/3D旋转等。CSS动画有浏览器控制，表现得很流畅。 <u>CSS动画的时序函数主要为3次贝塞尔曲线。</u></p>
@@ -298,6 +275,29 @@
   &lt;/div&gt;
 </code></pre>
 <p>&emsp;&emsp;简单说明：这里路径使用SVG图片，设置汽车的图片offset-path偏移路径为SVG中path字符串。自定义动画move使汽车每3s沿SVG路径进行偏移直至100%，便出现了汽车元素沿不规则路径移动的效果。</p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>前端基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS定位（Position）与3D坐标轴</title>
+    <url>/2020/09/27/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/</url>
+    <content><![CDATA[<p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终位置。</p>
+<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上方、右方、下方与左方的距离。</p>
+<p><img src="/images/css3/%E5%B9%B3%E9%9D%A2%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="平面空间坐标轴"></p>
+<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative, absolute, fixed，sticky与inherit<br>&emsp;&emsp;定位元素：是其计算后位置属性为relative,absolute,fixed或sticky的一个元素<br>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。<br>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置（x，y）作为原点（0，0）。在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。而且position:relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
+<p><img src="/images/css3/%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D(relative).png" alt="相对定位(relative)"></p>
+<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位祖先元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margins），且不会与其他边距合并。特别的，fixed绝对定位-固定定位是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。打印时，元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
+<p><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(absolute).png" alt="绝对定位(absolute)"><br><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(fixed).png" alt="绝对定位(fixed)"></p>
+<p>&emsp;&emsp;(4) 粘性定位(sticky)：元素根据正常文档流进行定位，然后相对它的最近滚动祖先和最近块级祖先，包括table-related元素，基于top, right, bottom, 和 left的值进行偏移。偏移值不会影响任何其他元素的位置。粘性定位表现为相对定位和固定定位叠加的效果。元素在跨越特定阈值前为相对定位(relative)，之后为固定定位(fixed)。</p>
+<p><img src="/images/css3/%E7%B2%98%E6%80%A7%E5%AE%9A%E4%BD%8D(sticky).png" alt="粘性定位(sticky)"></p>
+<h2 id="3、三维空间坐标轴（3D）"><a href="#3、三维空间坐标轴（3D）" class="headerlink" title="3、三维空间坐标轴（3D）"></a>3、三维空间坐标轴（3D）</h2><p>&emsp;&emsp;CSS中3D初始坐标系，其XYZ轴的正方向分别是：向右、向下、向屏幕外。如下图：</p>
+<p><img src="/images/css3/%E4%B8%89%E7%BB%B4%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="三维空间坐标轴"></p>
+<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
 ]]></content>
       <categories>
         <category>CSS</category>
@@ -1448,6 +1448,27 @@
 ]]></content>
       <categories>
         <category>HTML</category>
+      </categories>
+      <tags>
+        <tag>前端基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS常用API（字符串、数组、对象、正则、日期）</title>
+    <url>/2021/01/16/JS%E5%B8%B8%E7%94%A8API%EF%BC%88%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E7%BB%84%E3%80%81%E5%AF%B9%E8%B1%A1%E3%80%81%E6%AD%A3%E5%88%99%E3%80%81%E6%97%A5%E6%9C%9F%EF%BC%89/</url>
+    <content><![CDATA[<p>JS中常用的API有字符串、数组、对象、正则与日期对象等。</p>
+<h2 id="1、字符串（String）"><a href="#1、字符串（String）" class="headerlink" title="1、字符串（String）"></a>1、字符串（String）</h2><p>&emsp;&emsp;字符串，是由零个或多个字符组成的有限序列。在JavaScript中，字符串实例有字符串对象和基本字符串值的区别  ( 对于 Boolean 和Numbers 也同理)。字符串字面量 (通过单引号或双引号定义) 和 直接调用 String 方法(没有通过 new 生成字符串对象实例)的字符串都是基本字符串。<u>当基本字符串需要调用一个字符串对象才有的方法或者查询值的时候(基本字符串是没有这些方法的)，JavaScript 会自动将基本字符串转化为字符串对象并且调用相应的方法或者执行查询</u></p>
+<pre><code>  const str1 = &#39;abc&#39;; // 基本字符串实例
+  const str2 = new String(&#39;abc&#39;); // 字符串对象实例
+  console.log(str1);
+  console.log(str2);
+</code></pre>
+<p>打印结果如下（_特殊的，可以看到基本字符串实例与字符串对象实例区别很大；其他对象如<u>数组</u>、<u>对象</u>等字面量定义与构造函数实例化区别并不大_）：</p>
+<p><img src="/images/javascript/%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%88String%EF%BC%89.png" alt="字符串（String）"></p>
+<p>&emsp;&emsp;字符串String对象的属性：String.prototype（显式原型，允许您向对象添加属性和方法）<br>&emsp;&emsp;字符串String对象的方法：String.fromCharCode() （通过一串 Unicode 创建字符串）、String.raw()（通过模板字符串创建字符串）等<br>&emsp;&emsp;字符串实例对象的属性：String.prototype.constructor（构造函数，创建改对象的函数的引用）、String.prototype.length（字符串长度）、N（用于访问第N个位置的字符，‘只读’性质，不可编辑）</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
       </categories>
       <tags>
         <tag>前端基础</tag>
@@ -2730,6 +2751,316 @@
       </tags>
   </entry>
   <entry>
+    <title>JS动画（时序函数、缓动函数、canvas粒子动画）</title>
+    <url>/2021/01/02/JS%E5%8A%A8%E7%94%BB%EF%BC%88%E6%97%B6%E5%BA%8F%E5%87%BD%E6%95%B0%E3%80%81%E7%BC%93%E5%8A%A8%E5%87%BD%E6%95%B0%E3%80%81canvas%E7%B2%92%E5%AD%90%E5%8A%A8%E7%94%BB%EF%BC%89/</url>
+    <content><![CDATA[<p>CSS动画很强大，特别是CSS3动画。可以进行通过transition的2D/3D变换，以及改变高宽，方位，角度，透明度等，再结合transition过渡属性，能做到几乎完美。但CSS动画也有一些局限，比如不能设置浏览器相关的属性，如scrollTop等。且对于canvas等动画（以及粒子动画），还是要利用计时器（setTimeout/setInterval、requestAnimationFrame）通过JavaScript动态更新元素状态来实现。此外，canvas小游戏的逻辑实现也必须使用JavaScript去处理用户鼠标键盘等事件，才能完成对应的交互动画以及相应功能。JavaScript动画还可以沿着其他<strong>自定义时序函数</strong>的进行移动与变化。</p>
+<h2 id="JS动画"><a href="#JS动画" class="headerlink" title="JS动画"></a>JS动画</h2><h4 id="1）setTimeout（setInterval）与requestAnimationFrame对比"><a href="#1）setTimeout（setInterval）与requestAnimationFrame对比" class="headerlink" title="1）setTimeout（setInterval）与requestAnimationFrame对比"></a>1）setTimeout（setInterval）与requestAnimationFrame对比</h4><p>&emsp;&emsp;(1)setTimeout/setInterval：</p>
+<p>&emsp;&emsp;① 计时器的回调的执行时是在内存中对元素属性进行相应的改变，这个变化必须要等到屏幕下次刷新时才会被更新到屏幕上（一般为16.7ms刷新一次）。setTimeout的执行步调和屏幕的刷新步调不一致。就会导致中间某些帧的更新被跳过，照成动画卡顿。比如计时器设置10ms更新一次（帧），而屏幕刷新时间间隔为16.7ms，此时就会出现丢帧现象(即有的内存中元素状态的更新（帧）没来得及被浏览器渲染就被覆盖了)。其实只要计时器设置的更新时间小于16.7ms，就会导致丢帧。<br>&emsp;&emsp;② setTimeout/setInterval 放在异步队列里执行，主线程同步任务会阻塞异步队列的任务，设置的间隔时间不一定是回调执行的时间间隔。同样会造成动画卡顿（停顿）的现象。<br>&emsp;&emsp;③ 使用setTimeout等实现的动画，当页面被隐藏或最小化时，setTimeout仍然在后台执行动画任务，由于此时页面处于不可见或不可用状态，刷新动画浪费 CPU 资源和电池寿命。</p>
+<p>&emsp;&emsp;(2) requestAnimationFrame（标准动画时序，浏览器在下次重绘之前调用指定的回调函数来更新动画）：</p>
+<p>&emsp;&emsp;① 与setTimeout等相比，requestAnimationFrame最大的优势是由浏览器来决定回调函数的执行时机，即紧跟浏览器的刷新步调，不会出现丢帧现象。<br>&emsp;&emsp;② 当页面处于未激活的状态下，该页面的屏幕绘制任务也会被浏览器暂停，跟着浏览器步伐走的requestAnimationFrame也会停止渲染，当页面被激活时，动画才会恢复继续执行，有效节省了 CPU 资源与电池寿命。<br>&emsp;&emsp;③ 在高频率事件(resize,scroll 等)中，为了防止在一个刷新间隔内发生多次函数执行，使用requestAnimationFrame 有节流的作用，可保证每个绘制间隔内，函数只被执行一次，这样既能保证流畅性，也能更好的节省函数执行的开销。</p>
+<p><em>&emsp;&emsp;[注] 通过对比，requestAnimationFrame 要比 setTimeout/setInterval 性能好。<u>特别的，requestAnimationFrame回调函数会被传入DOMHighResTimeStamp参数（一个double类型，用于存储毫秒级的时间值），DOMHighResTimeStamp指示当前被 requestAnimationFrame() 排序的回调函数被触发的时间。在同一个帧中的多个回调函数，它们每一个都会接受到一个相同的时间戳。</u></em></p>
+<h4 id="2）JS动画中的时序函数"><a href="#2）JS动画中的时序函数" class="headerlink" title="2）JS动画中的时序函数"></a>2）JS动画中的时序函数</h4><p>&emsp;&emsp;<u>时序函数就是动画完成情况与时间的关系（一般时序函数的图像也是从（0,0）变化到（1,1），代表动画执行时间到达时动画刚好执行完成）。</u>在JS动画中我们可以更灵活的自定义这种关系，即定义更加多样的时序函数，例如n次幂等满足经过（0,0）变化到（1,1）的曲线都可以作为时序函数。</p>
+<p>&emsp;&emsp;为了代码的结构以及代码的可复用，这里编写一个<u>通用的动画函数</u>，放在单独的animate.js文件中：（其中时序函数timing也作为参数传入）</p>
+<pre><code>  // animate.js
+  function animate(&#123; duration, timing, draw &#125;) &#123;
+    let startTime = performance.now(); // 获得一个一个精确到毫秒的DOMHighResTimeStamp来标识动画开始时间
+    requestAnimationFrame(function animate(executionTime) &#123; // executionTime为requestAnimationFrame的本次回调函数触发执行时间
+      let time = (executionTime - startTime) / duration; // 计算当当前动画已经执行时间与动画延迟总时间的比值，
+      // 其值为时序函数的x轴的值（为0代表动画开始执行，1代码动画执行结束）
+      if (time &gt; 1) time = 1;
+      let progress = timing(time) // 计算当前时间节点动画完成进度，其值为时序函数y轴的值
+      draw(progress); // 根据当前动画完成进度更新动画
+      if (time &lt; 1) &#123; // 动画未完成，继续更新
+        requestAnimationFrame(animate);
+      &#125;
+    &#125;);
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;其中duration，timing，draw分别代码动画执行时间（ms）,时序函数，元素状态更新函数。首先调用performance.now()获取动画开始执行的精确时间，然后再根据当前动画执行的时间根据时序函数计算出当前动画应完成的状态，然后调用draw方法更新元素状态。动画若为完成，继续执行。</p>
+<p>&emsp;&emsp;还是用 <a href="/2020/11/26/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/#CSS%E5%8A%A8%E7%94%BB">CSS动画</a> 中小球移动的示例，这里我们采用一个 y=Math.pow(2, 10 * (x - 1)) * Math.cos(20 * Math.PI * 1.5 / 3 * x) 的时序函数来定义动画，时序函数的图像为：</p>
+<p><img src="/images/javascript/Js%E8%87%AA%E5%AE%9A%E4%B9%89%E6%97%B6%E5%BA%8F%E5%87%BD%E6%95%B0.png" alt="Js自定义时序函数"></p>
+<p>&emsp;&emsp;代码如下：</p>
+<pre><code>  &lt;style&gt;
+    .box &#123;
+      width: 300px;
+      border: 1px solid #666;
+      cursor: pointer;
+    &#125;
+  
+    #ball &#123;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: chocolate;
+      margin-left: 0;
+    &#125;
+  &lt;/style&gt;
+  &lt;div class=&quot;box&quot;&gt;
+    &lt;div id=&quot;ball&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;script src=&quot;js/animate.js&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    document.getElementById(&quot;ball&quot;).onclick = function () &#123;
+      animate(&#123;
+        duration: 3000,
+        timing: function (time) &#123;
+          return Math.pow(2, 10 * (time - 1)) * Math.cos(20 * Math.PI * 1.5 / 3 * time)
+        &#125;,
+        draw: function (progress) &#123;
+          document.getElementById(&quot;ball&quot;).style.marginLeft = 250 * progress + &#39;px&#39;;
+        &#125;
+      &#125;);
+    &#125;;
+  &lt;/script&gt;
+</code></pre>
+<p>&emsp;&emsp;动画效果：</p>
+<p><img src="/images/javascript/Js%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB.gif" alt="Js时序动画"></p>
+<p>&emsp;&emsp;先引入我们animate.js文件，给小球添加onclick点击事件，事件回调函数里为小球创建动画：动画时长3s，时序函数为我们自定义较为复杂的函数（这个时序函数不是CSS里的3次贝塞尔曲线函数，所以这个动画仅使用CSS无法完成），然后再是小球状态更新的方法，根据动画的完成状态向右移动小球直至移动250px，即到达外层div最右侧时动画完成。</p>
+<h4 id="3-JS动画中的缓动函数"><a href="#3-JS动画中的缓动函数" class="headerlink" title="3) JS动画中的缓动函数"></a>3) JS动画中的缓动函数</h4><p>&emsp;&emsp;与时序函数类似，在JS动画中，我们可以也用缓动公式来控制每帧动画中个元素的状态，来实现各种动画效果。<u>缓动函数是根据元素状态的初始值、变化量、当前时间与动画总持续时间按照一定的变化规则来控制元素的状态，比时序函数更加灵活，在实际使用应用中也更加常用。</u>著名的缓动公式算法是Tween.js缓动算法。部分代码如下：</p>
+<pre><code>  /*
+  * Tween.js
+  * t: current time（当前时间）；
+  * b: beginning value（初始值）；
+  * c: change in value（变化量）；
+  * d: duration（持续时间）。
+  */
+  var Tween = &#123;
+      Linear: function(t, b, c, d) &#123; 
+          return c * t / d + b; 
+      &#125;,
+      Sine: &#123;
+          easeIn: function(t, b, c, d) &#123;
+              return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
+          &#125;,
+          easeOut: function(t, b, c, d) &#123;
+              return c * Math.sin(t/d * (Math.PI/2)) + b;
+          &#125;,
+          easeInOut: function(t, b, c, d) &#123;
+              return -c / 2 * (Math.cos(Math.PI * t/d) - 1) + b;
+          &#125;
+      &#125;
+    // .....(其他代码省略）
+  &#125;
+  Math.tween = Tween;
+  
+  // 测试Tweem.js算法
+  // 1、测试匀速运动
+  console.log(&#39;1、匀速算法，当前动画执行时间为第5s中，元素从0px的位置移动到100px的位置，动画持续10s。当前元素所在位置(px)为：&#39;);
+  console.log(Math.tween.Linear(5,0,100,10)); // 50
+  // 2、测试正弦曲线
+  console.log(&#39;2、测试正弦曲线，当前动画执行时间为第5s中，元素从0px的位置移动到100px的位置，动画持续10s。当前元素所在位置(px)为：&#39;);
+  console.log(Math.tween.Sine.easeIn(5,0,100,10)); // 29.289321881345245
+</code></pre>
+<p>&emsp;&emsp;算法中的4个参数分别他，t，b，c，d分别表示动画执行到当前帧的时间，元素的初始状态，动画过程中元素状态的变化量以及动画持续时间。如后面添加的测试代码所示：有一个小球从0px的位置要移动到100px的位置，初始状态的坐标为0，坐标的变化量为100(100-0=100)，假设动画持续时间为10s，传入动画当前帧的时间5s，调用Tween.js的线性渐变算法就能得到当前小球应该处于50px的位置，调用正弦曲线算法能得到当前小球处于约29px的位置。从而以此来控制动画流畅的运动起来。</p>
+<p>&emsp;&emsp;在Tween.js中，常用的经典动画场景都已实现，除了Linear，其余每种场景都有easeIn、easeOut和easeInOut方法，具体动画场景如下：<br>&emsp;&emsp;Linear：线性匀速运动效果；<br>&emsp;&emsp;Quadratic：二次方的缓动（t^2）；<br>&emsp;&emsp;Cubic：三次方的缓动（t^3）；<br>&emsp;&emsp;Quartic：四次方的缓动（t^4）；<br>&emsp;&emsp;Quintic：五次方的缓动（t^5）；<br>&emsp;&emsp;Sinusoidal：正弦曲线的缓动（sin(t)）；<br>&emsp;&emsp;Exponential：指数曲线的缓动（2^t）；<br>&emsp;&emsp;Circular：圆形曲线的缓动（sqrt(1-t^2)）；<br>&emsp;&emsp;Elastic：指数衰减的正弦曲线缓动；<br>&emsp;&emsp;Back：超过范围的三次方缓动（(s+1)<em>t^3 – s</em>t^2）；<br>&emsp;&emsp;Bounce：指数衰减的反弹缓动。</p>
+<p>&emsp;&emsp;还是小球移动的例子，这里简单应用一下Tween.js的方法，代码如下：</p>
+<pre><code>  &lt;style&gt;
+    .box &#123;
+      width: 300px;
+      border: 1px solid #666;
+      cursor: pointer;
+    &#125;
+    #ball &#123;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: chocolate;
+      margin-left: 0;
+    &#125;
+  &lt;/style&gt;
+  &lt;div class=&quot;box&quot;&gt;
+    &lt;div id=&quot;ball&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;script src=&quot;js/Tween.js&quot;&gt;&lt;/script&gt; // 引入Tween.js文件
+  &lt;script&gt;
+    let duration = 3000;
+    let startTime = performance.now(); // 动画持续时间
+    let currentMarginLeft = 0;
+    requestAnimationFrame(function update(executionTime) &#123;
+      currentMarginLeft = Math.tween.Linear(executionTime, 0, 250, duration);  // 匀速线性变化
+      // currentMarginLeft = Math.tween.Elastic.easeInOut(executionTime, 0, 250, duration); // 衰减的正弦曲线变化
+      // currentMarginLeft = Math.tween.Bounce.easeOut(executionTime, 0, 250, duration); // 指数衰减反弹变化
+      document.getElementById(&quot;ball&quot;).style.marginLeft = currentMarginLeft + &#39;px&#39;;
+      if (executionTime &lt;= duration) &#123;
+        requestAnimationFrame(update)
+      &#125;
+    &#125;);
+  &lt;/script&gt;
+</code></pre>
+<p>&emsp;&emsp;分别采用匀速、衰减正弦曲线以及指数衰减反弹对小球的margin-left属性进行变化，动画效果依次为：<br><img src="/images/javascript/Tween%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB1.gif" alt="Tween时序动画1"><br><img src="/images/javascript/Tween%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB2.gif" alt="Tween时序动画2"><br><img src="/images/javascript/Tween%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB3.gif" alt="Tween时序动画3"></p>
+<h4 id="4-canvas粒子动画"><a href="#4-canvas粒子动画" class="headerlink" title="4) canvas粒子动画"></a>4) canvas粒子动画</h4><p>&emsp;&emsp;canvas元素以及基础的动画，已在另一篇文章<a href="/2020/09/15/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89">《HTML Canvas（2D时序动画）》</a>讲到，canvas画布的上下文ctx有对应的API可以调用，可以对相关元素进行旋转、缩放、位移、形变，也可以用martrix方式做更高级的变化。<u>canvas图像处理也可以用于图像压缩，图像裁剪，图像合成、图像滤镜、图像取色器、抠图等功能。</u>不过这里主要补充canvas粒子动画的实现：</p>
+<p>&emsp;&emsp;canvas中的粒子，其实是对一个像素的抽象。它具有自己坐标，自己的色值，可以通过改变自身的属性使其按照一定的规律运动起来便可形成相应的粒子动画。<br>&emsp;&emsp;一般我们将粒子用一个对象抽象出来，形如：let particle = { x: 0, y: 0, rgba: ‘(0, 0, 0, 1)’ }，这个过程称为粒子对象化，实际制作粒子动画的过程是对这些粒子对象的属性（如位置，颜色等）进行相应的变化。<br>&emsp;&emsp;为了动画更加自然，我们一般不会采用匀速的变化，而是加入相应的时序函数来控制粒子运动效果，使粒子变化或快或慢，更加自然。<br>&emsp;&emsp;一般为了性能，我们不会把图像所有像素点都抽象出来，因为requestAnimationFrame，正常的情况下一般刷新频率在60HZ，能展现非常流畅的动画。但现在如果要处理庞大的粒子对象数据，浏览器处理压力太大，就会造成了降频现象，导致动画出现卡帧（卡顿）现象。一般我们选择性的来抽象粒子对象：抽象像素点r色值为155以上并且坐标为偶数的像素点；或隔一定距离（像素）后抽象一个像素块（横轴方向上连续多个像素组成）。这样抽象的粒子数量不会影响图像效果的展示，动画的处理过程来也比较流畅。</p>
+<p>&emsp;&emsp;<strong>为了更好抽象粒子对象以及其色值信息，补充一个canvas图像滤镜处理的示例来引入<u>canvas像素图像信息</u>的概念：</strong></p>
+<p>&emsp;&emsp;先介绍要用到的canvas的3个API：<br>&emsp;&emsp;① <strong>getImageData()</strong>：获得一个ImageData对象</p>
+<pre><code>  ctx.getImageData(sx, sy, sw, sh); // 返回ImageData对象
+</code></pre>
+<p>&emsp;&emsp;ImageData对象中存储着canvas对象真实的像素数据，它包含以下几个只读属性：width、height、data，分别代表图片宽度(单位px)、高度(单位px)、像素数据（Uint8ClampedArray类型）。</p>
+<p>&emsp;&emsp;其中data属性返回像素信息是一个 类型Uint8ClampedArray的一维数组。每个像素用4个1bytes值(按照红，绿，蓝和透明值的顺序; 这就是”RGBA”格式) 来代表。每个颜色值部份用0至255来代表。每个部份被分配到一个在数组内连续的索引，左上角像素的红色部份R的色值保存在数组的索引0位置。像素从左到右被处理，然后往下。Uint8ClampedArray  包含高度 × 宽度 × 4 bytes数据，索引值从0到(高度×宽度×4)-1，具体如下：</p>
+<p><img src="/images/javascript/ImageData.png" alt="ImageData"></p>
+<p>&emsp;&emsp;如图所示，ImgaeData的data属性保存了图片每个像素的RAGA色值信息。第一个像素点的色值RGBA分别保存在Uint8ClampedArray数组索引0到3的位置，第二个像素点的色值保存在数组索引4-7的位置，先行后列，以此类推…。能很容易得到第i行第j列像素点的色值R保存在数组索引 [(j - 1) * width + (i - 1) ] * 4的位置。若像素点色值R在数组的索引为index，则每个像素的位置(i, j)与index的关系为：index=[(j - 1) * width + (i - 1) ] * 4，色值G的索引为index+1，色值B的索引为index+2，透明度A的索引为index+3。 </p>
+<p>&emsp;&emsp;② <strong>createImageData()</strong>：Canvas 2D API 创建一个新的、空白的、指定大小的 ImageData 对象。 所有的像素在新对象中都是透明的</p>
+<pre><code>  ctx.createImageData(width, height); // 返回ImageData对象
+  ctx.createImageData(imagedata); // 返回ImageData对象
+</code></pre>
+<p>&emsp;&emsp;③ <strong>putImageData()</strong>：Canvas 2D API 将数据从已有的 ImageData 对象绘制到位图的方法</p>
+<pre><code>  ctx.putImageData(imagedata, dx, dy);
+  ctx.putImageData(imagedata, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight);
+</code></pre>
+<p>&emsp;&emsp;canvas图像滤镜处理效果：</p>
+<p><img src="/images/javascript/canvas%E5%9B%BE%E5%83%8F%E6%BB%A4%E9%95%9C%E5%A4%84%E7%90%86.png" alt="canvas图像滤镜处理"></p>
+<p>&emsp;&emsp;代码如下：</p>
+<pre><code>  &lt;canvas id=&quot;canvas&quot;&gt;&lt;/canvas&gt;
+  &lt;script&gt;
+    const TYPE = &#39;grayscale&#39;; // grayscale - 灰度(默认)、sepia - 复古、inert - 反向
+    let canvas = document.getElementById(&#39;canvas&#39;);
+    let ctx = canvas.getContext(&#39;2d&#39;);
+    const img = document.createElement(&#39;img&#39;);
+    img.src = &#39;/img/filter.jpg&#39;;
+    img.addEventListener(&#39;load&#39;, () =&gt; &#123;
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0); // 将原图渲染到canvas画布上
+      let originImage = ctx.getImageData(0, 0, canvas.width, canvas.height); // 获取图片像素信息
+      let outputImage = filter(originImage, TYPE); // 按照滤镜风格处理像素信息
+      ctx.putImageData(outputImage, 0, 0); // 将处理后的像素信息覆盖到canvas画布上
+    &#125;)
+    function filter(originImage, type) &#123; // 图像处理函数
+      let index, r, g, b;
+      let originImageData = originImage.data;
+      let width = originImage.width;
+      let height = originImage.height;
+      let outputImage = ctx.createImageData(width, height);
+      let outputImageData = outputImage.data;
+      for (let x = 1; x &lt;= width; x++) &#123;
+        for (let y = 1; y &lt;= height; y++) &#123;
+          index = [(y - 1) * width + (x - 1)] * 4;
+          r = originImageData[index];
+          g = originImageData[index + 1];
+          b = originImageData[index + 2];
+          if (type == &#39;sepia&#39;) &#123; // 复古滤镜风格下对色值的处理
+            outputImageData[index] = (r * 0.393) + (g * 0.769) + (b * 0.189);
+            outputImageData[index + 1] = (r * 0.349) + (g * 0.686) + (b * 0.168);
+            outputImageData[index + 2] = (r * 0.272) + (g * 0.534) + (b * 0.131);
+          &#125; else if (type == &#39;inert&#39;) &#123; // 反向滤镜风格下对色值的处理
+            outputImageData[index] = 255 - r;
+            outputImageData[index + 1] = 255 - g;
+            outputImageData[index + 2] = 255 - b;
+          &#125; else &#123; // 灰度滤镜风格下对图像的处理
+            outputImageData[index] = outputImageData[index + 1] = outputImageData[index + 2] = (r + g + b) / 3;
+          &#125;
+          outputImageData[index + 3] = 255;
+        &#125;
+      &#125;
+      return outputImage;
+    &#125;
+  &lt;/script&gt;
+</code></pre>
+<p>&emsp;&emsp;简单说明：思路就是先讲图片渲染到canvas画布上，再调用getImageData()方法获得canvas元素上的像素信息。根据滤镜风格分别对像素信息进行相应的处理，最后调用putImageData()方法将imageData对象渲染到canvas画布上即可。示例中我们已经获取到了画布上图像的像素信息，也以利用获取到的图片像素信息，监听鼠标指针相对于画布的水平垂直方向偏移的距离（px）获得当前鼠标指针指向的像素点的位置，可以做<u>图像取色器</u>等功能。</p>
+<p>&emsp;&emsp;正式介绍<u>粒子动画</u>，先看效果：</p>
+<p><img src="/images/javascript/Js%E7%B2%92%E5%AD%90%E5%8A%A8%E7%94%BB.gif" alt="Js粒子动画"></p>
+<p>&emsp;&emsp;代码如下：</p>
+<pre><code>  &lt;!DOCTYPE html&gt;
+  &lt;html lang=&quot;en&quot;&gt;
+  
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;canvas粒子动画&lt;/title&gt;
+    &lt;style&gt;
+      body &#123; background: midnightblue; margin: 0; padding: 0; &#125;
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;canvas id=&quot;canvas&quot;&gt;&lt;/canvas&gt;
+    &lt;!-- 使用Tween.js缓动函数控制动画 --&gt;
+    &lt;script src=&quot;js/Tween.js&quot;&gt;&lt;/script&gt;
+    &lt;script&gt;
+      let cw = document.documentElement.clientWidth;
+      let ch = document.documentElement.clientHeight;
+      let maxDelay = 0; // 保存粒子动画开始最长延时时间，用于动画完成介绍requestAnimationFrame动画回调
+      let canvas = document.getElementById(&#39;canvas&#39;);
+      let ctx = canvas.getContext(&#39;2d&#39;);
+      const img = document.createElement(&#39;img&#39;);
+      img.src = &#39;/img/canvas-img.jpg&#39;;
+      img.addEventListener(&#39;load&#39;, () =&gt; &#123;
+        canvas.width = cw;
+        canvas.height = ch;
+        console.log(cw, ch)
+        let sx = (cw / 2) - (img.width / 2); // 把图片画在canvas(屏幕)中间
+        ctx.drawImage(img, sx, 0, img.width, img.height);
+        let originImage = ctx.getImageData(0, 0, cw, ch);
+        let particles = dataToObject(originImage.data, originImage.width, originImage.height);
+        draw(particles);
+      &#125;)
+  
+      function dataToObject(imageData, width, height) &#123; // 粒子对象化函数
+        let inx;
+        let particle = &#123;&#125;;
+        let particles = [];
+        let threshold = 50; // 设置色值阈值，颜色较浅的像素不进行粒子对象化操作
+        let delay = 0;
+        for (let x = 1; x &lt;= width; x += 2) &#123;
+          for (let y = 1; y &lt;= height; y += 2) &#123;
+            inx = [(y - 1) * width + (x - 1)] * 4;
+            if ((imageData[inx] + imageData[inx + 1] + imageData[inx + 2]) / 3 &gt; threshold) &#123;
+              delay = Math.random() * 3000;
+              maxDelay &lt; delay &amp;&amp; (maxDelay = delay)
+              particle = &#123;
+                x0: 100,
+                y0: ch,
+                x1: x - 1,
+                y1: y - 1,
+                delay: delay,
+                rgba: `rgba($&#123;imageData[inx]&#125;, $&#123;imageData[inx + 1]&#125;, $&#123;imageData[inx + 2]&#125;, $&#123;imageData[inx + 3]&#125;)`
+              &#125;;
+              particles.push(particle);
+            &#125;
+          &#125;
+        &#125;
+        return particles;
+      &#125;
+      
+      function draw(particles) &#123; //画图
+        let duration = 5000; // 动画持续时间
+        let particle, cur_x, cur_y, cur_time;
+        let startTime = performance.now(); // 动画开始时间
+        let AnimationFrameId = requestAnimationFrame(function update(executionTime) &#123; // 每帧更新画布
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for (let i = 0, len = particles.length; i &lt; len; i++) &#123;
+            particle = particles[i]
+            if (executionTime &gt; particle.delay + duration) &#123;
+              ctx.fillStyle = particle.rgba;
+              ctx.fillRect(particle.x1, particle.y1, 1, 1)
+            &#125; else if (executionTime &gt; particle.delay) &#123;
+              ctx.fillStyle = particle.rgba;
+              cur_time = executionTime - particle.delay;
+              cur_x = Math.tween.Elastic.easeInOut(cur_time, particle.x0, particle.x1 - particle.x0, duration);
+              cur_y = Math.tween.Bounce.easeOut(cur_time, particle.y0, particle.y1 - particle.y0, duration);
+              ctx.fillRect(cur_x, cur_y, 1, 1)
+            &#125;
+          &#125;
+          if (executionTime &gt; maxDelay + duration) &#123;
+            cancelAnimationFrame(AnimationFrameId);
+          &#125;else&#123;
+            AnimationFrameId = requestAnimationFrame(update)
+          &#125;
+        &#125;);
+      &#125;
+    &lt;/script&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;
+</code></pre>
+<p>&emsp;&emsp;实现思路：使用drawImage()方法将图片对象先放在画布上，然后调用getImageData()获取图片的像素信息。<u>根据将像素信息，生成对象来表示每个像素点的信息，对象属性包括初始位置，结束位置（像素点在canvas画布中原本的位置），颜色等信息。</u>这里为了然动画效果更加自然协调，加入了动画开始延迟时间delay属性。然后根据Tween.js缓动函数对粒子从初始位置移动到对应的结束位置的状态进行控制，调用requestAnimationFrame()方法设置回调来对粒子对象的状态进行刷新，便形成了动画。<br><em>&emsp;&emsp;[注] 有时我们会加入阈值（如代码中设置的阈值threshold为50）、增加对象化像素点的间距（如代码中循环粒子对象化操作时循环步长为2）来减少生成的对象数量，从而减少浏览器每一帧的处理压力，使动画更加流畅自然。</em></p>
+<p>&emsp;&emsp;代码中的dataToObject()函数完成的功能就是用对象去标识图像的像素信息，每个对象表示一个像素点，即我们所说的‘粒子’。<u>实际上，粒子动画并不是总要使用getImageData()去抽象图片的信息，然后生成粒子对象。有时我们会直接构造出粒子类，按照我们的需求生成粒子对象，然后根据一定的规则使粒子运动起来即可。粒子动画本质是canvas动画，还可以与鼠标等输入设备交互，作出像放烟花、炫彩小球、小球自由落体、碰撞等有趣的动画。</u></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>前端基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JS原型（prototype）链与继承（Class）</title>
     <url>/2020/12/23/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/</url>
     <content><![CDATA[<p>在JavaScript中，每个实例对象（ object ）都有一个私有属性（称之为 __proto__ ）指向它的构造函数的原型对象（prototype ）。该原型对象也有一个自己的原型对象( __proto__ ) ，层层向上直到一个对象的原型对象为 null。根据定义，null没有原型，并作为这个原型链中的最后一个环节。几乎所有 JavaScript 中的对象都是位于原型链顶端的 Object 的实例。</p>
@@ -2986,6 +3317,372 @@
   t.greeting();
 </code></pre>
 <p>&emsp;&emsp;ES6转换后的ES5代码与原来的ES5代码实现原理一致。我们来简单分析一下转换后的代码：<br>&emsp;&emsp;① 可以看到，定义Person和Teacher时，使用了立即执行函数，代码会立即执行，执行后返回Person构造函数以及继承于Person的Teacher构造函数。<br>&emsp;&emsp;② 在定义Person变量的立即执行函数中，定义了Person函数，函数中设置了相关属性。然后调用_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法给Person函数的原型prototype上添加上方法，(还可以给Person函数添加静态属性，这里代码未添加）。即_createClass()实现了Person函数方法与属性的添加，最后将Person函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;③ 在定义Teacher变量的立即执行函数中，将定义好的Person构造函数函数作为了参数，先调用_inherits()方法，将定义的Teacher函数（预编译会进行函数提升）与传入的Person构造函数作为参数，其中使用Object.create()方法以Person构造函数的原型prototype作为原型，设置了Teacher函数的原型，同时Teacher函数的原型也继承了Person构造函数原型链上的属性和方法，然后调用_setPrototypeOf()方法修正Teacher函数原型对象__proto__的指向，也就是_inherits()方法实现了继承关系。然后再调用了_createSuper(Teather)方法定义了_super变量，其值是一个函数，里面追溯了Teacher构造函数的原型链，定义了调用父构造函数Person时，使用了apply（this, arguments）方法绑定了子构造函数Teacher的this，实现了Teacher函数属性的设置（<u>返回的_super方法这里只是定义，还未执行，要在Teacher构造函数执行到_super.call()的时候才会执行</u>）。最后同理，调用了_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法在Teacher函数的原型prototype上重写了greeting()方法，将Teacher函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;④ 调用new Teacher()创建t实例，执行Teacher构造函数，调用_classCallCheck()防止构造函数被直接调用（即ES6中的类是不能被直接调用的）。然后再调用上面说的定义的_super()方法实现了实例属性的设置（在执行_super()函数时，会执行里面定义的父构造函数Person的方法来实现属性的继承与设置），再设置了Teacher构造函数实例特有的subject属性，此时获得的_this实例的原型指向Teacher构造函数，Teacherr构造函数又继承于Person构造函数。此时_this实例已经继承了原型链上的属性与方法，包括Teahcer构造函数重写的greeting()方法。返回_this。<br>&emsp;&emsp;⑤ 执行t.greeting()方法，可以看到方法被成功执行且为执行的重写后的方法。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>前端基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS异步操作以及流程控制（串行、并行）</title>
+    <url>/2020/12/25/JS%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C%E4%BB%A5%E5%8F%8A%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%B2%E8%A1%8C%E3%80%81%E5%B9%B6%E8%A1%8C%EF%BC%89/</url>
+    <content><![CDATA[<p>Javascript语言的执行环境是”单线程”（single thread），单个脚本只能在一个线程上运行（主线程）。原因在于浏览器内核中JavaScript引擎中负责解释和执行JavaScript代码的主线程是唯一的，同一时间只能执行一件任务。在浏览器内核中，GUI 渲染线程与 JavaScript 引擎线程是互斥的，当JavaScript引擎执行时GUI线程会被挂起，GUI更新会被保存在一个队列中等到JavaScript引擎空闲时立即被执行。所以如果JavaScript执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞。为了解决这个问题，Javascript语言将任务的执行模式分成两种：同步和异步。”同步模式”指一个任务等待前一个任务执行结束再执行，程序的执行顺序与任务的排列顺序（即与程序的编码顺序）是一致的、同步的；”异步模式”是每一个任务有一个或多个回调函数，一个任务不用等待前一个任务执行完成就便开始执行，当前一个任务执行完成后，不是执行后一个任务，而是执行被添加到待处理队列的前一个任务的回调函数，程序的执行顺序与任务的排列顺序是不一致的、异步的。（<u>此外，JS运行时还有宏任务、微任务、事件循环的概念。</u>）</p>
+<h2 id="说在前面-进程（Process）与线程（Thread）"><a href="#说在前面-进程（Process）与线程（Thread）" class="headerlink" title="说在前面 - 进程（Process）与线程（Thread）"></a>说在前面 - 进程（Process）与线程（Thread）</h2><p>&emsp;&emsp;目前的操作系统都是多任务系统，操作系统接管了所有硬件资源并持有对硬件控制的最高权限。在操作系统中执行的程序，都以进程的方式运行在更低的权限中。所有的硬件资源，由操作系统根据进程的优先级以及进程的运行状况进行统一的调配，<u>即操作系统是以进程为单位去分配空间和执行的。</u></p>
+<p><em>&emsp;&emsp;[注] 区分程序与进程：程序是一组指令集合，它本身没有任何运行的含义，它只是一个静态的实体，存储于磁盘之内的存储器中；当一个程序被操作系统执行时，会被载入内存并在逻辑上产生一个独立的实例，这就是进程。进程和程序并不是一 一对应的；一个程序有可能没有与之对应的进程(因为它没有执行),也有可能有多个进程与之对应(运行在几个不同的数据集上)。一个程序在运行时，至少有一个进程,一个进程至少有一个线程。</em></p>
+<p>&emsp;&emsp;线程是操作系统进行任务调度的最小单元。<strong>线程存活于进程之中；同一个进程中的线程，共享一个虚拟内存空间，以及其中的资源；</strong>线程之间各自持有自己的线程 ID、当前指令的指针（PC）、寄存器集合以及栈。</p>
+<p>&emsp;&emsp;<strong>就浏览器来说，浏览器在运行时是多进程的：</strong><br>&emsp;&emsp;Browser进程：浏览器的主进程，唯一，负责创建和销毁其它进程、网络资源的下载与管理、浏览器界面的展示、前进后退等<br>&emsp;&emsp;PU 进程：用于3D 绘制等<br>&emsp;&emsp;第三方插件进程：每种类型的插件对应一个进程，仅当使用该浏览器插件时才创建<br>&emsp;&emsp;浏览器渲染进程（浏览器内核）：每打开一个新网页就会创建一个进程，主要用于页面渲染，脚本执行，事件处理等。</p>
+<p>&emsp;&emsp;<strong>每个渲染进程（浏览器内核）又分为多个线程：</strong><br>&emsp;&emsp;GUI渲染线程：负责渲染浏览器界面，当界面需要重绘或由于某种操作引发回流时，该线程就会执行<br>&emsp;&emsp;JavaScript引擎线程：也称为JavaScript内核，负责处理Javascript脚本程序、解析Javascript脚本、运行代码等，例如 V8 引擎<br>&emsp;&emsp;事件触发线程：用来控制浏览器事件循环，当事件被触发时，该线程才会把事件添加到待处理队列的队尾，等待JavaScript引擎的处理<br>&emsp;&emsp;定时触发器线程：setInterval与setTimeout所在线程（W3C在HTML标准中规定，规定要求setTimeout中低于4ms的时间间隔算为4ms）<br>&emsp;&emsp;异步http请求线程：在XMLHttpRequest连接后通过浏览器新开一个线程请求，将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件，将这个回调再放入事件队列中，再由JavaScript引擎执行</p>
+<p><em>&emsp;&emsp;[注] GUI 渲染线程与 JavaScript 引擎线程是互斥的。</em></p>
+<h2 id="1、JS异步操作的几种方式"><a href="#1、JS异步操作的几种方式" class="headerlink" title="1、JS异步操作的几种方式"></a>1、JS异步操作的几种方式</h2><p>&emsp;&emsp;JavaScript中的任务分为同步任务和异步任务。<br>&emsp;&emsp;同步任务是那些没有被引擎挂起、<u>在主线程上排队执行的任务。</u>只有前一个任务执行完毕，才能执行后一个任务。<br>&emsp;&emsp;异步任务是那些被引擎放在一边，不进入主线程、而进入任务队列（根据异步任务的类型，引擎实际上存在多个任务队列）的任务。只有引擎认为某个异步任务可以执行了，该任务（通常采用回调函数的形式）才会进入主线程执行。排在异步任务后面的代码，不用等待异步任务结束会马上运。即异步任务不具有堵塞效应。<br>&emsp;&emsp;主线程会排队去执行所有的同步任务。等到同步任务全部执行完，就会去看任务队列里面的异步任务。如果满足条件，那么异步任务就重新进入主线程开始执行，这时它就变成同步任务了。等到执行完，下一个异步任务再进入主线程开始执行。一旦任务队列清空，程序就结束执行。<br>&emsp;&emsp;同步任务执行完了，引擎就会去检查那些挂起来的异步任务，是不是可以进入主线程了。这种循环检查的机制，就叫做事件循环（Event Loop）。<br>&emsp;&emsp;异步操作的几种模式：回调函数、事件监听、发布/订阅模式、Generator 函数、Promise、async/await。</p>
+<hr>
+<p>&emsp;&emsp;<strong>由于在分析异步操时需要用到定时器来模拟异步操作，这里先补充定时器相关概念：</strong></p>
+<p>&emsp;&emsp;JavaScript 提供定时执行代码的功能，叫做定时器，主要由setTimeout()和setInterval()这两个函数来完成。它们向任务队列添加定时任务。<u>setTimeout()和setInterval()的运行机制，是将指定的代码移出本轮事件循环（即使设置延迟执行为0ms)，等到下一轮事件循环，再检查是否到了指定时间。如果到了，再将对应代码放入主线程进行执行；如果没到，就继续等待。</u></p>
+<p>&emsp;&emsp;<u>setTimeout()</u>：用来指定某个函数或某段代码，在多少毫秒之后执行。它返回一个整数，表示定时器的编号，可以将该编号作为参数调用clearTimeout()方法来取消这个定时器。setTimeout()可以接收多个参数，第一个参数为回调函数或字符串代码，会在定时时间到达时执行，第二个参数为延迟执行的时间（单位ms），后面的参数列表会作为第一个参数回调函数的参数传入。<u>特别的，回调函数是如果是某一对象的方法，内部this指向是是全局环境的而不是定义所在的那个对象。</u></p>
+<pre><code>  let id = setTimeout(func|code, delay, [a, b, c...]);
+</code></pre>
+<p>&emsp;&emsp;示例代码：</p>
+<pre><code>  console.log(&#39;定时任务开始执行，&#39; + new Date())
+  let id =  setTimeout((a,b,c) =&gt; &#123;
+    console.log(&#39;定时任务执行完成，&#39;+ new Date() +&#39;，回调函数已开始执行&#39;);
+    console.log(&#39;回调函数计算结果为：&#39;+ (a+b+c));
+  &#125;,1000, 1,2,3)
+</code></pre>
+<p>&emsp;&emsp;<u>setInterval()</u>：setInterval()函数的用法与setTimeout()完全一致，区别仅仅在于setInterval()指定某个任务每隔一段时间就执行一次，也就是无限次的定时执行。特别的，指定的是<u>“开始执行”</u>之间的间隔，并不考虑每次任务执行本身所消耗的时间。实际上，两次执行之间的间隔会小于指定的时间。比如，setInterval指定每 1000ms 执行一次，每次执行需要 500ms，那么第一次执行结束后等待500毫秒，第二次执行就会开始。如果某次执行耗时特别长，比如需要1500毫秒，那么它结束后，下一次任务执行才会立即开始。</p>
+<pre><code>  let count = 0; // 计时器，控制任务执行5次    
+  console.log(new Date() + &#39;，延迟2s后开始执行定时任务~&#39;);
+  let id = setInterval(() =&gt; &#123;
+    let delay = Math.floor(Math.random() * 5 + 1) * 1000;
+    console.log(new Date() + &#39;，第&#39; + (count + 1) + &#39;次任务开始执行，需要&#39; + delay + &#39;ms才能完成&#39;)
+    sleep(delay);
+    console.log(new Date() + &#39;，第&#39; + (count + 1) + &#39;次任务执行完成&#39;)
+    count++;
+    if (count == 5) &#123;
+      clearInterval(id)
+      console.log(&#39;任务已执行5次，结束定时器任务~&#39;);
+    &#125;
+  &#125;, 2000)
+  function sleep(ms) &#123; //通过循环阻塞代码执行来模拟异步操作
+    var start = Date.now();
+    while ((Date.now() - start) &lt; ms) &#123; &#125;
+  &#125;
+  
+  输出：
+  Thu Nov 26 2020 13:13:39 GMT+0800 (中国标准时间)，延迟2s后开始执行定时任务~
+  Thu Nov 26 2020 13:13:41 GMT+0800 (中国标准时间)，第1次任务开始执行，需要1000ms才能完成
+  Thu Nov 26 2020 13:13:42 GMT+0800 (中国标准时间)，第1次任务执行完成
+  Thu Nov 26 2020 13:13:43 GMT+0800 (中国标准时间)，第2次任务开始执行，需要4000ms才能完成
+  Thu Nov 26 2020 13:13:47 GMT+0800 (中国标准时间)，第2次任务执行完成
+  Thu Nov 26 2020 13:13:47 GMT+0800 (中国标准时间)，第3次任务开始执行，需要3000ms才能完成
+  Thu Nov 26 2020 13:13:50 GMT+0800 (中国标准时间)，第3次任务执行完成
+  Thu Nov 26 2020 13:13:50 GMT+0800 (中国标准时间)，第4次任务开始执行，需要3000ms才能完成
+  Thu Nov 26 2020 13:13:53 GMT+0800 (中国标准时间)，第4次任务执行完成
+  Thu Nov 26 2020 13:13:53 GMT+0800 (中国标准时间)，第5次任务开始执行，需要4000ms才能完成
+  Thu Nov 26 2020 13:13:57 GMT+0800 (中国标准时间)，第5次任务执行完成
+  任务已执行5次，结束定时器任务~
+</code></pre>
+<p>&emsp;&emsp;可以看到，第一次任务开始在13:13:41，需要执行1s，在13:13:42第一次任务就执行完成。由于设置的执行时间间隔是2s，等待1s后13:13:43才开始执行第二次任务。第二次任务需要执行4s，在13:13:47秒时第二次任务才执行完成；虽然设置的时间间隔为2s，但第二次任务执行时间大于设置的2s，第三次任务在第二次任务执行完后才开始执行。后面的任务执行情况同理。</p>
+<p>&emsp;&emsp;注意，setTimeout()定时任务也会被阻塞：</p>
+<pre><code>  console.log(new Date() + &#39;，延迟1s后开始执行定时任务~&#39;);
+  setTimeout(() =&gt; &#123;
+    console.log(new Date() + &#39;，延迟任务执行完成~&#39;)
+  &#125;, 1000)
+  sleep(2000);
+  function sleep(ms) &#123; //通过循环阻塞代码执行来模拟异步操作
+    var start = Date.now();
+    console.log(&#39;当前sleep任务要执行&#39; + ms + &#39;ms&#39;)
+    while ((Date.now() - start) &lt; ms) &#123; &#125;
+  &#125;
+  
+  输出：
+  Thu Nov 26 2020 13:34:00 GMT+0800 (中国标准时间)，延迟1s后开始执行定时任务~
+  当前sleep任务要执行2000ms
+  Thu Nov 26 2020 13:34:02 GMT+0800 (中国标准时间)，延迟任务执行完成~
+</code></pre>
+<p>&emsp;&emsp;可以看到在13:34:00时，setTimeout()的回调函数本应该延迟1s执行，但sleep操作要执行2s。导致setTimeout()回调函数在13:34:02时才被执行。</p>
+<p>&emsp;&emsp;<strong>setTimeout()与setInterval()被阻塞，和定时器的运行机制有关。setTimeout和setInterval指定的回调函数，<u>必须等到本轮事件循环的所有同步任务都执行完</u>，才会被添加到主线程开始执行，而且此时的回调函数执行是同步的，只有回调函数执行完成，才会进行下一轮事件循环。由于前面的任务到底需要多少时间执行完，是不确定的，所以没有办法保证，setTimeout和setInterval指定的任务，一定会按照预定时间执行。<u>所以即使可以使用嵌套的setTimeout()来实现每两次任务执行之间有固定的间隔，也是有被阻塞的风险。</u></strong></p>
+<hr>
+<h4 id="1-回调函数"><a href="#1-回调函数" class="headerlink" title="1) 回调函数"></a>1) 回调函数</h4><p>&emsp;&emsp;回调函数是指在开始执行的异步函数指定为参数的函数，回调函数不会立即被执行。当异步函数包含的异步操作执行完成时，再调用执行该回调函数。<u>回调函数是异步编程的最基本的方法。</u></p>
+<p>&emsp;&emsp;将处理函数当做参数，在相关任务执行完成再调用执行，形如：</p>
+<pre><code>  function f2(cb)&#123;
+    // 相关代码
+    cb()
+  &#125;
+  function f1()&#123;
+    // 相关代码
+  &#125;
+  f2(f1);
+</code></pre>
+<p>&emsp;&emsp;下面模拟一个读取文件列表（3个文件）获取对应文件的总行数的示例，这里采用回调函数的方式进行依次读取（还有其他或更好的方式实现，这里只是为了用来说明回调函数）。</p>
+<pre><code>  let fileLines = [];    
+  function asyncFn(inx, cb) &#123;
+    setTimeout(() =&gt; &#123; // 用setTimeout模拟读取文件的异步操作，假设每读取耗时1s
+      let lines = Math.floor(Math.random() * 50) + 50; // 用随机数[50-100）模拟本次读取的文件的行数
+      fileLines.push(lines)
+      console.log(new Date() + &#39; 第&#39; + inx + &#39;读取文件完成，文件总行数为 &#39; + lines);
+      cb();
+    &#125;, 1000)
+  &#125;
+  function consoleResult() &#123;
+    console.log(&#39;代码执行完成，文件行数依次为：&#39;);
+    console.log(fileLines)
+  &#125;
+  console.log(new Date() + &#39; 代码开始执行，获取当前文件列表中文件对应的行数~&#39;);
+  // 假设文件列表有3个文件，这里调用3次文件读取函数asyncFn()
+  asyncFn(1, function () &#123;
+    asyncFn(2, function () &#123;
+      asyncFn(3, consoleResult)
+    &#125;)
+  &#125;)
+  
+  Mon Nov 30 2020 16:23:40 GMT+0800 (中国标准时间) 代码开始执行，获取当前文件列表中文件对应的行数~
+  Mon Nov 30 2020 16:23:41 GMT+0800 (中国标准时间) 第1读取文件完成，文件总行数为 95
+  Mon Nov 30 2020 16:23:42 GMT+0800 (中国标准时间) 第2读取文件完成，文件总行数为 88
+  Mon Nov 30 2020 16:23:43 GMT+0800 (中国标准时间) 第3读取文件完成，文件总行数为 51
+  代码执行完成，文件行数依次为：
+  95,88,51
+</code></pre>
+<p>&emsp;&emsp;这里asyncFn()负责读取文件获取文件行数，里面使用了计时器来模拟异步操作，用随机数模拟获取的文件行数。假设文件列表只有3个文件，这里asyncFn()调用了3次，每次分别传入了一个函数，这个函数就是我们说的回调函数，在成功读取文件获得行数后立即被执行。第1个读取文件时，将读取第2个文件的任务放在了回调函数里，在第1个文件读取完成后，执行回调函数，开始了第2个文件的读取；同理，把读取第3个文件的任务放在了读取第2个文件的回调函数里，在第2个文件读取完成后，执行回调函数，第3个文件的读取开始执行。特别的，读取第3个文件的回调函数里放入了我们输出结果的函数consoleResult()，所以当第3个文件读取完成时，回调函数立即被执行，输出函数输出了依次读取的文件行数信息。这里为了使读取文件的顺序与fileLines数组保存的行数依次对应，在setTimeout()回调执行时执行了cb()回调函数。（关于异步操作的流程控制问题，后面会进行分析~）</p>
+<p>&emsp;&emsp;<u>回调函数的比较好理解，就是在异步任务完成后，继续执行后续的任务，比较容易理解与实现。但回调函数的代码是高度耦合的，执行取决于代码的结构（代码顺序），特别是多个异步任务作为回调函数嵌套执行的时候（例如上面的代码，这种现象也成‘回调地狱’），代码比较分散，不利于阅读和维护。</u></p>
+<h4 id="2-事件监听"><a href="#2-事件监听" class="headerlink" title="2) 事件监听"></a>2) 事件监听</h4><p>&emsp;&emsp;采用事件驱动的形式，任务被执行不取决于代码结构，取决于相关联的事件是否发生。</p>
+<p>&emsp;&emsp;形如：</p>
+<pre><code>  eventSource.on(&#39;done&#39;,fn); // eventSource对象监听done事件，并添加fn后续处理函数
+  eventSource.tigger(&#39;done&#39;); // eventSource触发done事件
+</code></pre>
+<p>&emsp;&emsp;还是上面的示例，这里采用jQuery的自定义事件。输出结果也完全一致：</p>
+<pre><code>  let times = 0;
+  let fileLines = [];
+  $(document).on(&#39;done&#39;, doneFn) // 给document绑定done事件，若document的done事件发生，执行doneFn()处理函数
+  function doneFn(event, lines)&#123;
+    console.log(new Date() + &#39; 第&#39; + times + &#39;次读取文件完成，文件总行数为 &#39; + lines);
+    fileLines.push(lines)
+  &#125;
+  function asyncFn() &#123;
+    let id = setInterval(() =&gt; &#123;
+      times++;
+      if (times &lt;= 3) &#123;
+        let lines = Math.floor(Math.random() * 50) + 50; // 用随机数[50-100）模拟本次读取的文件的行数
+        $(document).trigger(&#39;done&#39;, lines) // 触发document done事件发生，驱动doneFn()处理函数执行
+      &#125; else &#123;
+        clearInterval(id)
+        console.log(&#39;代码执行完成，文件行数依次为：&#39;);
+        console.log(fileLines)
+      &#125;
+    &#125;, 1000)
+  &#125;
+  console.log(new Date() + &#39; 代码开始执行，获取当前文件列表中文件对应的行数~&#39;);
+  asyncFn()
+</code></pre>
+<p>&emsp;&emsp;这里使用setInterval()来模拟3次读取文件任务，在第3次文件读取完成后清空计时器并输出结果。可以看到，在每次文件读取完成后，使用$(document).trigger(‘done’, lines)触发‘done’事件，通过事件监听器$(document).on(‘done’, doneFn)关联的doneFn()处理函数被执行。<u>其中，这里的document称为为事件源，‘done’称为为事件，‘on’称为事件监听器，doneFn()函数称为处理方法。</u></p>
+<p>&emsp;&emsp;<u>事件驱动比较容易理解，就是在任务完成后继续触发后续任务的执行。可以绑定多个事件，每个事件可以指定多个回调函数，与回调函数相比，大大降低了代码的耦合度（但代码还是耦合的，绑定在同一个事件源上），有利于实现模块化。但事情驱动代码也较为分散，不利于阅读与维护。</u></p>
+<h4 id="3-发布-订阅模式"><a href="#3-发布-订阅模式" class="headerlink" title="3) 发布/订阅模式"></a>3) 发布/订阅模式</h4><p>&emsp;&emsp;如果存在一个“信号中心”，某个任务执行完成，就向信号中心“发布”一个信号，其他任务可以向信号中心“订阅”这个信号，从而知道什么时候自己可以开始执行。这就叫做”发布/订阅模式”，又称“观察者模式”。</p>
+<p>&emsp;&emsp;发布/订阅模式的性质与“事件监听”类似，但功能上优于事件监听的方式。因为可以通过查看“信号中心”，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。</p>
+<h4 id="4-Generator-函数（ES6新增）"><a href="#4-Generator-函数（ES6新增）" class="headerlink" title="4) Generator 函数（ES6新增）"></a>4) Generator 函数（<u>ES6新增</u>）</h4><p>&emsp;&emsp;Generator 函数是一直特殊的函数，最大特点就是可以交出函数的执行权（即暂停执行）。可以把理解成，Generator 函数是一个状态机，封装了多个内部状态。Generator 函数内部使用yield表达式定义内部状态，为了与普通函数区别，一般在function关键字与函数名直接添加‘*’（非必须，在函数内部使用yield的关键字这个函数就是 Generator 函数）来标识。<u>调用Generator函数后，该函数并不执行，返回的也不是函数运行结果，而是一个指向内部状态的迭代对象。必须调用next方法依次对状态进行迭代（恢复代码执行），内部指针就从函数头部或上一次停下来的地方开始执行（暂停执行的地方），直到遇到下一个yield关键字定义的状态时又会停止执行。每次调用next()会返回本次迭代的结果对象，其中的value属性表示当前的内部状态（结果），done属性标识整个迭代对象的迭代是否完成。</u></p>
+<p>&emsp;&emsp;举个简单例子：</p>
+<pre><code>  function* gen() &#123;
+    console.log(new Date() + &#39; status 1&#39;);
+    yield &#39;status 1&#39;;
+    console.log(new Date() + &#39; status 2&#39;);
+    yield &#39;status 2&#39;;
+    console.log(new Date() + &#39; status 3&#39;);
+    yield &#39;status 3&#39;;
+    console.log(new Date() + &#39; status 4&#39;);
+    yield &#39;status 4&#39;;
+    console.log(new Date() + &#39; status 5&#39;);
+  &#125;
+  let g = gen();
+  let id = setInterval(() =&gt; &#123; // 用计时器进行迭代来模拟异步操作
+    if(g.next().done)&#123;
+      clearInterval(id);
+      console.log(&#39;状态迭代完成~&#39;);
+    &#125;
+  &#125;, 1000)
+
+  输出
+  Mon Nov 30 2020 21:24:24 GMT+0800 (中国标准时间) status 1
+  Mon Nov 30 2020 21:24:25 GMT+0800 (中国标准时间) status 2
+  Mon Nov 30 2020 21:24:26 GMT+0800 (中国标准时间) status 3
+  Mon Nov 30 2020 21:24:27 GMT+0800 (中国标准时间) status 4
+  Mon Nov 30 2020 21:24:28 GMT+0800 (中国标准时间) status 5
+  状态迭代完成~
+</code></pre>
+<p>&emsp;&emsp;用Generator函数来模拟上面异步读取文件行数示例的代码：（_[注] 这种实现方式并不是最优的，结合Promise来确定每次异步操作已执行完成再进行下一次迭代操作比这里简单使用计时器模拟更为合理；使用Thunk函数或者co函数库来实现状态自动迭代的流程管理更加优雅_）：</p>
+<pre><code>  let fileLines = [];
+  function readFile(inx) &#123;
+    let lines = Math.floor(Math.random() * 50) + 50; // 用随机数[50-100）模拟这些文件的总行数
+    fileLines.push(lines)
+    console.log(new Date() + &#39; 第&#39; + inx + &#39;读取文件完成，文件总行数为 &#39; + lines);
+  &#125;
+  function* asyncFn() &#123;
+    yield readFile(1);
+    yield readFile(2);
+    readFile(3);
+  &#125;
+  console.log(new Date() + &#39; 代码开始执行~&#39;);
+  let g = asyncFn();
+  let id = setInterval(() =&gt; &#123; // 模拟异步
+    if(g.next().done)&#123;
+      clearInterval(id)
+      console.log(new Date() + &#39; 代码执行完成，文件行数依次为：&#39;);
+      console.log(fileLines)
+    &#125;
+  &#125;, 1000)
+</code></pre>
+<p>&emsp;&emsp;<u>Generator 函数将异步操作表示得很简洁，但是流程管理却不方便（即各个状态间的管理不方便）。不过使用thunk函数或者co函数库能够解决这个问题。</u></p>
+<h4 id="5-Promise（ES6新增）"><a href="#5-Promise（ES6新增）" class="headerlink" title="5) Promise（ES6新增）"></a>5) Promise（<u>ES6新增</u>）</h4><p>&emsp;&emsp;promise 对象用于表示一个异步操作的最终完成 (或失败)及其结果值。它让您能够把异步操作最终的成功返回值或者失败原因和相应的处理程序关联起来。一个 promise 必然处于以下几种状态之一：pending（初始状态）、fulfilled（操作成功完成）、rejected（操作失败）。</p>
+<p>&emsp;&emsp;<u>处理待定状态（pending）的 Promise 对象要么会通过一个值被成功执行（fulfilled），要么会通过一个原因或错误被拒绝（rejected）。当这些情况之一发生时，promise 的 then 方法排列起来的相关处理程序就会被调用。如果 promise 在一个相应的处理程序被绑定时就已经被兑现或被拒绝了，那么这个处理程序就会被调用。因为 Promise.prototype.then 和  Promise.prototype.catch 方法返回的是 promise， 所以它们可以被链式调用。</u></p>
+<p>&emsp;&emsp;一般我们使用Promise()构造函数来创建一个新的 promise 对象，对还没有添加 promise 支持的函数进行封装使用。<u>在适当的时候，调用resolve()方法将新的promise 对象的pending状态改变为fulfilled状态，或者调用reject()将pending状态改变为rejected状态。</u>若不使用这两个静态方法，新的 promise 对象的状态仍为pending初始化状态。</p>
+<p>&emsp;&emsp;<strong>Promise有一些静态方法：</strong></p>
+<p>&emsp;&emsp;all()：所有promise对象都完成且都成功（fulfilled）时触发（执行then()分支），会把所有promise返回值的数组作为成功回调的返回值，顺序跟promise的顺序保持一致，任意一个promise失败（rejected）则立即触发该失败（执行catch分支），第一个触发失败的promise对象的错误信息将作为它的失败错误信息，<u>此时，其他的pending状态的promise还是会执行直至完成（promise开始执行后不能被取消）。Promise.all方法常被用于处理多个promise对象的状态集合。</u></p>
+<p>&emsp;&emsp;allSettled() ：所有promise对象都完成(fulfilled/rejected)时触发（执行then()分支），返回一个promise结果对象的数组，顺序与promise的顺序保持一致。每个promise结果对象包含status属性（状态），value属性（fulfilled状态时返回值）以及reason属性（rejected状态时返回的失败原因）等属性。</p>
+<p>&emsp;&emsp;any()：promise对象的集合中当其中的一个 promise 成功（fulfilled）触发，就返回那个成功的promise的值（执行then分支）。此时，其他的pending状态的promise还是会执行直至完成。</p>
+<p>&emsp;&emsp;race()：promise对象的集合中当其中的一个 promise 成功（fulfilled）或失败（rejected）时触发，成功就返回那个成功的promise的值（执行then分支），失败就返回那个失败promise失败的原因（执行catch分支）。此时，其他的pending状态的promise还是会执行直至完成。</p>
+<p>&emsp;&emsp;reject()：返回一个失败状态的Promise对象，并将给定的失败信息传递给对应的处理方法。</p>
+<p>&emsp;&emsp;resolve()：返回一个成功状态的Promise对象，其中value为返回结果。</p>
+<p>&emsp;&emsp;Promise异步读取文件行数示例的代码如下：</p>
+<pre><code>  let filelines =[];
+  function readFile(inx) &#123;
+    return new Promise((resolve, reject) =&gt; &#123;
+      setTimeout(() =&gt; &#123;
+        let lines = Math.floor(Math.random() * 50) + 50; // 用随机数[50-100）模拟这些文件的总行数
+        console.log(new Date() + &#39; 第&#39; + inx + &#39;读取文件完成，文件总行数为 &#39; + lines);
+        resolve(lines)
+      &#125;, 1000, inx)
+    &#125;)
+  &#125;
+  console.log(new Date() + &#39; 代码开始执行~&#39;);
+  readFile(1).then(res =&gt; &#123;
+    filelines.push(res);
+    return readFile(2);
+  &#125;).then(res =&gt; &#123;
+    filelines.push(res);
+    return readFile(3);
+  &#125;).then(res =&gt; &#123;
+    filelines.push(res);
+    console.log(new Date() + &#39; 代码执行完成，文件行数依次为：&#39;);
+    console.log(filelines);
+  &#125;)
+</code></pre>
+<p>&emsp;&emsp;<u><strong>Promise处理异步（特别是处理一次性结果）十分方便，也支持链式的进行调用，是目前较好的异步编程方式。</strong>特别是结合Array对象相关的方法如map()、filter()等。不过Promise也有一定的缺点，一但创建便会执行，不能取消，也无法得知目前进展到哪一个阶段；如果不设置回调函数，Promise内部抛出的错误，不会反应到外部等问题。</u></p>
+<p>&emsp;&emsp;例如上面的Promise处理代码可以结合Array.map()方法生成promise对象集合（数组），由Promise.all()去并行执行（流程控制相关概念见后文）：</p>
+<pre><code>  function readFile(inx)&#123;
+    return new Promise((resolve, reject) =&gt; &#123;
+      setTimeout(() =&gt; &#123;
+        let lines = Math.floor(Math.random() * 50) + 50; // 用随机数[50-100）模拟这些文件的总行数
+        console.log(new Date() + &#39; 第&#39; + inx + &#39;读取文件完成，文件总行数为 &#39; + lines);
+        resolve(lines)
+      &#125;, 1000, inx)
+    &#125;)
+  &#125;
+  console.log(new Date() + &#39; 代码开始执行~&#39;);
+  Promise.all([1, 2, 3].map((item) =&gt; readFile(item))).then(list =&gt; &#123;
+    console.log(new Date() + &#39; 代码执行完成，文件行数依次为：&#39;);
+    console.log(list)
+  &#125;)
+</code></pre>
+<p>&emsp;&emsp;这两段代码相比，可以看到后面这段代码明显更加的简洁。更重要的是，前一种写法读取3个文件的任务需要3s时间才能完成，后一种并行执行写法只需要1s时间便可完成。</p>
+<h4 id="5-async-await（ES7新增）"><a href="#5-async-await（ES7新增）" class="headerlink" title="5) async/await（ES7新增）"></a>5) async/await（<u>ES7新增</u>）</h4><p>&emsp;&emsp;async和await关键字让我们可以用一种更简洁的方式写出基于Promise的异步行为，而无需刻意地链式调用promise。<br>&emsp;&emsp;async 函数是 Generator 函数的语法糖且async 函数自带执行器。async函数可能包含0个或者多个await表达式。<br>&emsp;&emsp;async函数一定会返回一个promise对象。如果一个async函数的返回值不是promise，那么它将会被隐式地包装在一个promise中。</p>
+<p>&emsp;&emsp;await表达式会暂停整个async函数的执行进程并出让其控制权：<br>&emsp;&emsp;(1) 如果await后面是普通表达式， await 表达式的运算结果就是它等待的的结果。<br>&emsp;&emsp;(2) 如果await后面是promise对象，只有当其等待的promise的异步操作成功或失败之后才会恢复进程，promise的结果会被当作该await表达式的返回值，此时await会阻塞后面的代码执行。所以把await放在async函数内部，因为async 函数的调用不会造成阻塞，它内部所有的阻塞都被封装在一个 Promise 对象中异步执行。<br>&emsp;&emsp;(3) await 命令后面的 promise 运行结果如果可能是 rejected，此时async/await无法处理，一般要要把 await 命令放在 try…catch 代码块中。</p>
+<p>&emsp;&emsp;async/await读取文件行数示例代码：</p>
+<pre><code>  function readFile(inx) &#123;
+    return new Promise((resolve, reject) =&gt; &#123;
+      setTimeout(() =&gt; &#123;
+        let lines = Math.floor(Math.random() * 50) + 50; // 用随机数[50-100）模拟这些文件的总行数
+        console.log(new Date() + &#39; 第&#39; + inx + &#39;读取文件完成，文件总行数为 &#39; + lines);
+        resolve(lines)
+      &#125;, 1000, inx)
+    &#125;)
+  &#125;
+  async function getLines()&#123;
+    let line1 = await readFile(1); // 读取文件1
+    let line2 = await readFile(2); // 读取文件2
+    let line3 = await readFile(3); // 读取文件3
+    console.log(new Date() + &#39; 代码执行完成，结果为：&#39; + [line1, line2, line3])
+  &#125;
+  console.log(new Date() + &#39; 代码开始执行~&#39;);
+  getLines();
+</code></pre>
+<p>&emsp;&emsp;async/await的优点：<br>&emsp;&emsp;它做到了真正的串行的同步写法，代码阅读相对容易。<br>&emsp;&emsp;对于条件语句和其他流程语句比较友好，可以将await直接写到判断条件里。<br>&emsp;&emsp;处理复杂流程时，在代码更加清晰简洁（无try {} catch (err) {}的情况下）。</p>
+<p>&emsp;&emsp;async/await的缺点：<br>&emsp;&emsp;<u>无法处理promise返回的reject对象，要借助try…catch…。</u><br>&emsp;&emsp;<strong>await只能串行，做不到并行（因为await一定是阻塞的）等。</strong></p>
+<h2 id="2、异步操作流程控制"><a href="#2、异步操作流程控制" class="headerlink" title="2、异步操作流程控制"></a>2、异步操作流程控制</h2><p>&emsp;&emsp;如果有多个异步操作，为了代码的执行效率与可维护性，就存在一个流程控制的问题：如何确定异步操作执行的顺序，以及如何保证遵守这种顺序。<br>&emsp;&emsp;流程控制一般有串行执行、并行执行等方式。<br>&emsp;&emsp;串行执行：一个异步任务执行完成后在执行下一个任务。（上面异步读取文件行数的示例中，Promise处理中的第2种写法以及async/await的写法。其他全是串行执行的）<br>&emsp;&emsp;并行执行：所有异步任务同时执行（并行非并发）。（例如上面Promise处理中的第2种写法以及async/await的写法）</p>
+<p>&emsp;&emsp;例如读取文件异步操作回调函数的写法：</p>
+<pre><code>  // 其他代码省略
+  asyncFn(1, function () &#123;
+    asyncFn(2, function () &#123;
+      asyncFn(3, consoleResult)
+    &#125;)
+  &#125;)
+</code></pre>
+<p>&emsp;&emsp;这段代码虽然也是串行执行的，但多次嵌套，不利于阅读与维护。我们编写一个流程控制函数来控制异步操作串行执行，代码如下：</p>
+<pre><code>  let fileList = [1, 2, 3];
+  let fileLines = [];
+  function asyncFn(inx, cb) &#123;
+    setTimeout(() =&gt; &#123; // 用setTimeout模拟读取文件的异步操作，假设每读取耗时1s
+      let lines = Math.floor(Math.random() * 50) + 50; // 用随机数[50-100）模拟本次读取的文件的行数
+      console.log(new Date() + &#39; 第&#39; + inx + &#39;读取文件完成，文件总行数为 &#39; + lines);
+      cb(lines)
+    &#125;, 1000)
+  &#125;
+  function consoleResult() &#123;
+    console.log(&#39;代码执行完成，文件行数依次为：&#39;);
+    console.log(fileLines)
+  &#125;
+  function series(item) &#123;
+    if (item) &#123;
+      asyncFn(item, function (lines) &#123;
+        fileLines.push(lines)
+        return series(fileList.shift());
+      &#125;);
+    &#125; else &#123;
+      return consoleResult();
+    &#125;
+  &#125;
+  console.log(new Date() + &#39; 代码开始执行，获取当前文件列表中文件对应的行数~&#39;);
+  series(fileList.shift());
+
+  输出
+  Mon Nov 30 2020 21:48:41 GMT+0800 (中国标准时间) 代码开始执行，获取当前文件列表中文件对应的行数~
+  Mon Nov 30 2020 21:48:42 GMT+0800 (中国标准时间) 第1读取文件完成，文件总行数为 65
+  Mon Nov 30 2020 21:48:43 GMT+0800 (中国标准时间) 第2读取文件完成，文件总行数为 70
+  Mon Nov 30 2020 21:48:44 GMT+0800 (中国标准时间) 第3读取文件完成，文件总行数为 70
+  Mon Nov 30 2020 21:48:44 GMT+0800 (中国标准时间)代码执行完成，文件行数依次为：65,70,70
+</code></pre>
+<p>&emsp;&emsp;上面的代码中，series为流程控制函数。每次读取一个文件，并将文件名从待读取文件f列表ileList中删除。再递归调用读取下一个文件，直至待读取文件列表为空则所有文件读取完成。这里串行执行读取文件完成需要3s时间。（_串行流程函数控制不止这一种方式实现_）</p>
+<p>&emsp;&emsp;将流程控制改为并行执行：</p>
+<pre><code>  let fileList = [1, 2, 3];
+  let fileLines = [];
+  function asyncFn(inx, cb) &#123;
+    setTimeout(() =&gt; &#123; // 用setTimeout模拟读取文件的异步操作，假设每读取耗时1s
+      let lines = Math.floor(Math.random() * 50) + 50; // 用随机数[50-100）模拟本次读取的文件的行数
+      console.log(new Date() + &#39; 第&#39; + inx + &#39;读取文件完成，文件总行数为 &#39; + lines);
+      cb(lines)
+    &#125;, 1000)
+  &#125;
+  function consoleResult() &#123;
+    console.log(new Date() + &#39;代码执行完成，文件行数依次为：&#39; + fileLines);
+  &#125;
+  function series(fileList) &#123;
+    fileList.forEach((item, index) =&gt; &#123;
+      asyncFn(item, function (lines) &#123;
+        fileLines[index] = lines
+        if (fileLines.length == fileList.length) &#123;
+          consoleResult();
+        &#125;
+      &#125;);
+    &#125;)
+  &#125;
+  console.log(new Date() + &#39; 代码开始执行，获取当前文件列表中文件对应的行数~&#39;);
+  series(fileList);
+
+  输出
+  Mon Nov 30 2020 21:49:52 GMT+0800 (中国标准时间) 代码开始执行，获取当前文件列表中文件对应的行数~
+  Mon Nov 30 2020 21:49:53 GMT+0800 (中国标准时间) 第1读取文件完成，文件总行数为 65
+  Mon Nov 30 2020 21:49:53 GMT+0800 (中国标准时间) 第2读取文件完成，文件总行数为 94
+  Mon Nov 30 2020 21:49:53 GMT+0800 (中国标准时间) 第3读取文件完成，文件总行数为 57
+  Mon Nov 30 2020 21:49:53 GMT+0800 (中国标准时间)代码执行完成，文件行数依次为：65,94,57
+</code></pre>
+<p>&emsp;&emsp;上面的代码中，series中使用forEach()方法时读取文件同时进行，因为不知道各次读取文件完成的先后顺序，这里不能使用fileLines.push()方法保存结果，可能会得的结果与文件读取顺序不匹配。这里将结果赋值给fileLines[index]能保证结果的顺序与读取文件的顺序一致。当获得的结果的长度与读取文件的次数相同时，所有文件读取完成。这里并行执行读取文件完成需要1s时间。（_并行流程函数控制不止这一种方式实现_）</p>
 ]]></content>
       <categories>
         <category>JavaScript</category>
