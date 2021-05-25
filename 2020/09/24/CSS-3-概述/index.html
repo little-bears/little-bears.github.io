@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">5.7k</span>
+            <span class="post-count">6.1k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">21 分钟</span>
+            <span class="post-count">23 分钟</span>
         </span>
     </span>
 </div>
@@ -114,7 +114,7 @@
 <h2 id="1、文档流-CSS设计核心"><a href="#1、文档流-CSS设计核心" class="headerlink" title="1、文档流 - CSS设计核心"></a>1、文档流 - CSS设计核心</h2><p>&emsp;&emsp;文档流是文档中可显示对象在排列时所占用的位置。即将窗体自上而下分成一行行, 并在每行中按从左至右的顺序排放元素为文档流。</p>
 <p>&emsp;&emsp;元素脱离文档流的原因：<br>&emsp;&emsp;(1) 浮动float<br>&emsp;&emsp;(2) 绝对定位（position: absolute/fixed）</p>
 <p>&emsp;&emsp;元素脱离文档流的后果：<br>&emsp;&emsp;(1) 使用float脱离文档流时，其他盒子会无视这个元素，但其他盒子内的文本依然会为这个元素让出位置，环绕在周围。（可结合BFC格式化上下文的特性，布局文本环绕图像的样式）<br>&emsp;&emsp;(2) 对于使用position：absolute脱离文档流的元素，其他盒子与其他盒子内的文本都会无视它<br>&emsp;&emsp;(3) 元素脱离文本流后，父元素高度会塌陷，一般通过BFC的特性或者css clearfix属性（推荐使用伪元素清除浮动的方式）清除浮动</p>
-<h2 id="2、CSS框模型"><a href="#2、CSS框模型" class="headerlink" title="2、CSS框模型"></a>2、CSS框模型</h2><p>&emsp;&emsp;框模型 (Box Model) 规定了元素框处理元素内容、内边距、边框 和 外边距 的方式。<br><img src="/images/css3/CSS%E6%A1%86%E6%A8%A1%E5%9E%8B.gif" alt="CSS框模型"><br>&emsp;&emsp;元素框的最内部分是实际的内容，直接包围内容的是内边距。内边距呈现了元素的背景。内边距的边缘是边框。边框以外是外边距，外边距默认是透明的，因此不会遮挡其后的任何元素。</p>
+<h2 id="2、CSS框模型"><a href="#2、CSS框模型" class="headerlink" title="2、CSS框模型"></a>2、CSS框模型</h2><p>&emsp;&emsp;框模型 (Box Model) 规定了元素框处理元素内容、内边距、边框 和 外边距 的方式。<br><img src="/images/css3/CSS%E6%A1%86%E6%A8%A1%E5%9E%8B.gif" alt="CSS框模型"><br>&emsp;&emsp;元素框的最内部分是实际的内容，直接包围内容的是内边距。内边距会呈现了元素的背景。内边距的边缘是边框。边框以外是外边距，外边距默认是透明的，因此不会遮挡其后的任何元素。</p>
 <p>&emsp;&emsp;内边距、边框和外边距都是可选的，在 CSS 中，width 和 height 指的是内容区域的宽度和高度。增加内边距、边框和外边距不会影响内容区域的尺寸，但是会增加元素框的总尺寸。</p>
 <p>&emsp;&emsp;内边距、边框和外边距可以应用于一个元素的所有边，也可以应用于单独的边。外边距可以是负值。</p>
 <p>&emsp;&emsp;外边距合并指的是，当两个垂直外边距相遇时，它们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中的较大者。只有普通文档流中块框的垂直外边距才会发生外边距合并。行内框、浮动框或绝对定位之间的外边距不会合并。</p>
@@ -135,8 +135,8 @@
 <td>允许以一种独立于文档元素的方式来指定样式，将类选择器的样式与元素关联，必须将元素class指定为一个对应的类名</td>
 </tr>
 <tr>
-<td>ID选择器</td>
-<td>允许以一种独立于文档元素的方式来指定样式，将ID选择器的样式与元素关联，必须将元素 id指定为一个对应的值</td>
+<td>id选择器</td>
+<td>允许以一种独立于文档元素的方式来指定样式，将id选择器的样式与元素关联，必须将元素id指定为一个对应的值</td>
 </tr>
 <tr>
 <td>属性选择器</td>
@@ -163,8 +163,8 @@
 <td>用于向某些选择器设置特殊效果</td>
 </tr>
 </tbody></table>
-<p><em>&emsp;&emsp;&emsp;[注] 选择器优先级：</em><br><em>&emsp;&emsp;&emsp; 1)不同选择器优先级：!important &gt; 行内样式 &gt; ID选择器 &gt; 类选择器 &gt; 元素选择器 &gt; 通配符选择器 &gt; 继承 &gt; 浏览器默认属性</em><br><em>&emsp;&emsp;&emsp; 2)不同一级别选择器优先级：同一级别中后写的会覆盖先写的样式；同一级别css引入方式不同，优先级不同：内联(行内)样式 &gt; 内部样式表 &gt; 外部样式表 &gt; 导入样式(@import)</em></p>
-<h4 id="2-样式"><a href="#2-样式" class="headerlink" title="(2) 样式"></a>(2) 样式</h4><p>&emsp;&emsp;HTML 的 style 属性，提供了一种改变所有 HTML 元素的样式的通用方法。<br>&emsp;&emsp;当浏览器读到一个样式表，它就会按照这个样式表来对文档进行格式化。有以下三种方式来插入样式表：外部样式表、内部样式表、内联样式（后者优先级高于前者）。</p>
+<p><em>&emsp;&emsp;&emsp;[注] 选择器优先级：</em><br><em>&emsp;&emsp;&emsp; 1)不同选择器优先级：!important &gt; 行内样式 &gt; id选择器 &gt; 类选择器 &gt; 元素选择器 &gt; 通配符选择器 &gt; 继承 &gt; 浏览器默认属性</em><br><em>&emsp;&emsp;&emsp; 2)不同一级别选择器优先级：同一级别中后写的会覆盖先写的样式；同一级别css引入方式不同，优先级不同：内联(行内)样式 &gt; 内部样式表 &gt; 外部样式表 &gt; 导入样式(@import)</em></p>
+<h4 id="2-样式"><a href="#2-样式" class="headerlink" title="(2) 样式"></a>(2) 样式</h4><p>&emsp;&emsp;HTML 的 style 属性，提供了一种改变所有 HTML 元素的样式的通用方法。<br>&emsp;&emsp;当浏览器读到一个样式表，它就会按照这个样式表来对文档进行格式化处理。有三种方式来插入样式表：外部样式表、内部样式表、内联样式（后者优先级高于前者）。</p>
 <p>&emsp;&emsp;1) 背景属性</p>
 <table>
 <thead>
@@ -196,6 +196,10 @@
 <tr>
 <td>background-attachment</td>
 <td>背景图是否固定或者随着页面滚动</td>
+</tr>
+<tr>
+<td>background-attachment</td>
+<td>规定背景图像是否固定或者随着页面的其余部分滚动</td>
 </tr>
 </tbody></table>
 <p>&emsp;&emsp;2) 文本属性</p>
@@ -289,6 +293,10 @@
 </tr>
 </thead>
 <tbody><tr>
+<td>width</td>
+<td>元素的宽度</td>
+</tr>
+<tr>
 <td>height</td>
 <td>元素的高度</td>
 </tr>
@@ -311,10 +319,6 @@
 <tr>
 <td>min-width</td>
 <td>元素的最小宽度</td>
-</tr>
-<tr>
-<td>width</td>
-<td>元素的宽度</td>
 </tr>
 </tbody></table>
 <p>&emsp;&emsp;5) 显示属性</p>
@@ -367,7 +371,7 @@
 <td>创建文档内的书签</td>
 </tr>
 </tbody></table>
-<p><em>&emsp;&emsp;&emsp;[注] 给链接设置样式时样注意合理的顺序：a:link、a:visited、a:hover、a:active</em></p>
+<p><em>&emsp;&emsp;&emsp;<u>[注] 给链接设置样式时样注意合理的顺序：a:link、a:visited、a:hover、a:active</u></em></p>
 <p>&emsp;&emsp;7) 列表属性</p>
 <table>
 <thead>
@@ -514,8 +518,8 @@
 </tbody></table>
 <p>&emsp;&emsp;11) 定位</p>
 <p>&emsp;&emsp;CSS中三种定位机制：普通流、浮动与绝对定位。</p>
-<p>&emsp;&emsp;① 在普通流中：<br>&emsp;&emsp;块级框从上到下一个接一个地排列，框之间的垂直距离是由框的垂直外边距计算出来。<br>&emsp;&emsp;行内框在一行中水平布置。可以使用水平内边距、边框和外边距调整它们的间距。但是，垂直内边距、边框和外边距不影响行内框的高度，由一行形成的水平框称为行框（Line Box），行框的高度总是足以容纳它包含的所有行内框。不过，设置行高可以增加这个框的高度。</p>
-<p>&emsp;&emsp;② 浮动与清除浮动：<br>&emsp;&emsp;浮动（float）的框可以向左或向右移动，直到它的外边缘碰到包含框或另一个浮动框的边框为止。不论何种元素，浮动会生成一个块级框。由于浮动框不在文档的普通流中，所以文档的普通流中的块框表现得就像浮动框不存在一样。文本会环绕在浮动元素周围但文本过少可能会导致父元素高度塌陷，一般清除父元素的浮动来实现文本环绕图像的样式。<br>&emsp;&emsp;清除浮动（clear）属性定义了元素的哪一侧不允许出现浮动元素，设置了 clear 属性的元素增加上外边距实现的，即在元素上外边距之上增加清除空间，而外边距本身并不改变。不论哪一种改变，最终结果都一样，如果声明为左边或右边清除，会使元素的上外边框边界刚好在该边上浮动元素的下外边距边界之下，从而达到清除浮动的目的。<br>&emsp;&emsp;利用BFC（块级格式化上下文）的特性（BFC区域不会与float box重叠），也可以达到清除浮动的目的。</p>
+<p>&emsp;&emsp;① 在普通流中：<br>&emsp;&emsp;块级框从上到下一个接一个地排列，框之间的垂直距离是由框的垂直外边距计算出来。<br>&emsp;&emsp;行内框在一行中水平排列。可以使用水平内边距、边框和外边距调整它们的间距。但是，垂直内边距、边框和外边距不影响行内框的高度，由一行形成的水平框称为行框（Line Box），行框的高度总是足以容纳它包含的所有行内框。不过，设置行高可以增加这个框的高度。</p>
+<p>&emsp;&emsp;② 浮动与清除浮动：<br>&emsp;&emsp;浮动（float）的框可以向左或向右移动，直到它的外边缘碰到包含框或另一个浮动框的边框为止。不论何种元素，浮动会生成一个块级框。由于浮动框不在文档的普通流中，所以文档的普通流中的块框表现得就像浮动框不存在一样。文本会环绕在浮动元素周围但文本过少可能会导致父元素高度塌陷，一般清除父元素的浮动来实现文本环绕图像的样式。<br>&emsp;&emsp;清除浮动（clear）属性定义了元素的哪一侧不允许出现浮动元素，设置了 clear 属性的元素会增加上外边距，即在元素上外边距之上增加清除空间，而外边距本身并不改变。不论哪一种改变，最终结果都一样，<u>如果声明为左边或右边清除，会使元素的上外边框边界刚好在该边上浮动元素的下外边距边界之下，从而达到清除浮动的目的。</u><br>&emsp;&emsp;利用BFC（块级格式化上下文）的特性（BFC区域不会与float box重叠），也可以达到清除浮动的目的。</p>
 <p>&emsp;&emsp;③ 绝对定位：<br>&emsp;&emsp;设置为绝对定位（position: absolute/fixed）的元素框从文档流完全删除，并相对于其包含块定位，包含块可能是文档中的另一个元素或者是初始包含块。元素原先在正常文档流中所占的空间会关闭，就好像该元素原来不存在一样。元素绝对定位后生成一个块级框，而不论原来它在正常流中生成何种类型的框。</p>
 <table>
 <thead>
@@ -565,14 +569,14 @@
 <td>设置元素的堆叠顺序</td>
 </tr>
 </tbody></table>
-<h2 id="4、CSS进阶"><a href="#4、CSS进阶" class="headerlink" title="4、CSS进阶"></a>4、CSS进阶</h2><p>&emsp;&emsp;(1) 水平对齐<br>&emsp;&emsp;margin 属性：可通过将左和右外边距设置为 “auto”，来对齐块元素。把左和右外边距设置为 auto，规定的是均等地分配可用的外边距实现水平居中。<br>&emsp;&emsp;position属性：通过绝对定位使元素会被从正常流中删除，并且能够交叠元素进行水平居中布局。<br>&emsp;&emsp;float属性：通过浮动进行定位使元素水平居中布局。</p>
+<h2 id="4、CSS进阶"><a href="#4、CSS进阶" class="headerlink" title="4、CSS进阶"></a>4、CSS进阶</h2><p>&emsp;&emsp;(1) 水平对齐<br>&emsp;&emsp;margin 属性：可通过将左和右外边距设置为 “auto”，来对齐块元素。把左和右外边距设置为 auto，根据相应规则，会均等地分配可用的外边距实现水平居中。<br>&emsp;&emsp;position属性：通过绝对定位使元素会被从正常流中删除，并且能够交叠元素进行水平居中布局。<br>&emsp;&emsp;float属性：通过浮动进行定位使元素水平居中布局。</p>
 <p>&emsp;&emsp;(2) 图片滤镜（<u>注意浏览器兼容!!!</u>  -webkit-, -ms- 或 -moz- ）<br>&emsp;&emsp;filter 属性定义了元素(通常是img)的可视效果。常用函数：blur(px)、brightness(%)、contrast(%)、grayscale(%)、opacity(%)。</p>
-<h2 id="5、CSS3新能力"><a href="#5、CSS3新能力" class="headerlink" title="5、CSS3新能力"></a>5、<u>CSS3新能力</u></h2><p>&emsp;&emsp;CSS3的新特征有很多，例如选择器的添加、圆角效果、图形化边界、块阴影与文字阴影、使用RGBA实现透明效果、渐变效果、使用@font-face实现定制字体、多背景图、文字或图像的效果与变形处理（旋转、缩放、倾斜、移动）、多栏布局、媒体查询等。</p>
+<h2 id="5、CSS3新能力"><a href="#5、CSS3新能力" class="headerlink" title="5、CSS3新能力"></a>5、<u>CSS3新能力</u></h2><p>&emsp;&emsp;CSS3的新特征有很多，例如选择器的添加、圆角效果、图形化边界、块阴影与文字阴影、使用RGBA实现透明效果、渐变效果、使用@font-face实现定制字体、多背景图、文字或图像的效果与变形处理（旋转、缩放、倾斜、移动）、多栏布局、媒体查询(@media)等。</p>
 <p>&emsp;&emsp;1) 选择器</p>
 <table>
 <thead>
 <tr>
-<th>属性</th>
+<th>选择器</th>
 <th>用法示例</th>
 <th>描述</th>
 </tr>
@@ -625,7 +629,7 @@
 <tr>
 <td>:nth-last-child(n)</td>
 <td>p:nth-last-child(2)</td>
-<td>选择每个p元素的是其父级的第二个子元素，从最后一个子项计数</td>
+<td>选择每个p元素的是其父级的倒数第二个子元素</td>
 </tr>
 <tr>
 <td>nth-of-type(n)</td>
@@ -635,7 +639,7 @@
 <tr>
 <td>:nth-last-of-type(n)</td>
 <td>p:nth-last-of-type(2)</td>
-<td>选择每个p元素的是其父级的第二个p元素，从最后一个子项计数</td>
+<td>选择每个p元素的是其父级的倒数第二个p元素</td>
 </tr>
 <tr>
 <td>:last-child</td>
@@ -736,7 +740,9 @@
 <td>规定背景图片的尺寸</td>
 </tr>
 </tbody></table>
-<p>&emsp;&emsp;4) 渐变<br>&emsp;&emsp;CSS3 渐变（gradients）可以让你在两个或多个指定的颜色之间显示平稳的过渡。（相关属性background-image）<br>&emsp;&emsp;CSS3 定义了两种类型的渐变（gradients）：<br>&emsp;&emsp;① 线性渐变（Linear Gradients）- 向下/向上/向左/向右/对角方向</p>
+<p>&emsp;&emsp;4) 渐变</p>
+<p>&emsp;&emsp;CSS3 渐变（gradients）可以让你在两个或多个指定的颜色之间显示平稳的过渡。（相关属性background-image）<br>&emsp;&emsp;CSS3 定义了两种类型的渐变（gradients）：</p>
+<p>&emsp;&emsp;① 线性渐变（Linear Gradients）- 向下/向上/向左/向右/对角方向</p>
 <pre><code>  background-image: linear-gradient(direction, color-stop1, color-stop2, ...);
   background-image: linear-gradient(angle, color-stop1, color-stop2)
 </code></pre>
@@ -777,12 +783,12 @@
 </tbody></table>
 <p>&emsp;&emsp;<em>[注1] 单行文本超出隐藏</em></p>
 <pre><code>  .box &#123; // 有一定宽度的包含元素
-    white-space: nowrap; // 如何处理包含元素内的空白：文本不会换行，文本会在在同一行上继续，直到遇到 &lt;br&gt; 标签为止
+    white-space: nowrap; // 如何处理包含元素内的空白：文本不会换行，文本会在在同一行上继续，直到遇到&lt;br&gt;标签为止
     text-overflow: ellipsis; // 文本溢出包含元素发生事情：显示省略符号来代表被修剪的文本
     overflow: hidden; // 内容溢出包含元素发生的事情：内容修剪且不可见
   &#125;
 </code></pre>
-<p>&emsp;&emsp;<em>[注2]  多行文本超出隐藏（适用于WebKit浏览器及移动端，有兼容问题）</em></p>
+<p>&emsp;&emsp;<em>[注2]  多行文本超出隐藏（适用于WebKit浏览器及移动端，不同浏览器要添加对应修饰符）</em></p>
 <p>&emsp;&emsp;<em>原理：利用了css弹性盒子模型flex-box，可以理解为flex弹性盒子旧的规则，有兼容性问题。在不同的浏览器中申明：display: -moz-box / -webkit-box / box。有box-orient（子元素的排列方向，有horizontal、vertical等取值）, box-direction（子元素的排列顺序，取值有normal、reverse、inherit）, box-align（垂直方向上的空间利用，即对齐方式，有start、end、center等取值）, box-pack（水平方向上的空间利用，即对齐方式，有start、end、center等取值）, box-lines（子元素是可以换行显示，取值有single、multiple）属性来设置子元素的排列方式。再结合-webkit-line-clamp属性（块元素显示的文本的行数，不规范属性，未在css规范草案中）等属性来实现多行显示省略号</em></p>
 <pre><code>  .box &#123; 
     display: -webkit-box; // 布局方式：flex-box弹性盒子
@@ -808,7 +814,7 @@
 </tr>
 <tr>
 <td>transform-origin</td>
-<td>允许你改变被转换元素的位置</td>
+<td>允许你更改一个元素变形的原点(该属性必须与transform属性一同使用)</td>
 </tr>
 <tr>
 <td>transform-style</td>
@@ -828,7 +834,7 @@
 </tr>
 </tbody></table>
 <p>&emsp;&emsp;7) 过渡 （<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
-<p>&emsp;&emsp;为了添加某种效果可以从一种样式转变到另一个的时候，无需使用Flash动画或JavaScript来完成</p>
+<p>&emsp;&emsp;为了添加某种效果可以从一种样式转变到另一个的时候，无需使用Flash动画或JavaScript就能完成简单动画</p>
 <table>
 <thead>
 <tr>
@@ -849,8 +855,8 @@
 <td>定义过渡效果花费的时间，默认是 0</td>
 </tr>
 <tr>
-<td>transition-timing-function</td>
-<td>规定过渡效果的时间曲线，默认是 “ease”</td>
+<td><u>transition-timing-function</u></td>
+<td>规定过渡效果的时间曲线(时序函数)，默认是 “ease”</td>
 </tr>
 <tr>
 <td>transition-delay</td>
@@ -858,7 +864,7 @@
 </tr>
 </tbody></table>
 <p>&emsp;&emsp;8) 动画 （<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
-<p>&emsp;&emsp;动画是使元素从一种样式逐渐变化为另一种样式的效果。<br>&emsp;&emsp;您可以改变任意多的样式任意多的次数。<br>&emsp;&emsp;使用百分比来规定变化发生的时间，或用关键词 “from” 和 “to”，等同于 0% 和 100%（推荐使用百分比），0% 是动画的开始，100% 是动画的完成。<br>&emsp;&emsp;当在 @keyframes 创建动画，把它绑定到一个选择器，否则动画不会被使用，也不会有任何效果。使用animation属对选择器设置对应动画，必须定义动画的名称和动画的持续时间。如果省略的持续时间，动画将无法运行，因为默认值是0。</p>
+<p>&emsp;&emsp;动画是使元素从一种样式逐渐变化为另一种样式的效果，您可以改变任意多的样式任意多的次数。可以实现相对复杂的动画。<br>&emsp;&emsp;使用百分比来规定变化发生的时间，或用关键词 “from” 和 “to”，等同于 0% 和 100%（推荐使用百分比），0% 是动画的开始，100% 是动画的完成。<br>&emsp;&emsp;当在 @keyframes 创建动画，把它绑定到一个选择器，否则动画不会被使用，也不会有任何效果。使用animation属对选择器设置对应动画，必须定义动画的名称和动画的持续时间。如果省略的持续时间，动画将无法运行，因为默认值是0。</p>
 <pre><code>  @keyframes name
   &#123;
     0%   &#123; // 状态1 &#125;
@@ -969,7 +975,20 @@
 <td>column-width 与 column-count 的简写属性</td>
 </tr>
 </tbody></table>
-<h2 id="6、其他CSS属性"><a href="#6、其他CSS属性" class="headerlink" title="6、其他CSS属性"></a>6、其他CSS属性</h2><p>&emsp;&emsp;(1) mask（通过遮罩或者裁切特定区域的图片的方式来隐藏一个元素的部分或者全部可见区域）<br>&emsp;&emsp;(2) clip-path（使用裁剪方式创建元素的可显示区域，结合transform、transition能作出惊艳的动画效果）<br>&emsp;&emsp;(3) offset （CSS快速定义元素沿相关路径运动）</p>
+<p>&emsp;&emsp;11) 媒体查询(@media)</p>
+<p>&emsp;&emsp;媒体查询非常实用，可以根据设备的大致类型（如打印设备与带屏幕的设备）或者特定的特征和设备参数（例如根据屏幕分辨率和浏览器视窗宽度）来设置更合理的样式等</p>
+<pre><code>  &lt;link rel=&quot;stylesheet&quot; src=&quot;styleA.css&quot; media=&quot;screen&quot; /&gt;
+  &lt;link rel=&quot;stylesheet&quot; src=&quot;styleB.css&quot; media=&quot;print&quot; /&gt;
+</code></pre>
+<p>&emsp;&emsp;每条媒体查询语句都由一个可选的媒体类型和任意数量的媒体特性表达式构成。可以使用多种逻辑操作符合并多条媒体查询语句。媒体查询语句不区分大小写。<br>&emsp;&emsp;当媒体类型（如果指定）与在其上显示文档的设备匹配并且所有媒体功能表达式都计算为true时，媒体查询将计算为true。 涉及未知媒体类型的查询始终为false。</p>
+<p><em>&emsp;&emsp;[注] <u>即使媒体查询返回false，带有媒体查询附加到其&lt;link&gt;标记的样式表仍将下载</u>，但只有媒体查询为true的对应样式文件才被使用</em></p>
+<p>&emsp;&emsp;<u>逻辑操作符 not, and, 和 only 可用于联合构造复杂的媒体查询，可用逗号(,)分隔多个媒体查询，将它们组合为一个规则。</u></p>
+<pre><code>  // 用户设备的宽度介于 300px 到 500px 的设备
+  @media (min-width: 300px) and (max-width: 500px) &#123; ... &#125;
+  // 用户设备的最小高度为680px或为纵向模式的屏幕设备
+  @media (min-height: 680px), screen and (orientation: portrait) &#123; ... &#125;
+</code></pre>
+<h2 id="6、其他CSS属性"><a href="#6、其他CSS属性" class="headerlink" title="6、其他CSS属性"></a>6、其他CSS属性</h2><p>&emsp;&emsp;(1) <u>mask</u>（通过遮罩或者裁切特定区域的图片的方式来隐藏一个元素的部分或者全部可见区域）<br>&emsp;&emsp;(2) <u>clip-path</u>（使用裁剪方式创建元素的可显示区域，结合transform、transition能作出惊艳的动画效果）<br>&emsp;&emsp;(3) <u>offset</u> （CSS快速定义元素沿相关路径运动）</p>
  
       <!-- reward -->
       

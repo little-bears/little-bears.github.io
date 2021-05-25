@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">19 分钟</span>
+            <span class="post-count">20 分钟</span>
         </span>
     </span>
 </div>
@@ -110,7 +110,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>display属性规定元素应该生成的框的类型。display 属性可以设置元素的内部和外部显示类型 display types。元素的外部显示类型 outer display types 将决定该元素在流式布局中的表现（块级或内联元素）；元素的内部显示类型 inner display types 可以控制其子元素的布局（如 flow layout，grid 或 flex）。</p>
+  <p>display属性规定元素应该生成的框的类型。display 属性可以设置元素的内部和外部等显示类型 display type。元素的外部显示类型 outer display type 将决定该元素在流式布局中的表现（块级或内联元素）；元素的内部显示类型 inner display type 可以控制其子元素的布局（如 flow layout，grid 或 flex）。</p>
 <p>display 属性使用关键字取值来指定，关键字取值被分为六类：</p>
 <pre><code>  &lt;display-outside&gt; = block | inline | run-in
   &lt;display-inside&gt; = flow | flow-root | table | flex | grid | ruby
@@ -121,7 +121,7 @@
 </code></pre>
 <h2 id="1、display-outside类型"><a href="#1、display-outside类型" class="headerlink" title="1、display-outside类型"></a>1、display-outside类型</h2><p>&emsp;&emsp;这些关键字指定了元素的外部显示类型，实际上就是其在流式布局中的角色（即在流式布局中的表现）。<br>&emsp;&emsp;block：此元素将显示为块级元素，此元素前后会带有换行符<br>&emsp;&emsp;inline：默认值，此元素会被显示为内联元素，元素前后没有换行符<br>&emsp;&emsp;run-in：此元素会根据上下文作为块级元素或内联元素显示</p>
 <p><em>&emsp;&emsp;[注]如果 run-in box 包含 block box，那么这个 run-in box 也成为 block box；如果紧跟在 run-in box 之后的兄弟节点是 block box，那么这个 run-in box 就会做为此 block box 里的 inline box（run-in box 不能进入已经一个已经以 run-in box 开头的块内，也不能进入本身就是 display:run-in的块内）；否则，run-in box 都将成为 block box</em></p>
-<h2 id="2、display-inside类型"><a href="#2、display-inside类型" class="headerlink" title="2、display-inside类型"></a>2、display-inside类型</h2><p>&emsp;&emsp;这些关键字指定了元素的内部显示类型，它们定义了该元素内部内容的布局方式。<br>&emsp;&emsp;flow：元素使用流布局（块和内联布局）布局其内容<br><em>&emsp;&emsp;[注] 如果其外部显示类型为inline或run-in，并且它参与了块或内联格式设置上下文，则它将生成一个内联框。否则，它将生成一个块容器框</em><br>&emsp;&emsp;flow-root：该元素生成一个块元素框，该框将建立一个新的块格式化上下文，定义格式化根所在的位置<br>&emsp;&emsp;table：此元素会作为块级表格来显示（类似 table ），表格前后带有换行符<br>&emsp;&emsp;flex：元素的行为类似于block元素，并根据flexbox模型布置其内容<br>&emsp;&emsp;grid: 元素的行为类似于块元素，并根据网格模型布置其内容<br>&emsp;&emsp;ruby: 元素的行为类似于内联元素，并根据ruby格式化模型布置其内容。它的行为类似于相应的HTML ruby元素</p>
+<h2 id="2、display-inside类型"><a href="#2、display-inside类型" class="headerlink" title="2、display-inside类型"></a>2、display-inside类型</h2><p>&emsp;&emsp;这些关键字指定了元素的内部显示类型，它们定义了该元素内部内容的布局方式。<br>&emsp;&emsp;flow：元素使用流布局（块和内联布局）布局其内容<br><em>&emsp;&emsp;[注] 如果其外部显示类型为inline或run-in，并且它参与了块或内联格式设置上下文，则它将生成一个内联框。否则，它将生成一个块容器框</em><br>&emsp;&emsp;flow-root：该元素生成一个块元素框，该框将建立一个新的块格式化上下文，定义格式化根所在的位置<br>&emsp;&emsp;table：此元素会作为块级表格来显示（类似 &lt;table&gt; ），表格前后带有换行符<br>&emsp;&emsp;flex：元素的行为类似于block元素，并根据flex box模型布置其内容<br>&emsp;&emsp;grid: 元素的行为类似于块元素，并根据网格模型布置其内容<br>&emsp;&emsp;ruby: 元素的行为类似于内联元素，并根据ruby格式化模型布置其内容。它的行为类似于相应的HTML &lt;ruby&gt;元素</p>
 <h4 id="emsp-emsp-1-Flex布局"><a href="#emsp-emsp-1-Flex布局" class="headerlink" title="&emsp;&emsp;1) Flex布局"></a>&emsp;&emsp;1) Flex布局</h4><p>&emsp;&emsp;采用 Flex 布局的元素，称为 Flex 容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称”项目”，Flex 容器有主轴与交叉轴两个方向。<br><img src="/images/css3/Flex%E5%AE%B9%E5%99%A8.png" alt="Flex容器"></p>
 <p>&emsp;&emsp;<strong>(1) Flex容器的属性：flex-direction、flex-wrap、flex-flow、justify-content、align-items、align-content</strong></p>
 <p>&emsp;&emsp;① flex-direction属性决定主轴的方向（即项目的排列方向）</p>
@@ -147,7 +147,7 @@
 </code></pre>
 <p><img src="/images/css3/align-items%E5%B1%9E%E6%80%A7.png" alt="align-items属性"></p>
 <p>&emsp;&emsp;flex-start：交叉轴的起点对齐<br>&emsp;&emsp;flex-end：交叉轴的终点对齐<br>&emsp;&emsp;center：交叉轴的中点对齐<br>&emsp;&emsp;baseline: 项目的第一行文字的基线对齐<br>&emsp;&emsp;stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度</p>
-<p>&emsp;&emsp;⑥ align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用</p>
+<p>&emsp;&emsp;⑥ align-content属性定义了多根轴线的对齐方式（如果项目只有一根轴线，该属性不起作用）</p>
 <pre><code>    align-content: flex-start | flex-end | center | space-between | space-around | stretch;
 </code></pre>
 <p>&emsp;&emsp;flex-start：与交叉轴的起点对齐<br>&emsp;&emsp;flex-end：与交叉轴的终点对齐<br>&emsp;&emsp;center：与交叉轴的中点对齐<br>&emsp;&emsp;space-between：与交叉轴两端对齐，轴线之间的间隔平均分布<br>&emsp;&emsp;space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍<br>&emsp;&emsp;stretch（默认值）：轴线占满整个交叉轴</p>
@@ -166,7 +166,7 @@
 <p>&emsp;&emsp;④ flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小</p>
 <pre><code>  flex-basis: &lt;length&gt; | auto; /* default auto */
 </code></pre>
-<p>&emsp;&emsp;可设与width或height属性一样的值（比如200px，则项目将占据固定空间）。</p>
+<p>&emsp;&emsp;可设与width或height属性明确的值（比如200px，则项目将占据固定空间）。</p>
 <p>&emsp;&emsp;⑤ flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选</p>
 <pre><code>  flex: none | [ &lt;flex-grow&gt; || &lt;flex-shrink&gt;? || &lt;flex-basis&gt;? ]
 </code></pre>
@@ -254,10 +254,10 @@
 </code></pre>
 <p>&emsp;&emsp;start：对齐单元格的起始边缘。<br>&emsp;&emsp;end：对齐单元格的结束边缘。<br>&emsp;&emsp;center：单元格内部居中。<br>&emsp;&emsp;stretch：拉伸，占满单元格的整个宽度（默认值）</p>
 <p><em>&emsp;&emsp;[注] g place-self属性是align-self属性和justify-self属性的简写形式。当省略第二个值时，place会默认这两个属性值相等</em></p>
-<h2 id="3、display-listitem类型"><a href="#3、display-listitem类型" class="headerlink" title="3、display-listitem类型"></a>3、display-listitem类型</h2><p>&emsp;&emsp;将这个元素的外部显示类型变为 block 盒子，并将内部显示类型变为多个 list-item inline盒子。<br>&emsp;&emsp;list-item：使元素的行为类似于列表项。可以与list-style-type和list-style-position一起使用，也可以与任何display-outside关键字和flow或flow-root display-inside关键字组合</p>
-<h2 id="4、display-internal类型"><a href="#4、display-internal类型" class="headerlink" title="4、display-internal类型"></a>4、display-internal类型</h2><p>&emsp;&emsp;有些布局模型（如 table 和 ruby）有着复杂的内部结构，因此它们的子元素可能扮演着不同的角色。这一类关键字就是用来定义这些“内部”显示类型，并且只有在这些特定的布局模型中才有意义。<br>&emsp;&emsp;table：此元素会作为块级表格来显示（类似 table），表格前后带有换行符<br>&emsp;&emsp;table-row-group：这些元素的行为类似于tbody HTML元素<br>&emsp;&emsp;table-header-group：这些元素的行为类似于thead HTML元素<br>&emsp;&emsp;table-footer-group：这些元素的行为类似于tfoot HTML元素<br>&emsp;&emsp;table-row：这些元素的行为类似于tr HTML元素<br>&emsp;&emsp;table-cell：这些元素的行为类似于td HTML元素<br>&emsp;&emsp;table-column-group：这些元素的行为类似于colgroup HTML元素<br>&emsp;&emsp;table-column：这些元素的行为类似于col HTML元素<br>&emsp;&emsp;table-caption：这些元素的行为类似于caption HTML元素<br>&emsp;&emsp;ruby-base：这些元素的行为类似于rb HTML元素<br>&emsp;&emsp;ruby-text：这些元素的行为类似于rt HTML元素<br>&emsp;&emsp;ruby-base-container：这些元素的行为类似于rbc生成为匿名框的HTML元素<br>&emsp;&emsp;ruby-text-container：这些元素的行为类似于rtc HTML元素</p>
-<h2 id="5、display-inside类型"><a href="#5、display-inside类型" class="headerlink" title="5、display-inside类型"></a>5、display-inside类型</h2><p>&emsp;&emsp;这些值决定元素是否使用盒模型。<br>&emsp;&emsp;contents：这些元素本身不会产生特定的框。它们被伪框和子框替换<br>&emsp;&emsp;none：此元素不会被显示</p>
-<h2 id="6、display-legacy类型"><a href="#6、display-legacy类型" class="headerlink" title="6、display-legacy类型"></a>6、display-legacy类型</h2><p>&emsp;&emsp;CSS 2 对于 display 属性使用单关键字语法，对于相同布局模式的 block 级和 inline 级变体需要使用单独的关键字。<br>&emsp;&emsp;inline-block：行内块元素，等同于inline flow-root<br>&emsp;&emsp;inline-table：此元素会作为内联表格来显示（类似 table），表格前后没有换行符，等同于inline table<br>&emsp;&emsp;<strong>inline-flex：元素的行为类似于内联元素，并根据flexbox模型布置其内容，等同于inline flex</strong><br>&emsp;&emsp;<strong>inline-grid：元素的行为类似于内联元素，并根据网格模型布置其内容，等同于inline grid</strong></p>
+<h2 id="3、display-listitem类型"><a href="#3、display-listitem类型" class="headerlink" title="3、display-listitem类型"></a>3、<del>display-listitem类型</del></h2><p>&emsp;&emsp;将这个元素的外部显示类型变为 block 盒子，并将内部显示类型变为多个 list-item inline盒子。（即为元素内容生成一个块型盒，随后再生成一个列表型的行内盒）<br>&emsp;&emsp;list-item：使元素的行为类似于列表项。可以与list-style-type和list-style-position一起使用，也可以与任何display-outside关键字和flow或flow-root display-inside关键字组合</p>
+<h2 id="4、display-internal类型"><a href="#4、display-internal类型" class="headerlink" title="4、display-internal类型"></a>4、<del>display-internal类型</del></h2><p>&emsp;&emsp;有些布局模型（如 table 和 ruby）有着复杂的内部结构，因此它们的子元素可能扮演着不同的角色。这一类关键字就是用来定义这些“内部”显示类型，并且只有在这些特定的布局模型中才有意义。<br>&emsp;&emsp;table：此元素会作为块级表格来显示（类似 table），表格前后带有换行符<br>&emsp;&emsp;table-row-group：这些元素的行为类似于tbody HTML元素<br>&emsp;&emsp;table-header-group：这些元素的行为类似于thead HTML元素<br>&emsp;&emsp;table-footer-group：这些元素的行为类似于tfoot HTML元素<br>&emsp;&emsp;table-row：这些元素的行为类似于tr HTML元素<br>&emsp;&emsp;table-cell：这些元素的行为类似于td HTML元素<br>&emsp;&emsp;table-column-group：这些元素的行为类似于colgroup HTML元素<br>&emsp;&emsp;table-column：这些元素的行为类似于col HTML元素<br>&emsp;&emsp;table-caption：这些元素的行为类似于caption HTML元素<br>&emsp;&emsp;ruby-base：这些元素的行为类似于rb HTML元素<br>&emsp;&emsp;ruby-text：这些元素的行为类似于rt HTML元素<br>&emsp;&emsp;ruby-base-container：这些元素的行为类似于rbc生成为匿名框的HTML元素<br>&emsp;&emsp;ruby-text-container：这些元素的行为类似于rtc HTML元素</p>
+<h2 id="5、display-inside类型"><a href="#5、display-inside类型" class="headerlink" title="5、display-inside类型"></a>5、<del>display-inside类型</del></h2><p>&emsp;&emsp;这些值决定元素是否使用盒模型。<br>&emsp;&emsp;contents：这些元素本身不会产生特定的框。它们被伪框和子框替换<br>&emsp;&emsp;none：此元素不会被显示</p>
+<h2 id="6、display-legacy类型"><a href="#6、display-legacy类型" class="headerlink" title="6、display-legacy类型"></a>6、<del>display-legacy类型</del></h2><p>&emsp;&emsp;CSS 2 对于 display 属性使用单关键字语法，对于相同布局模式的 block 级和 inline 级变体需要使用单独的关键字。<br>&emsp;&emsp;inline-block：行内块元素，等同于inline flow-root<br>&emsp;&emsp;inline-table：此元素会作为内联表格来显示（类似 table），表格前后没有换行符，等同于inline table<br>&emsp;&emsp;<strong>inline-flex：元素的行为类似于内联元素，并根据flexbox模型布置其内容，等同于inline flex</strong><br>&emsp;&emsp;<strong>inline-grid：元素的行为类似于内联元素，并根据网格模型布置其内容，等同于inline grid</strong></p>
  
       <!-- reward -->
       

@@ -198,7 +198,7 @@
     <link href="http://example.com/2020/11/02/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/"/>
     <id>http://example.com/2020/11/02/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/</id>
     <published>2020-11-02T06:22:39.000Z</published>
-    <updated>2021-05-24T07:52:00.790Z</updated>
+    <updated>2021-05-25T09:34:15.671Z</updated>
     
     
       
@@ -223,14 +223,14 @@
     <link href="http://example.com/2020/09/27/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/"/>
     <id>http://example.com/2020/09/27/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/</id>
     <published>2020-09-27T07:12:22.000Z</published>
-    <updated>2021-05-24T07:52:00.791Z</updated>
+    <updated>2021-05-25T09:26:53.824Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;display属性规定元素应该生成的框的类型。display 属性可以设置元素的内部和外部显示类型 display types。元素的外部显示类型 outer display types 将决定该元素在流式布局中的表现（块级或内联元素）；元素的内部显示类型 inner</summary>
+    <summary type="html">&lt;p&gt;display属性规定元素应该生成的框的类型。display 属性可以设置元素的内部和外部等显示类型 display type。元素的外部显示类型 outer display type 将决定该元素在流式布局中的表现（块级或内联元素）；元素的内部显示类型 inner</summary>
         
       
     
@@ -248,14 +248,14 @@
     <link href="http://example.com/2020/09/27/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/"/>
     <id>http://example.com/2020/09/27/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/</id>
     <published>2020-09-27T06:59:46.000Z</published>
-    <updated>2021-05-24T07:52:00.791Z</updated>
+    <updated>2021-05-25T09:04:48.118Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终位置。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终定位的位置。&lt;/p&gt;
 &lt;h2 id=&quot;1、平面空间坐标轴（2D）&quot;&gt;&lt;a href=&quot;#1、平面空间坐标轴（2D）&quot;</summary>
         
       
@@ -274,7 +274,7 @@
     <link href="http://example.com/2020/09/24/CSS-3-%E6%A6%82%E8%BF%B0/"/>
     <id>http://example.com/2020/09/24/CSS-3-%E6%A6%82%E8%BF%B0/</id>
     <published>2020-09-24T01:10:16.000Z</published>
-    <updated>2021-05-24T07:52:00.791Z</updated>
+    <updated>2021-05-25T08:37:35.833Z</updated>
     
     
       
@@ -299,15 +299,15 @@
     <link href="http://example.com/2020/09/15/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/"/>
     <id>http://example.com/2020/09/15/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/</id>
     <published>2020-09-15T03:48:20.000Z</published>
-    <updated>2021-05-24T07:52:00.791Z</updated>
+    <updated>2021-05-25T07:28:00.314Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;HTML5 canvas 标签用于绘制图像，但元素本身并没有绘制能力（它仅仅是图形的容器），您必须使用JavaScript脚本（相关API）来完成实际的绘图任务。&lt;/p&gt;
-&lt;h2 id=&quot;1、坐标系&quot;&gt;&lt;a href=&quot;#1、坐标系&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;p&gt;HTML5 &amp;lt;canvas&amp;gt; 标签用于绘制图像，但元素本身并没有绘制能力（它仅仅是图形的容器），您必须使用JavaScript脚本（相关API）来完成实际的绘图任务。&lt;/p&gt;
+&lt;h2 id=&quot;1、坐标系&quot;&gt;&lt;a href=&quot;#1、坐标系&quot;</summary>
         
       
     
@@ -325,7 +325,7 @@
     <link href="http://example.com/2020/09/14/HTML-5-%E6%A6%82%E8%BF%B0/"/>
     <id>http://example.com/2020/09/14/HTML-5-%E6%A6%82%E8%BF%B0/</id>
     <published>2020-09-14T06:10:54.000Z</published>
-    <updated>2021-05-24T07:52:00.791Z</updated>
+    <updated>2021-05-25T07:11:03.838Z</updated>
     
     
       

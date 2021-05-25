@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">982</span>
+            <span class="post-count">987</span>
         </span>
     </span>
 
@@ -110,18 +110,21 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终位置。</p>
-<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上方、右方、下方与左方的距离。</p>
+  <p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终定位的位置。</p>
+<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上、右、下，左方向上的距离。</p>
 <p><img src="/images/css3/%E5%B9%B3%E9%9D%A2%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="平面空间坐标轴"></p>
-<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative, absolute, fixed，sticky与inherit<br>&emsp;&emsp;定位元素：是其计算后位置属性为relative,absolute,fixed或sticky的一个元素<br>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。<br>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置（x，y）作为原点（0，0）。在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。而且position:relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
+<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative、 absolute、fixed，sticky与inherit</p>
+<p>&emsp;&emsp;定位元素：是其计算后位置属性为relative、absolute，fixed或sticky的一个元素</p>
+<p>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。</p>
+<p>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置(x, y)作为原点(0, 0)。<u>在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。</u>而且position: relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
 <p><img src="/images/css3/%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D(relative).png" alt="相对定位(relative)"></p>
-<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位祖先元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margins），且不会与其他边距合并。特别的，fixed绝对定位-固定定位是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。打印时，元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
+<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位父级(祖先)元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margin），且不会与其他边距合并。特别的，fixed绝对定位（固定定位）是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
 <p><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(absolute).png" alt="绝对定位(absolute)"><br><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(fixed).png" alt="绝对定位(fixed)"></p>
 <p>&emsp;&emsp;(4) 粘性定位(sticky)：元素根据正常文档流进行定位，然后相对它的最近滚动祖先和最近块级祖先，包括table-related元素，基于top, right, bottom, 和 left的值进行偏移。偏移值不会影响任何其他元素的位置。粘性定位表现为相对定位和固定定位叠加的效果。元素在跨越特定阈值前为相对定位(relative)，之后为固定定位(fixed)。</p>
 <p><img src="/images/css3/%E7%B2%98%E6%80%A7%E5%AE%9A%E4%BD%8D(sticky).png" alt="粘性定位(sticky)"></p>
 <h2 id="3、三维空间坐标轴（3D）"><a href="#3、三维空间坐标轴（3D）" class="headerlink" title="3、三维空间坐标轴（3D）"></a>3、三维空间坐标轴（3D）</h2><p>&emsp;&emsp;CSS中3D初始坐标系，其XYZ轴的正方向分别是：向右、向下、向屏幕外。如下图：</p>
 <p><img src="/images/css3/%E4%B8%89%E7%BB%B4%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="三维空间坐标轴"></p>
-<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
+<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0）（如上图），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为旋转正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
  
       <!-- reward -->
       

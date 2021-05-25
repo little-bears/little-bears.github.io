@@ -2278,16 +2278,16 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <p>网页布局（layout）是 CSS 的一个重点应用。布局的传统解决方案，基于盒状模型，依赖 display、 position、float、margin、paddding等属性，采用绝对的单位px、相对单位em、vw、vh、rem以及百分比%等单位进行页面设计。本文将从静态布局、流式布局、自适应布局、响应式布局、弹性布局几个方面进行介绍。</p>
-<h2 id="1、静态布局"><a href="#1、静态布局" class="headerlink" title="1、静态布局"></a>1、静态布局</h2><p>&emsp;&emsp;页面采用px单位，一般会设置min-width属性，当页面尺寸小于这个宽度时，出现滚动条进行相应显示，当页面尺寸大于这个宽度时，内容区域一般设置居中显示。使用浮动（float）、定位（position）对元素进行相应的布局<br>&emsp;&emsp;优点：设计简单，编码简单，不用考虑兼容性问题<br>&emsp;&emsp;缺点：有兼容性问题，针对不同的屏幕显示方式一致，对个别用户很不友好。有时也会JS动态修改标签的initial-scale使得页面相应等比缩放，效果有限</p>
-<h2 id="2、流式布局"><a href="#2、流式布局" class="headerlink" title="2、流式布局"></a>2、流式布局</h2><p>&emsp;&emsp;页面宽度采用%（百分比）进行布局，高度一般使用px进行设置，或设置为auto并结合margin、paddding进行布局。宽度会随着浏览器宽度进行相应的调整，为了防止对应区域过大或过小使得内容超出区域，一般结合max-width与max-width进行设置。这种布局整体布局方式不变，即页面元素间相对位置不变，文字大小一般使用px，不随页面尺寸变化而变化。布局方式的代表如栅格系统（将网页页面按比例分成对应行列来排列页面中元素的分布）<br>&emsp;&emsp;优点：在一定范围内，能较好的应对不同的PC端页面<br>&emsp;&emsp;缺点：不适应与PC端到移动端较大的尺寸跨度，元素区域过大过小很导致显示不友好。文字大小不随页面宽度变化而变化，在不同屏幕会出现页面不协调的情况</p>
-<h2 id="3、自适应布局"><a href="#3、自适应布局" class="headerlink" title="3、自适应布局"></a>3、自适应布局</h2><p>&emsp;&emsp;自适应网页设计的核心，就是CSS3引入的媒体查询模块（@media）。自动探测屏幕宽度，然后加载相应的CSS文件<br>&emsp;&emsp;采用媒体查询技术，为不同屏幕分辨率定义布局，即定义多个静态布局，每个静态布局对应一个屏幕范围，可对页面元素尺寸与位置进行相应的调整，对文字尺寸等也可以特殊设置或使用百分比%、em，rem，vh、vw等相对单位</p>
+  <p>网页布局（layout）是 CSS 的一个重点应用。布局的传统解决方案，基于盒状模型，依赖 display、 position、float、margin、paddding等属性，采用绝对的单位px、相对单位em、vw、vh、rem以及百分比%等单位进行页面设计。本文将从静态布局、流式布局、自适应布局、响应式布局、弹性布局几个方面进行简单介绍。</p>
+<h2 id="1、静态布局"><a href="#1、静态布局" class="headerlink" title="1、静态布局"></a>1、静态布局</h2><p>&emsp;&emsp;页面采用px单位，一般会设置min-width属性，当页面尺寸小于这个宽度时，出现滚动条进行相应显示，当页面尺寸大于这个宽度时，内容区域一般设置为居中显示。使用浮动（float）、定位（position）对元素进行相应的布局<br>&emsp;&emsp;优点：设计简单，编码简单，不用考虑兼容性问题<br>&emsp;&emsp;缺点：有兼容性问题，针对不同的屏幕显示方式单一，对个别用户很不友好。有时也会JS动态修改标签的initial-scale使得页面相应等比缩放，但效果有限</p>
+<h2 id="2、流式布局"><a href="#2、流式布局" class="headerlink" title="2、流式布局"></a>2、流式布局</h2><p>&emsp;&emsp;页面宽度采用%（百分比）进行布局，高度一般使用px进行设置，或设置为auto并结合margin、paddding进行布局。宽度会随着浏览器宽度进行相应的调整，为了防止对应区域过大或过小使得内容超出区域，一般结合max-width与min-width进行设置。这种布局整体布局方式不变，即页面元素间相对位置不变，文字大小一般使用px，不随页面尺寸变化而变化。布局方式的代表如栅格系统（将网页页面按比例分成对应行列来排列页面中元素的分布）<br>&emsp;&emsp;优点：在一定范围内，能较好的应对不同的PC端页面<br>&emsp;&emsp;缺点：不适应与PC端到移动端较大的尺寸跨度，元素区域过大过小很导致显示不友好。文字大小不随页面宽度变化而变化，在不同屏幕会出现页面样式可能不协调的情况</p>
+<h2 id="3、自适应布局"><a href="#3、自适应布局" class="headerlink" title="3、自适应布局"></a>3、自适应布局</h2><p>&emsp;&emsp;自适应网页设计的核心，就是CSS3引入的媒体查询模块（@media）。自动检测屏幕宽度，然后加载相应的CSS文件或样式<br>&emsp;&emsp;采用媒体查询技术，为不同屏幕分辨率定义布局，即定义多个静态布局，每个静态布局对应一个屏幕范围，可对页面元素尺寸与位置进行相应的调整，对文字尺寸等也可以特殊设置或使用百分比%、em，rem，vh、vw等相对单位</p>
 <p>&emsp;&emsp;特别的，其中：<br>&emsp;&emsp;百分比 %是相对于父元素大小的百分比大小<br>&emsp;&emsp;em是最常见的相对长度单位，基准值是当前元素的字号大小<br>&emsp;&emsp;rem代表“ root”：“ root em”，它等于固定在root元素上的字体大小<br>&emsp;&emsp;vh和vw更多是PC端响应式Web设计依赖百分比规则,尺寸vh等于视口高度的1/100，尺寸vw等于视口宽度的1/100。但CSS百分比度量并非始终是解决所有问题的最佳解决方案<br>&emsp;&emsp;<u>在移动设备中，物理设备上的1px一般不等于css的1px像素，在默认情况下，一般来讲，移动设备上的viewport都是要大于浏览器可视区域的，这是因为考虑到移动设备的分辨率相对于桌面电脑来说都比较小，所以为了能在移动设备上正常显示那些传统的为桌面浏览器设计的网站，移动设备上的浏览器都会把自己默认的viewport设为980px、1024px等值，带来的后果就是浏览器会出现横向滚动条。</u>为了避免这种情况，在移动端页面设计时，让当前viewport的宽度等于设备的宽度，同时不允许用户手动缩放。也许允不允许用户缩放不同的网站有不同的要求，使用下面的代码使viewport的宽度等于设备的宽度，即即网页初始大小占屏幕面积的100%</p>
 <pre><code>  // 网页宽度等于屏幕宽度（width=device-width），原始缩放比例为1.0（initial-scale=1）
   &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
 </code></pre>
 <p>&emsp;&emsp;优点：对PC端、移动端不同屏幕尺寸变化时，页面元素都会进行相应的调整，有较好的适应能力<br>&emsp;&emsp;缺点：为了使不同设备达到较好的，对各个不同屏幕尺寸范围会进行长时间的设计与调整，过程中也会产生大量的冗余代码</p>
-<h2 id="4、响应式布局"><a href="#4、响应式布局" class="headerlink" title="4、响应式布局"></a>4、响应式布局</h2><p>&emsp;&emsp;<u>个人认为，响应式布局是比适应布局更高级，是自适应布局的优化；自适应布局是响应式布局的一个子集。它们都会使用媒体查询（@media）根据不同的访问设备的宽度加载不同的样式。</u>如果要说区别的话，或许自适应式只考虑了屏幕尺寸大小，主要使用媒体查询技术来相应的适应性调整，而响应式布局可能还会考虑到移动设备的触屏操作、页面元素排版是否合理，是否需要对元素的位置重新进行调整等问题。</p>
+<h2 id="4、响应式布局"><a href="#4、响应式布局" class="headerlink" title="4、响应式布局"></a>4、响应式布局</h2><p>&emsp;&emsp;<u>个人认为，响应式布局比适应布局更高级，是自适应布局的优化；自适应布局是响应式布局的一个子集。它们都会使用媒体查询（@media）根据不同的访问设备的宽度加载不同的样式。</u>如果要说区别的话，或许自适应式只考虑了屏幕尺寸大小，主要使用媒体查询技术来相应的适应性调整，而响应式布局可能还会考虑到移动设备的触屏操作、页面元素排版是否合理，是否需要对元素的位置重新进行调整等问题。</p>
 <h2 id="5、弹性布局（Flex布局）"><a href="#5、弹性布局（Flex布局）" class="headerlink" title="5、弹性布局（Flex布局）"></a>5、弹性布局（Flex布局）</h2><p>&emsp;&emsp;Flex 是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性,可以简便、完整、响应式地实现各种页面布局。具体布局方式在上一篇文章(CSS布局类型（Display、Flex、Grid）)已经介绍了，这里就不在赘述。请点击查看：<a href="/2020/09/27/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/#emsp-emsp-1-Flex%E5%B8%83%E5%B1%80">Display Flex 传送门</a></p>
 <h2 id="6、网格布局（Grid布局）"><a href="#6、网格布局（Grid布局）" class="headerlink" title="6、网格布局（Grid布局）"></a>6、网格布局（Grid布局）</h2><p>&emsp;&emsp;Grid 布局是目前最强大的布局方案。Grid 布局与Flex布局有一定的相似性，都可以指定容器内部多个项目的位置。但是，它们也存在重大区别。Flex 布局是轴线布局，只能指定项目针对轴线(主轴、交叉轴)的位置，可以看作是一维布局。Grid 布局则是将容器划分成行与列，产生单元格，然后指定项目所在的单元格，可以看作是二维布局。Grid 布局远比 Flex 布局强大。具体布局方式在上一篇文章已经介绍了，这里就不在赘述。请点击查看：<a href="/2020/09/27/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/#emsp-emsp-2-Grid%E5%B8%83%E5%B1%80">Display Grid 传送门</a></p>
 <p><em>[注] 在页面的实际设计中，为了使页面达到更合理的布局方式。我们往往会根据布局要求采用多种布局方式来达到我们的目的</em></p>
@@ -2358,7 +2358,7 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <p>display属性规定元素应该生成的框的类型。display 属性可以设置元素的内部和外部显示类型 display types。元素的外部显示类型 outer display types 将决定该元素在流式布局中的表现（块级或内联元素）；元素的内部显示类型 inner display types 可以控制其子元素的布局（如 flow layout，grid 或 flex）。</p>
+  <p>display属性规定元素应该生成的框的类型。display 属性可以设置元素的内部和外部等显示类型 display type。元素的外部显示类型 outer display type 将决定该元素在流式布局中的表现（块级或内联元素）；元素的内部显示类型 inner display type 可以控制其子元素的布局（如 flow layout，grid 或 flex）。</p>
 <p>display 属性使用关键字取值来指定，关键字取值被分为六类：</p>
 <pre><code>  &lt;display-outside&gt; = block | inline | run-in
   &lt;display-inside&gt; = flow | flow-root | table | flex | grid | ruby
@@ -2369,7 +2369,7 @@
 </code></pre>
 <h2 id="1、display-outside类型"><a href="#1、display-outside类型" class="headerlink" title="1、display-outside类型"></a>1、display-outside类型</h2><p>&emsp;&emsp;这些关键字指定了元素的外部显示类型，实际上就是其在流式布局中的角色（即在流式布局中的表现）。<br>&emsp;&emsp;block：此元素将显示为块级元素，此元素前后会带有换行符<br>&emsp;&emsp;inline：默认值，此元素会被显示为内联元素，元素前后没有换行符<br>&emsp;&emsp;run-in：此元素会根据上下文作为块级元素或内联元素显示</p>
 <p><em>&emsp;&emsp;[注]如果 run-in box 包含 block box，那么这个 run-in box 也成为 block box；如果紧跟在 run-in box 之后的兄弟节点是 block box，那么这个 run-in box 就会做为此 block box 里的 inline box（run-in box 不能进入已经一个已经以 run-in box 开头的块内，也不能进入本身就是 display:run-in的块内）；否则，run-in box 都将成为 block box</em></p>
-<h2 id="2、display-inside类型"><a href="#2、display-inside类型" class="headerlink" title="2、display-inside类型"></a>2、display-inside类型</h2><p>&emsp;&emsp;这些关键字指定了元素的内部显示类型，它们定义了该元素内部内容的布局方式。<br>&emsp;&emsp;flow：元素使用流布局（块和内联布局）布局其内容<br><em>&emsp;&emsp;[注] 如果其外部显示类型为inline或run-in，并且它参与了块或内联格式设置上下文，则它将生成一个内联框。否则，它将生成一个块容器框</em><br>&emsp;&emsp;flow-root：该元素生成一个块元素框，该框将建立一个新的块格式化上下文，定义格式化根所在的位置<br>&emsp;&emsp;table：此元素会作为块级表格来显示（类似 table ），表格前后带有换行符<br>&emsp;&emsp;flex：元素的行为类似于block元素，并根据flexbox模型布置其内容<br>&emsp;&emsp;grid: 元素的行为类似于块元素，并根据网格模型布置其内容<br>&emsp;&emsp;ruby: 元素的行为类似于内联元素，并根据ruby格式化模型布置其内容。它的行为类似于相应的HTML ruby元素</p>
+<h2 id="2、display-inside类型"><a href="#2、display-inside类型" class="headerlink" title="2、display-inside类型"></a>2、display-inside类型</h2><p>&emsp;&emsp;这些关键字指定了元素的内部显示类型，它们定义了该元素内部内容的布局方式。<br>&emsp;&emsp;flow：元素使用流布局（块和内联布局）布局其内容<br><em>&emsp;&emsp;[注] 如果其外部显示类型为inline或run-in，并且它参与了块或内联格式设置上下文，则它将生成一个内联框。否则，它将生成一个块容器框</em><br>&emsp;&emsp;flow-root：该元素生成一个块元素框，该框将建立一个新的块格式化上下文，定义格式化根所在的位置<br>&emsp;&emsp;table：此元素会作为块级表格来显示（类似 &lt;table&gt; ），表格前后带有换行符<br>&emsp;&emsp;flex：元素的行为类似于block元素，并根据flex box模型布置其内容<br>&emsp;&emsp;grid: 元素的行为类似于块元素，并根据网格模型布置其内容<br>&emsp;&emsp;ruby: 元素的行为类似于内联元素，并根据ruby格式化模型布置其内容。它的行为类似于相应的HTML &lt;ruby&gt;元素</p>
 <h4 id="emsp-emsp-1-Flex布局"><a href="#emsp-emsp-1-Flex布局" class="headerlink" title="&emsp;&emsp;1) Flex布局"></a>&emsp;&emsp;1) Flex布局</h4><p>&emsp;&emsp;采用 Flex 布局的元素，称为 Flex 容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称”项目”，Flex 容器有主轴与交叉轴两个方向。<br><img src="/images/css3/Flex%E5%AE%B9%E5%99%A8.png" alt="Flex容器"></p>
 <p>&emsp;&emsp;<strong>(1) Flex容器的属性：flex-direction、flex-wrap、flex-flow、justify-content、align-items、align-content</strong></p>
 <p>&emsp;&emsp;① flex-direction属性决定主轴的方向（即项目的排列方向）</p>
@@ -2395,7 +2395,7 @@
 </code></pre>
 <p><img src="/images/css3/align-items%E5%B1%9E%E6%80%A7.png" alt="align-items属性"></p>
 <p>&emsp;&emsp;flex-start：交叉轴的起点对齐<br>&emsp;&emsp;flex-end：交叉轴的终点对齐<br>&emsp;&emsp;center：交叉轴的中点对齐<br>&emsp;&emsp;baseline: 项目的第一行文字的基线对齐<br>&emsp;&emsp;stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度</p>
-<p>&emsp;&emsp;⑥ align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用</p>
+<p>&emsp;&emsp;⑥ align-content属性定义了多根轴线的对齐方式（如果项目只有一根轴线，该属性不起作用）</p>
 <pre><code>    align-content: flex-start | flex-end | center | space-between | space-around | stretch;
 </code></pre>
 <p>&emsp;&emsp;flex-start：与交叉轴的起点对齐<br>&emsp;&emsp;flex-end：与交叉轴的终点对齐<br>&emsp;&emsp;center：与交叉轴的中点对齐<br>&emsp;&emsp;space-between：与交叉轴两端对齐，轴线之间的间隔平均分布<br>&emsp;&emsp;space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍<br>&emsp;&emsp;stretch（默认值）：轴线占满整个交叉轴</p>
@@ -2414,7 +2414,7 @@
 <p>&emsp;&emsp;④ flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小</p>
 <pre><code>  flex-basis: &lt;length&gt; | auto; /* default auto */
 </code></pre>
-<p>&emsp;&emsp;可设与width或height属性一样的值（比如200px，则项目将占据固定空间）。</p>
+<p>&emsp;&emsp;可设与width或height属性明确的值（比如200px，则项目将占据固定空间）。</p>
 <p>&emsp;&emsp;⑤ flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选</p>
 <pre><code>  flex: none | [ &lt;flex-grow&gt; || &lt;flex-shrink&gt;? || &lt;flex-basis&gt;? ]
 </code></pre>
@@ -2502,10 +2502,10 @@
 </code></pre>
 <p>&emsp;&emsp;start：对齐单元格的起始边缘。<br>&emsp;&emsp;end：对齐单元格的结束边缘。<br>&emsp;&emsp;center：单元格内部居中。<br>&emsp;&emsp;stretch：拉伸，占满单元格的整个宽度（默认值）</p>
 <p><em>&emsp;&emsp;[注] g place-self属性是align-self属性和justify-self属性的简写形式。当省略第二个值时，place会默认这两个属性值相等</em></p>
-<h2 id="3、display-listitem类型"><a href="#3、display-listitem类型" class="headerlink" title="3、display-listitem类型"></a>3、display-listitem类型</h2><p>&emsp;&emsp;将这个元素的外部显示类型变为 block 盒子，并将内部显示类型变为多个 list-item inline盒子。<br>&emsp;&emsp;list-item：使元素的行为类似于列表项。可以与list-style-type和list-style-position一起使用，也可以与任何display-outside关键字和flow或flow-root display-inside关键字组合</p>
-<h2 id="4、display-internal类型"><a href="#4、display-internal类型" class="headerlink" title="4、display-internal类型"></a>4、display-internal类型</h2><p>&emsp;&emsp;有些布局模型（如 table 和 ruby）有着复杂的内部结构，因此它们的子元素可能扮演着不同的角色。这一类关键字就是用来定义这些“内部”显示类型，并且只有在这些特定的布局模型中才有意义。<br>&emsp;&emsp;table：此元素会作为块级表格来显示（类似 table），表格前后带有换行符<br>&emsp;&emsp;table-row-group：这些元素的行为类似于tbody HTML元素<br>&emsp;&emsp;table-header-group：这些元素的行为类似于thead HTML元素<br>&emsp;&emsp;table-footer-group：这些元素的行为类似于tfoot HTML元素<br>&emsp;&emsp;table-row：这些元素的行为类似于tr HTML元素<br>&emsp;&emsp;table-cell：这些元素的行为类似于td HTML元素<br>&emsp;&emsp;table-column-group：这些元素的行为类似于colgroup HTML元素<br>&emsp;&emsp;table-column：这些元素的行为类似于col HTML元素<br>&emsp;&emsp;table-caption：这些元素的行为类似于caption HTML元素<br>&emsp;&emsp;ruby-base：这些元素的行为类似于rb HTML元素<br>&emsp;&emsp;ruby-text：这些元素的行为类似于rt HTML元素<br>&emsp;&emsp;ruby-base-container：这些元素的行为类似于rbc生成为匿名框的HTML元素<br>&emsp;&emsp;ruby-text-container：这些元素的行为类似于rtc HTML元素</p>
-<h2 id="5、display-inside类型"><a href="#5、display-inside类型" class="headerlink" title="5、display-inside类型"></a>5、display-inside类型</h2><p>&emsp;&emsp;这些值决定元素是否使用盒模型。<br>&emsp;&emsp;contents：这些元素本身不会产生特定的框。它们被伪框和子框替换<br>&emsp;&emsp;none：此元素不会被显示</p>
-<h2 id="6、display-legacy类型"><a href="#6、display-legacy类型" class="headerlink" title="6、display-legacy类型"></a>6、display-legacy类型</h2><p>&emsp;&emsp;CSS 2 对于 display 属性使用单关键字语法，对于相同布局模式的 block 级和 inline 级变体需要使用单独的关键字。<br>&emsp;&emsp;inline-block：行内块元素，等同于inline flow-root<br>&emsp;&emsp;inline-table：此元素会作为内联表格来显示（类似 table），表格前后没有换行符，等同于inline table<br>&emsp;&emsp;<strong>inline-flex：元素的行为类似于内联元素，并根据flexbox模型布置其内容，等同于inline flex</strong><br>&emsp;&emsp;<strong>inline-grid：元素的行为类似于内联元素，并根据网格模型布置其内容，等同于inline grid</strong></p>
+<h2 id="3、display-listitem类型"><a href="#3、display-listitem类型" class="headerlink" title="3、display-listitem类型"></a>3、<del>display-listitem类型</del></h2><p>&emsp;&emsp;将这个元素的外部显示类型变为 block 盒子，并将内部显示类型变为多个 list-item inline盒子。（即为元素内容生成一个块型盒，随后再生成一个列表型的行内盒）<br>&emsp;&emsp;list-item：使元素的行为类似于列表项。可以与list-style-type和list-style-position一起使用，也可以与任何display-outside关键字和flow或flow-root display-inside关键字组合</p>
+<h2 id="4、display-internal类型"><a href="#4、display-internal类型" class="headerlink" title="4、display-internal类型"></a>4、<del>display-internal类型</del></h2><p>&emsp;&emsp;有些布局模型（如 table 和 ruby）有着复杂的内部结构，因此它们的子元素可能扮演着不同的角色。这一类关键字就是用来定义这些“内部”显示类型，并且只有在这些特定的布局模型中才有意义。<br>&emsp;&emsp;table：此元素会作为块级表格来显示（类似 table），表格前后带有换行符<br>&emsp;&emsp;table-row-group：这些元素的行为类似于tbody HTML元素<br>&emsp;&emsp;table-header-group：这些元素的行为类似于thead HTML元素<br>&emsp;&emsp;table-footer-group：这些元素的行为类似于tfoot HTML元素<br>&emsp;&emsp;table-row：这些元素的行为类似于tr HTML元素<br>&emsp;&emsp;table-cell：这些元素的行为类似于td HTML元素<br>&emsp;&emsp;table-column-group：这些元素的行为类似于colgroup HTML元素<br>&emsp;&emsp;table-column：这些元素的行为类似于col HTML元素<br>&emsp;&emsp;table-caption：这些元素的行为类似于caption HTML元素<br>&emsp;&emsp;ruby-base：这些元素的行为类似于rb HTML元素<br>&emsp;&emsp;ruby-text：这些元素的行为类似于rt HTML元素<br>&emsp;&emsp;ruby-base-container：这些元素的行为类似于rbc生成为匿名框的HTML元素<br>&emsp;&emsp;ruby-text-container：这些元素的行为类似于rtc HTML元素</p>
+<h2 id="5、display-inside类型"><a href="#5、display-inside类型" class="headerlink" title="5、display-inside类型"></a>5、<del>display-inside类型</del></h2><p>&emsp;&emsp;这些值决定元素是否使用盒模型。<br>&emsp;&emsp;contents：这些元素本身不会产生特定的框。它们被伪框和子框替换<br>&emsp;&emsp;none：此元素不会被显示</p>
+<h2 id="6、display-legacy类型"><a href="#6、display-legacy类型" class="headerlink" title="6、display-legacy类型"></a>6、<del>display-legacy类型</del></h2><p>&emsp;&emsp;CSS 2 对于 display 属性使用单关键字语法，对于相同布局模式的 block 级和 inline 级变体需要使用单独的关键字。<br>&emsp;&emsp;inline-block：行内块元素，等同于inline flow-root<br>&emsp;&emsp;inline-table：此元素会作为内联表格来显示（类似 table），表格前后没有换行符，等同于inline table<br>&emsp;&emsp;<strong>inline-flex：元素的行为类似于内联元素，并根据flexbox模型布置其内容，等同于inline flex</strong><br>&emsp;&emsp;<strong>inline-grid：元素的行为类似于内联元素，并根据网格模型布置其内容，等同于inline grid</strong></p>
  
       <!-- reward -->
       
@@ -2558,18 +2558,21 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终位置。</p>
-<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上方、右方、下方与左方的距离。</p>
+  <p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终定位的位置。</p>
+<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上、右、下，左方向上的距离。</p>
 <p><img src="/images/css3/%E5%B9%B3%E9%9D%A2%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="平面空间坐标轴"></p>
-<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative, absolute, fixed，sticky与inherit<br>&emsp;&emsp;定位元素：是其计算后位置属性为relative,absolute,fixed或sticky的一个元素<br>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。<br>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置（x，y）作为原点（0，0）。在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。而且position:relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
+<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative、 absolute、fixed，sticky与inherit</p>
+<p>&emsp;&emsp;定位元素：是其计算后位置属性为relative、absolute，fixed或sticky的一个元素</p>
+<p>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。</p>
+<p>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置(x, y)作为原点(0, 0)。<u>在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。</u>而且position: relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
 <p><img src="/images/css3/%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D(relative).png" alt="相对定位(relative)"></p>
-<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位祖先元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margins），且不会与其他边距合并。特别的，fixed绝对定位-固定定位是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。打印时，元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
+<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位父级(祖先)元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margin），且不会与其他边距合并。特别的，fixed绝对定位（固定定位）是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
 <p><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(absolute).png" alt="绝对定位(absolute)"><br><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(fixed).png" alt="绝对定位(fixed)"></p>
 <p>&emsp;&emsp;(4) 粘性定位(sticky)：元素根据正常文档流进行定位，然后相对它的最近滚动祖先和最近块级祖先，包括table-related元素，基于top, right, bottom, 和 left的值进行偏移。偏移值不会影响任何其他元素的位置。粘性定位表现为相对定位和固定定位叠加的效果。元素在跨越特定阈值前为相对定位(relative)，之后为固定定位(fixed)。</p>
 <p><img src="/images/css3/%E7%B2%98%E6%80%A7%E5%AE%9A%E4%BD%8D(sticky).png" alt="粘性定位(sticky)"></p>
 <h2 id="3、三维空间坐标轴（3D）"><a href="#3、三维空间坐标轴（3D）" class="headerlink" title="3、三维空间坐标轴（3D）"></a>3、三维空间坐标轴（3D）</h2><p>&emsp;&emsp;CSS中3D初始坐标系，其XYZ轴的正方向分别是：向右、向下、向屏幕外。如下图：</p>
 <p><img src="/images/css3/%E4%B8%89%E7%BB%B4%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="三维空间坐标轴"></p>
-<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
+<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0）（如上图），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为旋转正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
  
       <!-- reward -->
       
