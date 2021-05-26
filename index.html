@@ -913,19 +913,22 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <p>Javascript语言的执行环境是”单线程”（single thread），单个脚本只能在一个线程上运行（主线程）。原因在于浏览器内核中JavaScript引擎中负责解释和执行JavaScript代码的主线程是唯一的，同一时间只能执行一件任务。在浏览器内核中，GUI 渲染线程与 JavaScript 引擎线程是互斥的，当JavaScript引擎执行时GUI线程会被挂起，GUI更新会被保存在一个队列中等到JavaScript引擎空闲时立即被执行。所以如果JavaScript执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞。为了解决这个问题，Javascript语言将任务的执行模式分成两种：同步和异步。”同步模式”指一个任务等待前一个任务执行结束再执行，程序的执行顺序与任务的排列顺序（即与程序的编码顺序）是一致的、同步的；”异步模式”是每一个任务有一个或多个回调函数，一个任务不用等待前一个任务执行完成就便开始执行，当前一个任务执行完成后，不是执行后一个任务，而是执行被添加到待处理队列的前一个任务的回调函数，程序的执行顺序与任务的排列顺序是不一致的、异步的。（<u>此外，JS运行时还有宏任务、微任务、事件循环的概念。</u>）</p>
+  <p>Javascript语言的执行环境是”单线程”（single thread），单个脚本只能在一个线程上运行（主线程）。原因在于浏览器内核中JavaScript引擎中负责解释和执行JavaScript代码的主线程是唯一的，同一时间只能执行一件任务。在浏览器内核中，GUI 渲染线程与 JavaScript 引擎线程是互斥的，当JavaScript引擎执行时GUI线程会被挂起，GUI更新会被保存在一个队列中等到JavaScript引擎空闲时立即被执行。所以如果JavaScript执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞。为了解决这个问题，Javascript语言将任务的执行模式分成两种：同步和异步。”同步模式”指一个任务等待前一个任务执行结束再执行，程序的执行顺序与任务的排列顺序（即与程序的编码顺序）是一致的、同步的；”异步模式”是每一个任务有一个或多个回调函数，一个任务不用等待前一个任务执行完成就便开始执行，当前任务执行完成后，不是立即执行后一个任务，而是查询回调函数队列里，是否有前面的已任务的回调函数，会立即执行回调函数，回调函数执行完后再执行后一个任务。程序的执行顺序与任务的排列顺序是不一致的，同步的；而是异步的。（<u>此外，JS运行时还有宏任务、微任务、事件循环的概念。</u>）</p>
 <h2 id="说在前面-进程（Process）与线程（Thread）"><a href="#说在前面-进程（Process）与线程（Thread）" class="headerlink" title="说在前面 - 进程（Process）与线程（Thread）"></a>说在前面 - 进程（Process）与线程（Thread）</h2><p>&emsp;&emsp;目前的操作系统都是多任务系统，操作系统接管了所有硬件资源并持有对硬件控制的最高权限。在操作系统中执行的程序，都以进程的方式运行在更低的权限中。所有的硬件资源，由操作系统根据进程的优先级以及进程的运行状况进行统一的调配，<u>即操作系统是以进程为单位去分配空间和执行的。</u></p>
-<p><em>&emsp;&emsp;[注] 区分程序与进程：程序是一组指令集合，它本身没有任何运行的含义，它只是一个静态的实体，存储于磁盘之内的存储器中；当一个程序被操作系统执行时，会被载入内存并在逻辑上产生一个独立的实例，这就是进程。进程和程序并不是一 一对应的；一个程序有可能没有与之对应的进程(因为它没有执行),也有可能有多个进程与之对应(运行在几个不同的数据集上)。一个程序在运行时，至少有一个进程,一个进程至少有一个线程。</em></p>
-<p>&emsp;&emsp;线程是操作系统进行任务调度的最小单元。<strong>线程存活于进程之中；同一个进程中的线程，共享一个虚拟内存空间，以及其中的资源；</strong>线程之间各自持有自己的线程 ID、当前指令的指针（PC）、寄存器集合以及栈。</p>
+<p><em>&emsp;&emsp;[注] 区分程序与进程：程序是一组指令集合，它本身没有任何运行的含义，它只是一个静态的实体，存储于磁盘之内的存储器中；当一个程序被操作系统执行时，会被载入内存并在逻辑上产生一个独立的实例，这就是进程。进程和程序并不是一 一对应的；一个程序有可能没有与之对应的进程(因为它并未执行)，也有可能有多个进程与之对应(程序运行在几个不同的数据集上)。<u>一个程序在运行时，至少有一个进程,一个进程至少有一个线程。</u></em></p>
+<p>&emsp;&emsp;线程是操作系统进行任务调度的最小单元。<strong>线程存活于进程之中；同一个进程中的线程，共享一个虚拟内存空间以及其中的资源；</strong>线程之间各自持有自己的线程 ID、当前指令的指针（PC）、寄存器集合以及栈。</p>
 <p>&emsp;&emsp;<strong>就浏览器来说，浏览器在运行时是多进程的：</strong><br>&emsp;&emsp;Browser进程：浏览器的主进程，唯一，负责创建和销毁其它进程、网络资源的下载与管理、浏览器界面的展示、前进后退等<br>&emsp;&emsp;PU 进程：用于3D 绘制等<br>&emsp;&emsp;第三方插件进程：每种类型的插件对应一个进程，仅当使用该浏览器插件时才创建<br>&emsp;&emsp;浏览器渲染进程（浏览器内核）：每打开一个新网页就会创建一个进程，主要用于页面渲染，脚本执行，事件处理等。</p>
-<p>&emsp;&emsp;<strong>每个渲染进程（浏览器内核）又分为多个线程：</strong><br>&emsp;&emsp;GUI渲染线程：负责渲染浏览器界面，当界面需要重绘或由于某种操作引发回流时，该线程就会执行<br>&emsp;&emsp;JavaScript引擎线程：也称为JavaScript内核，负责处理Javascript脚本程序、解析Javascript脚本、运行代码等，例如 V8 引擎<br>&emsp;&emsp;事件触发线程：用来控制浏览器事件循环，当事件被触发时，该线程才会把事件添加到待处理队列的队尾，等待JavaScript引擎的处理<br>&emsp;&emsp;定时触发器线程：setInterval与setTimeout所在线程（W3C在HTML标准中规定，规定要求setTimeout中低于4ms的时间间隔算为4ms）<br>&emsp;&emsp;异步http请求线程：在XMLHttpRequest连接后通过浏览器新开一个线程请求，将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件，将这个回调再放入事件队列中，再由JavaScript引擎执行</p>
-<p><em>&emsp;&emsp;[注] GUI 渲染线程与 JavaScript 引擎线程是互斥的。</em></p>
-<h2 id="1、JS异步操作的几种方式"><a href="#1、JS异步操作的几种方式" class="headerlink" title="1、JS异步操作的几种方式"></a>1、JS异步操作的几种方式</h2><p>&emsp;&emsp;JavaScript中的任务分为同步任务和异步任务。<br>&emsp;&emsp;同步任务是那些没有被引擎挂起、<u>在主线程上排队执行的任务。</u>只有前一个任务执行完毕，才能执行后一个任务。<br>&emsp;&emsp;异步任务是那些被引擎放在一边，不进入主线程、而进入任务队列（根据异步任务的类型，引擎实际上存在多个任务队列）的任务。只有引擎认为某个异步任务可以执行了，该任务（通常采用回调函数的形式）才会进入主线程执行。排在异步任务后面的代码，不用等待异步任务结束会马上运。即异步任务不具有堵塞效应。<br>&emsp;&emsp;主线程会排队去执行所有的同步任务。等到同步任务全部执行完，就会去看任务队列里面的异步任务。如果满足条件，那么异步任务就重新进入主线程开始执行，这时它就变成同步任务了。等到执行完，下一个异步任务再进入主线程开始执行。一旦任务队列清空，程序就结束执行。<br>&emsp;&emsp;同步任务执行完了，引擎就会去检查那些挂起来的异步任务，是不是可以进入主线程了。这种循环检查的机制，就叫做事件循环（Event Loop）。<br>&emsp;&emsp;异步操作的几种模式：回调函数、事件监听、发布/订阅模式、Generator 函数、Promise、async/await。</p>
+<p>&emsp;&emsp;<strong>每个渲染进程（浏览器内核）又分为多个线程：</strong><br>&emsp;&emsp;GUI渲染线程：负责渲染浏览器界面，当界面需要重绘或由于某种操作引发回流时，该线程就会执行<br>&emsp;&emsp;JavaScript引擎线程：也称为JavaScript内核，负责处理Javascript脚本程序、解析与运行Javascript代码等，例如 V8 引擎<br>&emsp;&emsp;事件触发线程：用来控制浏览器的事件循环，当事件被触发时，该线程才会把事件添加到待处理队列的队尾，等待JavaScript引擎的处理<br>&emsp;&emsp;定时触发器线程：setInterval与setTimeout所在线程（<u>W3C在HTML标准中规定，规定要求setTimeout中低于4ms的时间间隔算为4ms</u>）<br>&emsp;&emsp;异步http请求线程：在XMLHttpRequest连接后通过浏览器新开一个线程请求，将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件，将这个回调再放入事件队列中，再由JavaScript引擎执行</p>
+<p><em>&emsp;&emsp;[注] <u>GUI 渲染线程与 JavaScript 引擎线程是互斥的。</u></em></p>
+<h2 id="1、JS异步操作的几种方式"><a href="#1、JS异步操作的几种方式" class="headerlink" title="1、JS异步操作的几种方式"></a>1、JS异步操作的几种方式</h2><p>&emsp;&emsp;JavaScript中的任务分为同步任务和异步任务。<br>&emsp;&emsp;同步任务是那些没有被引擎挂起、<u>在主线程上排队执行的任务。</u>只有前一个任务执行完毕，才能执行后一个任务。<br>&emsp;&emsp;异步任务是那些被引擎放在一边，不进入主线程、而进入任务队列（根据异步任务的类型，引擎实际上存在多个任务队列）的任务。只有引擎认为某个异步任务可以被执行了，该任务才会进入主线程执行。排在异步任务后面的代码，不用等待异步任务结束会马上运。即异步任务不具有堵塞效应。</p>
+<p>&emsp;&emsp;主线程会排队去执行所有的同步任务。等到同步任务全部执行完，就会去看任务队列里面的异步任务。如果满足条件，那么异步任务就重新进入主线程开始执行。等到执行完，下一个异步任务再进入主线程开始执行。一旦同步与异步任务队列清空，程序就结束执行。</p>
+<p>&emsp;&emsp;同步任务执行完成，引擎就会去检查那些挂起来的异步任务，是不是可以进入主线程了。这种循环检查的机制，就叫做<u>事件循环（Event Loop）</u>。</p>
+<p>&emsp;&emsp;异步操作的几种模式：回调函数、事件监听、发布/订阅模式、Generator 函数、Promise、async/await。</p>
 <hr>
 <p>&emsp;&emsp;<strong>由于在分析异步操时需要用到定时器来模拟异步操作，这里先补充定时器相关概念：</strong></p>
-<p>&emsp;&emsp;JavaScript 提供定时执行代码的功能，叫做定时器，主要由setTimeout()和setInterval()这两个函数来完成。它们向任务队列添加定时任务。<u>setTimeout()和setInterval()的运行机制，是将指定的代码移出本轮事件循环（即使设置延迟执行为0ms)，等到下一轮事件循环，再检查是否到了指定时间。如果到了，再将对应代码放入主线程进行执行；如果没到，就继续等待。</u></p>
+<p>&emsp;&emsp;JavaScript 提供定时执行代码的功能，叫做定时器，主要由setTimeout()和setInterval()这两个函数来完成。它们向任务队列添加定时任务。<u>定时器的运行机制是，将指定的代码移出本轮事件循环（即使设置延迟执行为0ms)，等到下一轮事件循环，再检查是否到了指定时间。如果到了，再将对应代码放入主线程进行执行；如果没到，就继续等待。</u></p>
 <p>&emsp;&emsp;<u>setTimeout()</u>：用来指定某个函数或某段代码，在多少毫秒之后执行。它返回一个整数，表示定时器的编号，可以将该编号作为参数调用clearTimeout()方法来取消这个定时器。setTimeout()可以接收多个参数，第一个参数为回调函数或字符串代码，会在定时时间到达时执行，第二个参数为延迟执行的时间（单位ms），后面的参数列表会作为第一个参数回调函数的参数传入。<u>特别的，回调函数是如果是某一对象的方法，内部this指向是是全局环境的而不是定义所在的那个对象。</u></p>
-<pre><code>  let id = setTimeout(func|code, delay, [a, b, c...]);
+<pre><code>  let id = setTimeout(function | code, delay, [a, b, c...]);
 </code></pre>
 <p>&emsp;&emsp;示例代码：</p>
 <pre><code>  console.log(&#39;定时任务开始执行，&#39; + new Date())
@@ -933,6 +936,11 @@
     console.log(&#39;定时任务执行完成，&#39;+ new Date() +&#39;，回调函数已开始执行&#39;);
     console.log(&#39;回调函数计算结果为：&#39;+ (a+b+c));
   &#125;,1000, 1,2,3)
+
+  输出：
+  定时任务开始执行，Wed May 26 2021 16:40:09 GMT+0800 (中国标准时间)
+  定时任务执行完成，Wed May 26 2021 16:40:10 GMT+0800 (中国标准时间)，回调函数已开始执行
+  回调函数计算结果为：6
 </code></pre>
 <p>&emsp;&emsp;<u>setInterval()</u>：setInterval()函数的用法与setTimeout()完全一致，区别仅仅在于setInterval()指定某个任务每隔一段时间就执行一次，也就是无限次的定时执行。特别的，指定的是<u>“开始执行”</u>之间的间隔，并不考虑每次任务执行本身所消耗的时间。实际上，两次执行之间的间隔会小于指定的时间。比如，setInterval指定每 1000ms 执行一次，每次执行需要 500ms，那么第一次执行结束后等待500毫秒，第二次执行就会开始。如果某次执行耗时特别长，比如需要1500毫秒，那么它结束后，下一次任务执行才会立即开始。</p>
 <pre><code>  let count = 0; // 计时器，控制任务执行5次    
@@ -948,7 +956,7 @@
       console.log(&#39;任务已执行5次，结束定时器任务~&#39;);
     &#125;
   &#125;, 2000)
-  function sleep(ms) &#123; //通过循环阻塞代码执行来模拟异步操作
+  function sleep(ms) &#123; // 通过循环阻塞代码执行来模拟同步操作
     var start = Date.now();
     while ((Date.now() - start) &lt; ms) &#123; &#125;
   &#125;
@@ -974,7 +982,7 @@
     console.log(new Date() + &#39;，延迟任务执行完成~&#39;)
   &#125;, 1000)
   sleep(2000);
-  function sleep(ms) &#123; //通过循环阻塞代码执行来模拟异步操作
+  function sleep(ms) &#123; // 通过循环阻塞代码执行来模拟同步操作
     var start = Date.now();
     console.log(&#39;当前sleep任务要执行&#39; + ms + &#39;ms&#39;)
     while ((Date.now() - start) &lt; ms) &#123; &#125;
@@ -986,17 +994,19 @@
   Thu Nov 26 2020 13:34:02 GMT+0800 (中国标准时间)，延迟任务执行完成~
 </code></pre>
 <p>&emsp;&emsp;可以看到在13:34:00时，setTimeout()的回调函数本应该延迟1s执行，但sleep操作要执行2s。导致setTimeout()回调函数在13:34:02时才被执行。</p>
-<p>&emsp;&emsp;<strong>setTimeout()与setInterval()被阻塞，和定时器的运行机制有关。setTimeout和setInterval指定的回调函数，<u>必须等到本轮事件循环的所有同步任务都执行完</u>，才会被添加到主线程开始执行，而且此时的回调函数执行是同步的，只有回调函数执行完成，才会进行下一轮事件循环。由于前面的任务到底需要多少时间执行完，是不确定的，所以没有办法保证，setTimeout和setInterval指定的任务，一定会按照预定时间执行。<u>所以即使可以使用嵌套的setTimeout()来实现每两次任务执行之间有固定的间隔，也是有被阻塞的风险。</u></strong></p>
+<p>&emsp;&emsp;<strong>setTimeout()与setInterval()可能会被同步任务阻塞，和定时器的运行机制有关。setTimeout和setInterval指定的回调函数，<u>必须等到本轮事件循环的所有同步任务都执行完成（上面代码中sleep()函数循环来模拟同步任务），才会被添加到主线程开始执行，而且此时的回调函数执行是同步的，只有回调函数执行完成，才会进行下一轮事件循环。</u>由于前面的任务到底需要多少时间执行完，是不确定的，所以没有办法保证，setTimeout和setInterval指定的任务，一定会按照预定时间执行。<u>即使使用嵌套的setTimeout()来实现每两次任务执行之间有固定的间隔，也是有被阻塞的风险。</u></strong></p>
 <hr>
-<h4 id="1-回调函数"><a href="#1-回调函数" class="headerlink" title="1) 回调函数"></a>1) 回调函数</h4><p>&emsp;&emsp;回调函数是指在开始执行的异步函数指定为参数的函数，回调函数不会立即被执行。当异步函数包含的异步操作执行完成时，再调用执行该回调函数。<u>回调函数是异步编程的最基本的方法。</u></p>
+<h4 id="1-回调函数"><a href="#1-回调函数" class="headerlink" title="1) 回调函数"></a>1) 回调函数</h4><p>&emsp;&emsp;回调函数实现异步操作是指在开始执行的异步函数指定为参数的函数（回调函数不会立即被执行），当异步函数包含的异步操作执行完成时，再调用执行该回调函数。<u>回调函数是异步编程的最基本的方法。</u></p>
 <p>&emsp;&emsp;将处理函数当做参数，在相关任务执行完成再调用执行，形如：</p>
-<pre><code>  function f2(cb)&#123;
-    // 相关代码
-    cb()
-  &#125;
-  function f1()&#123;
+<pre><code>  function f1&#123;
     // 相关代码
   &#125;
+  function f2(cb)&#123;
+    setTimeout(() =&gt; &#123;
+      cb()
+    &#125;, 2000)
+  &#125;
+
   f2(f1);
 </code></pre>
 <p>&emsp;&emsp;下面模拟一个读取文件列表（3个文件）获取对应文件的总行数的示例，这里采用回调函数的方式进行依次读取（还有其他或更好的方式实现，这里只是为了用来说明回调函数）。</p>
@@ -1013,6 +1023,7 @@
     console.log(&#39;代码执行完成，文件行数依次为：&#39;);
     console.log(fileLines)
   &#125;
+
   console.log(new Date() + &#39; 代码开始执行，获取当前文件列表中文件对应的行数~&#39;);
   // 假设文件列表有3个文件，这里调用3次文件读取函数asyncFn()
   asyncFn(1, function () &#123;
@@ -1028,8 +1039,8 @@
   代码执行完成，文件行数依次为：
   95,88,51
 </code></pre>
-<p>&emsp;&emsp;这里asyncFn()负责读取文件获取文件行数，里面使用了计时器来模拟异步操作，用随机数模拟获取的文件行数。假设文件列表只有3个文件，这里asyncFn()调用了3次，每次分别传入了一个函数，这个函数就是我们说的回调函数，在成功读取文件获得行数后立即被执行。第1个读取文件时，将读取第2个文件的任务放在了回调函数里，在第1个文件读取完成后，执行回调函数，开始了第2个文件的读取；同理，把读取第3个文件的任务放在了读取第2个文件的回调函数里，在第2个文件读取完成后，执行回调函数，第3个文件的读取开始执行。特别的，读取第3个文件的回调函数里放入了我们输出结果的函数consoleResult()，所以当第3个文件读取完成时，回调函数立即被执行，输出函数输出了依次读取的文件行数信息。这里为了使读取文件的顺序与fileLines数组保存的行数依次对应，在setTimeout()回调执行时执行了cb()回调函数。（关于异步操作的流程控制问题，后面会进行分析~）</p>
-<p>&emsp;&emsp;<u>回调函数的比较好理解，就是在异步任务完成后，继续执行后续的任务，比较容易理解与实现。但回调函数的代码是高度耦合的，执行取决于代码的结构（代码顺序），特别是多个异步任务作为回调函数嵌套执行的时候（例如上面的代码，这种现象也成‘回调地狱’），代码比较分散，不利于阅读和维护。</u></p>
+<p>&emsp;&emsp;这里asyncFn()负责读取文件获取文件行数，里面使用了计时器来模拟异步操作，用随机数模拟获取的文件行数。假设文件列表只有3个文件，这里asyncFn()调用了3次，每次分别传入了一个函数，这个函数就是我们说的回调函数，在成功读取文件获得行数后立即被执行。第1个读取文件时，将读取第2个文件的任务放在了回调函数里，在第1个文件读取完成后，执行回调函数，开始了第2个文件的读取；同理，把读取第3个文件的任务放在了读取第2个文件的回调函数里，在第2个文件读取完成后，执行回调函数，第3个文件的读取开始执行。特别的，读取第3个文件的回调函数里放入了我们输出结果的函数consoleResult()，所以当第3个文件读取完成时，回调函数立即被执行，回调函数输出了依次读取到的文件行数信息。</p>
+<p>&emsp;&emsp;<u>回调函数的比较好理解，就是在异步任务完成后，再继续执行后续的任务，比较容易理解与实现。但回调函数的代码是高度耦合的，执行取决于代码的结构（代码顺序），特别是多个异步任务作为回调函数嵌套执行的时候（例如上面的代码，这种现象也成‘回调地狱’），相关代码比较分散，不利于阅读和维护。</u></p>
 <h4 id="2-事件监听"><a href="#2-事件监听" class="headerlink" title="2) 事件监听"></a>2) 事件监听</h4><p>&emsp;&emsp;采用事件驱动的形式，任务被执行不取决于代码结构，取决于相关联的事件是否发生。</p>
 <p>&emsp;&emsp;形如：</p>
 <pre><code>  eventSource.on(&#39;done&#39;,fn); // eventSource对象监听done事件，并添加fn后续处理函数
@@ -1058,12 +1069,18 @@
   &#125;
   console.log(new Date() + &#39; 代码开始执行，获取当前文件列表中文件对应的行数~&#39;);
   asyncFn()
+
+  Wed May 26 2021 17:01:10 GMT+0800 (中国标准时间) 代码开始执行，获取当前文件列表中文件对应的行数~
+  Wed May 26 2021 17:01:11 GMT+0800 (中国标准时间) 第1次读取文件完成，文件总行数为 61
+  Wed May 26 2021 17:01:12 GMT+0800 (中国标准时间) 第2次读取文件完成，文件总行数为 91
+  Wed May 26 2021 17:01:13 GMT+0800 (中国标准时间) 第3次读取文件完成，文件总行数为 73
+  代码执行完成，文件行数依次为：61 91 73
 </code></pre>
 <p>&emsp;&emsp;这里使用setInterval()来模拟3次读取文件任务，在第3次文件读取完成后清空计时器并输出结果。可以看到，在每次文件读取完成后，使用$(document).trigger(‘done’, lines)触发‘done’事件，通过事件监听器$(document).on(‘done’, doneFn)关联的doneFn()处理函数被执行。<u>其中，这里的document称为为事件源，‘done’称为为事件，‘on’称为事件监听器，doneFn()函数称为处理方法。</u></p>
 <p>&emsp;&emsp;<u>事件驱动比较容易理解，就是在任务完成后继续触发后续任务的执行。可以绑定多个事件，每个事件可以指定多个回调函数，与回调函数相比，大大降低了代码的耦合度（但代码还是耦合的，绑定在同一个事件源上），有利于实现模块化。但事情驱动代码也较为分散，不利于阅读与维护。</u></p>
 <h4 id="3-发布-订阅模式"><a href="#3-发布-订阅模式" class="headerlink" title="3) 发布/订阅模式"></a>3) 发布/订阅模式</h4><p>&emsp;&emsp;如果存在一个“信号中心”，某个任务执行完成，就向信号中心“发布”一个信号，其他任务可以向信号中心“订阅”这个信号，从而知道什么时候自己可以开始执行。这就叫做”发布/订阅模式”，又称“观察者模式”。</p>
 <p>&emsp;&emsp;发布/订阅模式的性质与“事件监听”类似，但功能上优于事件监听的方式。因为可以通过查看“信号中心”，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。</p>
-<h4 id="4-Generator-函数（ES6新增）"><a href="#4-Generator-函数（ES6新增）" class="headerlink" title="4) Generator 函数（ES6新增）"></a>4) Generator 函数（<u>ES6新增</u>）</h4><p>&emsp;&emsp;Generator 函数是一直特殊的函数，最大特点就是可以交出函数的执行权（即暂停执行）。可以把理解成，Generator 函数是一个状态机，封装了多个内部状态。Generator 函数内部使用yield表达式定义内部状态，为了与普通函数区别，一般在function关键字与函数名直接添加‘*’（非必须，在函数内部使用yield的关键字这个函数就是 Generator 函数）来标识。<u>调用Generator函数后，该函数并不执行，返回的也不是函数运行结果，而是一个指向内部状态的迭代对象。必须调用next方法依次对状态进行迭代（恢复代码执行），内部指针就从函数头部或上一次停下来的地方开始执行（暂停执行的地方），直到遇到下一个yield关键字定义的状态时又会停止执行。每次调用next()会返回本次迭代的结果对象，其中的value属性表示当前的内部状态（结果），done属性标识整个迭代对象的迭代是否完成。</u></p>
+<h4 id="4-Generator-函数（ES6新增）"><a href="#4-Generator-函数（ES6新增）" class="headerlink" title="4) Generator 函数（ES6新增）"></a>4) Generator 函数（<u>ES6新增</u>）</h4><p>&emsp;&emsp;Generator 函数是一直特殊的函数，最大特点就是可以交出函数的执行权（即暂停执行）。可以把理解成，Generator 函数是一个状态机，封装了多个内部状态。Generator 函数内部使用yield表达式定义内部状态，为了与普通函数区别，一般在function关键字与函数名直接添加‘*’来标识（非必须，在函数内部使用yield的关键字这个函数就是 Generator 函数）。<u>调用Generator函数后，该函数并不执行，返回的也不是函数运行结果，而是一个指向内部状态的迭代对象。必须调用next方法依次对状态进行迭代（恢复代码执行），内部指针就从函数头部或上一次停下来的地方开始执行（暂停执行的地方），直到遇到下一个yield关键字定义的状态时又会停止执行。每次调用next()会返回本次迭代的结果对象，其中的value属性表示当前的内部状态（结果），done属性标识整个迭代对象的迭代是否完成。</u></p>
 <p>&emsp;&emsp;举个简单例子：</p>
 <pre><code>  function* gen() &#123;
     console.log(new Date() + &#39; status 1&#39;);
@@ -1113,11 +1130,17 @@
       console.log(fileLines)
     &#125;
   &#125;, 1000)
+
+  Wed May 26 2021 17:04:39 GMT+0800 (中国标准时间) 代码开始执行~
+  Wed May 26 2021 17:04:40 GMT+0800 (中国标准时间) 第1读取文件完成，文件总行数为 69
+  Wed May 26 2021 17:04:41 GMT+0800 (中国标准时间) 第2读取文件完成，文件总行数为 57
+  Wed May 26 2021 17:04:42 GMT+0800 (中国标准时间) 第3读取文件完成，文件总行数为 86
+  Wed May 26 2021 17:04:42 GMT+0800 (中国标准时间) 代码执行完成，文件行数依次为：69 57 86
 </code></pre>
 <p>&emsp;&emsp;<u>Generator 函数将异步操作表示得很简洁，但是流程管理却不方便（即各个状态间的管理不方便）。不过使用thunk函数或者co函数库能够解决这个问题。</u></p>
 <h4 id="5-Promise（ES6新增）"><a href="#5-Promise（ES6新增）" class="headerlink" title="5) Promise（ES6新增）"></a>5) Promise（<u>ES6新增</u>）</h4><p>&emsp;&emsp;promise 对象用于表示一个异步操作的最终完成 (或失败)及其结果值。它让您能够把异步操作最终的成功返回值或者失败原因和相应的处理程序关联起来。一个 promise 必然处于以下几种状态之一：pending（初始状态）、fulfilled（操作成功完成）、rejected（操作失败）。</p>
-<p>&emsp;&emsp;<u>处理待定状态（pending）的 Promise 对象要么会通过一个值被成功执行（fulfilled），要么会通过一个原因或错误被拒绝（rejected）。当这些情况之一发生时，promise 的 then 方法排列起来的相关处理程序就会被调用。如果 promise 在一个相应的处理程序被绑定时就已经被兑现或被拒绝了，那么这个处理程序就会被调用。因为 Promise.prototype.then 和  Promise.prototype.catch 方法返回的是 promise， 所以它们可以被链式调用。</u></p>
-<p>&emsp;&emsp;一般我们使用Promise()构造函数来创建一个新的 promise 对象，对还没有添加 promise 支持的函数进行封装使用。<u>在适当的时候，调用resolve()方法将新的promise 对象的pending状态改变为fulfilled状态，或者调用reject()将pending状态改变为rejected状态。</u>若不使用这两个静态方法，新的 promise 对象的状态仍为pending初始化状态。</p>
+<p>&emsp;&emsp;<u>处理待定状态（pending）的 Promise 对象要么会通过一个值被成功执行（fulfilled），要么会通过一个原因或错误被拒绝（rejected）。当这些情况之一发生时，promise 的 then 方法排列起来的相关处理程序就会被调用。如果 promise 在一个相应的处理程序被绑定时就已经被兑现或被拒绝了，那么这个处理程序就会被调用。Promise.prototype.then 和  Promise.prototype.catch 方法返回的是 promise， 所以它们可以被链式调用。</u></p>
+<p>&emsp;&emsp;一般我们使用Promise()构造函数来创建一个 promise 对象，以此对还没有添加 promise 支持的函数进行相应的封装使用。<u>在适当的时候，调用resolve()方法将新的promise 对象的pending状态改变为fulfilled状态，或者调用reject()将pending状态改变为rejected状态。</u>若不使用这两个静态方法，新的 promise 对象的状态仍为pending初始化状态。</p>
 <p>&emsp;&emsp;<strong>Promise有一些静态方法：</strong></p>
 <p>&emsp;&emsp;all()：所有promise对象都完成且都成功（fulfilled）时触发（执行then()分支），会把所有promise返回值的数组作为成功回调的返回值，顺序跟promise的顺序保持一致，任意一个promise失败（rejected）则立即触发该失败（执行catch分支），第一个触发失败的promise对象的错误信息将作为它的失败错误信息，<u>此时，其他的pending状态的promise还是会执行直至完成（promise开始执行后不能被取消）。Promise.all方法常被用于处理多个promise对象的状态集合。</u></p>
 <p>&emsp;&emsp;allSettled() ：所有promise对象都完成(fulfilled/rejected)时触发（执行then()分支），返回一个promise结果对象的数组，顺序与promise的顺序保持一致。每个promise结果对象包含status属性（状态），value属性（fulfilled状态时返回值）以及reason属性（rejected状态时返回的失败原因）等属性。</p>
@@ -1148,6 +1171,12 @@
     console.log(new Date() + &#39; 代码执行完成，文件行数依次为：&#39;);
     console.log(filelines);
   &#125;)
+
+  Wed May 26 2021 17:10:52 GMT+0800 (中国标准时间) 代码开始执行~
+  Wed May 26 2021 17:10:53 GMT+0800 (中国标准时间) 第1读取文件完成，文件总行数为 82
+  Wed May 26 2021 17:10:54 GMT+0800 (中国标准时间) 第2读取文件完成，文件总行数为 90
+  Wed May 26 2021 17:10:55 GMT+0800 (中国标准时间) 第3读取文件完成，文件总行数为 64
+  Wed May 26 2021 17:10:55 GMT+0800 (中国标准时间) 代码执行完成，文件行数依次为：82 90 64
 </code></pre>
 <p>&emsp;&emsp;<u><strong>Promise处理异步（特别是处理一次性结果）十分方便，也支持链式的进行调用，是目前较好的异步编程方式。</strong>特别是结合Array对象相关的方法如map()、filter()等。不过Promise也有一定的缺点，一但创建便会执行，不能取消，也无法得知目前进展到哪一个阶段；如果不设置回调函数，Promise内部抛出的错误，不会反应到外部等问题。</u></p>
 <p>&emsp;&emsp;例如上面的Promise处理代码可以结合Array.map()方法生成promise对象集合（数组），由Promise.all()去并行执行（流程控制相关概念见后文）：</p>
@@ -1165,10 +1194,16 @@
     console.log(new Date() + &#39; 代码执行完成，文件行数依次为：&#39;);
     console.log(list)
   &#125;)
+
+  Wed May 26 2021 17:11:46 GMT+0800 (中国标准时间) 代码开始执行~
+  Wed May 26 2021 17:11:47 GMT+0800 (中国标准时间) 第1读取文件完成，文件总行数为 97
+  Wed May 26 2021 17:11:47 GMT+0800 (中国标准时间) 第2读取文件完成，文件总行数为 69
+  Wed May 26 2021 17:11:47 GMT+0800 (中国标准时间) 第3读取文件完成，文件总行数为 75
+  Wed May 26 2021 17:11:47 GMT+0800 (中国标准时间) 代码执行完成，文件行数依次为：97 69 75
 </code></pre>
 <p>&emsp;&emsp;这两段代码相比，可以看到后面这段代码明显更加的简洁。更重要的是，前一种写法读取3个文件的任务需要3s时间才能完成，后一种并行执行写法只需要1s时间便可完成。</p>
 <h4 id="5-async-await（ES7新增）"><a href="#5-async-await（ES7新增）" class="headerlink" title="5) async/await（ES7新增）"></a>5) async/await（<u>ES7新增</u>）</h4><p>&emsp;&emsp;async和await关键字让我们可以用一种更简洁的方式写出基于Promise的异步行为，而无需刻意地链式调用promise。<br>&emsp;&emsp;async 函数是 Generator 函数的语法糖且async 函数自带执行器。async函数可能包含0个或者多个await表达式。<br>&emsp;&emsp;async函数一定会返回一个promise对象。如果一个async函数的返回值不是promise，那么它将会被隐式地包装在一个promise中。</p>
-<p>&emsp;&emsp;await表达式会暂停整个async函数的执行进程并出让其控制权：<br>&emsp;&emsp;(1) 如果await后面是普通表达式， await 表达式的运算结果就是它等待的的结果。<br>&emsp;&emsp;(2) 如果await后面是promise对象，只有当其等待的promise的异步操作成功或失败之后才会恢复进程，promise的结果会被当作该await表达式的返回值，此时await会阻塞后面的代码执行。所以把await放在async函数内部，因为async 函数的调用不会造成阻塞，它内部所有的阻塞都被封装在一个 Promise 对象中异步执行。<br>&emsp;&emsp;(3) await 命令后面的 promise 运行结果如果可能是 rejected，此时async/await无法处理，一般要要把 await 命令放在 try…catch 代码块中。</p>
+<p>&emsp;&emsp;await表达式会暂停整个async函数的执行进程并出让其控制权：<br>&emsp;&emsp;(1) 如果await后面是普通表达式， await 表达式的运算结果就是它等待的的结果。<br>&emsp;&emsp;(2) 如果await后面是promise对象，只有当其等待的promise的异步操作成功或失败之后才会恢复进程，promise的结果会被当作该await表达式的返回值，此时await会阻塞后面的代码执行。<u>所以把await放在async函数内部，因为async 函数的调用不会造成阻塞，它内部所有的阻塞都被封装在一个 Promise 对象中异步执行。</u><br>&emsp;&emsp;(3) <u>await 命令后面的 promise 运行结果如果是 rejected，此时async/await无法处理，一般要把 await 命令放在 try…catch 代码块中。</u></p>
 <p>&emsp;&emsp;async/await读取文件行数示例代码：</p>
 <pre><code>  function readFile(inx) &#123;
     return new Promise((resolve, reject) =&gt; &#123;
@@ -1187,10 +1222,16 @@
   &#125;
   console.log(new Date() + &#39; 代码开始执行~&#39;);
   getLines();
+
+  Wed May 26 2021 17:18:13 GMT+0800 (中国标准时间) 代码开始执行~
+  Wed May 26 2021 17:18:14 GMT+0800 (中国标准时间) 第1读取文件完成，文件总行数为 72
+  Wed May 26 2021 17:18:15 GMT+0800 (中国标准时间) 第2读取文件完成，文件总行数为 82
+  Wed May 26 2021 17:18:16 GMT+0800 (中国标准时间) 第3读取文件完成，文件总行数为 55
+  Wed May 26 2021 17:18:16 GMT+0800 (中国标准时间) 代码执行完成，结果为：72,82,55
 </code></pre>
-<p>&emsp;&emsp;async/await的优点：<br>&emsp;&emsp;它做到了真正的串行的同步写法，代码阅读相对容易。<br>&emsp;&emsp;对于条件语句和其他流程语句比较友好，可以将await直接写到判断条件里。<br>&emsp;&emsp;处理复杂流程时，在代码更加清晰简洁（无try {} catch (err) {}的情况下）。</p>
-<p>&emsp;&emsp;async/await的缺点：<br>&emsp;&emsp;<u>无法处理promise返回的reject对象，要借助try…catch…。</u><br>&emsp;&emsp;<strong>await只能串行，做不到并行（因为await一定是阻塞的）等。</strong></p>
-<h2 id="2、异步操作流程控制"><a href="#2、异步操作流程控制" class="headerlink" title="2、异步操作流程控制"></a>2、异步操作流程控制</h2><p>&emsp;&emsp;如果有多个异步操作，为了代码的执行效率与可维护性，就存在一个流程控制的问题：如何确定异步操作执行的顺序，以及如何保证遵守这种顺序。<br>&emsp;&emsp;流程控制一般有串行执行、并行执行等方式。<br>&emsp;&emsp;串行执行：一个异步任务执行完成后在执行下一个任务。（上面异步读取文件行数的示例中，Promise处理中的第2种写法以及async/await的写法。其他全是串行执行的）<br>&emsp;&emsp;并行执行：所有异步任务同时执行（并行非并发）。（例如上面Promise处理中的第2种写法以及async/await的写法）</p>
+<p>&emsp;&emsp;async/await的优点：<br>&emsp;&emsp;它做到了真正的串行的同步写法，代码阅读相对容易。<br>&emsp;&emsp;对于条件语句和其他流程语句比较友好，可以将await直接写到判断条件里。<br>&emsp;&emsp;处理复杂流程时，在代码更加清晰简洁。</p>
+<p>&emsp;&emsp;async/await的缺点：<br>&emsp;&emsp;<u>无法处理promise返回的reject对象，要借助try…catch…捕获异常等。</u><br>&emsp;&emsp;<strong>await只能串行，做不到并行（因为await一定是阻塞的）等。</strong></p>
+<h2 id="2、异步操作流程控制"><a href="#2、异步操作流程控制" class="headerlink" title="2、异步操作流程控制"></a>2、异步操作流程控制</h2><p>&emsp;&emsp;如果有多个异步操作，为了代码的执行效率与可维护性，就存在一个流程控制的问题：如何确定异步操作执行的顺序，以及如何保证遵守这种顺序。<br>&emsp;&emsp;流程控制一般有串行执行、并行执行等方式。<br>&emsp;&emsp;串行执行：一个异步任务执行完成后在执行下一个任务。（上面异步读取文件行数的示例中，除了Promise处理中的第2种写法，其他全是串行执行的）<br>&emsp;&emsp;并行执行：所有异步任务同时执行（并行非并发）。（例如上面Promise处理中的第2种写法）</p>
 <p>&emsp;&emsp;例如读取文件异步操作回调函数的写法：</p>
 <pre><code>  // 其他代码省略
   asyncFn(1, function () &#123;
@@ -1234,7 +1275,7 @@
   Mon Nov 30 2020 21:48:44 GMT+0800 (中国标准时间)代码执行完成，文件行数依次为：65,70,70
 </code></pre>
 <p>&emsp;&emsp;上面的代码中，series为流程控制函数。每次读取一个文件，并将文件名从待读取文件f列表ileList中删除。再递归调用读取下一个文件，直至待读取文件列表为空则所有文件读取完成。这里串行执行读取文件完成需要3s时间。（_串行流程函数控制不止这一种方式实现_）</p>
-<p>&emsp;&emsp;将流程控制改为并行执行：</p>
+<p>&emsp;&emsp;将流程控制改为并行执行（利用循环语句）：</p>
 <pre><code>  let fileList = [1, 2, 3];
   let fileLines = [];
   function asyncFn(inx, cb) &#123;
@@ -1267,7 +1308,8 @@
   Mon Nov 30 2020 21:49:53 GMT+0800 (中国标准时间) 第3读取文件完成，文件总行数为 57
   Mon Nov 30 2020 21:49:53 GMT+0800 (中国标准时间)代码执行完成，文件行数依次为：65,94,57
 </code></pre>
-<p>&emsp;&emsp;上面的代码中，series中使用forEach()方法时读取文件同时进行，因为不知道各次读取文件完成的先后顺序，这里不能使用fileLines.push()方法保存结果，可能会得的结果与文件读取顺序不匹配。这里将结果赋值给fileLines[index]能保证结果的顺序与读取文件的顺序一致。当获得的结果的长度与读取文件的次数相同时，所有文件读取完成。这里并行执行读取文件完成需要1s时间。（_并行流程函数控制不止这一种方式实现_）</p>
+<p>&emsp;&emsp;上面的代码中，series中使用forEach()方法时读取文件同时进行，因为不知道各次读取文件完成的先后顺序，这里不能使用fileLines.push()方法保存结果，可能会得的结果与文件读取顺序不匹配。这里将结果赋值给fileLines[index]能保证结果的顺序与读取文件的顺序一致。当获得的结果的长度与读取文件的次数相同时，所有文件读取完成。这里并行执行读取文件完成需要1s时间。</p>
+<p><em>&emsp;&emsp;[注] 并行流程函数控制不止这一种方式实现</em></p>
  
       <!-- reward -->
       
@@ -1320,22 +1362,22 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <p>在JavaScript中，每个实例对象（ object ）都有一个私有属性（称之为 __proto__ ）指向它的构造函数的原型对象（prototype ）。该原型对象也有一个自己的原型对象( __proto__ ) ，层层向上直到一个对象的原型对象为 null。根据定义，null没有原型，并作为这个原型链中的最后一个环节。几乎所有 JavaScript 中的对象都是位于原型链顶端的 Object 的实例。</p>
-<h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><p>&emsp;&emsp;对象：对象是一个包含相关数据和方法的集合，通常由一些变量和函数组成，我们称之为对象里面的属性和方法。对象成员的值可以是任意的，例如Number，String，Function，null， undefined等。<br><em>&emsp;&emsp;[注] 可以使用点表示法或者括号表示法访问对象的成员（对象做了字符串到值的映射，而数组做的是数字到值的映射）。其中，括号表示法一个特别的地方是不仅可以动态的去设置对象成员的值，还可以动态的设置成员的名字。可以用一个对象来做另一个对象成员的值，这样，实际上创建了一个子命名空间，可以链式的使用点表示法或括号表示法去访问其中的成员变量。</em></p>
+  <p>在JavaScript中，每个实例对象（ object ）都有一个私有属性（称之为 __proto__ ）指向它的构造函数的原型对象（prototype ）。该原型对象也有一个自己的原型对象( __proto__ ) ，层层向上直到一个对象的原型对象为 null。根据定义，null没有原型，并作为这个原型链中的最后一个环节。几乎所有 JavaScript 中的对象都是位于原型链顶端的Object对象的实例。</p>
+<h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><p>&emsp;&emsp;对象：对象是一个包含相关数据和方法的集合，通常由一些变量和函数组成，我们称之为对象里面的属性和方法。对象成员的值可以是任意的，例如Number，String，Function，null， undefined等。</p>
+<p><em>&emsp;&emsp;[注1] 可以使用点表示法或者括号([ ])表示法访问对象的成员，对象做了字符串(key)到值(value)的映射，而数组做的是数字(索引)到值的映射。其中，括号表示法一个特别的地方是不仅可以动态的去设置对象成员的值，还可以动态的设置成员的名字(key)。</em><br><em>&emsp;&emsp;[注2] 可以用一个对象来做另一个对象成员的值，这样，实际上创建了一个子命名空间，可以链式的使用点表示法或括号表示法去访问其中的成员变量。</em></p>
 <p>&emsp;&emsp;<u>面向对象的JavaScript</u>（OOJS）：面向对象编程（OOP）的基本思想为，在程序里，我们通过使用对象去构建现实世界的模型，把原本很难（或不可）能被使用的功能，简单化并提供出来，以供访问。对象可以包含相关的数据和代码，去描述模型以及模型具有的行为和功能。对象包（命名空间）存储（封装）着对象的数据与方法，使数据的组织和访问变得更容易了；对象也常用作数据存储体，用于在网络上运输数据，十分便捷。</p>
-<p>&emsp;&emsp;<u>构造函数创建对象</u>：JavaScript 用一种称为构建函数的特殊函数来定义对象和它们的特征。一个构建函数通常是大写字母开头，这样便于区分构建函数和普通函数。关键字 new 跟着一个含参构造函数，便能创建一个想要的对象（<u>对象的原型指向构建函数</u>）。其中，这个构建函数是 JavaScript 版本的类（ES6已提供class关键字的语法糖定义构建函数）。</p>
+<p>&emsp;&emsp;<u>构造函数对象</u>：JavaScript 用一种称为构建函数的特殊函数(function)来定义对象和它们的特征。一个构建函数通常是大写字母开头，这样便于区分构建函数和普通函数。关键字 new 跟着一个含参构造函数，便能创建一个想要的对象（对象的原型指向构建函数）。其中，这个构建函数是 JavaScript 版本的类（<u>ES6已提供class关键字的语法糖定义构建函数</u>）。</p>
 <p><em>&emsp;&emsp;[注] 其他创建对象的方式：</em><br><em>&emsp;&emsp;① 字面量定义对象（对象的原型指向Object对象）</em><br><em>&emsp;&emsp;② Object()构造函数，即使用new Object()创建对象（对象的原型指向Object对象）</em><br><em>&emsp;&emsp;③ Object.create()方法，允许您基于现有对象创建新的对象。（对象的原型指向创建时指定的对象）</em></p>
-<h2 id="1、原型（链）"><a href="#1、原型（链）" class="headerlink" title="1、原型（链）"></a>1、原型（链）</h2><p>&emsp;&emsp;JavaScript 常被描述为一种基于原型的语言——每个对象拥有一个原型对象，对象以其原型为模板、从原型继承方法和属性。原型对象也可能拥有原型，并从中继承方法和属性，一层一层，以此类推。这种关系常被称为原型链，它解释了为何一个对象会拥有定义在其他对象中的属性和方法。<br>&emsp;&emsp;准确地说，这些属性和方法定义在Object的构造器函数(constructor functions)之上的prototype属性上，而非对象实例本身。</p>
-<p><em>&emsp;&emsp;<strong>[注] 与传统OOP的区别：在传统的 OOP 中，首先定义“类”，此后创建对象实例时，类中定义的所有属性和方法都被复制到例中。在 JavaScript 中并不如此复制——而是在对象实例和它的构造器之间建立一个链接（它是__proto__属性，是从构造函数的prototype属性派生的），之后通过上溯原型链，在构造器中找到这些属性和方法。</strong></em><br><em>&emsp;&emsp;[注] 对象原型（可以通过Object.getPrototypeOf(obj)或者浏览器提供的__proto__属性获得）与构造函数的prototype属性是有区别的：前者是每个实例上都有的属性，后者是构造函数的属性。也就是说，Object.getPrototypeOf(new Bool())和Bool.prototype指向着同一个对象。<u>特别的，没有官方的方法用于直接访问一个对象的原型——原型链中的“连接”被定义在一个内部属性中，</u>在 JavaScript 语言标准中用 [[prototype]] 表示，大多数现代浏览器还是提供了一个名为 __proto__ 属性，其包含了对象的原型。</em></p>
-<p>&emsp;&emsp;(1) prototype属性：继承成员被定义的地方<br>&emsp;&emsp;继承的属性和方法是定义在 prototype 属性之上的（可以称之为子命名空间），prototype 属性的值是一个对象，我们希望被原型链下游的对象继承的属性和方法，都被储存在其中。<br><em>&emsp;&emsp;[注] Object.create()可以指定一个对象作为原型对象创建一个实例对象。</em></p>
+<h2 id="1、原型（链）"><a href="#1、原型（链）" class="headerlink" title="1、原型（链）"></a>1、原型（链）</h2><p>&emsp;&emsp;JavaScript 常被描述为一种基于原型的语言——每个对象拥有一个原型对象，对象以其原型为模板、从原型继承方法和属性。原型对象也可能拥有原型，并从中继承方法和属性，一层一层，以此类推。这种关系常被称为原型链，它解释了为何一个对象会拥有定义在其他(被继承)对象中的属性和方法。比如有些属性和方法定义在Object的构造器函数的prototype属性上，而非定义在当前对象实例本身。</p>
+<p><em>&emsp;&emsp;<strong>[注1] 与传统OOP的区别：在传统的 OOP 中，首先定义“类”，此后创建对象实例时，类中定义的所有属性和方法都被复制到例中。<u>在 JavaScript 中并不如此复制——而是在对象实例和它的构造器之间建立一个链接（它是 __proto__ 属性，是从构造函数的 prototype 属性派生的），</u>可通过其上溯原型链，在构造器中找到对应的属性和方法。</strong></em><br><em>&emsp;&emsp;[注2] 对象原型（可以通过Object.getPrototypeOf(obj)或者浏览器提供的__proto__属性获得）与构造函数的prototype属性是有区别的：前者是每个实例上都有的属性，后者是构造函数的属性。也就是说，Object.getPrototypeOf(new Bool())和Bool.prototype指向着同一个对象(Bool构造函数)。<u>特别的，没有官方的方法用于直接访问一个对象的原型——原型链中的“连接”被定义在一个内部属性中，</u>在 JavaScript 语言标准中用 [[prototype]] 表示，大多数现代浏览器还是提供了一个名为 __proto__ 属性，其包含了对象的原型。</em></p>
+<p>&emsp;&emsp;(1) prototype属性：继承成员被定义的地方<br>&emsp;&emsp;继承的属性和方法是定义在 prototype 属性之上的（可以称之为子命名空间），prototype 属性的值是一个对象，我们希望被原型链下游的对象继承的属性和方法，都被储存在其中。<br><em>&emsp;&emsp;[注] Object.create()可以指定一个对象作为原型对象来创建一个实例对象。</em></p>
 <p>&emsp;&emsp;(2) constructor属性：指向了用于构造此实例对象的构造函数<br>&emsp;&emsp;每个实例对象都从原型中继承了一个constructor属性，该属性指向了用于构造此实例对象的构造函数。<br>&emsp;&emsp;在某些情况下，没有原始构造器的引用，想要构造实例可以通过已有实例的constructor属性指向的构造函数来完成。即可以在 constructor 属性的末尾添加一对圆括号（括号中包含所需的参数），只需在前面添加 new 关键字（let person2 = new person1.constructor()），便能将此函数作为构造器使用，从而调用这个构造器创建另一个对象实例。</p>
 <p><em>&emsp;&emsp;[注] 构建函数前new关键字做了什么？</em><br><em>&emsp;&emsp;① 创建一个新对象</em><br><em>&emsp;&emsp;② 将新对象的__proto__属性指向了构建函数对象prototype对象</em><br><em>&emsp;&emsp;③ 将构建函数的this修正为指向新对象，执行构造函数中的代码，即为这个新对象添加对应属性</em><br><em>&emsp;&emsp;④ 返回新对象</em></p>
 <pre><code>  var obj = &#123;&#125;;
   obj.__proto__ = Base.prototype;
   Base.call(obj);
 </code></pre>
-<h2 id="2、继承"><a href="#2、继承" class="headerlink" title="2、继承"></a>2、继承</h2><p>&emsp;&emsp;<strong>JavaScript基于原型链继承（prototypal inheritance）</strong></p>
-<p>&emsp;&emsp;如何实现继承：（这里以Teacher构造函数继承于Person构造函数的例子来说明）<br>&emsp;&emsp;(1) 定义构造器（构造函数），这里定义构造函数Person。</p>
+<h2 id="2、继承"><a href="#2、继承" class="headerlink" title="2、继承"></a>2、继承</h2><h4 id="JavaScript基于原型链继承（prototypal-inheritance）"><a href="#JavaScript基于原型链继承（prototypal-inheritance）" class="headerlink" title="JavaScript基于原型链继承（prototypal inheritance）"></a>JavaScript基于原型链继承（prototypal inheritance）</h4><p>&emsp;&emsp;如何实现继承：（这里以Teacher构造函数继承于Person构造函数的例子来说明）<br>&emsp;&emsp;(1) 定义构造器（构造函数），这里定义构造函数Person。</p>
 <pre><code>  function Person(name, age, gender, interests) &#123;
     this.name =name;
     this.age = age;
@@ -1359,7 +1401,7 @@
     Teacher.prototype.constructor = Teacher;
   &#125;
 </code></pre>
-<p><em>&emsp;&emsp;[注] 每一个函数对象（Function）都有一个prototype属性，并且只有函数对象有prototype属性，因为prototype本身就是定义在Function对象下的属性。其中Person()函数是Person.prototype的构造函数，即Person===Person.prototype.constructor。任何您想要被继承的方法都应该定义在构造函数的prototype对象里，并且永远使用父类的prototype来创造子类的prototype，这样才不会打乱类继承结构。</em></p>
+<p><em>&emsp;&emsp;[注] 每一个函数对象（Function）都有一个 prototype 属性，并且只有函数对象有 prototype 属性，因为 prototype 本身就是定义在Function对象下的属性。其中Person()函数是Person.prototype的构造函数，即Person===Person.prototype.constructor。任何您想要被继承的方法都应该定义在构造函数的 prototype 对象里，并且永远使用父类的 prototype 来创造子类的 prototype，这样才不会打乱类继承结构。</em></p>
 <p>&emsp;&emsp;(3) Teacher构造函数添加新的greeting成员函数</p>
 <pre><code>  Teacher.prototype.greeting = function()&#123;
     console.log(`hello, I am a teather, I teath $&#123;this.subject&#125;`)
@@ -1394,16 +1436,15 @@
   let t = new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
   t.greeting(); // hello, I am a teather, I teath englis
 </code></pre>
-<p>&emsp;&emsp;<strong> ES6 类（class）</strong></p>
-<p>&emsp;&emsp;(1) 类的定义方式<br>&emsp;&emsp;ES6 提供了更接近传统语言的写法，引入了class关键字（仅是一个‘语法糖’），可以定义类。可以使编码时逻辑更加清晰明了。在JavaScript中，类是一种“特殊的函数”。类本身就指向构造函数（即A == A.prototype.constructor）。</p>
-<p><em>&emsp;&emsp;[注] 类都在严格模式下执行。类的内部所有定义的方法，都是不可枚举的（这点与ES5定义在prototype上的方法表现不一致）。类必须使用new关键字使用（不能像ES5中构造函数可直接调用）。</em></p>
-<p>&emsp;&emsp;定义类有两种方式：<br>&emsp;&emsp;类声明：class A {}，<strong>类声明不会提升，需要先声明，再访问</strong><br>&emsp;&emsp;类表达式: let B = class [B2] {}，类表达式可以不命名，名称为局部名称，可使用类的name属性访问</p>
+<h4 id="ES6-类（class）"><a href="#ES6-类（class）" class="headerlink" title="ES6 类（class）"></a>ES6 类（class）</h4><p>&emsp;&emsp;(1) 类的定义方式<br>&emsp;&emsp;ES6 提供了更接近传统语言的写法，引入了class关键字（仅是一个‘语法糖’），可以定义类。可以使编码时逻辑更加清晰明了。在JavaScript中，类是一种“特殊的函数”。类本身就指向构造函数。</p>
+<p><em>&emsp;&emsp;[注] 类都在严格模式下执行。类的内部所有定义的方法，都是不可枚举的（这点与 ES5 定义在 prototype 上的方法表现不一致）。定义类的实例必须使用new关键字（不能像 ES5 中的构造函数可直接调用）。</em></p>
+<p>&emsp;&emsp;定义类有两种方式：<br>&emsp;&emsp;类声明：class A {}，<strong>类声明不会提升，需要先声明，再访问</strong><br>&emsp;&emsp;类表达式: let B = class [B2] {}，类表达式的命名是可选的（比如这里命名为B2），名称称为局部名称，可使用类的name属性访问对应名称</p>
 <p><em>&emsp;&emsp;<strong>[注] 类中的this：</strong></em><br>&emsp;&emsp;① 在构造函数constructor()中基类与派生类this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象（指向实例），所有非静态方法会被添加到this的原型中。在派生类（子类）中的构造函数没有初始的this绑定（undefined），在构造函数中调用super()才能生成一个this绑定（返回一个指向当前派生类的this）。<br>&emsp;&emsp;② 静态方法不是this的属性，它们只是类自身的属性，不会被子类继承。派生类在super()前调用this会抛出异常，派生类不能在调用super()前返回，除非没有构造函数或者构造函数返回了对象。<br>&emsp;&emsp;③ 使用super对象时，super 调用父类的方法时，super 会绑定子类的 this。</p>
-<p>&emsp;&emsp;(2) constructor()构造函数<br>&emsp;&emsp;初始化一个由class创建的对象。一个类中只能有唯一的constructor()方法，若代码未显式的定义，会添加一个默认的该方法。在使用new关键字创建实例时，会执行该方法，其中的this指向创建的实例。默认会返回this实例，不过也可以显式的返回一个对象。</p>
-<p>&emsp;&emsp;(3) super关键字<br>&emsp;&emsp;分为两种情况：<br>&emsp;&emsp;当做函数使用：super()，这个函数会调用父类的构造函数，返回一个指向当前派生类的this，相当于A.prototype.constructor.call(this, props)<br>&emsp;&emsp;当做对象使用：在普通方法中，super指向父类的原型对象；在静态方法中，super指向父类</p>
+<p>&emsp;&emsp;(2) constructor()构造函数<br>&emsp;&emsp;初始化一个由class创建的对象。一个类中只能有唯一的constructor()方法，若代码未显式的定义，会默认添加该方法。在使用new关键字创建实例时，会执行该方法，其中的this指向创建的实例。默认会返回this实例，不过也可以显式的返回一个对象。</p>
+<p>&emsp;&emsp;(3) super关键字<br>&emsp;&emsp;分为两种情况：<br>&emsp;&emsp;当做 super() 函数使用：这个函数会调用父类的构造函数，返回一个指向当前派生类的this，相当于A.prototype.constructor.call(this, props)<br>&emsp;&emsp;当做 super 对象使用：在普通方法中，super 指向父类的原型对象；在静态方法中，super 指向父类</p>
 <p><em>&emsp;&emsp;[注] 静态方法，static修饰，可以被子类继承，但不会添加到类的实例上，方法名称可与其他方法重名。静态方法可以通过super调用。</em></p>
 <p>&emsp;&emsp;(4) 取值函数（getter）和存值函数（setter）<br>&emsp;&emsp;在类中内部可以使用get和set关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为（ES5可以提供getter、setter函数）。</p>
-<p>&emsp;&emsp;(5) new.target属性<br>&emsp;&emsp;new命令的一个属性，只能在构造函数中使用。在类中使用时，返回当前类；在子类中使用时，返回当前子类。用途：可以限制类只能通过new命令调用；或者编写只能继承而不能实例化的基类。</p>
+<p>&emsp;&emsp;(5) new.target属性<br>&emsp;&emsp;new命令的一个属性，只能在构造函数中使用。在类中使用时，返回当前类；在子类中使用时，返回当前子类。<u>用途：可以限制类只能通过new命令调用；或者编写只能继承而不能实例化的基类。</u></p>
 <p>&emsp;&emsp;通过ES6 Class关键字实现上面Teacher类与Person类的继承关系：</p>
 <pre><code>  class Person&#123;    
     constructor(name, age, gender, interests)&#123;
@@ -1426,7 +1467,7 @@
     &#125;
   &#125;
   let t = new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
-  t.greeting()
+  t.greeting() // hello, I am a teather, I teath english!
 </code></pre>
 <p>&emsp;&emsp;通过Babel.js将上面的ES6转换为ES5代码如下：</p>
 <pre><code>  &quot;use strict&quot;;
@@ -1571,9 +1612,9 @@
   &#125;(Person);
   
   var t = new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
-  t.greeting();
+  t.greeting(); // hello, I am a teather, I teath english!
 </code></pre>
-<p>&emsp;&emsp;ES6转换后的ES5代码与原来的ES5代码实现原理一致。我们来简单分析一下转换后的代码：<br>&emsp;&emsp;① 可以看到，定义Person和Teacher时，使用了立即执行函数，代码会立即执行，执行后返回Person构造函数以及继承于Person的Teacher构造函数。<br>&emsp;&emsp;② 在定义Person变量的立即执行函数中，定义了Person函数，函数中设置了相关属性。然后调用_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法给Person函数的原型prototype上添加上方法，(还可以给Person函数添加静态属性，这里代码未添加）。即_createClass()实现了Person函数方法与属性的添加，最后将Person函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;③ 在定义Teacher变量的立即执行函数中，将定义好的Person构造函数函数作为了参数，先调用_inherits()方法，将定义的Teacher函数（预编译会进行函数提升）与传入的Person构造函数作为参数，其中使用Object.create()方法以Person构造函数的原型prototype作为原型，设置了Teacher函数的原型，同时Teacher函数的原型也继承了Person构造函数原型链上的属性和方法，然后调用_setPrototypeOf()方法修正Teacher函数原型对象__proto__的指向，也就是_inherits()方法实现了继承关系。然后再调用了_createSuper(Teather)方法定义了_super变量，其值是一个函数，里面追溯了Teacher构造函数的原型链，定义了调用父构造函数Person时，使用了apply（this, arguments）方法绑定了子构造函数Teacher的this，实现了Teacher函数属性的设置（<u>返回的_super方法这里只是定义，还未执行，要在Teacher构造函数执行到_super.call()的时候才会执行</u>）。最后同理，调用了_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法在Teacher函数的原型prototype上重写了greeting()方法，将Teacher函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;④ 调用new Teacher()创建t实例，执行Teacher构造函数，调用_classCallCheck()防止构造函数被直接调用（即ES6中的类是不能被直接调用的）。然后再调用上面说的定义的_super()方法实现了实例属性的设置（在执行_super()函数时，会执行里面定义的父构造函数Person的方法来实现属性的继承与设置），再设置了Teacher构造函数实例特有的subject属性，此时获得的_this实例的原型指向Teacher构造函数，Teacherr构造函数又继承于Person构造函数。此时_this实例已经继承了原型链上的属性与方法，包括Teahcer构造函数重写的greeting()方法。返回_this。<br>&emsp;&emsp;⑤ 执行t.greeting()方法，可以看到方法被成功执行且为执行的重写后的方法。</p>
+<p>&emsp;&emsp;ES6转换后的ES5代码与原来的ES5代码实现原理一致。我们来简单分析一下转换后的代码：<br>&emsp;&emsp;① 可以看到，定义Person和Teacher时，使用了立即执行函数，代码会立即执行，执行后返回Person构造函数以及继承于Person的Teacher构造函数。<br>&emsp;&emsp;② 在定义Person变量的立即执行函数中，定义了Person函数，函数中设置了相关属性。然后调用_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法给Person函数的原型prototype上添加上方法，(还可以给Person函数添加静态属性，这里示例代码未添加）。即_createClass()实现了Person函数方法与属性的添加，最后将Person函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;③ 在定义Teacher变量的立即执行函数中，将定义好的Person构造函数函数作为了参数，先调用_inherits()方法，将定义的Teacher函数（预编译会进行函数提升）与传入的Person构造函数作为参数，其中使用Object.create()方法以Person构造函数的原型prototype作为原型，设置了Teacher函数的原型，同时Teacher函数的原型也继承了Person构造函数原型链上的属性和方法，然后调用_setPrototypeOf()方法修正Teacher函数原型对象__proto__的指向，也就是_inherits()方法实现了继承关系。然后再调用了_createSuper(Teather)方法定义了_super变量，其值是一个函数，里面追溯了Teacher构造函数的原型链，定义了调用父构造函数Person时，使用了apply（this, arguments）方法绑定了子构造函数Teacher的this，实现了Teacher函数属性的设置（<u>返回的_super方法这里只是定义，还未执行，要在Teacher构造函数执行到_super.call()的时候才会执行</u>）。最后同理，调用了_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法在Teacher函数的原型prototype上重写了greeting()方法，将Teacher函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;④ 调用new Teacher()创建t实例，执行Teacher构造函数，调用_classCallCheck()防止构造函数被直接调用（即ES6中的类是不能被直接调用的）。然后再调用上面说到的定义了的_super()方法实现了实例属性的设置（在执行_super()函数时，会执行里面定义的父构造函数Person的方法来实现属性的继承与设置），再设置了Teacher构造函数实例特有的subject属性，此时获得的_this实例的原型指向Teacher构造函数，Teacherr构造函数又继承于Person构造函数。此时_this实例已经继承了原型链上的属性与方法，包括Teahcer构造函数重写的greeting()方法。返回_this。<br>&emsp;&emsp;⑤ 执行t.greeting()方法，可以看到方法被成功执行且为执行的重写后的方法。</p>
  
       <!-- reward -->
       
@@ -1626,11 +1667,11 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻。会进行变量与函数申明（变量提升）、生成执行上下文（作用域）等工作。</p>
-<h2 id="1、作用域（链）"><a href="#1、作用域（链）" class="headerlink" title="1、作用域（链）"></a>1、作用域（链）</h2><p>&emsp;&emsp;JavaScript采用词法作用域，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文的变量对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
-<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。全局作用域的变量是全局对象的属性，不论在什么函数中都可以直接访问，而不需要通过全局对象，但加上全局对象，可以提供搜索效率。<br><em>&emsp;&emsp;[注] 隐式的申明变量，在最外层函数外部申明的变量，给window对象添加的属性都是全局变量</em><br>&emsp;&emsp;② 在函数内部用var关键字申明的变量，函数的参数会存在于该函数的局部作用域中。<br><em>&emsp;&emsp;[注] 局部变量的优先级高于全局变量</em><br>&emsp;&emsp;③ 用let、const申明的变量会存在于块级作用域中。</p>
+  <p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻(在极短时间内完成)。会进行变量与函数申明（变量提升）、生成执行上下文（作用域）等工作。</p>
+<h2 id="1、作用域（链）"><a href="#1、作用域（链）" class="headerlink" title="1、作用域（链）"></a>1、作用域（链）</h2><p>&emsp;&emsp;JavaScript采用词法作用域，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
+<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。全局作用域的变量是全局对象(window)的属性，不论在什么函数中都可以直接访问，而不需要通过全局对象，<u>但加上全局对象，可以提供搜索效率。</u><br><em>&emsp;&emsp;[注] 隐式的申明变量，或在最外层函数外部申明的变量，给window对象添加的属性都是全局变量</em><br>&emsp;&emsp;② 在函数内部用var关键字申明的变量，函数的参数会存在于该函数的局部作用域中。<br><em>&emsp;&emsp;[注] 局部变量的优先级高于全局变量</em><br>&emsp;&emsp;③ 用let、const申明的变量会存在于块级作用域中。</p>
 <h2 id="2、预解析与执行上下文"><a href="#2、预解析与执行上下文" class="headerlink" title="2、预解析与执行上下文"></a>2、预解析与执行上下文</h2><p>&emsp;&emsp;JavaScript代码在执行前的瞬间会存在预解析的阶段，会对代码进行相应的处理，对申明的变量与函数进行变量提升，以及生成对应的执行上下文，执行上下文除了保存代码执行信息外，还会将当前作用域信息也保存在执行上下文中，他们有相应的存储关系。随着代码进行的进行，执行上下文会进行相应的改变，执行上下文是用于跟踪代码的运行情况。同一个作用域下，不同的调用会产生不同的执行上下文环境，继而产生不同的变量的值。</p>
-<p>&emsp;&emsp;预解析处理创建执行上下文的步骤：<br>&emsp;&emsp;① 隐式的创建GO（全局上下文）/AO（函数上下文）对象<br>&emsp;&emsp;② 找形参和变量声明，将变量和形参名作为GO/AO的属性名，值为undefined（这个过程也常称为变量提升）<br>&emsp;&emsp;③ 将实参值和形参统一<br>&emsp;&emsp;④ 在函数体里面找函数声明，作为GO/AO的属性，值赋予函数体（这个过程也常称为函数提升）<br><em>&emsp;&emsp;[注] 在全局预解析中，由于全局中没有参数的的概念，所以省去了第2步的找参数、第3步实参形参相统一这两处处理。GO全局上下文对象，它优于局部预解析AO局部上下文对象的创建与执行</em></p>
+<p>&emsp;&emsp;预解析过程创建执行上下文的步骤：<br>&emsp;&emsp;① 隐式的创建GO（全局上下文）/AO（函数上下文）对象<br>&emsp;&emsp;② 找形参和变量声明，将变量和形参名作为GO/AO的属性名，值为undefined（这个过程也常称为变量提升）<br>&emsp;&emsp;③ 将实参值和形参统一<br>&emsp;&emsp;④ 在函数体里面找函数声明，作为GO/AO的属性，值赋予函数体（这个过程也常称为函数提升）<br><em>&emsp;&emsp;[注] 在全局预解析中，由于全局中没有参数的的概念，所以省去了第2步的找参数。第2步中的找变量申明与第3步实参形参相统一一同处理。GO全局上下文对象，它优于局部预解析AO局部上下文对象的创建与执行</em></p>
 <p>&emsp;&emsp;例如下面的代码：</p>
 <pre><code>  1  console.log(a) // undefined
   2  console.log(b) // Uncaught ReferenceError: b is not defined
@@ -1708,7 +1749,8 @@
     c: undefined
   &#125;
 </code></pre>
-<p>&emsp;&emsp;(4) 对应fn函数，进行预解析第4步：在函数体里面找函数声明，作为AO的属性，值赋予函数体<br>&emsp;&emsp;fn函数内无函数申明，AO对象不变<br>&emsp;&emsp;<strong>fn函数执行前预解析完成，11-16行的<u>函数入栈执行！</u></strong><br>&emsp;&emsp;执行第12行，输出a为undefined（先在当前执行的函数上下文AO的作用域对象中查找变量a，若AO的作用域对象中没有，通过AO中的作用域链，再去全局上下文GO中去查找）<br>&emsp;&emsp;执行第13行，将变量b赋值为8，变量a赋值为8。其中变量b存在于全局上下文GO中，这里的a为当前执行的函数上下文AO中的a，此时的GO、AO对象为：</p>
+<p>&emsp;&emsp;(4) 对于fn函数，进行预解析第4步：在函数体里面找函数声明，作为AO的属性，值赋予函数体<br>&emsp;&emsp;fn函数内无函数申明，AO对象不变</p>
+<p>&emsp;&emsp;<strong>fn函数执行前预解析完成，11-16行的<u>函数入栈执行！</u></strong><br>&emsp;&emsp;执行第12行，输出a为undefined（先在当前执行的函数上下文AO的作用域对象中查找变量a，若AO的作用域对象中没有，通过AO中的作用域链，再去全局上下文GO中去查找）<br>&emsp;&emsp;执行第13行，将变量b赋值为8，变量a赋值为8。其中变量b存在于全局上下文GO中，这里的a为当前执行的函数上下文AO中的a，此时的GO、AO对象为：</p>
 <pre><code>  GO:&#123;
     a: 5,
     test: undefined,
@@ -1736,7 +1778,7 @@
     b: 8
   &#125;
 </code></pre>
-<p>&emsp;&emsp;执行第17行，输出a为5<br>&emsp;&emsp;执行第18行，输出b为8<br>&emsp;&emsp;执行第19行，因为全局上下文没有申明c变量，所以程序抛出异常：Uncaught ReferenceError: c is not defined<br>&emsp;&emsp;执行第20行，<u>这里调用test()函数与上面调用fn(3)函数类似，执行前也会进行相应的局部预解析，然后执行函数，</u>这里输出函数返回的10<br>&emsp;&emsp;代码执行完成！</p>
+<p>&emsp;&emsp;执行第17行，输出a为5<br>&emsp;&emsp;执行第18行，输出b为8<br>&emsp;&emsp;执行第19行，因为全局上下文没有申明c变量，所以程序抛出异常：Uncaught ReferenceError: c is not defined<br>&emsp;&emsp;执行第20行，<u>这里调用test()函数与上面调用fn(3)函数类似，执行前也会进行相应的局部预解析，创建对应的AO对象。然后函数入栈执行，</u>这最后函数返回执行结果为10<br>&emsp;&emsp;代码执行完成！</p>
 <p><em>&emsp;&emsp;[注] 这里分析比较简单的一段代码的执行过程，这里在函数内部没有函数的申明，也没有异步处理。一般的，如果函数内部存在函数，在内部函数调用时也会进行对应的局部预处理以及入栈执行；如果代码内包含异步逻辑，会把异步逻辑放在异步队列里面进行相应的调度执行。</em><br><em>&emsp;&emsp;[注] 如果在某个作用域中使用了某变量，而该变量并未在对应的（静态）作用域中声明（在其它作用域中声明），该变量称为<u>自由变量。</u></em></p>
 <h2 id="3、闭包"><a href="#3、闭包" class="headerlink" title="3、闭包"></a>3、闭包</h2><p>&emsp;&emsp;一个函数和对其周围状态（词法环境）的引用捆绑在一起，这样的组合就是闭包（closure）。闭包让你可以在一个内层函数中访问到其外层函数的作用域（即能够读取其他函数内部变量的函数）。在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来。<strong>函数就会形成闭包。</strong><u>闭包是由函数以及声明该函数的词法环境组合而成的。</u>该环境包含了这个闭包创建时作用域内的任何局部变量。</p>
 <p>&emsp;&emsp;例如下面的代码：</p>
@@ -1766,10 +1808,81 @@
 
   7
 </code></pre>
-<p>&emsp;&emsp;上面的代码中：add函数内部定义了inner函数，inner函数可以访问词法环境外部add函数作用域中变量，如这里的形参x。从打印的inner.prototype对象可以看出，在inner函数的作用域链的栈底为Global全局作用域，栈顶为inner函数所在的add函数的作用域，这里形成了Closure闭包。add(3)函数调用后返回的inner(y){ return x + y; }函数与inner函数的词法环境形成了闭包，inner函数中保留了对add函数内部变量x的应用，且此时x=3，所以在add(3)(4)继续调用inner函数时返回结果7。</p>
-<p><em>&emsp;&emsp;[注] 这里是否形成闭包与内部的inner函数是否返回无关。</em></p>
-<h2 id="4、this关键字"><a href="#4、this关键字" class="headerlink" title="4、this关键字"></a>4、this关键字</h2><p>&emsp;&emsp;在绝大多数情况下，<u>函数的调用方式决定了 this 的值（<strong>运行时绑定</strong>）。this 不能在执行期间被赋值，并且在每次函数被调用时 this 的值也可能会不同（<strong>与调用方式有关</strong>）。</u>ES5 引入了 bind 方法来设置函数的 this 值，而不用考虑函数如何被调用的。ES2015 引入了箭头函数，箭头函数不提供自身的 this 绑定，此时this 的值将保持为闭合词法上下文的值。函数中this的取值为当前执行上下文（global、function 或 eval）的一个属性，在非严格模式下，总是指向一个对象，在严格模式下可以是任意值。</p>
-<p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，在全局执行环境中（在任何函数体外部）this 都指向全局对象。<br>&emsp;&emsp;② 在函数上下文中，this指向取决于函数被调用的方式：在非严格模式下，this的值不由调用者设置，this指向window。在严格模式下，this指向调用者，若执行前没有设置this的值，也没有作为对象的属性或方法而是直接调用，this为undefined。<br><em>&emsp;&emsp;[注] 可以通过call、apply方法修改this指向的环境。</em><br>&emsp;&emsp;③ 类上下文中，基类与派生类构造函数constructor()中this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象，所有非静态方法会被添加到this的原型中。在派生类中的构造函数没有初始的this绑定，在构造函数中调用super()才能生成一个this绑定。<u>注意的是，使用super对象时，super 调用父类的方法时，super 会绑定当前子类的 this。</u><br><em>&emsp;&emsp;[注] 静态方法不是this的属性，它们只是类自身的属性。派生类（子类）在super()前调用this会抛出异常，派生类不能在调用super前返回，除非没有构造函数或者构造函数返回了对象。</em></p>
+<p>&emsp;&emsp;上面的代码中：add函数内部定义了inner函数，inner函数可以访问词法环境外部add函数作用域中变量，如这里的形参x。从打印的inner.prototype对象可以看出，在inner函数的作用域链的栈底为Global全局作用域，栈顶为inner函数所在的add函数的作用域，这里形成了Closure闭包。add(3)函数调用后返回的inner(y){ return x + y; }函数(x=3)与inner函数的词法环境形成了闭包，<u>inner函数中保留了对add函数内部变量x的应用，且此时x=3</u>，所以在add(3)(4)继续调用inner函数时返回结果7。</p>
+<p><em>&emsp;&emsp;[注] 这里<u>是否形成闭包与内部的inner函数是否返回无关，函数便会形成闭包。</u></em></p>
+<h2 id="4、this关键字"><a href="#4、this关键字" class="headerlink" title="4、this关键字"></a>4、this关键字</h2><p>&emsp;&emsp;在绝大多数情况下，<u>函数的调用方式决定了 this 的值（<strong>运行时绑定</strong>）。this 不能在执行期间被赋值，并且在每次函数被调用时 this 的值也可能会不同（<strong>与调用方式有关</strong>）。</u>ES5 引入了 bind 方法来设置函数的 this 值，而不用考虑函数如何被调用的。ES2015 引入了箭头函数，箭头函数不提供自身的 this 绑定，此时this 的值将保持为当前闭合词法上下文的值。即函数中this的取值为当前执行上下文（global、function 或 eval）的一个属性，在非严格模式下，总是指向一个对象，在严格模式下可以是任意值。</p>
+<p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，在全局执行环境中（在任何函数体外部）this 都指向全局对象。</p>
+<pre><code>  console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+
+  &quot;use strict&quot;;
+  console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+</code></pre>
+<p>&emsp;&emsp;② 在函数上下文中，this指向取决于函数被调用的方式：在非严格模式下，this的值不由调用者设置，this指向window。在严格模式下，this指向调用者，若执行前没有设置this的值，也没有作为对象的属性或方法而是直接调用，this为undefined。<br><em>&emsp;&emsp;[注] 可以通过call、apply方法修改this指向的环境。</em></p>
+<pre><code>  (function () &#123;
+    console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+  &#125;())
+
+  &quot;use strict&quot;;
+  (function () &#123;
+    console.log(this) // undefined
+  &#125;())
+  
+  &quot;use strict&quot;;
+  function test() &#123;
+    console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+  &#125;
+  test.apply(window)
+</code></pre>
+<p>&emsp;&emsp;③ 类上下文中，基类与派生类构造函数constructor()中this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象，所有非静态方法会被添加到this的原型中。在派生类中的构造函数没有初始的this绑定，在构造函数中调用super()才能生成一个this绑定。<u>注意的是，使用super对象时，super 调用父类的方法时，super 会绑定当前子类的 this。</u><br><em>&emsp;&emsp;[注] 静态方法不是this的属性，它们只是类自身的属性。派生类（子类）在super()前调用this会抛出异常(ReferenceError)，派生类不能在调用super前返回，除非没有构造函数或者构造函数返回了对象。</em></p>
+<pre><code>  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this) // A &#123;&#125;
+    &#125;
+  &#125;
+  new A()
+
+  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this)
+    &#125;
+  &#125;
+  class B extends A &#123;
+    constructor () &#123;
+      console.log(this) // Uncaught ReferenceError: Must call super constructor in derived class before accessing &#39;this&#39; or returning from derived constructor
+    &#125;
+  &#125;
+  new B()
+
+  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this) // B &#123;&#125;
+    &#125;
+  &#125;
+  class B extends A &#123;
+    constructor () &#123;
+      super()
+      console.log(this) // B &#123;&#125;
+    &#125;
+  &#125;
+  new B()
+
+  // 特别的~
+  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this)
+    &#125;
+  &#125;
+  class B extends A &#123;
+    constructor () &#123;
+      return &#123; a: 1 &#125;
+    &#125;
+  &#125;
+  console.log(new B()) // &#123; a: 1 &#125;
+</code></pre>
  
       <!-- reward -->
       
@@ -1822,26 +1935,26 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <p>JavaScript ( JS ) 是一种具有函数优先的轻量级，解释型或即时编译型，单线程的脚本语言，它可以在网页上实现复杂的功能，网页展现给你的不再是简单的静态页面信息，而是实时的内容更新，交互式的地图，2D/3D 动画，滚动播放的视频等更加丰富的内容，也能实现用户界面与服务器相关的交互</p>
+  <p>JavaScript ( JS ) 是一种具有函数优先的轻量级，解释型或即时编译型，单线程的脚本语言，它可以在网页上实现复杂的功能，网页展现给你的不再是简单的静态页面信息，而是实时的内容更新，交互式的地图，2D/3D 动画，滚动播放的视频等更加丰富的内容，也能实现用户在网页界面上与服务器相关交互功能</p>
 <h2 id="1、语言特性"><a href="#1、语言特性" class="headerlink" title="1、语言特性"></a>1、语言特性</h2><p>&emsp;&emsp;JavaScript是一门动态的、弱类型、基于原型（prototype）的脚本语言。在JavaScript中“一切皆对象”，在这一方面，它比其他的面向对象的语言来得更为彻底。即使作为代码本身载体的函数（function），也是对象。</p>
 <h2 id="2、基本语法"><a href="#2、基本语法" class="headerlink" title="2、基本语法"></a>2、基本语法</h2><h4 id="1-向页面添加JavaScript"><a href="#1-向页面添加JavaScript" class="headerlink" title="1) 向页面添加JavaScript"></a>1) 向页面添加JavaScript</h4><p>&emsp;&emsp;在body标签结束前插入以下script标签引入JavaScript， <u>JavaScript 是区分大小写的</u></p>
 <pre><code>  // 方式1：内联JavaScript
   &lt;script&gt;
-      // 在此编写JavaScript代码
+    ...在此编写JavaScript代码...
   &lt;/script&gt;
 
   // 方式2：外部引入JavaScript
   &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
 </code></pre>
-<p><em>&emsp;&emsp;[注] 在外部引入JS时，在必要的时候（防止加载阻塞页面渲染问题或对多个有依赖关系的脚本加载顺序有要求），我们需要加上async或defer修饰符（解决脚本阻塞问题的两种方式）。<u>浏览器遇到 async 脚本时不会阻塞页面渲染，而是直接下载然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。</u>当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async 是最理想的选择；<u>defer 属性的脚本将按照在页面中出现的顺序加载，可保证脚本的加载顺序</u></em></p>
+<p><em>&emsp;&emsp;[注] 在外部引入JS时，在必要的时候（防止加载阻塞页面渲染问题或对多个有依赖关系的脚本对加载顺序有要求），我们需要在&lt;script&gt;标签上加上async或defer修饰符（属性）（这是解决脚本阻塞问题的两种方式）。<u>浏览器遇到 async 脚本时不会阻塞页面渲染，而是直接下载然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。</u>当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async 是最理想的选择；<u>defer 属性的脚本将按照在页面中出现的顺序加载，可保证脚本的加载顺序</u></em></p>
 <h4 id="2-变量"><a href="#2-变量" class="headerlink" title="2) 变量"></a>2) 变量</h4><p>&emsp;&emsp;变量是用来存储数值的，那么有一个重要的概念需要区分。变量不是数值本身，它们仅仅是一个用于存储数值的容器，JS中使用var、let、const来定义变量</p>
-<p>&emsp;&emsp;构造变量名称（唯一标识符）的通用规则是：<br>&emsp;&emsp;名称可包含字母、数字、下划线和美元符号<br>&emsp;&emsp;名称必须以字母、$或_开头<br>&emsp;&emsp;名称对大小写敏感<br>&emsp;&emsp;保留关键字不能作为变量名称</p>
+<p>&emsp;&emsp;<strong>构造变量名称（唯一标识符）的通用规则是：</strong><br>&emsp;&emsp;名称可包含字母、数字、下划线和美元符号<br>&emsp;&emsp;名称必须以字母、$或_开头<br>&emsp;&emsp;名称对大小写敏感<br>&emsp;&emsp;保留关键字不能作为变量名称</p>
 <pre><code>  var a;
   let b;
   onst C = 100; // 定义常量必须进行初始化，常量一般用大写英文命名
 </code></pre>
 <p>&emsp;&emsp;变量类型：<br>&emsp;&emsp;值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol<br>&emsp;&emsp;引用数据类型：对象(Object，JavaScript 对象是键值对的容器)、数组(Array)、函数(Function)，还有两个特殊的对象：正则（RegExp）和日期（Date）</p>
-<h4 id="3-语句与表达式"><a href="#3-语句与表达式" class="headerlink" title="3) 语句与表达式"></a>3) 语句与表达式</h4><p>&emsp;&emsp;<u>JavaScript区分表达式和语句</u><br>&emsp;&emsp;表达式是输出值的，并且可以写在任何需要一个值的地方，例如函数的参数等。一般来讲，表达式由变量、操作符和约束条件等以能求得有意义的数值（非undefined）为目的排列所得的组合<br>&emsp;&emsp;语句表示执行了一个动作，例如循环控制语句(for、while…)和分支判断语句(if)等。一个程序基本上就是一系列的语句的集合。在JavaScript中需要语句的地方，也可以写入一个表达式。但不能够在需要表达式的地方写入一个语句。我们常用分号分语句，使得可以在一行编写多条语句。<br>&emsp;&emsp;常用运算符：=、+、-、*、/、==、!=、&gt;、&lt;、&amp;&amp;、||、……<br>&emsp;&emsp;常用语句：</p>
+<h4 id="3-语句与表达式"><a href="#3-语句与表达式" class="headerlink" title="3) 语句与表达式"></a>3) 语句与表达式</h4><p>&emsp;&emsp;<u>JavaScript区分表达式和语句</u><br>&emsp;&emsp;表达式是输出值的，并且可以写在任何需要一个值的地方，例如函数的参数等。一般来讲，表达式由变量、操作符和约束条件等以能求得有意义的数值（非undefined）为目的排列所得的组合<br>&emsp;&emsp;语句表示执行了一个动作，例如循环控制语句(for、while…)和分支判断语句(if)等。一个程序基本上就是一系列的语句的集合。在JavaScript中需要语句的地方，也可以写入一个表达式。但不能够在需要表达式的地方写入一个语句。我们常用分号分语句，使得可以在一行编写多条语句。<br>&emsp;&emsp;常用运算符：=、+、-、*、/、==、!=、&gt;、&lt;、&amp;&amp;、||、位运算符、……<br>&emsp;&emsp;常用语句：</p>
 <pre><code>  // 赋值语句    
   let a = 5, b = 8;
   
@@ -1882,11 +1995,12 @@
 </code></pre>
 <h4 id="4-字符串模板"><a href="#4-字符串模板" class="headerlink" title="4) 字符串模板"></a>4) 字符串模板</h4><p>&emsp;&emsp;模板字符串使用反引号<u>(` `)</u> 来代替普通字符串中的用双引号和单引号。模板字符串可以包含特定语法（${ expression } ）的占位符。占位符中的表达式和周围的文本会一起传递给一个默认函数，该函数负责将所有的部分连接起来。<u>特别的，如果一个模板字符串由表达式开头，则该字符串被称为带标签的模板字符串，该表达式通常是一个函数，它会在模板字符串处理后被调用，在输出最终结果前，你都可以通过该函数来对模板字符串进行操作处理。</u>注意，在模版字符串内使用反引号（`）时，需要在它前面加转义符（），<strong>字符串模板可以嵌套使用。</strong></p>
 <pre><code>  let a = 4;
-  console.log(`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 我有一个苹果6s，哈哈哈~
   function upgradePhone(str, a)&#123; // [注] 函数的第一个参数是数组（模板中各个原生字符串）。其余的参数为模板中的变量
-    return &#39;升级手机，&#39; + str[0] + (a + 2) + str[1];
+    return &#39;带标签的模板字符串，&#39; + str[0] + (a + 2) + str[1];
   &#125;
-  console.log(upgradePhone`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 升级手机，我有一个苹果6s，哈哈哈~
+
+  console.log(`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 我有一个苹果6s，哈哈哈~
+  console.log(upgradePhone`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 带标签的模板字符串，我有一个苹果6s，哈哈哈~
 </code></pre>
 <h4 id="5-解构赋值"><a href="#5-解构赋值" class="headerlink" title="5) 解构赋值"></a>5) 解构赋值</h4><p>&emsp;&emsp;解构赋值语法是一种 Javascript 表达式。通过解构赋值, 可以将属性/值从对象/数组中取出,赋值给其他变量。使得对象和数组逐个对应表达式，或称对象字面量和数组字面量，提供了一种简单的定义一个特定的数据组的方法<br>&emsp;&emsp;特别的：<u>赋值语句周围的圆括号()在使用对象字面量无声明解构赋值时是必须的</u>，否则左边被认为是一个块而不是对象字面量。<u>并且()表达式之前需要有一个分号，否则它可能会被当成上一行中的函数执行</u></p>
 <pre><code>  let a, b, C;
@@ -1895,9 +2009,9 @@
   (&#123; a, b = 0&#125; = &#123; a: 10, b: 20 &#125;); // a: 10, b: 20
   (&#123;a, b, ...C&#125; = &#123;a: 10, b: 20, c: 30, d: 40&#125;); // a: 10, b: 20, C: &#123;c: 30, d: 40&#125;
 </code></pre>
-<h4 id="6-函数"><a href="#6-函数" class="headerlink" title="6) 函数"></a>6) 函数</h4><p>&emsp;&emsp;函数就是包裹在花括号中的代码块，使用关键字function进行定义。当调用该函数时，会执行函数内的代码，在调用函数时，可以向其传递参数。这些参数可以在函数中使用，多个参数用逗号（,）分割。变量和参数必须以一致的顺序出现。第一个变量就是第一个被传递的参数的给定的值，以此类推。有时，我们会希望函数将值返回调用的地方。通过使用return语句就可以实现。在使用return语句时，函数会停止执行(无论后面是否还存在语句)，并返回指定的值。</p>
-<p><em>&emsp;&emsp;[注] <u>函数有作用域的概念，在函数内部定义的变量，只能在函数内部访问它（闭包情况除外），此时该变量的作用域是局部的。特别的，如果给未申明的变量赋值，该变量会被自动配置为全局变量（配置为window的属性）。</u></em></p>
-<pre><code>  function functionname(var1, var2, ...) &#123;
+<h4 id="6-函数"><a href="#6-函数" class="headerlink" title="6) 函数"></a>6) 函数</h4><p>&emsp;&emsp;函数就是包裹在花括号中的代码块，使用关键字function进行定义。当调用该函数时，会执行函数内的代码，在调用函数时，可以向其传递参数。这些参数可以在函数中使用，多个参数用逗号（,）分割。<u>变量和参数必须以一致的顺序出现。</u>第一个变量就是第一个被传递的参数的给定的值，以此类推。有时，我们会希望函数将值返回调用的地方。通过使用return语句就可以实现。在使用return语句时，函数会停止执行(无论后面是否还存在语句)，并返回指定的值。</p>
+<p><em>&emsp;&emsp;[注] <u>函数有作用域的概念，在函数内部定义的变量，只能在函数内部访问它（闭包情况除外），此时该变量的作用域是局部的。特别的，如果给未申明的变量赋值，该变量会被自动配置为全局变量（隐式全局变量，也为window对象的属性）。</u></em></p>
+<pre><code>  function functionName(var1, var2, ...) &#123;
     // 代码
     // return value;
   &#125;
@@ -1970,7 +2084,7 @@
 </tr>
 <tr>
 <td>transform-origin</td>
-<td>允许你改变被转换元素的位置</td>
+<td>允许你更改一个元素变形的原点(该属性必须与transform属性一同使用)</td>
 </tr>
 <tr>
 <td>transform-style</td>
@@ -2012,7 +2126,7 @@
 </tr>
 <tr>
 <td>transition-timing-function</td>
-<td>规定过渡效果的时间曲线，默认是 “ease”</td>
+<td>规定过渡效果的时间曲线(时序函数)，默认是 “ease”</td>
 </tr>
 <tr>
 <td>transition-delay</td>
@@ -2047,7 +2161,7 @@
 </thead>
 <tbody><tr>
 <td>@keyframes</td>
-<td>规定动画（兼容加对应浏览器前缀）</td>
+<td>规定动画（兼容应添加对应浏览器前缀）</td>
 </tr>
 <tr>
 <td>animation</td>
@@ -2055,7 +2169,7 @@
 </tr>
 <tr>
 <td>animation-name</td>
-<td>规定 @keyframes 动画的名称</td>
+<td>对应@keyframes定义的动画的名称</td>
 </tr>
 <tr>
 <td>animation-duration</td>
@@ -2178,7 +2292,7 @@
     &lt;div class=&quot;bottom&quot;&gt;&lt;img src=&quot;img/6.jpg&quot;&gt;&lt;/div&gt;
   &lt;/div&gt;
 </code></pre>
-<p>&emsp;&emsp;简单说明：先在外层class为box的div上设置了观测视角。再对class为cube的div元素设置了transform-style: preserve-3d，使其可以进行3D变换。再对其内部的6个面（实现方式不止代码所示的一种，变换过程中旋转与平移先后顺序不同代码就会不同。这里用图片简单表示骰子的1-6，通过Flex或是Grid布局实现也比较容易）进行相应的3D平移与旋转，布局成为一个立方体。再对class为cube的div元素添加了自定义的关键帧rotate旋转动画。</p>
+<p>&emsp;&emsp;简单说明：先在外层class为box的div上设置了观测视角。再对class为cube的div元素设置了transform-style: preserve-3d，使其可以进行3D变换。再对其内部的6个面（实现方式不止代码所示的一种，变换过程中旋转与平移先后顺序不同代码就会不同。这里用图片简单表示骰子的1-6，通过Flex或是Grid布局实现骰子6个面的布局也比较容易）进行相应的3D平移与旋转，布局成为一个立方体。再对class为cube的div元素添加了自定义的关键帧rotate旋转动画。</p>
 <h4 id="2）边框滚动动画"><a href="#2）边框滚动动画" class="headerlink" title="2）边框滚动动画"></a>2）边框滚动动画</h4><p>&emsp;&emsp;先看动画效果：</p>
 <p><img src="/images/css3/%E8%BE%B9%E6%A1%86%E6%BB%9A%E5%8A%A8%E5%8A%A8%E7%94%BB.gif" alt="边框滚动动画"></p>
 <p>&emsp;&emsp;代码实现：</p>
@@ -2225,7 +2339,7 @@
     &lt;/svg&gt;
   &lt;/div&gt;
 </code></pre>
-<p>&emsp;&emsp;简单说明：这里路径使用SVG图片，设置汽车的图片offset-path偏移路径为SVG中path字符串。自定义动画move使汽车每3s沿SVG路径进行偏移直至100%，便出现了汽车元素沿不规则路径移动的效果。</p>
+<p>&emsp;&emsp;简单说明：这里路径使用SVG图片，设置汽车的图片offset-path偏移路径为SVG中path字符串一致。自定义动画move使汽车每3s沿SVG路径进行偏移直至100%，便出现了汽车元素沿不规则路径移动的效果。</p>
  
       <!-- reward -->
       

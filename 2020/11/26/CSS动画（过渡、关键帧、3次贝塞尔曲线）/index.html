@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">11 分钟</span>
+            <span class="post-count">12 分钟</span>
         </span>
     </span>
 </div>
@@ -126,7 +126,7 @@
 </tr>
 <tr>
 <td>transform-origin</td>
-<td>允许你改变被转换元素的位置</td>
+<td>允许你更改一个元素变形的原点(该属性必须与transform属性一同使用)</td>
 </tr>
 <tr>
 <td>transform-style</td>
@@ -168,7 +168,7 @@
 </tr>
 <tr>
 <td>transition-timing-function</td>
-<td>规定过渡效果的时间曲线，默认是 “ease”</td>
+<td>规定过渡效果的时间曲线(时序函数)，默认是 “ease”</td>
 </tr>
 <tr>
 <td>transition-delay</td>
@@ -203,7 +203,7 @@
 </thead>
 <tbody><tr>
 <td>@keyframes</td>
-<td>规定动画（兼容加对应浏览器前缀）</td>
+<td>规定动画（兼容应添加对应浏览器前缀）</td>
 </tr>
 <tr>
 <td>animation</td>
@@ -211,7 +211,7 @@
 </tr>
 <tr>
 <td>animation-name</td>
-<td>规定 @keyframes 动画的名称</td>
+<td>对应@keyframes定义的动画的名称</td>
 </tr>
 <tr>
 <td>animation-duration</td>
@@ -334,7 +334,7 @@
     &lt;div class=&quot;bottom&quot;&gt;&lt;img src=&quot;img/6.jpg&quot;&gt;&lt;/div&gt;
   &lt;/div&gt;
 </code></pre>
-<p>&emsp;&emsp;简单说明：先在外层class为box的div上设置了观测视角。再对class为cube的div元素设置了transform-style: preserve-3d，使其可以进行3D变换。再对其内部的6个面（实现方式不止代码所示的一种，变换过程中旋转与平移先后顺序不同代码就会不同。这里用图片简单表示骰子的1-6，通过Flex或是Grid布局实现也比较容易）进行相应的3D平移与旋转，布局成为一个立方体。再对class为cube的div元素添加了自定义的关键帧rotate旋转动画。</p>
+<p>&emsp;&emsp;简单说明：先在外层class为box的div上设置了观测视角。再对class为cube的div元素设置了transform-style: preserve-3d，使其可以进行3D变换。再对其内部的6个面（实现方式不止代码所示的一种，变换过程中旋转与平移先后顺序不同代码就会不同。这里用图片简单表示骰子的1-6，通过Flex或是Grid布局实现骰子6个面的布局也比较容易）进行相应的3D平移与旋转，布局成为一个立方体。再对class为cube的div元素添加了自定义的关键帧rotate旋转动画。</p>
 <h4 id="2）边框滚动动画"><a href="#2）边框滚动动画" class="headerlink" title="2）边框滚动动画"></a>2）边框滚动动画</h4><p>&emsp;&emsp;先看动画效果：</p>
 <p><img src="/images/css3/%E8%BE%B9%E6%A1%86%E6%BB%9A%E5%8A%A8%E5%8A%A8%E7%94%BB.gif" alt="边框滚动动画"></p>
 <p>&emsp;&emsp;代码实现：</p>
@@ -381,7 +381,7 @@
     &lt;/svg&gt;
   &lt;/div&gt;
 </code></pre>
-<p>&emsp;&emsp;简单说明：这里路径使用SVG图片，设置汽车的图片offset-path偏移路径为SVG中path字符串。自定义动画move使汽车每3s沿SVG路径进行偏移直至100%，便出现了汽车元素沿不规则路径移动的效果。</p>
+<p>&emsp;&emsp;简单说明：这里路径使用SVG图片，设置汽车的图片offset-path偏移路径为SVG中path字符串一致。自定义动画move使汽车每3s沿SVG路径进行偏移直至100%，便出现了汽车元素沿不规则路径移动的效果。</p>
  
       <!-- reward -->
       

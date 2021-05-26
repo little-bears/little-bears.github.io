@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3.2k</span>
+            <span class="post-count">3.5k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">12 分钟</span>
+            <span class="post-count">13 分钟</span>
         </span>
     </span>
 </div>
@@ -110,11 +110,11 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻。会进行变量与函数申明（变量提升）、生成执行上下文（作用域）等工作。</p>
-<h2 id="1、作用域（链）"><a href="#1、作用域（链）" class="headerlink" title="1、作用域（链）"></a>1、作用域（链）</h2><p>&emsp;&emsp;JavaScript采用词法作用域，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文的变量对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
-<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。全局作用域的变量是全局对象的属性，不论在什么函数中都可以直接访问，而不需要通过全局对象，但加上全局对象，可以提供搜索效率。<br><em>&emsp;&emsp;[注] 隐式的申明变量，在最外层函数外部申明的变量，给window对象添加的属性都是全局变量</em><br>&emsp;&emsp;② 在函数内部用var关键字申明的变量，函数的参数会存在于该函数的局部作用域中。<br><em>&emsp;&emsp;[注] 局部变量的优先级高于全局变量</em><br>&emsp;&emsp;③ 用let、const申明的变量会存在于块级作用域中。</p>
+  <p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻(在极短时间内完成)。会进行变量与函数申明（变量提升）、生成执行上下文（作用域）等工作。</p>
+<h2 id="1、作用域（链）"><a href="#1、作用域（链）" class="headerlink" title="1、作用域（链）"></a>1、作用域（链）</h2><p>&emsp;&emsp;JavaScript采用词法作用域，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
+<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。全局作用域的变量是全局对象(window)的属性，不论在什么函数中都可以直接访问，而不需要通过全局对象，<u>但加上全局对象，可以提供搜索效率。</u><br><em>&emsp;&emsp;[注] 隐式的申明变量，或在最外层函数外部申明的变量，给window对象添加的属性都是全局变量</em><br>&emsp;&emsp;② 在函数内部用var关键字申明的变量，函数的参数会存在于该函数的局部作用域中。<br><em>&emsp;&emsp;[注] 局部变量的优先级高于全局变量</em><br>&emsp;&emsp;③ 用let、const申明的变量会存在于块级作用域中。</p>
 <h2 id="2、预解析与执行上下文"><a href="#2、预解析与执行上下文" class="headerlink" title="2、预解析与执行上下文"></a>2、预解析与执行上下文</h2><p>&emsp;&emsp;JavaScript代码在执行前的瞬间会存在预解析的阶段，会对代码进行相应的处理，对申明的变量与函数进行变量提升，以及生成对应的执行上下文，执行上下文除了保存代码执行信息外，还会将当前作用域信息也保存在执行上下文中，他们有相应的存储关系。随着代码进行的进行，执行上下文会进行相应的改变，执行上下文是用于跟踪代码的运行情况。同一个作用域下，不同的调用会产生不同的执行上下文环境，继而产生不同的变量的值。</p>
-<p>&emsp;&emsp;预解析处理创建执行上下文的步骤：<br>&emsp;&emsp;① 隐式的创建GO（全局上下文）/AO（函数上下文）对象<br>&emsp;&emsp;② 找形参和变量声明，将变量和形参名作为GO/AO的属性名，值为undefined（这个过程也常称为变量提升）<br>&emsp;&emsp;③ 将实参值和形参统一<br>&emsp;&emsp;④ 在函数体里面找函数声明，作为GO/AO的属性，值赋予函数体（这个过程也常称为函数提升）<br><em>&emsp;&emsp;[注] 在全局预解析中，由于全局中没有参数的的概念，所以省去了第2步的找参数、第3步实参形参相统一这两处处理。GO全局上下文对象，它优于局部预解析AO局部上下文对象的创建与执行</em></p>
+<p>&emsp;&emsp;预解析过程创建执行上下文的步骤：<br>&emsp;&emsp;① 隐式的创建GO（全局上下文）/AO（函数上下文）对象<br>&emsp;&emsp;② 找形参和变量声明，将变量和形参名作为GO/AO的属性名，值为undefined（这个过程也常称为变量提升）<br>&emsp;&emsp;③ 将实参值和形参统一<br>&emsp;&emsp;④ 在函数体里面找函数声明，作为GO/AO的属性，值赋予函数体（这个过程也常称为函数提升）<br><em>&emsp;&emsp;[注] 在全局预解析中，由于全局中没有参数的的概念，所以省去了第2步的找参数。第2步中的找变量申明与第3步实参形参相统一一同处理。GO全局上下文对象，它优于局部预解析AO局部上下文对象的创建与执行</em></p>
 <p>&emsp;&emsp;例如下面的代码：</p>
 <pre><code>  1  console.log(a) // undefined
   2  console.log(b) // Uncaught ReferenceError: b is not defined
@@ -192,7 +192,8 @@
     c: undefined
   &#125;
 </code></pre>
-<p>&emsp;&emsp;(4) 对应fn函数，进行预解析第4步：在函数体里面找函数声明，作为AO的属性，值赋予函数体<br>&emsp;&emsp;fn函数内无函数申明，AO对象不变<br>&emsp;&emsp;<strong>fn函数执行前预解析完成，11-16行的<u>函数入栈执行！</u></strong><br>&emsp;&emsp;执行第12行，输出a为undefined（先在当前执行的函数上下文AO的作用域对象中查找变量a，若AO的作用域对象中没有，通过AO中的作用域链，再去全局上下文GO中去查找）<br>&emsp;&emsp;执行第13行，将变量b赋值为8，变量a赋值为8。其中变量b存在于全局上下文GO中，这里的a为当前执行的函数上下文AO中的a，此时的GO、AO对象为：</p>
+<p>&emsp;&emsp;(4) 对于fn函数，进行预解析第4步：在函数体里面找函数声明，作为AO的属性，值赋予函数体<br>&emsp;&emsp;fn函数内无函数申明，AO对象不变</p>
+<p>&emsp;&emsp;<strong>fn函数执行前预解析完成，11-16行的<u>函数入栈执行！</u></strong><br>&emsp;&emsp;执行第12行，输出a为undefined（先在当前执行的函数上下文AO的作用域对象中查找变量a，若AO的作用域对象中没有，通过AO中的作用域链，再去全局上下文GO中去查找）<br>&emsp;&emsp;执行第13行，将变量b赋值为8，变量a赋值为8。其中变量b存在于全局上下文GO中，这里的a为当前执行的函数上下文AO中的a，此时的GO、AO对象为：</p>
 <pre><code>  GO:&#123;
     a: 5,
     test: undefined,
@@ -220,7 +221,7 @@
     b: 8
   &#125;
 </code></pre>
-<p>&emsp;&emsp;执行第17行，输出a为5<br>&emsp;&emsp;执行第18行，输出b为8<br>&emsp;&emsp;执行第19行，因为全局上下文没有申明c变量，所以程序抛出异常：Uncaught ReferenceError: c is not defined<br>&emsp;&emsp;执行第20行，<u>这里调用test()函数与上面调用fn(3)函数类似，执行前也会进行相应的局部预解析，然后执行函数，</u>这里输出函数返回的10<br>&emsp;&emsp;代码执行完成！</p>
+<p>&emsp;&emsp;执行第17行，输出a为5<br>&emsp;&emsp;执行第18行，输出b为8<br>&emsp;&emsp;执行第19行，因为全局上下文没有申明c变量，所以程序抛出异常：Uncaught ReferenceError: c is not defined<br>&emsp;&emsp;执行第20行，<u>这里调用test()函数与上面调用fn(3)函数类似，执行前也会进行相应的局部预解析，创建对应的AO对象。然后函数入栈执行，</u>这最后函数返回执行结果为10<br>&emsp;&emsp;代码执行完成！</p>
 <p><em>&emsp;&emsp;[注] 这里分析比较简单的一段代码的执行过程，这里在函数内部没有函数的申明，也没有异步处理。一般的，如果函数内部存在函数，在内部函数调用时也会进行对应的局部预处理以及入栈执行；如果代码内包含异步逻辑，会把异步逻辑放在异步队列里面进行相应的调度执行。</em><br><em>&emsp;&emsp;[注] 如果在某个作用域中使用了某变量，而该变量并未在对应的（静态）作用域中声明（在其它作用域中声明），该变量称为<u>自由变量。</u></em></p>
 <h2 id="3、闭包"><a href="#3、闭包" class="headerlink" title="3、闭包"></a>3、闭包</h2><p>&emsp;&emsp;一个函数和对其周围状态（词法环境）的引用捆绑在一起，这样的组合就是闭包（closure）。闭包让你可以在一个内层函数中访问到其外层函数的作用域（即能够读取其他函数内部变量的函数）。在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来。<strong>函数就会形成闭包。</strong><u>闭包是由函数以及声明该函数的词法环境组合而成的。</u>该环境包含了这个闭包创建时作用域内的任何局部变量。</p>
 <p>&emsp;&emsp;例如下面的代码：</p>
@@ -250,10 +251,81 @@
 
   7
 </code></pre>
-<p>&emsp;&emsp;上面的代码中：add函数内部定义了inner函数，inner函数可以访问词法环境外部add函数作用域中变量，如这里的形参x。从打印的inner.prototype对象可以看出，在inner函数的作用域链的栈底为Global全局作用域，栈顶为inner函数所在的add函数的作用域，这里形成了Closure闭包。add(3)函数调用后返回的inner(y){ return x + y; }函数与inner函数的词法环境形成了闭包，inner函数中保留了对add函数内部变量x的应用，且此时x=3，所以在add(3)(4)继续调用inner函数时返回结果7。</p>
-<p><em>&emsp;&emsp;[注] 这里是否形成闭包与内部的inner函数是否返回无关。</em></p>
-<h2 id="4、this关键字"><a href="#4、this关键字" class="headerlink" title="4、this关键字"></a>4、this关键字</h2><p>&emsp;&emsp;在绝大多数情况下，<u>函数的调用方式决定了 this 的值（<strong>运行时绑定</strong>）。this 不能在执行期间被赋值，并且在每次函数被调用时 this 的值也可能会不同（<strong>与调用方式有关</strong>）。</u>ES5 引入了 bind 方法来设置函数的 this 值，而不用考虑函数如何被调用的。ES2015 引入了箭头函数，箭头函数不提供自身的 this 绑定，此时this 的值将保持为闭合词法上下文的值。函数中this的取值为当前执行上下文（global、function 或 eval）的一个属性，在非严格模式下，总是指向一个对象，在严格模式下可以是任意值。</p>
-<p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，在全局执行环境中（在任何函数体外部）this 都指向全局对象。<br>&emsp;&emsp;② 在函数上下文中，this指向取决于函数被调用的方式：在非严格模式下，this的值不由调用者设置，this指向window。在严格模式下，this指向调用者，若执行前没有设置this的值，也没有作为对象的属性或方法而是直接调用，this为undefined。<br><em>&emsp;&emsp;[注] 可以通过call、apply方法修改this指向的环境。</em><br>&emsp;&emsp;③ 类上下文中，基类与派生类构造函数constructor()中this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象，所有非静态方法会被添加到this的原型中。在派生类中的构造函数没有初始的this绑定，在构造函数中调用super()才能生成一个this绑定。<u>注意的是，使用super对象时，super 调用父类的方法时，super 会绑定当前子类的 this。</u><br><em>&emsp;&emsp;[注] 静态方法不是this的属性，它们只是类自身的属性。派生类（子类）在super()前调用this会抛出异常，派生类不能在调用super前返回，除非没有构造函数或者构造函数返回了对象。</em></p>
+<p>&emsp;&emsp;上面的代码中：add函数内部定义了inner函数，inner函数可以访问词法环境外部add函数作用域中变量，如这里的形参x。从打印的inner.prototype对象可以看出，在inner函数的作用域链的栈底为Global全局作用域，栈顶为inner函数所在的add函数的作用域，这里形成了Closure闭包。add(3)函数调用后返回的inner(y){ return x + y; }函数(x=3)与inner函数的词法环境形成了闭包，<u>inner函数中保留了对add函数内部变量x的应用，且此时x=3</u>，所以在add(3)(4)继续调用inner函数时返回结果7。</p>
+<p><em>&emsp;&emsp;[注] 这里<u>是否形成闭包与内部的inner函数是否返回无关，函数便会形成闭包。</u></em></p>
+<h2 id="4、this关键字"><a href="#4、this关键字" class="headerlink" title="4、this关键字"></a>4、this关键字</h2><p>&emsp;&emsp;在绝大多数情况下，<u>函数的调用方式决定了 this 的值（<strong>运行时绑定</strong>）。this 不能在执行期间被赋值，并且在每次函数被调用时 this 的值也可能会不同（<strong>与调用方式有关</strong>）。</u>ES5 引入了 bind 方法来设置函数的 this 值，而不用考虑函数如何被调用的。ES2015 引入了箭头函数，箭头函数不提供自身的 this 绑定，此时this 的值将保持为当前闭合词法上下文的值。即函数中this的取值为当前执行上下文（global、function 或 eval）的一个属性，在非严格模式下，总是指向一个对象，在严格模式下可以是任意值。</p>
+<p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，在全局执行环境中（在任何函数体外部）this 都指向全局对象。</p>
+<pre><code>  console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+
+  &quot;use strict&quot;;
+  console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+</code></pre>
+<p>&emsp;&emsp;② 在函数上下文中，this指向取决于函数被调用的方式：在非严格模式下，this的值不由调用者设置，this指向window。在严格模式下，this指向调用者，若执行前没有设置this的值，也没有作为对象的属性或方法而是直接调用，this为undefined。<br><em>&emsp;&emsp;[注] 可以通过call、apply方法修改this指向的环境。</em></p>
+<pre><code>  (function () &#123;
+    console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+  &#125;())
+
+  &quot;use strict&quot;;
+  (function () &#123;
+    console.log(this) // undefined
+  &#125;())
+  
+  &quot;use strict&quot;;
+  function test() &#123;
+    console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+  &#125;
+  test.apply(window)
+</code></pre>
+<p>&emsp;&emsp;③ 类上下文中，基类与派生类构造函数constructor()中this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象，所有非静态方法会被添加到this的原型中。在派生类中的构造函数没有初始的this绑定，在构造函数中调用super()才能生成一个this绑定。<u>注意的是，使用super对象时，super 调用父类的方法时，super 会绑定当前子类的 this。</u><br><em>&emsp;&emsp;[注] 静态方法不是this的属性，它们只是类自身的属性。派生类（子类）在super()前调用this会抛出异常(ReferenceError)，派生类不能在调用super前返回，除非没有构造函数或者构造函数返回了对象。</em></p>
+<pre><code>  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this) // A &#123;&#125;
+    &#125;
+  &#125;
+  new A()
+
+  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this)
+    &#125;
+  &#125;
+  class B extends A &#123;
+    constructor () &#123;
+      console.log(this) // Uncaught ReferenceError: Must call super constructor in derived class before accessing &#39;this&#39; or returning from derived constructor
+    &#125;
+  &#125;
+  new B()
+
+  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this) // B &#123;&#125;
+    &#125;
+  &#125;
+  class B extends A &#123;
+    constructor () &#123;
+      super()
+      console.log(this) // B &#123;&#125;
+    &#125;
+  &#125;
+  new B()
+
+  // 特别的~
+  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this)
+    &#125;
+  &#125;
+  class B extends A &#123;
+    constructor () &#123;
+      return &#123; a: 1 &#125;
+    &#125;
+  &#125;
+  console.log(new B()) // &#123; a: 1 &#125;
+</code></pre>
  
       <!-- reward -->
       
