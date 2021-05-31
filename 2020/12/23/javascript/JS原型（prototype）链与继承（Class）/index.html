@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>JS原型（prototype）链与继承（Class） |  码农日志</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link rel="alternate" href="/atom.xml" title="码农日志" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-javascript/JS原型（prototype）链与继承（Class）"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  JS原型（prototype）链与继承（Class）
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/12/23/javascript/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/" class="article-date">
+  <time datetime="2020-12-23T10:00:00.000Z" itemprop="datePublished">2020-12-23</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">4.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">19 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>在JavaScript中，每个实例对象（ object ）都有一个私有属性（称之为 __proto__ ）指向它的构造函数的原型对象（prototype ）。该原型对象也有一个自己的原型对象( __proto__ ) ，层层向上直到一个对象的原型对象为 null。根据定义，null没有原型，并作为这个原型链中的最后一个环节。几乎所有 JavaScript 中的对象都是位于原型链顶端的Object对象的实例。</p>
+<h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><p>&emsp;&emsp;对象：对象是一个包含相关数据和方法的集合，通常由一些变量和函数组成，我们称之为对象里面的属性和方法。对象成员的值可以是任意的，例如Number，String，Function，null， undefined等。</p>
+<p><em>&emsp;&emsp;[注1] 可以使用点表示法或者括号([ ])表示法访问对象的成员，对象做了字符串(key)到值(value)的映射，而数组做的是数字(索引)到值的映射。其中，括号表示法一个特别的地方是不仅可以动态的去设置对象成员的值，还可以动态的设置成员的名字(key)。</em><br><em>&emsp;&emsp;[注2] 可以用一个对象来做另一个对象成员的值，这样，实际上创建了一个子命名空间，可以链式的使用点表示法或括号表示法去访问其中的成员变量。</em></p>
+<p>&emsp;&emsp;<u>面向对象的JavaScript</u>（OOJS）：面向对象编程（OOP）的基本思想为，在程序里，我们通过使用对象去构建现实世界的模型，把原本很难（或不可）能被使用的功能，简单化并提供出来，以供访问。对象可以包含相关的数据和代码，去描述模型以及模型具有的行为和功能。对象包（命名空间）存储（封装）着对象的数据与方法，使数据的组织和访问变得更容易了；对象也常用作数据存储体，用于在网络上运输数据，十分便捷。</p>
+<p>&emsp;&emsp;<u>构造函数对象</u>：JavaScript 用一种称为构建函数的特殊函数(function)来定义对象和它们的特征。一个构建函数通常是大写字母开头，这样便于区分构建函数和普通函数。关键字 new 跟着一个含参构造函数，便能创建一个想要的对象（对象的原型指向构建函数）。其中，这个构建函数是 JavaScript 版本的类（<u>ES6已提供class关键字的语法糖定义构建函数</u>）。</p>
+<p><em>&emsp;&emsp;[注] 其他创建对象的方式：</em><br><em>&emsp;&emsp;① 字面量定义对象（对象的原型指向Object对象）</em><br><em>&emsp;&emsp;② Object()构造函数，即使用new Object()创建对象（对象的原型指向Object对象）</em><br><em>&emsp;&emsp;③ Object.create()方法，允许您基于现有对象创建新的对象。（对象的原型指向创建时指定的对象）</em></p>
+<h2 id="1、原型（链）"><a href="#1、原型（链）" class="headerlink" title="1、原型（链）"></a>1、原型（链）</h2><p>&emsp;&emsp;JavaScript 常被描述为一种基于原型的语言——每个对象拥有一个原型对象，对象以其原型为模板、从原型继承方法和属性。原型对象也可能拥有原型，并从中继承方法和属性，一层一层，以此类推。这种关系常被称为原型链，它解释了为何一个对象会拥有定义在其他(被继承)对象中的属性和方法。比如有些属性和方法定义在Object的构造器函数的prototype属性上，而非定义在当前对象实例本身。</p>
+<p><em>&emsp;&emsp;<strong>[注1] 与传统OOP的区别：在传统的 OOP 中，首先定义“类”，此后创建对象实例时，类中定义的所有属性和方法都被复制到例中。<u>在 JavaScript 中并不如此复制——而是在对象实例和它的构造器之间建立一个链接（它是 __proto__ 属性，是从构造函数的 prototype 属性派生的），</u>可通过其上溯原型链，在构造器中找到对应的属性和方法。</strong></em><br><em>&emsp;&emsp;[注2] 对象原型（可以通过Object.getPrototypeOf(obj)或者浏览器提供的__proto__属性获得）与构造函数的prototype属性是有区别的：前者是每个实例上都有的属性，后者是构造函数的属性。也就是说，Object.getPrototypeOf(new Bool())和Bool.prototype指向着同一个对象(Bool构造函数)。<u>特别的，没有官方的方法用于直接访问一个对象的原型——原型链中的“连接”被定义在一个内部属性中，</u>在 JavaScript 语言标准中用 [[prototype]] 表示，大多数现代浏览器还是提供了一个名为 __proto__ 属性，其包含了对象的原型。</em></p>
+<p>&emsp;&emsp;(1) prototype属性：继承成员被定义的地方<br>&emsp;&emsp;继承的属性和方法是定义在 prototype 属性之上的（可以称之为子命名空间），prototype 属性的值是一个对象，我们希望被原型链下游的对象继承的属性和方法，都被储存在其中。<br><em>&emsp;&emsp;[注] Object.create()可以指定一个对象作为原型对象来创建一个实例对象。</em></p>
+<p>&emsp;&emsp;(2) constructor属性：指向了用于构造此实例对象的构造函数<br>&emsp;&emsp;每个实例对象都从原型中继承了一个constructor属性，该属性指向了用于构造此实例对象的构造函数。<br>&emsp;&emsp;在某些情况下，没有原始构造器的引用，想要构造实例可以通过已有实例的constructor属性指向的构造函数来完成。即可以在 constructor 属性的末尾添加一对圆括号（括号中包含所需的参数），只需在前面添加 new 关键字（let person2 = new person1.constructor()），便能将此函数作为构造器使用，从而调用这个构造器创建另一个对象实例。</p>
+<p><em>&emsp;&emsp;[注] 构建函数前new关键字做了什么？</em><br><em>&emsp;&emsp;① 创建一个新对象</em><br><em>&emsp;&emsp;② 将新对象的__proto__属性指向了构建函数对象prototype对象</em><br><em>&emsp;&emsp;③ 将构建函数的this修正为指向新对象，执行构造函数中的代码，即为这个新对象添加对应属性</em><br><em>&emsp;&emsp;④ 返回新对象</em></p>
+<pre><code>  var obj = &#123;&#125;;
+  obj.__proto__ = Base.prototype;
+  Base.call(obj);
+</code></pre>
+<h2 id="2、继承"><a href="#2、继承" class="headerlink" title="2、继承"></a>2、继承</h2><h4 id="JavaScript基于原型链继承（prototypal-inheritance）"><a href="#JavaScript基于原型链继承（prototypal-inheritance）" class="headerlink" title="JavaScript基于原型链继承（prototypal inheritance）"></a>JavaScript基于原型链继承（prototypal inheritance）</h4><p>&emsp;&emsp;如何实现继承：（这里以Teacher构造函数继承于Person构造函数的例子来说明）<br>&emsp;&emsp;(1) 定义构造器（构造函数），这里定义构造函数Person。</p>
+<pre><code>  function Person(name, age, gender, interests) &#123;
+    this.name =name;
+    this.age = age;
+    this.gender = gender;
+    this.interests = interests;
+  &#125;;
+  Person.prototype.greeting = function() &#123;
+    console.log(`hello, I am $&#123;name&#125;!`)
+  &#125;;
+</code></pre>
+<p>&emsp;&emsp;(2) 创建继承于Person构造函数的Teacher构造函数，并为Teacher 构造函数添加特有的subject（所授学科科目）属性。</p>
+<pre><code>  function Teacher(name, age, gender, interests, subject) &#123;
+    // 创建一个新的对象实例时同时指派其继承的属性（修正this指向Teacher()函数）
+    Person.call(this, name, age, gender, interests);
+    this.subject = subject;
+    
+    // 利用Object.create()方法将Person.prototype作为Teacher.prototype的原型对象，从而继承其属性与方法
+    Teacher.prototype = Object.create(Person.prototype);
+    
+    // 修正Teacher构造器指向，使之与Teacher关联(修正前指向Person)
+    Teacher.prototype.constructor = Teacher;
+  &#125;
+</code></pre>
+<p><em>&emsp;&emsp;[注] 每一个函数对象（Function）都有一个 prototype 属性，并且只有函数对象有 prototype 属性，因为 prototype 本身就是定义在Function对象下的属性。其中Person()函数是Person.prototype的构造函数，即Person===Person.prototype.constructor。任何您想要被继承的方法都应该定义在构造函数的 prototype 对象里，并且永远使用父类的 prototype 来创造子类的 prototype，这样才不会打乱类继承结构。</em></p>
+<p>&emsp;&emsp;(3) Teacher构造函数添加新的greeting成员函数</p>
+<pre><code>  Teacher.prototype.greeting = function()&#123;
+    console.log(`hello, I am a teather, I teath $&#123;this.subject&#125;`)
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(4) 生成对应的teacher实例</p>
+<pre><code>  let t = new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
+  t.greeting(); // hello, I am a teather, I teath englis
+</code></pre>
+<p>&emsp;&emsp;所有代码：</p>
+<pre><code>  function Person(name, age, gender, interests) &#123;    
+    this.name = name;
+    this.age = age;
+    this.gender = gender;
+    this.interests = interests;
+  &#125;;
+  Person.prototype.greeting = function () &#123;
+    console.log(`hello, I am $&#123;name&#125;!`);
+  &#125;;
+  function Teacher(name, age, gender, interests, subject) &#123;
+    // 创建一个新的对象实例时同时指派其继承的所有属性（修正this指向Teacher()函数）
+    Person.call(this, name, age, gender, interests);
+    this.subject = subject;
+    // Teacher.prototype现在会继承Person.prototype的所有属性和方法
+    Teacher.prototype = Object.create(Person.prototype);
+    // 修正Teacher()的prototype的constructor属性指向(修正前指向Person，不正确)
+    Teacher.prototype.constructor = Teacher;
+  &#125;
+  Teacher.prototype.greeting = function()&#123;
+    console.log(`hello, I am a teather, I teath $&#123;this.subject&#125;`)
+  &#125;
+  let t = new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
+  t.greeting(); // hello, I am a teather, I teath englis
+</code></pre>
+<h4 id="ES6-类（class）"><a href="#ES6-类（class）" class="headerlink" title="ES6 类（class）"></a>ES6 类（class）</h4><p>&emsp;&emsp;(1) 类的定义方式<br>&emsp;&emsp;ES6 提供了更接近传统语言的写法，引入了class关键字（仅是一个‘语法糖’），可以定义类。可以使编码时逻辑更加清晰明了。在JavaScript中，类是一种“特殊的函数”。类本身就指向构造函数。</p>
+<p><em>&emsp;&emsp;[注] 类都在严格模式下执行。类的内部所有定义的方法，都是不可枚举的（这点与 ES5 定义在 prototype 上的方法表现不一致）。定义类的实例必须使用new关键字（不能像 ES5 中的构造函数可直接调用）。</em></p>
+<p>&emsp;&emsp;定义类有两种方式：<br>&emsp;&emsp;类声明：class A {}，<strong>类声明不会提升，需要先声明，再访问</strong><br>&emsp;&emsp;类表达式: let B = class [B2] {}，类表达式的命名是可选的（比如这里命名为B2），名称称为局部名称，可使用类的name属性访问对应名称</p>
+<p><em>&emsp;&emsp;<strong>[注] 类中的this：</strong></em><br>&emsp;&emsp;① 在构造函数constructor()中基类与派生类this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象（指向实例），所有非静态方法会被添加到this的原型中。在派生类（子类）中的构造函数没有初始的this绑定（undefined），在构造函数中调用super()才能生成一个this绑定（返回一个指向当前派生类的this）。<br>&emsp;&emsp;② 静态方法不是this的属性，它们只是类自身的属性，不会被子类继承。派生类在super()前调用this会抛出异常，派生类不能在调用super()前返回，除非没有构造函数或者构造函数返回了对象。<br>&emsp;&emsp;③ 使用super对象时，super 调用父类的方法时，super 会绑定子类的 this。</p>
+<p>&emsp;&emsp;(2) constructor()构造函数<br>&emsp;&emsp;初始化一个由class创建的对象。一个类中只能有唯一的constructor()方法，若代码未显式的定义，会默认添加该方法。在使用new关键字创建实例时，会执行该方法，其中的this指向创建的实例。默认会返回this实例，不过也可以显式的返回一个对象。</p>
+<p>&emsp;&emsp;(3) super关键字<br>&emsp;&emsp;分为两种情况：<br>&emsp;&emsp;当做 super() 函数使用：这个函数会调用父类的构造函数，返回一个指向当前派生类的this，相当于A.prototype.constructor.call(this, props)<br>&emsp;&emsp;当做 super 对象使用：在普通方法中，super 指向父类的原型对象；在静态方法中，super 指向父类</p>
+<p><em>&emsp;&emsp;[注] 静态方法，static修饰，可以被子类继承，但不会添加到类的实例上，方法名称可与其他方法重名。静态方法可以通过super调用。</em></p>
+<p>&emsp;&emsp;(4) 取值函数（getter）和存值函数（setter）<br>&emsp;&emsp;在类中内部可以使用get和set关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为（ES5可以提供getter、setter函数）。</p>
+<p>&emsp;&emsp;(5) new.target属性<br>&emsp;&emsp;new命令的一个属性，只能在构造函数中使用。在类中使用时，返回当前类；在子类中使用时，返回当前子类。<u>用途：可以限制类只能通过new命令调用；或者编写只能继承而不能实例化的基类。</u></p>
+<p>&emsp;&emsp;通过ES6 Class关键字实现上面Teacher类与Person类的继承关系：</p>
+<pre><code>  class Person&#123;    
+    constructor(name, age, gender, interests)&#123;
+      this.name = name;
+      this.age = age;
+      this.gender = gender;
+      this.interests = interests;
+    &#125;
+    greeting()&#123;
+      console.log(&quot;hello, I am &quot; + this.name + &quot;!&quot;);
+    &#125;
+  &#125;
+  class Teather extends Person&#123;
+    constructor(name, age, gender, interests, subject)&#123;
+      super(name, age, gender, interests);
+      this.subject = subject;
+    &#125;
+    greeting()&#123;
+      console.log(&quot;hello, I am a teather, I teath &quot; + this.subject + &quot;!&quot;);
+    &#125;
+  &#125;
+  let t = new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
+  t.greeting() // hello, I am a teather, I teath english!
+</code></pre>
+<p>&emsp;&emsp;通过Babel.js将上面的ES6转换为ES5代码如下：</p>
+<pre><code>  &quot;use strict&quot;;
+
+  function _typeof(obj) &#123;
+    &quot;@babel/helpers - typeof&quot;;
+    if (typeof Symbol === &quot;function&quot; &amp;&amp; typeof Symbol.iterator === &quot;symbol&quot;) &#123; _typeof = function _typeof(obj) &#123; return typeof obj; &#125;; &#125;
+    else &#123;
+      _typeof = function _typeof(obj) &#123;
+        return obj &amp;&amp; typeof Symbol === &quot;function&quot; &amp;&amp; obj.constructor === Symbol &amp;&amp; obj !== Symbol.prototype ? &quot;symbol&quot; : typeof obj;
+      &#125;;
+    &#125;
+    return _typeof(obj);
+  &#125;
+  
+  function _inherits(subClass, superClass) &#123;
+    if (typeof superClass !== &quot;function&quot; &amp;&amp; superClass !== null) &#123;
+      throw new TypeError(&quot;Super expression must either be null or a function&quot;);
+    &#125;
+    subClass.prototype = Object.create(superClass &amp;&amp; superClass.prototype, &#123; constructor: &#123; value: subClass, writable: true, configurable: true &#125; &#125;);
+    if (superClass) _setPrototypeOf(subClass, superClass);
+  &#125;
+  
+  function _setPrototypeOf(o, p) &#123;
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) &#123;
+      o.__proto__ = p; return o;
+    &#125;;
+    return _setPrototypeOf(o, p);
+  &#125;
+  
+  function _createSuper(Derived) &#123;
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() &#123;
+      var Super = _getPrototypeOf(Derived), result;
+      if (hasNativeReflectConstruct) &#123;
+        var NewTarget = _getPrototypeOf(this).constructor;
+        result = Reflect.construct(Super, arguments, NewTarget);
+      &#125; else &#123;
+        result = Super.apply(this, arguments);
+      &#125;
+      return _possibleConstructorReturn(this, result);
+    &#125;;
+  &#125;
+  
+  function _possibleConstructorReturn(self, call) &#123;
+    if (call &amp;&amp; (_typeof(call) === &quot;object&quot; || typeof call === &quot;function&quot;)) &#123;
+      return call;
+    &#125;
+    return _assertThisInitialized(self);
+  &#125;
+  
+  function _assertThisInitialized(self) &#123;
+    if (self === void 0) &#123;
+      throw new ReferenceError(&quot;this hasn&#39;t been initialised - super() hasn&#39;t been called&quot;);
+    &#125;
+    return self;
+  &#125;
+  
+  function _isNativeReflectConstruct() &#123;
+    if (typeof Reflect === &quot;undefined&quot; || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === &quot;function&quot;) return true;
+    try &#123;
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () &#123; &#125;));
+      return true;
+    &#125; catch (e) &#123;
+      return false;
+    &#125;
+  &#125;
+  
+  function _getPrototypeOf(o) &#123;
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) &#123;
+      return o.__proto__ || Object.getPrototypeOf(o);
+    &#125;;
+    return _getPrototypeOf(o);
+  &#125;
+  
+  function _instanceof(left, right) &#123;
+    if (right != null &amp;&amp; typeof Symbol !== &quot;undefined&quot; &amp;&amp; right[Symbol.hasInstance]) &#123;
+      return !!right[Symbol.hasInstance](left);
+    &#125; else &#123;
+      return left instanceof right;
+    &#125;
+  &#125;
+  
+  function _classCallCheck(instance, Constructor) &#123;
+    if (!_instanceof(instance, Constructor)) &#123;
+      throw new TypeError(&quot;Cannot call a class as a function&quot;);
+    &#125;
+  &#125;
+  
+  function _defineProperties(target, props) &#123;
+    for (var i = 0; i &lt; props.length; i++) &#123;
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if (&quot;value&quot; in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    &#125;
+  &#125;
+  
+  function _createClass(Constructor, protoProps, staticProps) &#123;
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  &#125;
+  
+  var Person = /*#__PURE__*/function () &#123;
+    function Person(name, age, gender, interests) &#123;
+      _classCallCheck(this, Person);
+      this.name = name;
+      this.age = age;
+      this.gender = gender;
+      this.interests = interests;
+    &#125;
+    _createClass(Person, [&#123;
+      key: &quot;greeting&quot;,
+      value: function greeting() &#123;
+        console.log(&quot;hello, I am &quot;.concat(this.name, &quot;!&quot;));
+      &#125;
+    &#125;]);
+    return Person;
+  &#125;();
+  
+  var Teather = /*#__PURE__*/function (_Person) &#123;
+    _inherits(Teather, _Person);
+    var _super = _createSuper(Teather);
+    function Teather(name, age, gender, interests, subject) &#123;
+      var _this;
+      _classCallCheck(this, Teather);
+      _this = _super.call(this, name, age, gender, interests);
+      _this.subject = subject;
+      return _this;
+    &#125;
+    _createClass(Teather, [&#123;
+      key: &quot;greeting&quot;,
+      value: function greeting() &#123;
+        console.log(&quot;hello, I am a teather, I teath &quot;.concat(this.subject));
+      &#125;
+    &#125;]);
+    return Teather;
+  &#125;(Person);
+  
+  var t = new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
+  t.greeting(); // hello, I am a teather, I teath english!
+</code></pre>
+<p>&emsp;&emsp;ES6转换后的ES5代码与原来的ES5代码实现原理一致。我们来简单分析一下转换后的代码：<br>&emsp;&emsp;① 可以看到，定义Person和Teacher时，使用了立即执行函数，代码会立即执行，执行后返回Person构造函数以及继承于Person的Teacher构造函数。<br>&emsp;&emsp;② 在定义Person变量的立即执行函数中，定义了Person函数，函数中设置了相关属性。然后调用_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法给Person函数的原型prototype上添加上方法，(还可以给Person函数添加静态属性，这里示例代码未添加）。即_createClass()实现了Person函数方法与属性的添加，最后将Person函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;③ 在定义Teacher变量的立即执行函数中，将定义好的Person构造函数函数作为了参数，先调用_inherits()方法，将定义的Teacher函数（预编译会进行函数提升）与传入的Person构造函数作为参数，其中使用Object.create()方法以Person构造函数的原型prototype作为原型，设置了Teacher函数的原型，同时Teacher函数的原型也继承了Person构造函数原型链上的属性和方法，然后调用_setPrototypeOf()方法修正Teacher函数原型对象__proto__的指向，也就是_inherits()方法实现了继承关系。然后再调用了_createSuper(Teather)方法定义了_super变量，其值是一个函数，里面追溯了Teacher构造函数的原型链，定义了调用父构造函数Person时，使用了apply（this, arguments）方法绑定了子构造函数Teacher的this，实现了Teacher函数属性的设置（<u>返回的_super方法这里只是定义，还未执行，要在Teacher构造函数执行到_super.call()的时候才会执行</u>）。最后同理，调用了_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法在Teacher函数的原型prototype上重写了greeting()方法，将Teacher函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;④ 调用new Teacher()创建t实例，执行Teacher构造函数，调用_classCallCheck()防止构造函数被直接调用（即ES6中的类是不能被直接调用的）。然后再调用上面说到的定义了的_super()方法实现了实例属性的设置（在执行_super()函数时，会执行里面定义的父构造函数Person的方法来实现属性的继承与设置），再设置了Teacher构造函数实例特有的subject属性，此时获得的_this实例的原型指向Teacher构造函数，Teacherr构造函数又继承于Person构造函数。此时_this实例已经继承了原型链上的属性与方法，包括Teahcer构造函数重写的greeting()方法。返回_this。<br>&emsp;&emsp;⑤ 执行t.greeting()方法，可以看到方法被成功执行且为执行的重写后的方法。</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/12/23/javascript/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/12/25/javascript/JS%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C%E4%BB%A5%E5%8F%8A%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%B2%E8%A1%8C%E3%80%81%E5%B9%B6%E8%A1%8C%EF%BC%89/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            JS异步操作以及流程控制（串行、并行）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">JS预解析、作用域、执行上下文、this</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Xiong Gang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="码农日志"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay-payment-code.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat-payment-code.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+</body>
+
+</html>

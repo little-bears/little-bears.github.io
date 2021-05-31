@@ -1,317 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CSS动画（过渡、关键帧、3次贝塞尔曲线）</title>
-    <url>/2020/11/26/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/</url>
-    <content><![CDATA[<p>CSS 动画可以在不借助 Javascript 的情况下做出一些相对简单的动画效果，例如缩放、移动、2D/3D旋转等。CSS动画有浏览器控制，表现得很流畅。 <u>CSS动画的时序函数主要为3次贝塞尔曲线。</u></p>
-<h2 id="CSS动画"><a href="#CSS动画" class="headerlink" title="CSS动画"></a>CSS动画</h2><p>&emsp;&emsp;CSS动画是由浏览器按照一定的频率一帧一帧的绘制的，CSS实现的动画的优势就是浏览器知道动画的开始及每一帧的循环间隔，能够在恰当的时间刷新动画，不依赖于主线程，所以<u>CSS动画是很流畅的</u>。CSS过渡、关键帧相关知识在前面的文章<a href="/2020/09/24/CSS-3-%E6%A6%82%E8%BF%B0">《CSS(3)概述》</a>里已经讲到，这里摘抄相关知识如下：</p>
-<p>&emsp;&emsp;2D/3D转换（移动、缩放、转动、拉长或拉伸）（<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>transform</td>
-<td>向元素应用 2D 或 3D 转换</td>
-</tr>
-<tr>
-<td>transform-origin</td>
-<td>允许你更改一个元素变形的原点(该属性必须与transform属性一同使用)</td>
-</tr>
-<tr>
-<td>transform-style</td>
-<td>规定被嵌套元素如何在 3D 空间中显示</td>
-</tr>
-<tr>
-<td>perspective</td>
-<td>规定 3D 元素的透视效果</td>
-</tr>
-<tr>
-<td>perspective-origin</td>
-<td>规定 3D 元素的底部位置</td>
-</tr>
-<tr>
-<td>backface-visibility</td>
-<td>定义元素在不面对屏幕时是否可见</td>
-</tr>
-</tbody></table>
-<p>&emsp;&emsp;过渡 （<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
-<p>&emsp;&emsp;为了添加某种效果可以从一种样式转变到另一个的时候，无需使用Flash动画或JavaScript来完成</p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>transition</td>
-<td>简写属性，用于在一个属性中设置四个过渡属性</td>
-</tr>
-<tr>
-<td>transition-property</td>
-<td>规定应用过渡的 CSS 属性的名称</td>
-</tr>
-<tr>
-<td>ransition-duration</td>
-<td>定义过渡效果花费的时间，默认是 0</td>
-</tr>
-<tr>
-<td>transition-timing-function</td>
-<td>规定过渡效果的时间曲线(时序函数)，默认是 “ease”</td>
-</tr>
-<tr>
-<td>transition-delay</td>
-<td>规定过渡效果何时开始，默认是 0</td>
-</tr>
-</tbody></table>
-<p>&emsp;&emsp;动画 （<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
-<p>&emsp;&emsp;动画是使元素从一种样式逐渐变化为另一种样式的效果。<br>&emsp;&emsp;您可以改变任意多的样式任意多的次数。<br>&emsp;&emsp;使用百分比来规定变化发生的时间，或用关键词 “from” 和 “to”，等同于 0% 和 100%（推荐使用百分比），0% 是动画的开始，100% 是动画的完成。<br>&emsp;&emsp;当在 @keyframes 创建动画，把它绑定到一个选择器，否则动画不会被使用，也不会有任何效果。使用animation属对选择器设置对应动画，必须定义动画的名称和动画的持续时间。如果省略的持续时间，动画将无法运行，因为默认值是0。</p>
-<pre><code>  @keyframes name
-  &#123;
-    0%   &#123; // 状态1 &#125;
-    ...
-    xx%  &#123; // 状态x &#125;
-    ...
-    100% &#123; // 状态n &#125;
-  &#125;
-  // 自定义动画的使用
-  animation: name duration timing-function delay iteration-count direction;
-
-  // timing-function的取值: linear、ease、ease-in、ease-out、ease-in-out、cubic-bezier(n,n,n,n)
-  // iteration-count的取值: n(次数)、infinite
-  // animation-direction的取值: normal、alternate
-</code></pre>
-<br/>
-
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>@keyframes</td>
-<td>规定动画（兼容应添加对应浏览器前缀）</td>
-</tr>
-<tr>
-<td>animation</td>
-<td>所有动画属性的简写属性</td>
-</tr>
-<tr>
-<td>animation-name</td>
-<td>对应@keyframes定义的动画的名称</td>
-</tr>
-<tr>
-<td>animation-duration</td>
-<td>规定动画完成一个周期所花费的秒或毫秒，默认为0</td>
-</tr>
-<tr>
-<td>animation-timing-function</td>
-<td>规定动画的速度曲线函数，默认是 “ease”</td>
-</tr>
-<tr>
-<td>animation-fill-mode</td>
-<td>规定当动画不播放时（当动画完成时，或当动画有一个延迟未开始播放时），要应用到元素的样式</td>
-</tr>
-<tr>
-<td>animation-delay</td>
-<td>规定动画何时开始，默认是 0</td>
-</tr>
-<tr>
-<td>animation-iteration-count</td>
-<td>规定动画被播放的次数，默认是 1</td>
-</tr>
-<tr>
-<td>animation-direction</td>
-<td>规定动画是否在下一周期逆向地播放，默认是 “normal”</td>
-</tr>
-<tr>
-<td>animation-play-state</td>
-<td>规定动画是否正在运行或暂停</td>
-</tr>
-</tbody></table>
-<p>&emsp;&emsp;<strong>CSS动画时序函数(timing-function属性的值）：</strong><br>&emsp;&emsp;CSS动画的时序函数主要为3次贝塞尔曲线。3次贝塞尔曲线由4点个组成，CSS3贝塞尔曲线起点是 (0,0) ，终点是(1,1)，代表动画执行时间到达时动画刚好执行完成。所以CSS中的cubic-bezier()函数只需要传入其他的2个端点值（x1,y1,x2,y2）即可。</p>
-<p>&emsp;&emsp;timing-function取值分别对应的贝尔塞曲线函数为：</p>
-<p><img src="/images/css3/timing-function%E5%8F%96%E5%80%BC.png" alt="timing-function取值"></p>
-<p><em>[注] 以上图片制作于<a href="https://cubic-bezier.com/">https://cubic-bezier.com/</a>，这是一个贝尔塞曲线在线设置与查看的网站，其中紫色的点表示（x1, y1）,蓝色的点表示（x2, y2）。</em></p>
-<p>&emsp;&emsp;<strong>其中横轴（x轴）表示时间，纵轴（y轴）表示随着时间推移动画完成情况，曲线的斜率表现为为动画完成的快慢（比如移动速度等）。浏览器会根据时序函数对动画完成情况进行对应的更新（即由时序函数来确定此刻动画中各元素的状态）。</strong>根据图片，可以看到：linear随着时间推移，同一时间间隔动画的完成进度一致，即匀速的完成动画；ease-in先慢后快，ease-out先快后慢；ease-in-out则开始和结束较慢，中间动画完成的进度较快。<br>&emsp;&emsp;特别的，我们也可以使用cubic-bezier自定义时序函数，例如cubic-bezier(.92 ,-0.44, .04, 1.44)，可以看到随着时间的推移，完成情况最先是反向的且完成情况小于0，先快后慢；到最慢时然后完成情况变为正向，呈现先慢后快再慢（类似于ease-in-out），到最慢时此时动画的完成情况是大于1的（也就是多完成了一部分），此时完成情况的方向又变为反向的，先慢后快直到动画完成。</p>
-<p>&emsp;&emsp;将cubic-bezier(.92 ,-0.44, .04, 1.44)时序用到transition属性中（时序函数一般要求写在过渡时间的后面）：</p>
-<pre><code>  &lt;style&gt;
-    .box &#123;
-      width: 300px;
-      border: 1px solid #666;
-      cursor: pointer;
-    &#125;
-    .ball &#123;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: chocolate;
-      margin-left: 0;
-      transition: all 3s cubic-bezier(.92, -0.44, .04, 1.44);
-    &#125;
-    .box:hover .ball &#123;
-      margin-left: calc(100% - 50px);
-    &#125;
-  &lt;/style&gt;
-  &lt;div class=&quot;box&quot;&gt;
-    &lt;div class=&quot;ball&quot;&gt;&lt;/div&gt;
-  &lt;/div&gt;
-</code></pre>
-<p>&emsp;&emsp;具体动画的效果：</p>
-<p><img src="/images/css3/%E8%BF%90%E5%8A%A8%E7%9A%84%E5%B0%8F%E7%90%83.gif" alt="运动的小球"></p>
-<p>&emsp;&emsp;如代码所示，外层class为box的div宽300px，里面放置一个直径为50px的小球，初始位置为外层div里的最左侧。设置外层div变为hover状态时，小球向右移动到外层div里的最右侧的过渡，过渡时间3s，过渡的时序函数用我们自定义贝塞尔曲线。可以看到小球先向左（反方向）由快到慢的移动，移出了外层div左侧一部分；在向右由慢到快再到慢的移动，特别是中间移动速度极快，停下来时也已移出了外层div最右侧一部分；然后在向左（反方向）由慢到快直至小球停到外层div里的最右侧。外层div失去焦点时小球的移动方式与获得焦点相反。可以看到小球移动的状态与设置时序函数的贝塞尔曲线的状态一致。</p>
-<p>&emsp;&emsp;在这里再做一些dome实例的补充：</p>
-<h4 id="1）旋转的筛子"><a href="#1）旋转的筛子" class="headerlink" title="1）旋转的筛子"></a>1）旋转的筛子</h4><p>&emsp;&emsp;先看动画效果：</p>
-<p><img src="/images/css3/%E6%97%8B%E8%BD%AC%E7%9A%84%E7%AD%9B%E5%AD%90.gif" alt="旋转的筛子"></p>
-<p>&emsp;&emsp;代码实现：</p>
-<pre><code>  &lt;style&gt;
-    .cube &#123;
-      width: 100px;
-      height: 100px;
-      perspective: 500px;
-      margin: 100px;
-      transform-style: preserve-3d;
-      animation: rotate 20s infinite;
-      animation-timing-function: linear;
-    &#125;
-    .cube div &#123;
-      position: absolute;
-      transition: all .4s;
-      width: 100px;
-      height: 100px;
-      opacity: 0.9;
-    &#125;
-    .cube div img &#123;
-      width: 100%;
-      height: 100%;
-    &#125;
-    .front &#123;
-      transform: translateZ(50px);
-    &#125;
-    .back &#123;
-      transform: translateZ(-50px);
-    &#125;
-    .left &#123;
-      transform: rotateY(90deg) translateZ(50px);
-    &#125;
-    .right &#123;
-      transform: rotateY(-90deg) translateZ(50px);
-    &#125;
-    .top &#123;
-      transform: rotateX(90deg) translateZ(50px);
-    &#125;
-    .bottom &#123;
-      transform: rotateX(-90deg) translateZ(50px);
-    &#125;
-    @keyframes rotate &#123;
-      from &#123;
-        transform: rotateX(0deg) rotateY(0deg);
-      &#125;
-      to &#123;
-        transform: rotateX(360deg) rotateY(360deg);
-      &#125;
-    &#125;
-  &lt;/style&gt;
-  &lt;div class=&quot;cube&quot;&gt;
-    &lt;div class=&quot;front&quot;&gt;&lt;img src=&quot;img/3.jpg&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;back&quot;&gt;&lt;img src=&quot;img/5.jpg&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;left&quot;&gt;&lt;img src=&quot;img/2.jpg&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;right&quot;&gt;&lt;img src=&quot;img/4.jpg&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;top&quot;&gt;&lt;img src=&quot;img/1.jpg&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;bottom&quot;&gt;&lt;img src=&quot;img/6.jpg&quot;&gt;&lt;/div&gt;
-  &lt;/div&gt;
-</code></pre>
-<p>&emsp;&emsp;简单说明：先在外层class为box的div上设置了观测视角。再对class为cube的div元素设置了transform-style: preserve-3d，使其可以进行3D变换。再对其内部的6个面（实现方式不止代码所示的一种，变换过程中旋转与平移先后顺序不同代码就会不同。这里用图片简单表示骰子的1-6，通过Flex或是Grid布局实现骰子6个面的布局也比较容易）进行相应的3D平移与旋转，布局成为一个立方体。再对class为cube的div元素添加了自定义的关键帧rotate旋转动画。</p>
-<h4 id="2）边框滚动动画"><a href="#2）边框滚动动画" class="headerlink" title="2）边框滚动动画"></a>2）边框滚动动画</h4><p>&emsp;&emsp;先看动画效果：</p>
-<p><img src="/images/css3/%E8%BE%B9%E6%A1%86%E6%BB%9A%E5%8A%A8%E5%8A%A8%E7%94%BB.gif" alt="边框滚动动画"></p>
-<p>&emsp;&emsp;代码实现：</p>
-<pre><code>  &lt;style&gt;
-    .outer-box &#123;
-      width: 300px; height: 100px; box-sizing: border-box; padding: 2px;
-      background: repeating-linear-gradient(45deg, #000, #000 3px, transparent, #000 8px);
-      animation: line 1s infinite linear;
-    &#125;
-    .inner-box &#123;
-      width: 100%; height: 100%;
-      background-color: #fff;
-      display: flex; justify-content: center; align-items: center;
-    &#125;
-    @keyframes line &#123;
-      0% &#123; background-position: 1px -1px; &#125;
-      100% &#123; background-position: 12px -12px; &#125;
-    &#125;
-  &lt;/style&gt;
-  &lt;div class=&quot;outer-box&quot;&gt;
-    &lt;div class=&quot;inner-box&quot;&gt;- (^_^) -&lt;/div&gt;
-  &lt;/div&gt;
-</code></pre>
-<p>&emsp;&emsp;简单说明：这里将外层div设置为渐变的背景图片，2px内间距。内部div宽高100%，背景为白色，此时只见外层div出现类似于虚线边框的样式。加入自定义动画line，线性向右上方移动背景图片，便出现了边框滚动的效果。</p>
-<h4 id="3）元素沿着不规则路径运动"><a href="#3）元素沿着不规则路径运动" class="headerlink" title="3）元素沿着不规则路径运动"></a>3）元素沿着不规则路径运动</h4><p>&emsp;&emsp;这里我们会用到offset-path等相关属性来实现，这个属性相对较新（要注意浏览器兼容），先介绍常用的属性：<br>&emsp;&emsp;<strong>offset-path：指定元素要遵循的运动路径以及元素位置。</strong>取值为：<br>&emsp;&emsp;&emsp;&emsp;ray() ：定义的一条路径<br>&emsp;&emsp;&emsp;&emsp;url()：引用SVG图片的URL<br>&emsp;&emsp;&emsp;&emsp;形状：circle()、 ellipse()、inset()、polygon()等<br>&emsp;&emsp;&emsp;&emsp;path()：用SVG坐标语法定义的路径字符串<br>&emsp;&emsp;<strong>offset-distance：指定要放置的元素沿路径偏移的位置（px，%）。</strong><br>&emsp;&emsp;<strong>offset-rotate：元素运动的角度（deg），默认auto，表示沿当前路径的切线方向前进。</strong></p>
-<p>&emsp;&emsp;先看动画效果：</p>
-<p><img src="/images/css3/%E4%B8%8D%E8%A7%84%E5%88%99%E8%BF%90%E5%8A%A8.gif" alt="不规则运动"></p>
-<p>&emsp;&emsp;代码实现：</p>
-<pre><code>  &lt;style&gt;
-    .box &#123; position: relative; &#125;
-    .car &#123;
-      offset-path: path(&quot;M10 80 Q 52.5 10, 135 80 T 280 80&quot;);
-      animation: move 3s linear infinite;
-      position: absolute; width: 50px; height: auto;
-    &#125;
-    @keyframes move &#123;
-      100% &#123; offset-distance: 100%; &#125;
-    &#125;
-  &lt;/style&gt;
-  &lt;div class=&quot;box&quot;&gt;
-    &lt;img src=&quot;img/car.png&quot; width=&quot;40&quot; height=&quot;43&quot; class=&quot;car&quot;&gt;
-    &lt;svg width=&quot;290px&quot; height=&quot;160px&quot; version=&quot;1.1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
-      &lt;path d=&quot;M10 80 Q 52.5 10, 135 80 T 280 80&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot; /&gt;
-    &lt;/svg&gt;
-  &lt;/div&gt;
-</code></pre>
-<p>&emsp;&emsp;简单说明：这里路径使用SVG图片，设置汽车的图片offset-path偏移路径为SVG中path字符串一致。自定义动画move使汽车每3s沿SVG路径进行偏移直至100%，便出现了汽车元素沿不规则路径移动的效果。</p>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>前端基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSS定位（Position）与3D坐标轴</title>
-    <url>/2020/09/27/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/</url>
-    <content><![CDATA[<p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终定位的位置。</p>
-<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上、右、下，左方向上的距离。</p>
-<p><img src="/images/css3/%E5%B9%B3%E9%9D%A2%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="平面空间坐标轴"></p>
-<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative、 absolute、fixed，sticky与inherit</p>
-<p>&emsp;&emsp;定位元素：是其计算后位置属性为relative、absolute，fixed或sticky的一个元素</p>
-<p>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。</p>
-<p>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置(x, y)作为原点(0, 0)。<u>在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。</u>而且position: relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
-<p><img src="/images/css3/%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D(relative).png" alt="相对定位(relative)"></p>
-<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位父级(祖先)元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margin），且不会与其他边距合并。特别的，fixed绝对定位（固定定位）是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
-<p><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(absolute).png" alt="绝对定位(absolute)"><br><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(fixed).png" alt="绝对定位(fixed)"></p>
-<p>&emsp;&emsp;(4) 粘性定位(sticky)：元素根据正常文档流进行定位，然后相对它的最近滚动祖先和最近块级祖先，包括table-related元素，基于top, right, bottom, 和 left的值进行偏移。偏移值不会影响任何其他元素的位置。粘性定位表现为相对定位和固定定位叠加的效果。元素在跨越特定阈值前为相对定位(relative)，之后为固定定位(fixed)。</p>
-<p><img src="/images/css3/%E7%B2%98%E6%80%A7%E5%AE%9A%E4%BD%8D(sticky).png" alt="粘性定位(sticky)"></p>
-<h2 id="3、三维空间坐标轴（3D）"><a href="#3、三维空间坐标轴（3D）" class="headerlink" title="3、三维空间坐标轴（3D）"></a>3、三维空间坐标轴（3D）</h2><p>&emsp;&emsp;CSS中3D初始坐标系，其XYZ轴的正方向分别是：向右、向下、向屏幕外。如下图：</p>
-<p><img src="/images/css3/%E4%B8%89%E7%BB%B4%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="三维空间坐标轴"></p>
-<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0）（如上图），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为旋转正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>前端基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>HTML Canvas（2D时序动画）</title>
-    <url>/2020/09/15/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/</url>
+    <url>/2020/09/15/html/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/</url>
     <content><![CDATA[<p>HTML5 &lt;canvas&gt; 标签用于绘制图像，但元素本身并没有绘制能力（它仅仅是图形的容器），您必须使用JavaScript脚本（相关API）来完成实际的绘图任务。</p>
 <h2 id="1、坐标系"><a href="#1、坐标系" class="headerlink" title="1、坐标系"></a>1、坐标系</h2><h4 id="1-标准（初始）坐标系"><a href="#1-标准（初始）坐标系" class="headerlink" title="(1) 标准（初始）坐标系"></a>(1) 标准（初始）坐标系</h4><p><img src="/images/canvas/%E6%A0%87%E5%87%86%EF%BC%88%E5%88%9D%E5%A7%8B%EF%BC%89%E5%9D%90%E6%A0%87%E7%B3%BB.png" alt="标准（初始）坐标系"><br>&emsp;&emsp;canvas 元素默认被网格所覆盖。通常来说网格中的一个单元相当于 canvas 元素中的一像素。栅格的起点为左上角，坐标为 (0,0) 。所有元素的位置都相对于原点来定位。所以图中蓝色方形左上角的坐标为距离左边（X 轴）x 像素，距离上边（Y 轴）y 像素，坐标为 (x,y)。</p>
 <h4 id="2-偏移坐标原点（translate方法）"><a href="#2-偏移坐标原点（translate方法）" class="headerlink" title="(2) 偏移坐标原点（translate方法）"></a>(2) 偏移坐标原点（translate方法）</h4><p><img src="/images/canvas/%E5%81%8F%E7%A7%BB%E5%9D%90%E6%A0%87%E5%8E%9F%E7%82%B9.png" alt="偏移坐标原点"><br>&emsp;&emsp;translate 方法用来移动 canvas 的原点到指定的位置。接受两个参数。x 是左右的偏移量，y 是上下的偏移量。</p>
@@ -799,51 +490,12 @@
         <category>HTML</category>
       </categories>
       <tags>
-        <tag>前端基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSS布局（自适应、响应式、Layout）</title>
-    <url>/2020/11/02/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/</url>
-    <content><![CDATA[<p>网页布局（layout）是 CSS 的一个重点应用。布局的传统解决方案，基于盒状模型，依赖 display、 position、float、margin、paddding等属性，采用绝对的单位px、相对单位em、vw、vh、rem以及百分比%等单位进行页面设计。本文将从静态布局、流式布局、自适应布局、响应式布局、弹性布局几个方面进行简单介绍。</p>
-<h2 id="1、静态布局"><a href="#1、静态布局" class="headerlink" title="1、静态布局"></a>1、静态布局</h2><p>&emsp;&emsp;页面采用px单位，一般会设置min-width属性，当页面尺寸小于这个宽度时，出现滚动条进行相应显示，当页面尺寸大于这个宽度时，内容区域一般设置为居中显示。使用浮动（float）、定位（position）对元素进行相应的布局<br>&emsp;&emsp;优点：设计简单，编码简单，不用考虑兼容性问题<br>&emsp;&emsp;缺点：有兼容性问题，针对不同的屏幕显示方式单一，对个别用户很不友好。有时也会JS动态修改标签的initial-scale使得页面相应等比缩放，但效果有限</p>
-<h2 id="2、流式布局"><a href="#2、流式布局" class="headerlink" title="2、流式布局"></a>2、流式布局</h2><p>&emsp;&emsp;页面宽度采用%（百分比）进行布局，高度一般使用px进行设置，或设置为auto并结合margin、paddding进行布局。宽度会随着浏览器宽度进行相应的调整，为了防止对应区域过大或过小使得内容超出区域，一般结合max-width与min-width进行设置。这种布局整体布局方式不变，即页面元素间相对位置不变，文字大小一般使用px，不随页面尺寸变化而变化。布局方式的代表如栅格系统（将网页页面按比例分成对应行列来排列页面中元素的分布）<br>&emsp;&emsp;优点：在一定范围内，能较好的应对不同的PC端页面<br>&emsp;&emsp;缺点：不适应与PC端到移动端较大的尺寸跨度，元素区域过大过小很导致显示不友好。文字大小不随页面宽度变化而变化，在不同屏幕会出现页面样式可能不协调的情况</p>
-<h2 id="3、自适应布局"><a href="#3、自适应布局" class="headerlink" title="3、自适应布局"></a>3、自适应布局</h2><p>&emsp;&emsp;自适应网页设计的核心，就是CSS3引入的媒体查询模块（@media）。自动检测屏幕宽度，然后加载相应的CSS文件或样式<br>&emsp;&emsp;采用媒体查询技术，为不同屏幕分辨率定义布局，即定义多个静态布局，每个静态布局对应一个屏幕范围，可对页面元素尺寸与位置进行相应的调整，对文字尺寸等也可以特殊设置或使用百分比%、em，rem，vh、vw等相对单位</p>
-<p>&emsp;&emsp;特别的，其中：<br>&emsp;&emsp;百分比 %是相对于父元素大小的百分比大小<br>&emsp;&emsp;em是最常见的相对长度单位，基准值是当前元素的字号大小<br>&emsp;&emsp;rem代表“ root”：“ root em”，它等于固定在root元素上的字体大小<br>&emsp;&emsp;vh和vw更多是PC端响应式Web设计依赖百分比规则,尺寸vh等于视口高度的1/100，尺寸vw等于视口宽度的1/100。但CSS百分比度量并非始终是解决所有问题的最佳解决方案<br>&emsp;&emsp;<u>在移动设备中，物理设备上的1px一般不等于css的1px像素，在默认情况下，一般来讲，移动设备上的viewport都是要大于浏览器可视区域的，这是因为考虑到移动设备的分辨率相对于桌面电脑来说都比较小，所以为了能在移动设备上正常显示那些传统的为桌面浏览器设计的网站，移动设备上的浏览器都会把自己默认的viewport设为980px、1024px等值，带来的后果就是浏览器会出现横向滚动条。</u>为了避免这种情况，在移动端页面设计时，让当前viewport的宽度等于设备的宽度，同时不允许用户手动缩放。也许允不允许用户缩放不同的网站有不同的要求，使用下面的代码使viewport的宽度等于设备的宽度，即即网页初始大小占屏幕面积的100%</p>
-<pre><code>  // 网页宽度等于屏幕宽度（width=device-width），原始缩放比例为1.0（initial-scale=1）
-  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
-</code></pre>
-<p>&emsp;&emsp;优点：对PC端、移动端不同屏幕尺寸变化时，页面元素都会进行相应的调整，有较好的适应能力<br>&emsp;&emsp;缺点：为了使不同设备达到较好的，对各个不同屏幕尺寸范围会进行长时间的设计与调整，过程中也会产生大量的冗余代码</p>
-<h2 id="4、响应式布局"><a href="#4、响应式布局" class="headerlink" title="4、响应式布局"></a>4、响应式布局</h2><p>&emsp;&emsp;<u>个人认为，响应式布局比适应布局更高级，是自适应布局的优化；自适应布局是响应式布局的一个子集。它们都会使用媒体查询（@media）根据不同的访问设备的宽度加载不同的样式。</u>如果要说区别的话，或许自适应式只考虑了屏幕尺寸大小，主要使用媒体查询技术来相应的适应性调整，而响应式布局可能还会考虑到移动设备的触屏操作、页面元素排版是否合理，是否需要对元素的位置重新进行调整等问题。</p>
-<h2 id="5、弹性布局（Flex布局）"><a href="#5、弹性布局（Flex布局）" class="headerlink" title="5、弹性布局（Flex布局）"></a>5、弹性布局（Flex布局）</h2><p>&emsp;&emsp;Flex 是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性,可以简便、完整、响应式地实现各种页面布局。具体布局方式在上一篇文章(CSS布局类型（Display、Flex、Grid）)已经介绍了，这里就不在赘述。请点击查看：<a href="/2020/09/27/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/#emsp-emsp-1-Flex%E5%B8%83%E5%B1%80">Display Flex 传送门</a></p>
-<h2 id="6、网格布局（Grid布局）"><a href="#6、网格布局（Grid布局）" class="headerlink" title="6、网格布局（Grid布局）"></a>6、网格布局（Grid布局）</h2><p>&emsp;&emsp;Grid 布局是目前最强大的布局方案。Grid 布局与Flex布局有一定的相似性，都可以指定容器内部多个项目的位置。但是，它们也存在重大区别。Flex 布局是轴线布局，只能指定项目针对轴线(主轴、交叉轴)的位置，可以看作是一维布局。Grid 布局则是将容器划分成行与列，产生单元格，然后指定项目所在的单元格，可以看作是二维布局。Grid 布局远比 Flex 布局强大。具体布局方式在上一篇文章已经介绍了，这里就不在赘述。请点击查看：<a href="/2020/09/27/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/#emsp-emsp-2-Grid%E5%B8%83%E5%B1%80">Display Grid 传送门</a></p>
-<p><em>[注] 在页面的实际设计中，为了使页面达到更合理的布局方式。我们往往会根据布局要求采用多种布局方式来达到我们的目的</em></p>
-<h2 id="题外话1-格式化上下文"><a href="#题外话1-格式化上下文" class="headerlink" title="题外话1 格式化上下文"></a>题外话1 格式化上下文</h2><p>&emsp;&emsp;格式化上下文(Block Formatting Context，BFC)是Web页面的可视CSS渲染的一部分，是块盒子的布局过程发生的区域，也是浮动元素与其他元素交互的区域<br>&emsp;&emsp;创建BFC的方式：<br>&emsp;&emsp;根元素（html）<br>&emsp;&emsp;浮动元素（元素的 float 不是 none）<br>&emsp;&emsp;绝对定位元素（元素的 position 为 absolute 或 fixed）<br>&emsp;&emsp;行内块元素（元素的 display 为 inline-block）<br>&emsp;&emsp;表格元素（元素的 display 为 table-cell、table-caption等，HTML表格单元格默认为该值）<br>&emsp;&emsp;overflow 值不为 visible 的块元素（一般这种方式用得最多：overflow: hidden/auto）<br>&emsp;&emsp;弹性元素（display 为 flex 或 inline-flex 元素的直接子元素）<br>&emsp;&emsp;网格元素（display 为 grid 或 inline-grid 元素的直接子元素）</p>
-<p>&emsp;&emsp;BFC布局规则：<br>&emsp;&emsp;① 内部的块级元素会在垂直方向，依次排列<br>&emsp;&emsp;② 外边距塌陷现象，属于同一个BFC的两个相邻元素的margin会发生重叠（在其中一个元素外面添加一个BFC区域来清除外边距塌陷）<br>&emsp;&emsp;③ 每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)，即使存在浮动也是如此<br>&emsp;&emsp;④ BFC的区域不会与浮动元素重叠，即浮动不会影响其它BFC中元素的布局<br>&emsp;&emsp;&emsp;&emsp;应用：<u>自适应两栏布局</u><br>&emsp;&emsp;⑤ BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素，反之亦然<br>&emsp;&emsp;⑥ 计算BFC的高度时，浮动元素也参与计算，即浮动元素不会超出BFC区域的边界<br>&emsp;&emsp;&emsp;&emsp;应用：<u>利用BFC特性来清除浮动</u>、<u>布局文本环绕图像样式</u>（也可以通过clearfix清除浮动来实现）</p>
-<h2 id="题外话2-clearfix清除浮动"><a href="#题外话2-clearfix清除浮动" class="headerlink" title="题外话2 clearfix清除浮动"></a>题外话2 clearfix清除浮动</h2><p>&emsp;&emsp;原理：clear <strong>属性定义了元素的哪边上不允许出现浮动元素。</strong> <u>如果声明为左边或右边清除(clear: both;)，会使父元素内部之前添加的伪元素的上外边框边界刚好在浮动元素的下外边距边界之下，使得父元素的高度能够超过浮动元素的高度，从而达到清除浮动的目的</u></p>
-<p>&emsp;&emsp;代码：</p>
-<pre><code>  .box:after &#123;
-    content: &#39;&#39;;
-    display: block;
-    clear: both;
-    *zoom: 1;
-    // visibility: hidden;
-    // height: 0;
-    // font-size: 0;
-  &#125;
-</code></pre>
-<h2 id="题外话3-CSS其他知识"><a href="#题外话3-CSS其他知识" class="headerlink" title="题外话3 CSS其他知识"></a>题外话3 CSS其他知识</h2><p>&emsp;&emsp;css模块化有css-in-js的概念，有BEM（block element modifier）命名规范，有less、sass预处理器等方面知识。</p>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>前端基础</tag>
+        <tag>WEB技术</tag>
       </tags>
   </entry>
   <entry>
     <title>HTML(5)概述</title>
-    <url>/2020/09/14/HTML-5-%E6%A6%82%E8%BF%B0/</url>
+    <url>/2020/09/14/html/HTML-5-%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<p>HTML称为超文本标记语言（Hyper Text Markup Language），用来描述网页文档内容的含义和结构。</p>
 <h2 id="1、标记语言和编程语言"><a href="#1、标记语言和编程语言" class="headerlink" title="1、标记语言和编程语言"></a>1、标记语言和编程语言</h2><p>&emsp;&emsp;标记语言，是一种将文本以及文本相关的其他信息结合起来，展现出关于文档结构和数据处理细节的文字编码。标记语言是一套标记标签，HTML 文档使用标记标签来描述网页。HTML 文档包含 HTML 标签和纯文本。Web 浏览器的作用是读取 HTML 文档，并以网页的形式显示出它们。浏览器不会显示 HTML 标签，而是使用标签来解释对应的内容。</p>
 <p>&emsp;&emsp;编程语言，是一种计算机和人都能识别的语言。一种计算机语言让程序员能够准确地定义计算机所需要使用的数据，并精确地定义在不同情况下所应当采取的行为。即编写语言是与计算机进行交互，是计算机执行相应计算的语言。例如Python、C、Java等程序语言。</p>
@@ -1454,12 +1106,321 @@
         <category>HTML</category>
       </categories>
       <tags>
-        <tag>前端基础</tag>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS定位（Position）与3D坐标轴</title>
+    <url>/2020/09/27/css/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/</url>
+    <content><![CDATA[<p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终定位的位置。</p>
+<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上、右、下，左方向上的距离。</p>
+<p><img src="/images/css3/%E5%B9%B3%E9%9D%A2%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="平面空间坐标轴"></p>
+<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative、 absolute、fixed，sticky与inherit</p>
+<p>&emsp;&emsp;定位元素：是其计算后位置属性为relative、absolute，fixed或sticky的一个元素</p>
+<p>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。</p>
+<p>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置(x, y)作为原点(0, 0)。<u>在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。</u>而且position: relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
+<p><img src="/images/css3/%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D(relative).png" alt="相对定位(relative)"></p>
+<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位父级(祖先)元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margin），且不会与其他边距合并。特别的，fixed绝对定位（固定定位）是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
+<p><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(absolute).png" alt="绝对定位(absolute)"><br><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(fixed).png" alt="绝对定位(fixed)"></p>
+<p>&emsp;&emsp;(4) 粘性定位(sticky)：元素根据正常文档流进行定位，然后相对它的最近滚动祖先和最近块级祖先，包括table-related元素，基于top, right, bottom, 和 left的值进行偏移。偏移值不会影响任何其他元素的位置。粘性定位表现为相对定位和固定定位叠加的效果。元素在跨越特定阈值前为相对定位(relative)，之后为固定定位(fixed)。</p>
+<p><img src="/images/css3/%E7%B2%98%E6%80%A7%E5%AE%9A%E4%BD%8D(sticky).png" alt="粘性定位(sticky)"></p>
+<h2 id="3、三维空间坐标轴（3D）"><a href="#3、三维空间坐标轴（3D）" class="headerlink" title="3、三维空间坐标轴（3D）"></a>3、三维空间坐标轴（3D）</h2><p>&emsp;&emsp;CSS中3D初始坐标系，其XYZ轴的正方向分别是：向右、向下、向屏幕外。如下图：</p>
+<p><img src="/images/css3/%E4%B8%89%E7%BB%B4%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="三维空间坐标轴"></p>
+<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0）（如上图），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为旋转正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS动画（过渡、关键帧、3次贝塞尔曲线）</title>
+    <url>/2020/11/26/css/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/</url>
+    <content><![CDATA[<p>CSS 动画可以在不借助 Javascript 的情况下做出一些相对简单的动画效果，例如缩放、移动、2D/3D旋转等。CSS动画有浏览器控制，表现得很流畅。 <u>CSS动画的时序函数主要为3次贝塞尔曲线。</u></p>
+<h2 id="CSS动画"><a href="#CSS动画" class="headerlink" title="CSS动画"></a>CSS动画</h2><p>&emsp;&emsp;CSS动画是由浏览器按照一定的频率一帧一帧的绘制的，CSS实现的动画的优势就是浏览器知道动画的开始及每一帧的循环间隔，能够在恰当的时间刷新动画，不依赖于主线程，所以<u>CSS动画是很流畅的</u>。CSS过渡、关键帧相关知识在前面的文章<a href="/2020/09/24/css/CSS-3-%E6%A6%82%E8%BF%B0">《CSS(3)概述》</a>里已经讲到，这里摘抄相关知识如下：</p>
+<p>&emsp;&emsp;2D/3D转换（移动、缩放、转动、拉长或拉伸）（<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>transform</td>
+<td>向元素应用 2D 或 3D 转换</td>
+</tr>
+<tr>
+<td>transform-origin</td>
+<td>允许你更改一个元素变形的原点(该属性必须与transform属性一同使用)</td>
+</tr>
+<tr>
+<td>transform-style</td>
+<td>规定被嵌套元素如何在 3D 空间中显示</td>
+</tr>
+<tr>
+<td>perspective</td>
+<td>规定 3D 元素的透视效果</td>
+</tr>
+<tr>
+<td>perspective-origin</td>
+<td>规定 3D 元素的底部位置</td>
+</tr>
+<tr>
+<td>backface-visibility</td>
+<td>定义元素在不面对屏幕时是否可见</td>
+</tr>
+</tbody></table>
+<p>&emsp;&emsp;过渡 （<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
+<p>&emsp;&emsp;为了添加某种效果可以从一种样式转变到另一个的时候，无需使用Flash动画或JavaScript来完成</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>transition</td>
+<td>简写属性，用于在一个属性中设置四个过渡属性</td>
+</tr>
+<tr>
+<td>transition-property</td>
+<td>规定应用过渡的 CSS 属性的名称</td>
+</tr>
+<tr>
+<td>ransition-duration</td>
+<td>定义过渡效果花费的时间，默认是 0</td>
+</tr>
+<tr>
+<td>transition-timing-function</td>
+<td>规定过渡效果的时间曲线(时序函数)，默认是 “ease”</td>
+</tr>
+<tr>
+<td>transition-delay</td>
+<td>规定过渡效果何时开始，默认是 0</td>
+</tr>
+</tbody></table>
+<p>&emsp;&emsp;动画 （<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
+<p>&emsp;&emsp;动画是使元素从一种样式逐渐变化为另一种样式的效果。<br>&emsp;&emsp;您可以改变任意多的样式任意多的次数。<br>&emsp;&emsp;使用百分比来规定变化发生的时间，或用关键词 “from” 和 “to”，等同于 0% 和 100%（推荐使用百分比），0% 是动画的开始，100% 是动画的完成。<br>&emsp;&emsp;当在 @keyframes 创建动画，把它绑定到一个选择器，否则动画不会被使用，也不会有任何效果。使用animation属对选择器设置对应动画，必须定义动画的名称和动画的持续时间。如果省略的持续时间，动画将无法运行，因为默认值是0。</p>
+<pre><code>  @keyframes name
+  &#123;
+    0%   &#123; // 状态1 &#125;
+    ...
+    xx%  &#123; // 状态x &#125;
+    ...
+    100% &#123; // 状态n &#125;
+  &#125;
+  // 自定义动画的使用
+  animation: name duration timing-function delay iteration-count direction;
+
+  // timing-function的取值: linear、ease、ease-in、ease-out、ease-in-out、cubic-bezier(n,n,n,n)
+  // iteration-count的取值: n(次数)、infinite
+  // animation-direction的取值: normal、alternate
+</code></pre>
+<br/>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@keyframes</td>
+<td>规定动画（兼容应添加对应浏览器前缀）</td>
+</tr>
+<tr>
+<td>animation</td>
+<td>所有动画属性的简写属性</td>
+</tr>
+<tr>
+<td>animation-name</td>
+<td>对应@keyframes定义的动画的名称</td>
+</tr>
+<tr>
+<td>animation-duration</td>
+<td>规定动画完成一个周期所花费的秒或毫秒，默认为0</td>
+</tr>
+<tr>
+<td>animation-timing-function</td>
+<td>规定动画的速度曲线函数，默认是 “ease”</td>
+</tr>
+<tr>
+<td>animation-fill-mode</td>
+<td>规定当动画不播放时（当动画完成时，或当动画有一个延迟未开始播放时），要应用到元素的样式</td>
+</tr>
+<tr>
+<td>animation-delay</td>
+<td>规定动画何时开始，默认是 0</td>
+</tr>
+<tr>
+<td>animation-iteration-count</td>
+<td>规定动画被播放的次数，默认是 1</td>
+</tr>
+<tr>
+<td>animation-direction</td>
+<td>规定动画是否在下一周期逆向地播放，默认是 “normal”</td>
+</tr>
+<tr>
+<td>animation-play-state</td>
+<td>规定动画是否正在运行或暂停</td>
+</tr>
+</tbody></table>
+<p>&emsp;&emsp;<strong>CSS动画时序函数(timing-function属性的值）：</strong><br>&emsp;&emsp;CSS动画的时序函数主要为3次贝塞尔曲线。3次贝塞尔曲线由4点个组成，CSS3贝塞尔曲线起点是 (0,0) ，终点是(1,1)，代表动画执行时间到达时动画刚好执行完成。所以CSS中的cubic-bezier()函数只需要传入其他的2个端点值（x1,y1,x2,y2）即可。</p>
+<p>&emsp;&emsp;timing-function取值分别对应的贝尔塞曲线函数为：</p>
+<p><img src="/images/css3/timing-function%E5%8F%96%E5%80%BC.png" alt="timing-function取值"></p>
+<p><em>[注] 以上图片制作于<a href="https://cubic-bezier.com/">https://cubic-bezier.com/</a>，这是一个贝尔塞曲线在线设置与查看的网站，其中紫色的点表示（x1, y1）,蓝色的点表示（x2, y2）。</em></p>
+<p>&emsp;&emsp;<strong>其中横轴（x轴）表示时间，纵轴（y轴）表示随着时间推移动画完成情况，曲线的斜率表现为为动画完成的快慢（比如移动速度等）。浏览器会根据时序函数对动画完成情况进行对应的更新（即由时序函数来确定此刻动画中各元素的状态）。</strong>根据图片，可以看到：linear随着时间推移，同一时间间隔动画的完成进度一致，即匀速的完成动画；ease-in先慢后快，ease-out先快后慢；ease-in-out则开始和结束较慢，中间动画完成的进度较快。<br>&emsp;&emsp;特别的，我们也可以使用cubic-bezier自定义时序函数，例如cubic-bezier(.92 ,-0.44, .04, 1.44)，可以看到随着时间的推移，完成情况最先是反向的且完成情况小于0，先快后慢；到最慢时然后完成情况变为正向，呈现先慢后快再慢（类似于ease-in-out），到最慢时此时动画的完成情况是大于1的（也就是多完成了一部分），此时完成情况的方向又变为反向的，先慢后快直到动画完成。</p>
+<p>&emsp;&emsp;将cubic-bezier(.92 ,-0.44, .04, 1.44)时序用到transition属性中（时序函数一般要求写在过渡时间的后面）：</p>
+<pre><code>  &lt;style&gt;
+    .box &#123;
+      width: 300px;
+      border: 1px solid #666;
+      cursor: pointer;
+    &#125;
+    .ball &#123;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: chocolate;
+      margin-left: 0;
+      transition: all 3s cubic-bezier(.92, -0.44, .04, 1.44);
+    &#125;
+    .box:hover .ball &#123;
+      margin-left: calc(100% - 50px);
+    &#125;
+  &lt;/style&gt;
+  &lt;div class=&quot;box&quot;&gt;
+    &lt;div class=&quot;ball&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+</code></pre>
+<p>&emsp;&emsp;具体动画的效果：</p>
+<p><img src="/images/css3/%E8%BF%90%E5%8A%A8%E7%9A%84%E5%B0%8F%E7%90%83.gif" alt="运动的小球"></p>
+<p>&emsp;&emsp;如代码所示，外层class为box的div宽300px，里面放置一个直径为50px的小球，初始位置为外层div里的最左侧。设置外层div变为hover状态时，小球向右移动到外层div里的最右侧的过渡，过渡时间3s，过渡的时序函数用我们自定义贝塞尔曲线。可以看到小球先向左（反方向）由快到慢的移动，移出了外层div左侧一部分；在向右由慢到快再到慢的移动，特别是中间移动速度极快，停下来时也已移出了外层div最右侧一部分；然后在向左（反方向）由慢到快直至小球停到外层div里的最右侧。外层div失去焦点时小球的移动方式与获得焦点相反。可以看到小球移动的状态与设置时序函数的贝塞尔曲线的状态一致。</p>
+<p>&emsp;&emsp;在这里再做一些dome实例的补充：</p>
+<h4 id="1）旋转的筛子"><a href="#1）旋转的筛子" class="headerlink" title="1）旋转的筛子"></a>1）旋转的筛子</h4><p>&emsp;&emsp;先看动画效果：</p>
+<p><img src="/images/css3/%E6%97%8B%E8%BD%AC%E7%9A%84%E7%AD%9B%E5%AD%90.gif" alt="旋转的筛子"></p>
+<p>&emsp;&emsp;代码实现：</p>
+<pre><code>  &lt;style&gt;
+    .cube &#123;
+      width: 100px;
+      height: 100px;
+      perspective: 500px;
+      margin: 100px;
+      transform-style: preserve-3d;
+      animation: rotate 20s infinite;
+      animation-timing-function: linear;
+    &#125;
+    .cube div &#123;
+      position: absolute;
+      transition: all .4s;
+      width: 100px;
+      height: 100px;
+      opacity: 0.9;
+    &#125;
+    .cube div img &#123;
+      width: 100%;
+      height: 100%;
+    &#125;
+    .front &#123;
+      transform: translateZ(50px);
+    &#125;
+    .back &#123;
+      transform: translateZ(-50px);
+    &#125;
+    .left &#123;
+      transform: rotateY(90deg) translateZ(50px);
+    &#125;
+    .right &#123;
+      transform: rotateY(-90deg) translateZ(50px);
+    &#125;
+    .top &#123;
+      transform: rotateX(90deg) translateZ(50px);
+    &#125;
+    .bottom &#123;
+      transform: rotateX(-90deg) translateZ(50px);
+    &#125;
+    @keyframes rotate &#123;
+      from &#123;
+        transform: rotateX(0deg) rotateY(0deg);
+      &#125;
+      to &#123;
+        transform: rotateX(360deg) rotateY(360deg);
+      &#125;
+    &#125;
+  &lt;/style&gt;
+  &lt;div class=&quot;cube&quot;&gt;
+    &lt;div class=&quot;front&quot;&gt;&lt;img src=&quot;img/3.jpg&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;back&quot;&gt;&lt;img src=&quot;img/5.jpg&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;left&quot;&gt;&lt;img src=&quot;img/2.jpg&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;right&quot;&gt;&lt;img src=&quot;img/4.jpg&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;top&quot;&gt;&lt;img src=&quot;img/1.jpg&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;bottom&quot;&gt;&lt;img src=&quot;img/6.jpg&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+</code></pre>
+<p>&emsp;&emsp;简单说明：先在外层class为box的div上设置了观测视角。再对class为cube的div元素设置了transform-style: preserve-3d，使其可以进行3D变换。再对其内部的6个面（实现方式不止代码所示的一种，变换过程中旋转与平移先后顺序不同代码就会不同。这里用图片简单表示骰子的1-6，通过Flex或是Grid布局实现骰子6个面的布局也比较容易）进行相应的3D平移与旋转，布局成为一个立方体。再对class为cube的div元素添加了自定义的关键帧rotate旋转动画。</p>
+<h4 id="2）边框滚动动画"><a href="#2）边框滚动动画" class="headerlink" title="2）边框滚动动画"></a>2）边框滚动动画</h4><p>&emsp;&emsp;先看动画效果：</p>
+<p><img src="/images/css3/%E8%BE%B9%E6%A1%86%E6%BB%9A%E5%8A%A8%E5%8A%A8%E7%94%BB.gif" alt="边框滚动动画"></p>
+<p>&emsp;&emsp;代码实现：</p>
+<pre><code>  &lt;style&gt;
+    .outer-box &#123;
+      width: 300px; height: 100px; box-sizing: border-box; padding: 2px;
+      background: repeating-linear-gradient(45deg, #000, #000 3px, transparent, #000 8px);
+      animation: line 1s infinite linear;
+    &#125;
+    .inner-box &#123;
+      width: 100%; height: 100%;
+      background-color: #fff;
+      display: flex; justify-content: center; align-items: center;
+    &#125;
+    @keyframes line &#123;
+      0% &#123; background-position: 1px -1px; &#125;
+      100% &#123; background-position: 12px -12px; &#125;
+    &#125;
+  &lt;/style&gt;
+  &lt;div class=&quot;outer-box&quot;&gt;
+    &lt;div class=&quot;inner-box&quot;&gt;- (^_^) -&lt;/div&gt;
+  &lt;/div&gt;
+</code></pre>
+<p>&emsp;&emsp;简单说明：这里将外层div设置为渐变的背景图片，2px内间距。内部div宽高100%，背景为白色，此时只见外层div出现类似于虚线边框的样式。加入自定义动画line，线性向右上方移动背景图片，便出现了边框滚动的效果。</p>
+<h4 id="3）元素沿着不规则路径运动"><a href="#3）元素沿着不规则路径运动" class="headerlink" title="3）元素沿着不规则路径运动"></a>3）元素沿着不规则路径运动</h4><p>&emsp;&emsp;这里我们会用到offset-path等相关属性来实现，这个属性相对较新（要注意浏览器兼容），先介绍常用的属性：<br>&emsp;&emsp;<strong>offset-path：指定元素要遵循的运动路径以及元素位置。</strong>取值为：<br>&emsp;&emsp;&emsp;&emsp;ray() ：定义的一条路径<br>&emsp;&emsp;&emsp;&emsp;url()：引用SVG图片的URL<br>&emsp;&emsp;&emsp;&emsp;形状：circle()、 ellipse()、inset()、polygon()等<br>&emsp;&emsp;&emsp;&emsp;path()：用SVG坐标语法定义的路径字符串<br>&emsp;&emsp;<strong>offset-distance：指定要放置的元素沿路径偏移的位置（px，%）。</strong><br>&emsp;&emsp;<strong>offset-rotate：元素运动的角度（deg），默认auto，表示沿当前路径的切线方向前进。</strong></p>
+<p>&emsp;&emsp;先看动画效果：</p>
+<p><img src="/images/css3/%E4%B8%8D%E8%A7%84%E5%88%99%E8%BF%90%E5%8A%A8.gif" alt="不规则运动"></p>
+<p>&emsp;&emsp;代码实现：</p>
+<pre><code>  &lt;style&gt;
+    .box &#123; position: relative; &#125;
+    .car &#123;
+      offset-path: path(&quot;M10 80 Q 52.5 10, 135 80 T 280 80&quot;);
+      animation: move 3s linear infinite;
+      position: absolute; width: 50px; height: auto;
+    &#125;
+    @keyframes move &#123;
+      100% &#123; offset-distance: 100%; &#125;
+    &#125;
+  &lt;/style&gt;
+  &lt;div class=&quot;box&quot;&gt;
+    &lt;img src=&quot;img/car.png&quot; width=&quot;40&quot; height=&quot;43&quot; class=&quot;car&quot;&gt;
+    &lt;svg width=&quot;290px&quot; height=&quot;160px&quot; version=&quot;1.1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+      &lt;path d=&quot;M10 80 Q 52.5 10, 135 80 T 280 80&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot; /&gt;
+    &lt;/svg&gt;
+  &lt;/div&gt;
+</code></pre>
+<p>&emsp;&emsp;简单说明：这里路径使用SVG图片，设置汽车的图片offset-path偏移路径为SVG中path字符串一致。自定义动画move使汽车每3s沿SVG路径进行偏移直至100%，便出现了汽车元素沿不规则路径移动的效果。</p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
       </tags>
   </entry>
   <entry>
     <title>JS预解析、作用域、执行上下文、this</title>
-    <url>/2020/12/05/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/</url>
+    <url>/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/</url>
     <content><![CDATA[<p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻(在极短时间内完成)。会进行变量与函数申明（变量提升）、生成执行上下文（作用域）等工作。</p>
 <h2 id="1、作用域（链）"><a href="#1、作用域（链）" class="headerlink" title="1、作用域（链）"></a>1、作用域（链）</h2><p>&emsp;&emsp;JavaScript采用词法作用域，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
 <p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。全局作用域的变量是全局对象(window)的属性，不论在什么函数中都可以直接访问，而不需要通过全局对象，<u>但加上全局对象，可以提供搜索效率。</u><br><em>&emsp;&emsp;[注] 隐式的申明变量，或在最外层函数外部申明的变量，以及给window对象添加的属性都是全局变量，<strong>隐式申明的变量不存在变量提升</strong></em></p>
@@ -1695,12 +1656,12 @@
         <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>前端基础</tag>
+        <tag>WEB技术</tag>
       </tags>
   </entry>
   <entry>
     <title>JavaScript概述</title>
-    <url>/2020/12/03/JavaScript%E6%A6%82%E8%BF%B0/</url>
+    <url>/2020/12/03/javascript/JavaScript%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<p>JavaScript ( JS ) 是一种具有函数优先的轻量级，解释型或即时编译型，单线程的脚本语言，它可以在网页上实现复杂的功能，网页展现给你的不再是简单的静态页面信息，而是实时的内容更新，交互式的地图，2D/3D 动画，滚动播放的视频等更加丰富的内容，也能实现用户在网页界面上与服务器相关交互功能</p>
 <h2 id="1、语言特性"><a href="#1、语言特性" class="headerlink" title="1、语言特性"></a>1、语言特性</h2><p>&emsp;&emsp;JavaScript是一门动态的、弱类型、基于原型（prototype）的脚本语言。在JavaScript中“一切皆对象”，在这一方面，它比其他的面向对象的语言来得更为彻底。即使作为代码本身载体的函数（function），也是对象。</p>
 <h2 id="2、基本语法"><a href="#2、基本语法" class="headerlink" title="2、基本语法"></a>2、基本语法</h2><h4 id="1-向页面添加JavaScript"><a href="#1-向页面添加JavaScript" class="headerlink" title="1) 向页面添加JavaScript"></a>1) 向页面添加JavaScript</h4><p>&emsp;&emsp;在body标签结束前插入以下script标签引入JavaScript， <u>JavaScript 是区分大小写的</u></p>
@@ -1787,12 +1748,51 @@
         <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>前端基础</tag>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS布局（自适应、响应式、Layout）</title>
+    <url>/2020/11/02/css/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/</url>
+    <content><![CDATA[<p>网页布局（layout）是 CSS 的一个重点应用。布局的传统解决方案，基于盒状模型，依赖 display、 position、float、margin、paddding等属性，采用绝对的单位px、相对单位em、vw、vh、rem以及百分比%等单位进行页面设计。本文将从静态布局、流式布局、自适应布局、响应式布局、弹性布局几个方面进行简单介绍。</p>
+<h2 id="1、静态布局"><a href="#1、静态布局" class="headerlink" title="1、静态布局"></a>1、静态布局</h2><p>&emsp;&emsp;页面采用px单位，一般会设置min-width属性，当页面尺寸小于这个宽度时，出现滚动条进行相应显示，当页面尺寸大于这个宽度时，内容区域一般设置为居中显示。使用浮动（float）、定位（position）对元素进行相应的布局<br>&emsp;&emsp;优点：设计简单，编码简单，不用考虑兼容性问题<br>&emsp;&emsp;缺点：有兼容性问题，针对不同的屏幕显示方式单一，对个别用户很不友好。有时也会JS动态修改标签的initial-scale使得页面相应等比缩放，但效果有限</p>
+<h2 id="2、流式布局"><a href="#2、流式布局" class="headerlink" title="2、流式布局"></a>2、流式布局</h2><p>&emsp;&emsp;页面宽度采用%（百分比）进行布局，高度一般使用px进行设置，或设置为auto并结合margin、paddding进行布局。宽度会随着浏览器宽度进行相应的调整，为了防止对应区域过大或过小使得内容超出区域，一般结合max-width与min-width进行设置。这种布局整体布局方式不变，即页面元素间相对位置不变，文字大小一般使用px，不随页面尺寸变化而变化。布局方式的代表如栅格系统（将网页页面按比例分成对应行列来排列页面中元素的分布）<br>&emsp;&emsp;优点：在一定范围内，能较好的应对不同的PC端页面<br>&emsp;&emsp;缺点：不适应与PC端到移动端较大的尺寸跨度，元素区域过大过小很导致显示不友好。文字大小不随页面宽度变化而变化，在不同屏幕会出现页面样式可能不协调的情况</p>
+<h2 id="3、自适应布局"><a href="#3、自适应布局" class="headerlink" title="3、自适应布局"></a>3、自适应布局</h2><p>&emsp;&emsp;自适应网页设计的核心，就是CSS3引入的媒体查询模块（@media）。自动检测屏幕宽度，然后加载相应的CSS文件或样式<br>&emsp;&emsp;采用媒体查询技术，为不同屏幕分辨率定义布局，即定义多个静态布局，每个静态布局对应一个屏幕范围，可对页面元素尺寸与位置进行相应的调整，对文字尺寸等也可以特殊设置或使用百分比%、em，rem，vh、vw等相对单位</p>
+<p>&emsp;&emsp;特别的，其中：<br>&emsp;&emsp;百分比 %是相对于父元素大小的百分比大小<br>&emsp;&emsp;em是最常见的相对长度单位，基准值是当前元素的字号大小<br>&emsp;&emsp;rem代表“ root”：“ root em”，它等于固定在root元素上的字体大小<br>&emsp;&emsp;vh和vw更多是PC端响应式Web设计依赖百分比规则,尺寸vh等于视口高度的1/100，尺寸vw等于视口宽度的1/100。但CSS百分比度量并非始终是解决所有问题的最佳解决方案<br>&emsp;&emsp;<u>在移动设备中，物理设备上的1px一般不等于css的1px像素，在默认情况下，一般来讲，移动设备上的viewport都是要大于浏览器可视区域的，这是因为考虑到移动设备的分辨率相对于桌面电脑来说都比较小，所以为了能在移动设备上正常显示那些传统的为桌面浏览器设计的网站，移动设备上的浏览器都会把自己默认的viewport设为980px、1024px等值，带来的后果就是浏览器会出现横向滚动条。</u>为了避免这种情况，在移动端页面设计时，让当前viewport的宽度等于设备的宽度，同时不允许用户手动缩放。也许允不允许用户缩放不同的网站有不同的要求，使用下面的代码使viewport的宽度等于设备的宽度，即即网页初始大小占屏幕面积的100%</p>
+<pre><code>  // 网页宽度等于屏幕宽度（width=device-width），原始缩放比例为1.0（initial-scale=1）
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
+</code></pre>
+<p>&emsp;&emsp;优点：对PC端、移动端不同屏幕尺寸变化时，页面元素都会进行相应的调整，有较好的适应能力<br>&emsp;&emsp;缺点：为了使不同设备达到较好的，对各个不同屏幕尺寸范围会进行长时间的设计与调整，过程中也会产生大量的冗余代码</p>
+<h2 id="4、响应式布局"><a href="#4、响应式布局" class="headerlink" title="4、响应式布局"></a>4、响应式布局</h2><p>&emsp;&emsp;<u>个人认为，响应式布局比适应布局更高级，是自适应布局的优化；自适应布局是响应式布局的一个子集。它们都会使用媒体查询（@media）根据不同的访问设备的宽度加载不同的样式。</u>如果要说区别的话，或许自适应式只考虑了屏幕尺寸大小，主要使用媒体查询技术来相应的适应性调整，而响应式布局可能还会考虑到移动设备的触屏操作、页面元素排版是否合理，是否需要对元素的位置重新进行调整等问题。</p>
+<h2 id="5、弹性布局（Flex布局）"><a href="#5、弹性布局（Flex布局）" class="headerlink" title="5、弹性布局（Flex布局）"></a>5、弹性布局（Flex布局）</h2><p>&emsp;&emsp;Flex 是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性,可以简便、完整、响应式地实现各种页面布局。具体布局方式在上一篇文章(CSS布局类型（Display、Flex、Grid）)已经介绍了，这里就不在赘述。请点击查看：<a href="/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/#emsp-emsp-1-Flex%E5%B8%83%E5%B1%80">Display Flex 传送门</a></p>
+<h2 id="6、网格布局（Grid布局）"><a href="#6、网格布局（Grid布局）" class="headerlink" title="6、网格布局（Grid布局）"></a>6、网格布局（Grid布局）</h2><p>&emsp;&emsp;Grid 布局是目前最强大的布局方案。Grid 布局与Flex布局有一定的相似性，都可以指定容器内部多个项目的位置。但是，它们也存在重大区别。Flex 布局是轴线布局，只能指定项目针对轴线(主轴、交叉轴)的位置，可以看作是一维布局。Grid 布局则是将容器划分成行与列，产生单元格，然后指定项目所在的单元格，可以看作是二维布局。Grid 布局远比 Flex 布局强大。具体布局方式在上一篇文章已经介绍了，这里就不在赘述。请点击查看：<a href="/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/#emsp-emsp-2-Grid%E5%B8%83%E5%B1%80">Display Grid 传送门</a></p>
+<p><em>[注] 在页面的实际设计中，为了使页面达到更合理的布局方式。我们往往会根据布局要求采用多种布局方式来达到我们的目的</em></p>
+<h2 id="题外话1-格式化上下文"><a href="#题外话1-格式化上下文" class="headerlink" title="题外话1 格式化上下文"></a>题外话1 格式化上下文</h2><p>&emsp;&emsp;格式化上下文(Block Formatting Context，BFC)是Web页面的可视CSS渲染的一部分，是块盒子的布局过程发生的区域，也是浮动元素与其他元素交互的区域<br>&emsp;&emsp;创建BFC的方式：<br>&emsp;&emsp;根元素（html）<br>&emsp;&emsp;浮动元素（元素的 float 不是 none）<br>&emsp;&emsp;绝对定位元素（元素的 position 为 absolute 或 fixed）<br>&emsp;&emsp;行内块元素（元素的 display 为 inline-block）<br>&emsp;&emsp;表格元素（元素的 display 为 table-cell、table-caption等，HTML表格单元格默认为该值）<br>&emsp;&emsp;overflow 值不为 visible 的块元素（一般这种方式用得最多：overflow: hidden/auto）<br>&emsp;&emsp;弹性元素（display 为 flex 或 inline-flex 元素的直接子元素）<br>&emsp;&emsp;网格元素（display 为 grid 或 inline-grid 元素的直接子元素）</p>
+<p>&emsp;&emsp;BFC布局规则：<br>&emsp;&emsp;① 内部的块级元素会在垂直方向，依次排列<br>&emsp;&emsp;② 外边距塌陷现象，属于同一个BFC的两个相邻元素的margin会发生重叠（在其中一个元素外面添加一个BFC区域来清除外边距塌陷）<br>&emsp;&emsp;③ 每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)，即使存在浮动也是如此<br>&emsp;&emsp;④ BFC的区域不会与浮动元素重叠，即浮动不会影响其它BFC中元素的布局<br>&emsp;&emsp;&emsp;&emsp;应用：<u>自适应两栏布局</u><br>&emsp;&emsp;⑤ BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素，反之亦然<br>&emsp;&emsp;⑥ 计算BFC的高度时，浮动元素也参与计算，即浮动元素不会超出BFC区域的边界<br>&emsp;&emsp;&emsp;&emsp;应用：<u>利用BFC特性来清除浮动</u>、<u>布局文本环绕图像样式</u>（也可以通过clearfix清除浮动来实现）</p>
+<h2 id="题外话2-clearfix清除浮动"><a href="#题外话2-clearfix清除浮动" class="headerlink" title="题外话2 clearfix清除浮动"></a>题外话2 clearfix清除浮动</h2><p>&emsp;&emsp;原理：clear <strong>属性定义了元素的哪边上不允许出现浮动元素。</strong> <u>如果声明为左边或右边清除(clear: both;)，会使父元素内部之前添加的伪元素的上外边框边界刚好在浮动元素的下外边距边界之下，使得父元素的高度能够超过浮动元素的高度，从而达到清除浮动的目的</u></p>
+<p>&emsp;&emsp;代码：</p>
+<pre><code>  .box:after &#123;
+    content: &#39;&#39;;
+    display: block;
+    clear: both;
+    *zoom: 1;
+    // visibility: hidden;
+    // height: 0;
+    // font-size: 0;
+  &#125;
+</code></pre>
+<h2 id="题外话3-CSS其他知识"><a href="#题外话3-CSS其他知识" class="headerlink" title="题外话3 CSS其他知识"></a>题外话3 CSS其他知识</h2><p>&emsp;&emsp;css模块化有css-in-js的概念，有BEM（block element modifier）命名规范，有less、sass预处理器等方面知识。</p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
       </tags>
   </entry>
   <entry>
     <title>CSS(3)概述</title>
-    <url>/2020/09/24/CSS-3-%E6%A6%82%E8%BF%B0/</url>
+    <url>/2020/09/24/css/CSS-3-%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<p>层叠样式表(Cascading Style Sheets)是一种用来表现HTML或XML等文件样式的计算机语言。CSS不仅可以静态地修饰网页，还可以配合各种脚本语言动态地对网页各元素进行格式化。CSS 能够对网页中元素位置的排版进行像素级精确控制，支持几乎所有的字体字号样式，拥有对网页对象和模型样式编辑的能力。</p>
 <h2 id="1、文档流-CSS设计核心"><a href="#1、文档流-CSS设计核心" class="headerlink" title="1、文档流 - CSS设计核心"></a>1、文档流 - CSS设计核心</h2><p>&emsp;&emsp;文档流是文档中可显示对象在排列时所占用的位置。即将窗体自上而下分成一行行, 并在每行中按从左至右的顺序排放元素为文档流。</p>
 <p>&emsp;&emsp;元素脱离文档流的原因：<br>&emsp;&emsp;(1) 浮动float<br>&emsp;&emsp;(2) 绝对定位（position: absolute/fixed）</p>
@@ -2677,12 +2677,12 @@
         <category>CSS</category>
       </categories>
       <tags>
-        <tag>前端基础</tag>
+        <tag>WEB技术</tag>
       </tags>
   </entry>
   <entry>
     <title>CSS布局类型（Display、Flex、Grid）</title>
-    <url>/2020/09/27/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/</url>
+    <url>/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/</url>
     <content><![CDATA[<p>display属性规定元素应该生成的框的类型。display 属性可以设置元素的内部和外部等显示类型 display type。元素的外部显示类型 outer display type 将决定该元素在流式布局中的表现（块级或内联元素）；元素的内部显示类型 inner display type 可以控制其子元素的布局（如 flow layout，grid 或 flex）。</p>
 <p>display 属性使用关键字取值来指定，关键字取值被分为六类：</p>
 <pre><code>  &lt;display-outside&gt; = block | inline | run-in
@@ -2836,16 +2836,16 @@
         <category>CSS</category>
       </categories>
       <tags>
-        <tag>前端基础</tag>
+        <tag>WEB技术</tag>
       </tags>
   </entry>
   <entry>
     <title>JS动画（时序函数、缓动函数、canvas粒子动画）</title>
-    <url>/2021/01/02/JS%E5%8A%A8%E7%94%BB%EF%BC%88%E6%97%B6%E5%BA%8F%E5%87%BD%E6%95%B0%E3%80%81%E7%BC%93%E5%8A%A8%E5%87%BD%E6%95%B0%E3%80%81canvas%E7%B2%92%E5%AD%90%E5%8A%A8%E7%94%BB%EF%BC%89/</url>
+    <url>/2021/01/02/javascript/JS%E5%8A%A8%E7%94%BB%EF%BC%88%E6%97%B6%E5%BA%8F%E5%87%BD%E6%95%B0%E3%80%81%E7%BC%93%E5%8A%A8%E5%87%BD%E6%95%B0%E3%80%81canvas%E7%B2%92%E5%AD%90%E5%8A%A8%E7%94%BB%EF%BC%89/</url>
     <content><![CDATA[<p>CSS动画很强大，特别是CSS3动画。可以进行通过transform的2D/3D变换，以及改变高宽，方位，角度，透明度等，再结合transition过渡属性或者@keyframes规则，能做到几乎完美。但CSS动画也有一些局限，比如不能设置浏览器相关的属性，如scrollTop等。且对于canvas等动画（以及粒子动画），还是要利用计时器（setTimeout、setInterval）或者浏览器重绘回调函数（requestAnimationFrame），通过JavaScript动态更新元素状态来实现。此外，canvas小游戏的逻辑实现也必须使用JavaScript去处理用户鼠标键盘等交互事件，才能完成对应的动画以及功能。JavaScript动画还可以实现沿着其他<strong>自定义时序函数</strong>的进行移动与变化。</p>
 <h2 id="JS动画"><a href="#JS动画" class="headerlink" title="JS动画"></a>JS动画</h2><h4 id="1）setTimeout（setInterval）与requestAnimationFrame对比"><a href="#1）setTimeout（setInterval）与requestAnimationFrame对比" class="headerlink" title="1）setTimeout（setInterval）与requestAnimationFrame对比"></a>1）setTimeout（setInterval）与requestAnimationFrame对比</h4><p>&emsp;&emsp;(1)setTimeout/setInterval：</p>
 <p>&emsp;&emsp;① 计时器的回调的执行时是在内存中对元素属性进行相应的改变，这个变化必须要等到屏幕下次刷新时才会被更新到屏幕上（一般为16.7ms刷新一次）。setTimeout的执行步调和屏幕的刷新步调不一致。就会导致中间某些帧的更新被跳过，照成动画卡顿。比如计时器设置10ms更新一次（帧），而屏幕刷新时间间隔为16.7ms，此时就会出现丢帧现象(即有的内存中元素状态的更新（帧）没来得及被浏览器渲染就被覆盖了)。其实只要计时器设置的更新时间小于16.7ms，就会导致丢帧。<br>&emsp;&emsp;② setTimeout/setInterval 放在异步队列里执行，主线程同步任务会阻塞异步队列的任务，设置的间隔时间不一定是回调执行的时间间隔。同样会造成动画卡顿（停顿）的现象。</p>
-<p><em>&emsp;&emsp;[注] 前面已讲过 <a href="/2020/12/25/JS%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C%E4%BB%A5%E5%8F%8A%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%B2%E8%A1%8C%E3%80%81%E5%B9%B6%E8%A1%8C%EF%BC%89/#%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5">定时器相关概念</a>，可点击查看~</em></p>
+<p><em>&emsp;&emsp;[注] 前面已讲过 <a href="/2020/12/25/javascript/JS%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C%E4%BB%A5%E5%8F%8A%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%B2%E8%A1%8C%E3%80%81%E5%B9%B6%E8%A1%8C%EF%BC%89/#%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5">定时器相关概念</a>，可点击查看~</em></p>
 <p>&emsp;&emsp;③ 使用setTimeout等实现的动画，当页面被隐藏或最小化时，setTimeout仍然在后台执行动画任务，由于此时页面处于不可见或不可用状态，刷新动画浪费 CPU 资源和电池寿命。</p>
 <p>&emsp;&emsp;(2) requestAnimationFrame（标准动画时序，浏览器在下次重绘之前调用指定的回调函数来更新动画）：</p>
 <p>&emsp;&emsp;① 与setTimeout等相比，requestAnimationFrame最大的优势是由浏览器来决定回调函数的执行时机，即紧跟浏览器的刷新步调，不会出现丢帧现象。</p>
@@ -2869,7 +2869,7 @@
   &#125;
 </code></pre>
 <p>&emsp;&emsp;其中duration，timing，draw分别代码动画执行时间（ms）,时序函数，元素状态更新函数。首先调用performance.now()获取动画开始执行的精确时间，然后再根据当前动画执行的时间根据时序函数计算出当前动画应完成的状态，然后调用draw方法更新元素状态。动画若未完成，继续执行。</p>
-<p>&emsp;&emsp;还是用 <a href="/2020/11/26/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/#CSS%E5%8A%A8%E7%94%BB">《CSS动画》</a> 中小球移动的示例，这里我们采用一个 y=Math.pow(2, 10 * (x - 1)) * Math.cos(20 * Math.PI * 1.5 / 3 * x) 的时序函数来定义动画，时序函数的图像为：</p>
+<p>&emsp;&emsp;还是用 <a href="/2020/11/26/css/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/#CSS%E5%8A%A8%E7%94%BB">《CSS动画》</a> 中小球移动的示例，这里我们采用一个 y=Math.pow(2, 10 * (x - 1)) * Math.cos(20 * Math.PI * 1.5 / 3 * x) 的时序函数来定义动画，时序函数的图像为：</p>
 <p><img src="/images/javascript/Js%E8%87%AA%E5%AE%9A%E4%B9%89%E6%97%B6%E5%BA%8F%E5%87%BD%E6%95%B0.png" alt="Js自定义时序函数"></p>
 <p>&emsp;&emsp;代码如下：</p>
 <pre><code>  &lt;style&gt;
@@ -3149,12 +3149,12 @@
         <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>前端基础</tag>
+        <tag>WEB技术</tag>
       </tags>
   </entry>
   <entry>
     <title>JS原型（prototype）链与继承（Class）</title>
-    <url>/2020/12/23/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/</url>
+    <url>/2020/12/23/javascript/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/</url>
     <content><![CDATA[<p>在JavaScript中，每个实例对象（ object ）都有一个私有属性（称之为 __proto__ ）指向它的构造函数的原型对象（prototype ）。该原型对象也有一个自己的原型对象( __proto__ ) ，层层向上直到一个对象的原型对象为 null。根据定义，null没有原型，并作为这个原型链中的最后一个环节。几乎所有 JavaScript 中的对象都是位于原型链顶端的Object对象的实例。</p>
 <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><p>&emsp;&emsp;对象：对象是一个包含相关数据和方法的集合，通常由一些变量和函数组成，我们称之为对象里面的属性和方法。对象成员的值可以是任意的，例如Number，String，Function，null， undefined等。</p>
 <p><em>&emsp;&emsp;[注1] 可以使用点表示法或者括号([ ])表示法访问对象的成员，对象做了字符串(key)到值(value)的映射，而数组做的是数字(索引)到值的映射。其中，括号表示法一个特别的地方是不仅可以动态的去设置对象成员的值，还可以动态的设置成员的名字(key)。</em><br><em>&emsp;&emsp;[注2] 可以用一个对象来做另一个对象成员的值，这样，实际上创建了一个子命名空间，可以链式的使用点表示法或括号表示法去访问其中的成员变量。</em></p>
@@ -3413,12 +3413,12 @@
         <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>前端基础</tag>
+        <tag>WEB技术</tag>
       </tags>
   </entry>
   <entry>
     <title>JS常用API（字符串、数组、对象、正则、日期）</title>
-    <url>/2021/01/16/JS%E5%B8%B8%E7%94%A8API%EF%BC%88%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E7%BB%84%E3%80%81%E5%AF%B9%E8%B1%A1%E3%80%81%E6%AD%A3%E5%88%99%E3%80%81%E6%97%A5%E6%9C%9F%EF%BC%89/</url>
+    <url>/2021/01/16/javascript/JS%E5%B8%B8%E7%94%A8API%EF%BC%88%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E7%BB%84%E3%80%81%E5%AF%B9%E8%B1%A1%E3%80%81%E6%AD%A3%E5%88%99%E3%80%81%E6%97%A5%E6%9C%9F%EF%BC%89/</url>
     <content><![CDATA[<p>JS中常用的API有字符串、数组、对象、正则与日期对象等。</p>
 <h2 id="1、字符串（String）"><a href="#1、字符串（String）" class="headerlink" title="1、字符串（String）"></a>1、字符串（String）</h2><p>&emsp;&emsp;字符串，是由零个或多个字符组成的有限序列。在JavaScript中，字符串实例有字符串对象和基本字符串值的区别  ( 对于 Boolean 和Numbers 也同理)。字符串字面量 (通过单引号或双引号定义) 和 直接调用 String 方法(没有通过 new 生成字符串对象实例)的字符串都是基本字符串。<u>当基本字符串需要调用一个字符串对象才有的方法或者查询值的时候(基本字符串是没有这些方法的)，JavaScript 会自动将基本字符串转化为字符串对象并且调用相应的方法或者执行查询</u></p>
 <pre><code>  const str1 = &#39;abc&#39;; // 基本字符串实例
@@ -3804,12 +3804,12 @@
         <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>前端基础</tag>
+        <tag>WEB技术</tag>
       </tags>
   </entry>
   <entry>
     <title>JS异步操作以及流程控制（串行、并行）</title>
-    <url>/2020/12/25/JS%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C%E4%BB%A5%E5%8F%8A%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%B2%E8%A1%8C%E3%80%81%E5%B9%B6%E8%A1%8C%EF%BC%89/</url>
+    <url>/2020/12/25/javascript/JS%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C%E4%BB%A5%E5%8F%8A%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%B2%E8%A1%8C%E3%80%81%E5%B9%B6%E8%A1%8C%EF%BC%89/</url>
     <content><![CDATA[<p>Javascript语言的执行环境是”单线程”（single thread），单个脚本只能在一个线程上运行（主线程）。原因在于浏览器内核中JavaScript引擎中负责解释和执行JavaScript代码的主线程是唯一的，同一时间只能执行一件任务。在浏览器内核中，GUI 渲染线程与 JavaScript 引擎线程是互斥的，当JavaScript引擎执行时GUI线程会被挂起，GUI更新会被保存在一个队列中等到JavaScript引擎空闲时立即被执行。所以如果JavaScript执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞。为了解决这个问题，Javascript语言将任务的执行模式分成两种：同步和异步。”同步模式”指一个任务等待前一个任务执行结束再执行，程序的执行顺序与任务的排列顺序（即与程序的编码顺序）是一致的、同步的；”异步模式”是每一个任务有一个或多个回调函数，一个任务不用等待前一个任务执行完成就便开始执行，当前任务执行完成后，不是立即执行后一个任务，而是查询回调函数队列里，是否有前面的已任务的回调函数，会立即执行回调函数，回调函数执行完后再执行后一个任务。程序的执行顺序与任务的排列顺序是不一致的，同步的；而是异步的。（<u>此外，JS运行时还有宏任务、微任务、事件循环的概念。</u>）</p>
 <h2 id="说在前面-进程（Process）与线程（Thread）"><a href="#说在前面-进程（Process）与线程（Thread）" class="headerlink" title="说在前面 - 进程（Process）与线程（Thread）"></a>说在前面 - 进程（Process）与线程（Thread）</h2><p>&emsp;&emsp;目前的操作系统都是多任务系统，操作系统接管了所有硬件资源并持有对硬件控制的最高权限。在操作系统中执行的程序，都以进程的方式运行在更低的权限中。所有的硬件资源，由操作系统根据进程的优先级以及进程的运行状况进行统一的调配，<u>即操作系统是以进程为单位去分配空间和执行的。</u></p>
 <p><em>&emsp;&emsp;[注] 区分程序与进程：程序是一组指令集合，它本身没有任何运行的含义，它只是一个静态的实体，存储于磁盘之内的存储器中；当一个程序被操作系统执行时，会被载入内存并在逻辑上产生一个独立的实例，这就是进程。进程和程序并不是一 一对应的；一个程序有可能没有与之对应的进程(因为它并未执行)，也有可能有多个进程与之对应(程序运行在几个不同的数据集上)。<u>一个程序在运行时，至少有一个进程,一个进程至少有一个线程。</u></em></p>
@@ -4211,7 +4211,7 @@
         <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>前端基础</tag>
+        <tag>WEB技术</tag>
       </tags>
   </entry>
 </search>

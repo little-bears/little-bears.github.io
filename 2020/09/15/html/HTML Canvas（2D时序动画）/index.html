@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>HTML Canvas（2D时序动画） |  码农日志</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link rel="alternate" href="/atom.xml" title="码农日志" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-html/HTML Canvas（2D时序动画）"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  HTML Canvas（2D时序动画）
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/09/15/html/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/" class="article-date">
+  <time datetime="2020-09-15T03:48:20.000Z" itemprop="datePublished">2020-09-15</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/HTML/">HTML</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">9 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>HTML5 &lt;canvas&gt; 标签用于绘制图像，但元素本身并没有绘制能力（它仅仅是图形的容器），您必须使用JavaScript脚本（相关API）来完成实际的绘图任务。</p>
+<h2 id="1、坐标系"><a href="#1、坐标系" class="headerlink" title="1、坐标系"></a>1、坐标系</h2><h4 id="1-标准（初始）坐标系"><a href="#1-标准（初始）坐标系" class="headerlink" title="(1) 标准（初始）坐标系"></a>(1) 标准（初始）坐标系</h4><p><img src="/images/canvas/%E6%A0%87%E5%87%86%EF%BC%88%E5%88%9D%E5%A7%8B%EF%BC%89%E5%9D%90%E6%A0%87%E7%B3%BB.png" alt="标准（初始）坐标系"><br>&emsp;&emsp;canvas 元素默认被网格所覆盖。通常来说网格中的一个单元相当于 canvas 元素中的一像素。栅格的起点为左上角，坐标为 (0,0) 。所有元素的位置都相对于原点来定位。所以图中蓝色方形左上角的坐标为距离左边（X 轴）x 像素，距离上边（Y 轴）y 像素，坐标为 (x,y)。</p>
+<h4 id="2-偏移坐标原点（translate方法）"><a href="#2-偏移坐标原点（translate方法）" class="headerlink" title="(2) 偏移坐标原点（translate方法）"></a>(2) 偏移坐标原点（translate方法）</h4><p><img src="/images/canvas/%E5%81%8F%E7%A7%BB%E5%9D%90%E6%A0%87%E5%8E%9F%E7%82%B9.png" alt="偏移坐标原点"><br>&emsp;&emsp;translate 方法用来移动 canvas 的原点到指定的位置。接受两个参数。x 是左右的偏移量，y 是上下的偏移量。</p>
+<h4 id="3-旋转坐标轴（rotate方法）"><a href="#3-旋转坐标轴（rotate方法）" class="headerlink" title="(3) 旋转坐标轴（rotate方法）"></a>(3) 旋转坐标轴（rotate方法）</h4><p><img src="/images/canvas/%E6%97%8B%E8%BD%AC%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="旋转坐标轴"><br>&emsp;&emsp;rotate方法用来旋转坐标轴，只接受一个参数：旋转的角度(angle)，它是顺时针方向的，以弧度为单位的值。旋转的中心是坐标原点。</p>
+<h2 id="2、绘图流程"><a href="#2、绘图流程" class="headerlink" title="2、绘图流程"></a>2、绘图流程</h2><h4 id="1-创建canvas元素（图形容器）"><a href="#1-创建canvas元素（图形容器）" class="headerlink" title="(1) 创建canvas元素（图形容器）"></a>(1) 创建canvas元素（图形容器）</h4><pre><code>  &lt;canvas id=&quot;myCanvas&quot; width=&quot;500&quot; height=&quot;500&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<h4 id="2-获取canvas-DOM元素"><a href="#2-获取canvas-DOM元素" class="headerlink" title="(2) 获取canvas DOM元素"></a>(2) 获取canvas DOM元素</h4><pre><code>  let canvas=document.getElementById(&quot;myCanvas&quot;)
+</code></pre>
+<h4 id="3-获得canvas-context-对象"><a href="#3-获得canvas-context-对象" class="headerlink" title="(3) 获得canvas context 对象"></a>(3) 获得canvas context 对象</h4><pre><code>  let ctx=canvas.getContext(&quot;2d&quot;)
+</code></pre>
+<h4 id="4-调用相关绘图API定义要绘制的路径与图像"><a href="#4-调用相关绘图API定义要绘制的路径与图像" class="headerlink" title="(4) 调用相关绘图API定义要绘制的路径与图像"></a>(4) 调用相关绘图API定义要绘制的路径与图像</h4><pre><code>  // 画线    
+  ctx.moveTo(0, 0);
+  ctx.lineTo(100, 100);
+  // 画圆
+  ctx.arc(95, 50, 40, 2 * Math.PI, 0);
+  // ...
+  // 可添加对键盘鼠标键盘事件的处理，实现交互动画
+</code></pre>
+<h4 id="5-绘制已定义的路径及图像"><a href="#5-绘制已定义的路径及图像" class="headerlink" title="(5) 绘制已定义的路径及图像"></a>(5) 绘制已定义的路径及图像</h4><pre><code>  ctx.stroke(); // 有时会重新映射坐标原点或者旋转画布坐标轴，需要ctx.save()与ctx.restore()配合使用来存储于恢复画布状态
+</code></pre>
+<h4 id="6-定时刷新canvas从而实现动画效果"><a href="#6-定时刷新canvas从而实现动画效果" class="headerlink" title="(6) 定时刷新canvas从而实现动画效果"></a>(6) 定时刷新canvas从而实现动画效果</h4><pre><code>  // requestAnimationFrame()方法（推荐）或者setInterval()/递归调用setTimeout()方法进行刷新动画
+</code></pre>
+<h2 id="3、常用绘图属性与API方法"><a href="#3、常用绘图属性与API方法" class="headerlink" title="3、常用绘图属性与API方法"></a>3、常用绘图属性与API方法</h2><h4 id="1-颜色、样式、阴影属性与方法"><a href="#1-颜色、样式、阴影属性与方法" class="headerlink" title="(1) 颜色、样式、阴影属性与方法"></a>(1) 颜色、样式、阴影属性与方法</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fillStyle</td>
+<td>设置或返回用于填充绘画的颜色、渐变或模式</td>
+</tr>
+<tr>
+<td>strokeStyle</td>
+<td>设置或返回用于笔触的颜色、渐变或模式</td>
+</tr>
+<tr>
+<td>shadowColor</td>
+<td>设置或返回用于阴影的颜色</td>
+</tr>
+<tr>
+<td>shadowBlur</td>
+<td>设置或返回用于阴影的模糊级别</td>
+</tr>
+<tr>
+<td>shadowOffsetX</td>
+<td>设置或返回阴影与形状的水平距离</td>
+</tr>
+<tr>
+<td>shadowOffsetY</td>
+<td>设置或返回阴影与形状的垂直距离</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>createLinearGradient()</td>
+<td>创建线性渐变（用在画布内容上）</td>
+</tr>
+<tr>
+<td>createPattern()</td>
+<td>在指定的方向上重复指定的元素</td>
+</tr>
+<tr>
+<td>createRadialGradient()</td>
+<td>创建放射状/环形的渐变（用在画布内容上）</td>
+</tr>
+<tr>
+<td>addColorStop()</td>
+<td>规定渐变对象中的颜色和停止位置</td>
+</tr>
+</tbody></table>
+<h4 id="2-线条样式属性"><a href="#2-线条样式属性" class="headerlink" title="(2) 线条样式属性"></a>(2) 线条样式属性</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lineCap</td>
+<td>设置或返回线条的结束端点样式(值为square、round，线条会稍稍变长)</td>
+</tr>
+<tr>
+<td>lineJoin</td>
+<td>设置或返回两条线相交时，所创建的拐角类型</td>
+</tr>
+<tr>
+<td>lineWidth</td>
+<td>设置或返回当前的线条宽度</td>
+</tr>
+<tr>
+<td>miterLimit</td>
+<td>设置或返回最大斜接长度</td>
+</tr>
+</tbody></table>
+<h4 id="3-矩形方法"><a href="#3-矩形方法" class="headerlink" title="(3) 矩形方法"></a>(3) 矩形方法</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rect()</td>
+<td>创建矩形</td>
+</tr>
+<tr>
+<td>fillRect()</td>
+<td>绘制‘被填充’的矩形</td>
+</tr>
+<tr>
+<td>strokeRect()</td>
+<td>绘制矩形（无填充）</td>
+</tr>
+<tr>
+<td>clearRect()</td>
+<td>在给定的矩形内清除指定的像素</td>
+</tr>
+</tbody></table>
+<h4 id="4-路径方法"><a href="#4-路径方法" class="headerlink" title="(4) 路径方法"></a>(4) 路径方法</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fill()</td>
+<td>填充当前绘图（路径）</td>
+</tr>
+<tr>
+<td>stroke()</td>
+<td>绘制已定义的路径</td>
+</tr>
+<tr>
+<td>beginPath()</td>
+<td>起始一条路径，或重置当前路径</td>
+</tr>
+<tr>
+<td>moveTo()</td>
+<td>把路径移动到画布中的指定点，不创建线条</td>
+</tr>
+<tr>
+<td>closePath()</td>
+<td>创建从当前点回到起始点的路径</td>
+</tr>
+<tr>
+<td>lineTo()</td>
+<td>添加一个新点，然后在画布中创建从该点到最后指定点的线条</td>
+</tr>
+<tr>
+<td>clip()</td>
+<td>原始画布剪切任意形状和尺寸的区域(裁剪路径的作用可制作遮罩)</td>
+</tr>
+<tr>
+<td>quadraticCurveTo()</td>
+<td>创建二次贝塞尔曲线</td>
+</tr>
+<tr>
+<td>bezierCurveTo()</td>
+<td>创建三次贝塞尔曲线</td>
+</tr>
+<tr>
+<td>arc()</td>
+<td>创建弧/曲线（用于创建圆形或部分圆）</td>
+</tr>
+<tr>
+<td>arcTo()</td>
+<td>创建两切线之间的弧/曲线</td>
+</tr>
+<tr>
+<td>isPointInPath()</td>
+<td>如果指定的点位于当前路径中，则返回true，否则返回false</td>
+</tr>
+<tr>
+<td>setLineDash()</td>
+<td>填充线时使用虚线模式（参数为数组，交替描述绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复）</td>
+</tr>
+</tbody></table>
+<p><em>&emsp;&emsp;注：一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。您也可以在使用 clip() 方法前通过使用 save() 方法对当前画布区域进行保存，并在以后的任意时间对其进行恢复（通过 restore() 方法）</em></p>
+<h4 id="5-转换方法"><a href="#5-转换方法" class="headerlink" title="(5) 转换方法"></a>(5) 转换方法</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>scale()</td>
+<td>缩放当前绘图至更大或更小</td>
+</tr>
+<tr>
+<td>rotate()</td>
+<td>旋转当前绘图</td>
+</tr>
+<tr>
+<td>translate()</td>
+<td>重新映射画布上的 (0,0) 位置</td>
+</tr>
+<tr>
+<td>transform()</td>
+<td>替换绘图的当前转换矩阵</td>
+</tr>
+<tr>
+<td>setTransform()</td>
+<td>将当前转换重置为单位矩阵。然后运行transform()</td>
+</tr>
+</tbody></table>
+<h4 id="6-文本属性与方法"><a href="#6-文本属性与方法" class="headerlink" title="(6) 文本属性与方法"></a>(6) 文本属性与方法</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>font</td>
+<td>设置或返回文本内容的当前字体属性</td>
+</tr>
+<tr>
+<td>textAlign</td>
+<td>设置或返回文本内容的当前对齐方式</td>
+</tr>
+<tr>
+<td>textBaseline</td>
+<td>设置或返回在绘制文本时使用的当前文本基线</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fillText()</td>
+<td>在画布上绘制”被填充的”文本</td>
+</tr>
+<tr>
+<td>strokeText()</td>
+<td>在画布上绘制文本（无填充）</td>
+</tr>
+<tr>
+<td>measureText()</td>
+<td>返回包含指定文本宽度的对象</td>
+</tr>
+</tbody></table>
+<h4 id="7-像素操作属性与方法"><a href="#7-像素操作属性与方法" class="headerlink" title="(7) 像素操作属性与方法"></a>(7) 像素操作属性与方法</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>width</td>
+<td>返回 ImageData 对象的宽度</td>
+</tr>
+<tr>
+<td>height</td>
+<td>返回 ImageData 对象的高度</td>
+</tr>
+<tr>
+<td>data</td>
+<td>返回一个对象，其包含指定的 ImageData 对象的图像数据</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>createImageData()</td>
+<td>创建新的、空白的 ImageData 对象</td>
+</tr>
+<tr>
+<td>getImageData()</td>
+<td>返回 ImageData 对象，该对象为画布上指定的矩形复制像素数据</td>
+</tr>
+<tr>
+<td>putImageData()</td>
+<td>把图像数据（从指定的 ImageData 对象）放回画布上</td>
+</tr>
+</tbody></table>
+<h4 id="8-图像绘制方法"><a href="#8-图像绘制方法" class="headerlink" title="(8) 图像绘制方法"></a>(8) 图像绘制方法</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>drawImage()</td>
+<td>向画布上绘制图像、画布或视频</td>
+</tr>
+</tbody></table>
+<pre><code>  context.drawImage(img,[sx,sy,swidth,sheight,]x,y,[width,height]); // 语法，其中img为Image实例
+</code></pre>
+<h4 id="9-其他属性与方法"><a href="#9-其他属性与方法" class="headerlink" title="(9) 其他属性与方法"></a>(9) 其他属性与方法</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>globalAlpha</td>
+<td>设置或返回绘图的当前 alpha 或透明值</td>
+</tr>
+<tr>
+<td>globalCompositeOperation</td>
+<td>设置或返回新图像如何绘制到已有的图像上</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>save()</td>
+<td>保存当前环境的状态（可以调用任意多次save方法，类似数组的push）</td>
+</tr>
+<tr>
+<td>restore()</td>
+<td>返回之前保存过的路径状态和属性（调用restore方法，上一个保存的状态就从栈中弹出，类似于数组pop）</td>
+</tr>
+</tbody></table>
+<h2 id="4、canvas小案例（时钟）"><a href="#4、canvas小案例（时钟）" class="headerlink" title="4、canvas小案例（时钟）"></a>4、canvas小案例（时钟）</h2><p>(1) 动画效果：<br><img src="/images/canvas/%E6%97%B6%E9%92%9F.gif" alt="时钟"><br>(2) 实现代码：</p>
+<pre><code>  &lt;!DOCTYPE html&gt;
+    &lt;html lang=&quot;en&quot;&gt;
+      &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+        &lt;title&gt;时钟&lt;/title&gt;
+        &lt;style&gt;
+            html,
+            body &#123;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            &#125;
+            body &#123;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;canvas id=&quot;clock&quot; height=&quot;250px&quot; width=&quot;250px&quot;&gt;&lt;/canvas&gt;
+        &lt;script&gt;
+            // 时钟
+            let dom = document.getElementById(&#39;clock&#39;);
+            let ctx = dom.getContext(&#39;2d&#39;);
+            let width = ctx.canvas.width;
+            let height = ctx.canvas.height;
+            let r = width / 2;
+            // 绘制时钟，定义计时器对其进行实时刷新
+            draw();
+            setInterval(draw, 1000);
+
+            //绘制时钟圆环
+            function drawBackground() &#123;
+                ctx.save();
+                ctx.translate(r, r);
+                ctx.beginPath();
+                ctx.lineWidth = 10;
+                ctx.arc(0, 0, r - ctx.lineWidth / 2, 0, 2 * Math.PI, false);
+                ctx.stroke();
+            &#125;
+            // 绘制时间数字
+            function drawNumber() &#123;
+                let hourNumbers = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2];
+                hourNumbers.map(function (number, i) &#123;
+                    let rad = 2 * Math.PI / 12 * i;
+                    let x = Math.cos(rad) * (r - 30);
+                    let y = Math.sin(rad) * (r - 30);
+                    ctx.textAlign = &#39;center&#39;;
+                    ctx.textBaseline = &#39;middle&#39;;
+                    ctx.font = 16 + &quot;px Arial&quot;;
+                    ctx.fillText(number, x, y)
+                &#125;);
+                ctx.stroke();
+            &#125;
+            // 绘制刻度
+            function drawDots() &#123;
+                let hourNumbers = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2];
+                for (let i = 0; i &lt; 60; i++) &#123;
+                    let rad = 2 * Math.PI / 60 * i;
+                    let x = Math.cos(rad) * (r - 16);
+                    let y = Math.sin(rad) * (r - 16) + 1;
+                    ctx.textAlign = &#39;center&#39;;
+                    ctx.textBaseline = &#39;middle&#39;;
+                    ctx.font = 18 + &quot;px Arial&quot;;
+                    if (i % 5 == 0) &#123;
+                        ctx.fillStyle = &#39;black&#39;;
+                    &#125; else &#123;
+                        ctx.fillStyle = &#39;#d1d1d1&#39;;
+                    &#125;
+                    ctx.fillText(&#39; • &#39;, x, y)
+                &#125;
+                ctx.stroke();
+            &#125;
+            // 绘制时针
+            function drawHour(hour, minute) &#123;
+                ctx.save();
+                ctx.beginPath();
+                let rad = 2 * Math.PI / 12 * hour;
+                let mrad = 2 * Math.PI / 12 / 60 * minute;
+                ctx.rotate(rad + mrad);
+                ctx.lineWidth = 6;
+                ctx.moveTo(0, 10);
+                ctx.lineTo(0, -r / 2);
+                ctx.lineCap = &#39;round&#39;;
+                ctx.stroke();
+                ctx.restore();
+            &#125;
+            // 绘制分针
+            function drawMinute(minute, second) &#123;
+                ctx.save()
+                ctx.beginPath();
+                let rad = 2 * Math.PI / 60 * minute;
+                let mrad = 2 * Math.PI / 60 / 60 * second;
+                ctx.rotate(rad + mrad);
+                ctx.lineWidth = 4;
+                ctx.moveTo(0, 10);
+                ctx.lineTo(0, -r / 2 - 10);
+                ctx.lineCap = &#39;round&#39;;
+                ctx.stroke();
+                ctx.restore();
+            &#125;
+            // 绘制秒针
+            function drawSecond(second) &#123;
+                ctx.save();
+                ctx.beginPath();
+                let rad = 2 * Math.PI / 60 * second;
+                ctx.rotate(rad);
+                ctx.lineWidth = 2;
+                ctx.moveTo(0, 10);
+                ctx.lineTo(0, -r / 2 - 20);
+                let gnt1 = ctx.createLinearGradient(0, 0, 0, -r / 2 - 20);
+                gnt1.addColorStop(0, &#39;red&#39;);
+                gnt1.addColorStop(1, &#39;rgb(250, 94, 94)&#39;);
+                ctx.strokeStyle = gnt1;
+                ctx.lineCap = &#39;round&#39;;
+                ctx.stroke();
+                ctx.restore();
+            &#125;
+            // 主函数-绘制时钟
+            function draw() &#123;
+                ctx.clearRect(0, 0, 300, 300);
+                let now = new Date();
+                let hour = now.getHours() &lt; 10 ? &#39;0&#39; + now.getHours() : now.getHours();
+                let minute = now.getMinutes() &lt; 10 ? &#39;0&#39; + now.getMinutes() : now.getMinutes();
+                let second = now.getSeconds() &lt; 10 ? &#39;0&#39; + now.getSeconds() : now.getSeconds();
+                drawBackground();
+                drawNumber();
+                drawDots();
+                drawHour(hour, minute);
+                drawMinute(minute, second);
+                drawSecond(second);
+                ctx.restore();
+            &#125;
+        &lt;/script&gt;
+    &lt;/body&gt;
+  &lt;/html&gt;
+</code></pre>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/09/15/html/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/09/24/css/CSS-3-%E6%A6%82%E8%BF%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            CSS(3)概述
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/09/14/html/HTML-5-%E6%A6%82%E8%BF%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">HTML(5)概述</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Xiong Gang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="码农日志"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay-payment-code.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat-payment-code.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+</body>
+
+</html>
