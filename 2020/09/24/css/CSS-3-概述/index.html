@@ -789,7 +789,7 @@
   &#125;
 </code></pre>
 <p>&emsp;&emsp;<em>[注2]  多行文本超出隐藏（适用于WebKit浏览器及移动端，不同浏览器要添加对应修饰符）</em></p>
-<p>&emsp;&emsp;<em>原理：利用了css弹性盒子模型flex-box，可以理解为flex弹性盒子旧的规则，有兼容性问题。在不同的浏览器中申明：display: -moz-box / -webkit-box / box。有box-orient（子元素的排列方向，有horizontal、vertical等取值）, box-direction（子元素的排列顺序，取值有normal、reverse、inherit）, box-align（垂直方向上的空间利用，即对齐方式，有start、end、center等取值）, box-pack（水平方向上的空间利用，即对齐方式，有start、end、center等取值）, box-lines（子元素是可以换行显示，取值有single、multiple）属性来设置子元素的排列方式。再结合-webkit-line-clamp属性（块元素显示的文本的行数，不规范属性，未在css规范草案中）等属性来实现多行显示省略号</em></p>
+<p>&emsp;&emsp;<em>原理：利用了css弹性盒子模型flex-box，可以理解为flex弹性盒子旧的规则，有兼容性问题。在不同的浏览器中声明：display: -moz-box / -webkit-box / box。有box-orient（子元素的排列方向，有horizontal、vertical等取值）, box-direction（子元素的排列顺序，取值有normal、reverse、inherit）, box-align（垂直方向上的空间利用，即对齐方式，有start、end、center等取值）, box-pack（水平方向上的空间利用，即对齐方式，有start、end、center等取值）, box-lines（子元素是可以换行显示，取值有single、multiple）属性来设置子元素的排列方式。再结合-webkit-line-clamp属性（块元素显示的文本的行数，不规范属性，未在css规范草案中）等属性来实现多行显示省略号</em></p>
 <pre><code>  .box &#123; 
     display: -webkit-box; // 布局方式：flex-box弹性盒子
     -webkit-box-orient: vertical; // 盒子内子元素排列方向：子元素纵向排列

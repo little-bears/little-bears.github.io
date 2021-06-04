@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3.5k</span>
+            <span class="post-count">4.5k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">14 分钟</span>
+            <span class="post-count">18 分钟</span>
         </span>
     </span>
 </div>
@@ -110,9 +110,9 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻(在极短时间内完成)。会进行变量与函数申明（变量提升）、生成执行上下文（作用域）等工作。</p>
-<h2 id="1、作用域（链）"><a href="#1、作用域（链）" class="headerlink" title="1、作用域（链）"></a>1、作用域（链）</h2><p>&emsp;&emsp;JavaScript采用词法作用域，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
-<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。全局作用域的变量是全局对象(window)的属性，不论在什么函数中都可以直接访问，而不需要通过全局对象，<u>但加上全局对象，可以提供搜索效率。</u><br><em>&emsp;&emsp;[注] 隐式的申明变量，或在最外层函数外部申明的变量，以及给window对象添加的属性都是全局变量，<strong>隐式申明的变量不存在变量提升</strong></em></p>
+  <p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻(在极短时间内完成)。会进行变量与函数声明（变量提升）、生成执行上下文（作用域）等工作。</p>
+<h2 id="1、作用域"><a href="#1、作用域" class="headerlink" title="1、作用域"></a>1、作用域</h2><p>&emsp;&emsp;JavaScript采用<u>词法作用域</u>，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
+<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。全局作用域的变量是全局对象(window)的属性，不论在什么函数中都可以直接访问，而不需要通过全局对象，<u>但加上全局对象，可以提供搜索效率。</u><br><em>&emsp;&emsp;[注] 隐式的声明变量，或在最外层函数外部声明的变量，以及给window对象添加的属性都是全局变量，<strong>隐式声明的变量不存在变量提升</strong></em></p>
 <pre><code>  function foo(a) &#123;
   console.log(b) // Uncaught ReferenceError: b is not defined (异常，代码停止执行，变量b没有提升)
     b = a
@@ -126,9 +126,52 @@
   foo(2)
   console.log(b) // 2
 </code></pre>
-<p>&emsp;&emsp;② 在函数内部用var关键字申明的变量，函数的参数会存在于该函数的局部作用域中。<br><em>&emsp;&emsp;[注] 局部变量的优先级高于全局变量</em><br>&emsp;&emsp;③ 用let、const申明的变量会存在于块级作用域中。</p>
-<h2 id="2、预解析与执行上下文"><a href="#2、预解析与执行上下文" class="headerlink" title="2、预解析与执行上下文"></a>2、预解析与执行上下文</h2><p>&emsp;&emsp;JavaScript代码在执行前的瞬间会存在预解析的阶段，会对代码进行相应的处理，对申明的变量与函数进行变量提升，以及生成对应的执行上下文，执行上下文除了保存代码执行信息外，还会将当前作用域信息也保存在执行上下文中，他们有相应的存储关系。随着代码进行的进行，执行上下文会进行相应的改变，执行上下文是用于跟踪代码的运行情况。同一个作用域下，不同的调用会产生不同的执行上下文环境，继而产生不同的变量的值。</p>
-<p>&emsp;&emsp;预解析过程创建执行上下文的步骤：<br>&emsp;&emsp;① 隐式的创建GO（全局上下文）/AO（函数上下文）对象<br>&emsp;&emsp;② 找形参和变量声明，将变量和形参名作为GO/AO的属性名，值为undefined（这个过程也常称为变量提升）<br>&emsp;&emsp;③ 将实参值和形参统一<br>&emsp;&emsp;④ 在函数体里面找函数声明，作为GO/AO的属性，值赋予函数体（这个过程也常称为函数提升）<br><em>&emsp;&emsp;[注] 在全局预解析中，由于全局中没有参数的的概念，所以省去了第2步的找参数。第2步中的找变量申明与第3步实参形参相统一一同处理。GO全局上下文对象，它优于局部预解析AO局部上下文对象的创建与执行</em></p>
+<p>&emsp;&emsp;② 在函数内部用var关键字声明的变量，函数的参数会存在于该函数的局部作用域中。<br><em>&emsp;&emsp;[注] 局部变量的优先级高于全局变量</em><br>&emsp;&emsp;③ 用let、const声明的变量会存在于块级作用域中。</p>
+<h2 id="欺骗词法作用域"><a href="#欺骗词法作用域" class="headerlink" title="欺骗词法作用域"></a>欺骗词法作用域</h2><p>&emsp;&emsp;词法作用域完全由写代码期间所声明的位置决定，在JavaScript中有两种机制来实现在运行时“修改”（欺骗）所处的词法作用域。一般并不推荐使用，因为<u>欺骗词法作用域会导致性能下降</u>。</p>
+<p>&emsp;&emsp;1) 两种机制(<u>对应编码方式并不推荐使用</u>)：</p>
+<p>&emsp;&emsp;① eval<br>&emsp;&emsp;Javascript中的eval()函数可以接受一个字符串为参数，并将其中的内容视为好像在书写时代码就存在于程序这个位置，无论何种情况，eval()都可以在运行期修改所在的作用域。在执行eval()之后的代码时，引擎并不“知道”或“在意”前面的代码是以动态的形式插入进来，并已对词法作用域环境进行修改。引擎只会如往常地进行查找。</p>
+<p>&emsp;&emsp;滥用eval()动态执行代码可能造成一些问题(变量泄漏、污染全局作用域、性能损失)：</p>
+<pre><code>  function foo(str, a) &#123;
+    eval(str)
+    console.log(a, b) // 1 3
+  &#125;
+  let b = 2
+  foo(&#39;var b = 3&#39;, 1)
+</code></pre>
+<p>&emsp;&emsp;foo()函数中使用eval()函数动态插入’var b = 3’，这段代码实际上在foo()内部创建了一个变量b，并遮蔽了外部（全局）作用域中的同名变量。当console.log()被执行时，在foo()函数的作用域内同时找到了a和b，所以永远不会找到外部的b，因此输出1、3。</p>
+<p><em>&emsp;&emsp;[注] 在严格模式的程序中，eval()在运行时有其自己的词法作用域，意味着其中的声明无法修改所在的作用域。</em></p>
+<pre><code>  function foo(str) &#123;
+    &quot;use strict&quot;
+    eval(str)
+    console.log(a) // Uncaught ReferenceError: a is not defined
+  &#125;
+  foo(&#39;var a = 3&#39;)
+</code></pre>
+<p><em>&emsp;&emsp;[注] JavaScript中还有其他一些功能效果和eval()很相似。setTimeout()与setInterval()的第一个参数可以是字符串，字符串的内容可以被解释为一段动态生成的函数代码，这些功能已经过时且不被提倡，也会造成变量泄漏、污染全局作用域、性能损失。new Function()函数的行为也很类似，最后一个参数可以接受代码字符串，并将其转化为动态生成的函数（前面的参数是这个新生成函数的形参）。这种构建比eval()略微安全一些，但也要尽量避免使用。<u>在程序中动态生成代码的使用场景非常罕见，因为它所带来的好处无法抵消性能上的损失。</u></em></p>
+<p>&emsp;&emsp;② with<br>&emsp;&emsp;with通常被当做重复引用同一个对象中的多个属性的快捷方法，可以不需要重复引用对象本身。</p>
+<pre><code>  var obj = &#123; a: 1, b: 2, c: 3 &#125;
+  with(obj) &#123; a = 3,  b = 4, c = 5 &#125;
+  console.log(obj) // &#123;a: 3, b: 4, c: 5&#125;
+</code></pre>
+<p>&emsp;&emsp;滥用with也可能造成一些问题(变量泄漏、污染全局作用域、性能损失)：</p>
+<pre><code>  function foo(obj) &#123;
+    with (obj) &#123; a = 2 &#125;
+  &#125;
+
+  let o1 = &#123; a: 3 &#125;
+  let o2 = &#123; b: 3 &#125;
+
+  foo(o1)
+  console.log(o1.a) // 2
+  // console.log(a) // ReferenceError: a is not defined
+
+  foo(o2)
+  console.log(o2.a) // undefined
+  console.log(a) // 2
+</code></pre>
+<p><em>&emsp;&emsp;[注] with可以将一个对象处理为词法作用域。当传递o1给with时，with中所声明的作用域是o1，在o1作用域中执行‘a=2’时，查询到属性a并对a赋值为2。当后面with将o2作为作用域时，在o2的作用域、foo函数作用域、全局作用域都没有找到属性a,因此执行‘a=2’时，会隐式的创建一个全局变量a并赋值为2(当前代码运行在非严格模式下)</em></p>
+<h2 id="2、预解析与执行上下文"><a href="#2、预解析与执行上下文" class="headerlink" title="2、预解析与执行上下文"></a>2、预解析与执行上下文</h2><p>&emsp;&emsp;JavaScript代码在执行前的瞬间会存在预解析的阶段，会对代码进行相应的处理，对声明的变量与函数进行变量提升，以及生成对应的执行上下文，执行上下文除了保存代码执行信息外，还会将当前作用域信息也保存在执行上下文中，他们有相应的存储关系。随着代码进行的进行，执行上下文会进行相应的改变，执行上下文是用于跟踪代码的运行情况。同一个作用域下，不同的调用会产生不同的执行上下文环境，继而产生不同的变量的值。</p>
+<p>&emsp;&emsp;预解析过程创建执行上下文的步骤：<br>&emsp;&emsp;① 隐式的创建GO（全局上下文）/AO（函数上下文）对象<br>&emsp;&emsp;② 找形参和变量声明，将变量和形参名作为GO/AO的属性名，值为undefined（这个过程也常称为变量提升）<br>&emsp;&emsp;③ 将实参值和形参统一<br>&emsp;&emsp;④ 在函数体里面找函数声明，作为GO/AO的属性，值赋予函数体（这个过程也常称为函数提升）<br><em>&emsp;&emsp;[注] 在全局预解析中，由于全局中没有参数的的概念，所以省去了第2步的找参数。第2步中的找变量声明与第3步实参形参相统一一同处理。GO全局上下文对象，它优于局部预解析AO局部上下文对象的创建与执行</em></p>
 <p>&emsp;&emsp;例如下面的代码：</p>
 <pre><code>  1  console.log(a) // undefined
   2  console.log(b) // Uncaught ReferenceError: b is not defined
@@ -170,7 +213,7 @@
     fn: function fn () &#123;&#125;
   &#125;
 </code></pre>
-<p>&emsp;&emsp;<strong>全局预解析完成，代码开始执行，执行过程如下：</strong><br>&emsp;&emsp;执行第1行，输出a为undefined<br>&emsp;&emsp;执行第2行，因为全局上下文没有申明b变量，所以程序抛出异常：Uncaught ReferenceError: b is not defined<br>&emsp;&emsp;执行第3行，将全局上下文中a赋值为5</p>
+<p>&emsp;&emsp;<strong>全局预解析完成，代码开始执行，执行过程如下：</strong><br>&emsp;&emsp;执行第1行，输出a为undefined<br>&emsp;&emsp;执行第2行，因为全局上下文没有声明b变量，所以程序抛出异常：Uncaught ReferenceError: b is not defined<br>&emsp;&emsp;执行第3行，将全局上下文中a赋值为5</p>
 <pre><code>  GO:&#123;
     a: 5,
     test: undefined
@@ -191,7 +234,7 @@
     c: undefined
   &#125;
 </code></pre>
-<p><em>&emsp;&emsp;[注] <u>在第13行’var a = b = 8’，这里隐式的申明了全局变量b，此时应该将变量b添加到GO对象中，</u>此时的GO对象为：</em></p>
+<p><em>&emsp;&emsp;[注] <u>在第13行’var a = b = 8’，这里隐式的声明了全局变量b，此时应该将变量b添加到GO对象中，</u>此时的GO对象为：</em></p>
 <pre><code>  GO: &#123;
     a: 5,
     test: undefined,
@@ -206,7 +249,7 @@
     c: undefined
   &#125;
 </code></pre>
-<p>&emsp;&emsp;(4) 对于fn函数，进行预解析第4步：在函数体里面找函数声明，作为AO的属性，值赋予函数体<br>&emsp;&emsp;fn函数内无函数申明，AO对象不变</p>
+<p>&emsp;&emsp;(4) 对于fn函数，进行预解析第4步：在函数体里面找函数声明，作为AO的属性，值赋予函数体<br>&emsp;&emsp;fn函数内无函数声明，AO对象不变</p>
 <p>&emsp;&emsp;<strong>fn函数执行前预解析完成，11-16行的<u>函数入栈执行！</u></strong><br>&emsp;&emsp;执行第12行，输出a为undefined（先在当前执行的函数上下文AO的作用域对象中查找变量a，若AO的作用域对象中没有，通过AO中的作用域链，再去全局上下文GO中去查找）<br>&emsp;&emsp;执行第13行，将变量b赋值为8，变量a赋值为8。其中变量b存在于全局上下文GO中，这里的a为当前执行的函数上下文AO中的a，此时的GO、AO对象为：</p>
 <pre><code>  GO:&#123;
     a: 5,
@@ -235,8 +278,8 @@
     b: 8
   &#125;
 </code></pre>
-<p>&emsp;&emsp;执行第17行，输出a为5<br>&emsp;&emsp;执行第18行，输出b为8<br>&emsp;&emsp;执行第19行，因为全局上下文没有申明c变量，所以程序抛出异常：Uncaught ReferenceError: c is not defined<br>&emsp;&emsp;执行第20行，<u>这里调用test()函数与上面调用fn(3)函数类似，执行前也会进行相应的局部预解析，创建对应的AO对象。然后函数入栈执行，</u>这最后函数返回执行结果为10<br>&emsp;&emsp;代码执行完成！</p>
-<p><em>&emsp;&emsp;[注] 这里分析比较简单的一段代码的执行过程，这里在函数内部没有函数的申明，也没有异步处理。一般的，如果函数内部存在函数，在内部函数调用时也会进行对应的局部预处理以及入栈执行；如果代码内包含异步逻辑，会把异步逻辑放在异步队列里面进行相应的调度执行。</em><br><em>&emsp;&emsp;[注] 如果在某个作用域中使用了某变量，而该变量并未在对应的（静态）作用域中声明，而在其它作用域（父级）中声明，该变量称为<u>自由变量（即跨域了当前对应的作用域的变量叫做自由变量）。</u></em></p>
+<p>&emsp;&emsp;执行第17行，输出a为5<br>&emsp;&emsp;执行第18行，输出b为8<br>&emsp;&emsp;执行第19行，因为全局上下文没有声明c变量，所以程序抛出异常：Uncaught ReferenceError: c is not defined<br>&emsp;&emsp;执行第20行，<u>这里调用test()函数与上面调用fn(3)函数类似，执行前也会进行相应的局部预解析，创建对应的AO对象。然后函数入栈执行，</u>这最后函数返回执行结果为10<br>&emsp;&emsp;代码执行完成！</p>
+<p><em>&emsp;&emsp;[注] 这里分析比较简单的一段代码的执行过程，这里在函数内部没有函数的声明，也没有异步处理。一般的，如果函数内部存在函数，在内部函数调用时也会进行对应的局部预处理以及入栈执行；如果代码内包含异步逻辑，会把异步逻辑放在异步队列里面进行相应的调度执行。</em><br><em>&emsp;&emsp;[注] 如果在某个作用域中使用了某变量，而该变量并未在对应的（静态）作用域中声明，而在其它作用域（父级）中声明，该变量称为<u>自由变量（即跨域了当前对应的作用域的变量叫做自由变量）。</u></em></p>
 <h2 id="3、闭包"><a href="#3、闭包" class="headerlink" title="3、闭包"></a>3、闭包</h2><p>&emsp;&emsp;一个函数和对其周围状态（词法环境）的引用捆绑在一起，这样的组合就是闭包（closure）。闭包让你可以在一个内层函数中访问到其外层函数的作用域（即能够读取其他函数内部变量的函数）。在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来。<strong>函数就会形成闭包。</strong><u>闭包是由函数以及声明该函数的词法环境组合而成的。</u>该环境包含了这个闭包创建时作用域内的任何局部变量。</p>
 <p>&emsp;&emsp;例如下面的代码：</p>
 <pre><code>  function add(x) &#123;
