@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">4.5k</span>
+            <span class="post-count">5.2k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">18 分钟</span>
+            <span class="post-count">20 分钟</span>
         </span>
     </span>
 </div>
@@ -112,7 +112,7 @@
        
   <p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻(在极短时间内完成)。会进行变量与函数声明（变量提升）、生成执行上下文（作用域）等工作。</p>
 <h2 id="1、作用域"><a href="#1、作用域" class="headerlink" title="1、作用域"></a>1、作用域</h2><p>&emsp;&emsp;JavaScript采用<u>词法作用域</u>，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
-<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。全局作用域的变量是全局对象(window)的属性，不论在什么函数中都可以直接访问，而不需要通过全局对象，<u>但加上全局对象，可以提供搜索效率。</u><br><em>&emsp;&emsp;[注] 隐式的声明变量，或在最外层函数外部声明的变量，以及给window对象添加的属性都是全局变量，<strong>隐式声明的变量不存在变量提升</strong></em></p>
+<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。<u>全局作用域的变量是全局对象(window)的属性</u>，不论在什么函数中都可以直接访问，而不需要通过全局对象，<u>但加上全局对象，可以提供搜索效率。</u><br><em>&emsp;&emsp;[注] 隐式的声明变量，或在最外层函数外部声明的变量，以及给window对象添加的属性都是全局变量，<strong>隐式声明的变量不存在变量提升</strong></em></p>
 <pre><code>  function foo(a) &#123;
   console.log(b) // Uncaught ReferenceError: b is not defined (异常，代码停止执行，变量b没有提升)
     b = a
@@ -127,49 +127,6 @@
   console.log(b) // 2
 </code></pre>
 <p>&emsp;&emsp;② 在函数内部用var关键字声明的变量，函数的参数会存在于该函数的局部作用域中。<br><em>&emsp;&emsp;[注] 局部变量的优先级高于全局变量</em><br>&emsp;&emsp;③ 用let、const声明的变量会存在于块级作用域中。</p>
-<h2 id="欺骗词法作用域"><a href="#欺骗词法作用域" class="headerlink" title="欺骗词法作用域"></a>欺骗词法作用域</h2><p>&emsp;&emsp;词法作用域完全由写代码期间所声明的位置决定，在JavaScript中有两种机制来实现在运行时“修改”（欺骗）所处的词法作用域。一般并不推荐使用，因为<u>欺骗词法作用域会导致性能下降</u>。</p>
-<p>&emsp;&emsp;1) 两种机制(<u>对应编码方式并不推荐使用</u>)：</p>
-<p>&emsp;&emsp;① eval<br>&emsp;&emsp;Javascript中的eval()函数可以接受一个字符串为参数，并将其中的内容视为好像在书写时代码就存在于程序这个位置，无论何种情况，eval()都可以在运行期修改所在的作用域。在执行eval()之后的代码时，引擎并不“知道”或“在意”前面的代码是以动态的形式插入进来，并已对词法作用域环境进行修改。引擎只会如往常地进行查找。</p>
-<p>&emsp;&emsp;滥用eval()动态执行代码可能造成一些问题(变量泄漏、污染全局作用域、性能损失)：</p>
-<pre><code>  function foo(str, a) &#123;
-    eval(str)
-    console.log(a, b) // 1 3
-  &#125;
-  let b = 2
-  foo(&#39;var b = 3&#39;, 1)
-</code></pre>
-<p>&emsp;&emsp;foo()函数中使用eval()函数动态插入’var b = 3’，这段代码实际上在foo()内部创建了一个变量b，并遮蔽了外部（全局）作用域中的同名变量。当console.log()被执行时，在foo()函数的作用域内同时找到了a和b，所以永远不会找到外部的b，因此输出1、3。</p>
-<p><em>&emsp;&emsp;[注] 在严格模式的程序中，eval()在运行时有其自己的词法作用域，意味着其中的声明无法修改所在的作用域。</em></p>
-<pre><code>  function foo(str) &#123;
-    &quot;use strict&quot;
-    eval(str)
-    console.log(a) // Uncaught ReferenceError: a is not defined
-  &#125;
-  foo(&#39;var a = 3&#39;)
-</code></pre>
-<p><em>&emsp;&emsp;[注] JavaScript中还有其他一些功能效果和eval()很相似。setTimeout()与setInterval()的第一个参数可以是字符串，字符串的内容可以被解释为一段动态生成的函数代码，这些功能已经过时且不被提倡，也会造成变量泄漏、污染全局作用域、性能损失。new Function()函数的行为也很类似，最后一个参数可以接受代码字符串，并将其转化为动态生成的函数（前面的参数是这个新生成函数的形参）。这种构建比eval()略微安全一些，但也要尽量避免使用。<u>在程序中动态生成代码的使用场景非常罕见，因为它所带来的好处无法抵消性能上的损失。</u></em></p>
-<p>&emsp;&emsp;② with<br>&emsp;&emsp;with通常被当做重复引用同一个对象中的多个属性的快捷方法，可以不需要重复引用对象本身。</p>
-<pre><code>  var obj = &#123; a: 1, b: 2, c: 3 &#125;
-  with(obj) &#123; a = 3,  b = 4, c = 5 &#125;
-  console.log(obj) // &#123;a: 3, b: 4, c: 5&#125;
-</code></pre>
-<p>&emsp;&emsp;滥用with也可能造成一些问题(变量泄漏、污染全局作用域、性能损失)：</p>
-<pre><code>  function foo(obj) &#123;
-    with (obj) &#123; a = 2 &#125;
-  &#125;
-
-  let o1 = &#123; a: 3 &#125;
-  let o2 = &#123; b: 3 &#125;
-
-  foo(o1)
-  console.log(o1.a) // 2
-  // console.log(a) // ReferenceError: a is not defined
-
-  foo(o2)
-  console.log(o2.a) // undefined
-  console.log(a) // 2
-</code></pre>
-<p><em>&emsp;&emsp;[注] with可以将一个对象处理为词法作用域。当传递o1给with时，with中所声明的作用域是o1，在o1作用域中执行‘a=2’时，查询到属性a并对a赋值为2。当后面with将o2作为作用域时，在o2的作用域、foo函数作用域、全局作用域都没有找到属性a,因此执行‘a=2’时，会隐式的创建一个全局变量a并赋值为2(当前代码运行在非严格模式下)</em></p>
 <h2 id="2、预解析与执行上下文"><a href="#2、预解析与执行上下文" class="headerlink" title="2、预解析与执行上下文"></a>2、预解析与执行上下文</h2><p>&emsp;&emsp;JavaScript代码在执行前的瞬间会存在预解析的阶段，会对代码进行相应的处理，对声明的变量与函数进行变量提升，以及生成对应的执行上下文，执行上下文除了保存代码执行信息外，还会将当前作用域信息也保存在执行上下文中，他们有相应的存储关系。随着代码进行的进行，执行上下文会进行相应的改变，执行上下文是用于跟踪代码的运行情况。同一个作用域下，不同的调用会产生不同的执行上下文环境，继而产生不同的变量的值。</p>
 <p>&emsp;&emsp;预解析过程创建执行上下文的步骤：<br>&emsp;&emsp;① 隐式的创建GO（全局上下文）/AO（函数上下文）对象<br>&emsp;&emsp;② 找形参和变量声明，将变量和形参名作为GO/AO的属性名，值为undefined（这个过程也常称为变量提升）<br>&emsp;&emsp;③ 将实参值和形参统一<br>&emsp;&emsp;④ 在函数体里面找函数声明，作为GO/AO的属性，值赋予函数体（这个过程也常称为函数提升）<br><em>&emsp;&emsp;[注] 在全局预解析中，由于全局中没有参数的的概念，所以省去了第2步的找参数。第2步中的找变量声明与第3步实参形参相统一一同处理。GO全局上下文对象，它优于局部预解析AO局部上下文对象的创建与执行</em></p>
 <p>&emsp;&emsp;例如下面的代码：</p>
@@ -383,6 +340,70 @@
   &#125;
   console.log(new B()) // &#123; a: 1 &#125;
 </code></pre>
+<h2 id="欺骗词法作用域"><a href="#欺骗词法作用域" class="headerlink" title="欺骗词法作用域"></a>欺骗词法作用域</h2><p>&emsp;&emsp;词法作用域完全由写代码期间所声明的位置决定，在JavaScript中有两种机制来实现在运行时“修改”（欺骗）所处的词法作用域。一般并不推荐使用，因为<u>欺骗词法作用域会导致性能下降</u>。</p>
+<p>&emsp;&emsp;1) 两种机制(<u>对应编码方式并不推荐使用</u>)：</p>
+<p>&emsp;&emsp;① eval<br>&emsp;&emsp;Javascript中的eval()函数可以接受一个字符串为参数，并将其中的内容视为好像在书写时代码就存在于程序这个位置，无论何种情况，eval()都可以在运行期修改所在的作用域。在执行eval()之后的代码时，引擎并不“知道”或“在意”前面的代码是以动态的形式插入进来，并已对词法作用域环境进行修改。引擎只会如往常地进行查找。</p>
+<p>&emsp;&emsp;滥用eval()动态执行代码可能造成一些问题(变量泄漏、污染全局作用域、性能损失)：</p>
+<pre><code>  function foo(str, a) &#123;
+    eval(str)
+    console.log(a, b) // 1 3
+  &#125;
+  let b = 2
+  foo(&#39;var b = 3&#39;, 1)
+</code></pre>
+<p>&emsp;&emsp;foo()函数中使用eval()函数动态插入’var b = 3’，这段代码实际上在foo()内部创建了一个变量b，并遮蔽了外部（全局）作用域中的同名变量。当console.log()被执行时，在foo()函数的作用域内同时找到了a和b，所以永远不会找到外部的b，因此输出1、3。</p>
+<p><em>&emsp;&emsp;[注] 在严格模式的程序中，eval()在运行时有其自己的词法作用域，意味着其中的声明无法修改所在的作用域。</em></p>
+<pre><code>  function foo(str) &#123;
+    &quot;use strict&quot;
+    eval(str)
+    console.log(a) // Uncaught ReferenceError: a is not defined
+  &#125;
+  foo(&#39;var a = 3&#39;)
+</code></pre>
+<p><em>&emsp;&emsp;[注] JavaScript中还有其他一些功能效果和eval()很相似。setTimeout()与setInterval()的第一个参数可以是字符串，字符串的内容可以被解释为一段动态生成的函数代码，这些功能已经过时且不被提倡，也会造成变量泄漏、污染全局作用域、性能损失。new Function()函数的行为也很类似，最后一个参数可以接受代码字符串，并将其转化为动态生成的函数（前面的参数是这个新生成函数的形参）。这种构建比eval()略微安全一些，但也要尽量避免使用。<u>在程序中动态生成代码的使用场景非常罕见，因为它所带来的好处无法抵消性能上的损失。</u></em></p>
+<p>&emsp;&emsp;② with<br>&emsp;&emsp;with通常被当做重复引用同一个对象中的多个属性的快捷方法，可以不需要重复引用对象本身。</p>
+<pre><code>  var obj = &#123; a: 1, b: 2, c: 3 &#125;
+  with(obj) &#123; a = 3,  b = 4, c = 5 &#125;
+  console.log(obj) // &#123;a: 3, b: 4, c: 5&#125;
+</code></pre>
+<p>&emsp;&emsp;滥用with也可能造成一些问题(变量泄漏、污染全局作用域、性能损失)：</p>
+<pre><code>  function foo(obj) &#123;
+    with (obj) &#123; a = 2 &#125;
+  &#125;
+
+  let o1 = &#123; a: 3 &#125;
+  let o2 = &#123; b: 3 &#125;
+
+  foo(o1)
+  console.log(o1.a) // 2
+  // console.log(a) // ReferenceError: a is not defined
+
+  foo(o2)
+  console.log(o2.a) // undefined
+  console.log(a) // 2
+</code></pre>
+<p><em>&emsp;&emsp;[注] with可以将一个对象处理为词法作用域。当传递o1给with时，with中所声明的作用域是o1，在o1作用域中执行‘a=2’时，查询到属性a并对a赋值为2。当后面with将o2作为作用域时，在o2的作用域、foo函数作用域、全局作用域都没有找到属性a,因此执行‘a=2’时，会隐式的创建一个全局变量a并赋值为2(当前代码运行在非严格模式下)</em></p>
+<p><em>&emsp;&emsp;[注] eval()与with性能问题：</em></p>
+<p><em>&emsp;&emsp;JavaScript引擎会在编译阶段进行数项性能优化。其中有些优化依赖于能够根据代码的词法进行静态分析，并预先确定所有变量和函数的定义位置，才能在执行过程中快速找到标识符。但是如果引擎在代码中发现了eval()与with，它只简单的假设关于标识符的位置判断搜索无效的，因为无法在词法分析阶段明确知道eval()会接收到什么代码，这些代码会对作用域进行怎样的修改，也无法知道传的给with用来创建新词法作用域的对象内容到底是什么。</em></p>
+<p><em>&emsp;&emsp;最悲观的情况是如果出现了eval()和with，所有的优化可能都是无意义的，因此最简单最谨慎的做法是<u>完全不做任何优化。</u>如果代码中大量使用eval()和with，那么运行起来会变得非常缓慢。无论引擎多聪明，试图将这些悲观的情况的副作用限制在最小范围内，也无法避免如果没有这些优化，代码会运行得更慢这个事实。</em></p>
+<p><em>&emsp;&emsp;[注] 在JavaScript中，作用域是由函数(function)和块级作用域(ES6 let、const定义块级作用域)划分的。不是由语句块划分的，在while、for、if语句中，隐式定义的变量都是全局变量，在 for 循环里使用了 var 关键字定义的变量也是全局变量，因为在while、for、if中的区域属于全局作用域。有时编码时把 == 或 === 误写成 = 便会出现意想不到的错误。</em></p>
+<pre><code>  while (a = 1) &#123; b = 2; break &#125;
+  console.log(a, b) // 1 2
+  for (var c = 2; c &lt; 3; c++) &#123; d = 4 &#125;
+  console.log(c, d) // 3 4
+  if (e = 5) &#123; f = 6 &#125;
+  console.log(e, f) // 5, 6
+</code></pre>
+<p><em>&emsp;&emsp;for语句条件部分使用 let 定义会形成多个块级作用域，定义的循环变量不会污染全局变量。但执行语句里的 var 关键字声明或隐式声明会污染全局变量。</em></p>
+<pre><code>  for (let c = 2; c &lt; 3; c++) &#123; var d = 4 &#125;
+  // console.log(c) // Uncaught ReferenceError: c is not defined
+  console.log(d) // 4
+</code></pre>
+<p><em>&emsp;&emsp;为了及时发现将 == 或 === 误写成 = 的错误，可进行如下编码(将常量放在 == 或 === 前面，变量名放后面)：</em></p>
+<pre><code>  while (1 == a) &#123; break &#125;
+  if (5 == e) &#123;  &#125;
+</code></pre>
+<p><em>&emsp;&emsp;如果将上面的代码中的判等符号误写成了 = 符号，代码也不会通过编译，会抛出 Uncaught SyntaxError: Invalid left-hand side in assignment 的错误，因为永远不可能将一个变量的值赋值给一个常量~</em></p>
  
       <!-- reward -->
       
