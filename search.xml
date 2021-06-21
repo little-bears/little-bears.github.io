@@ -842,6 +842,238 @@
       </tags>
   </entry>
   <entry>
+    <title>JS Map、Set关键字</title>
+    <url>/2021/06/10/javascript/JS%20Map%E3%80%81Set%E5%85%B3%E9%94%AE%E5%AD%97/</url>
+    <content><![CDATA[<p>JavaScript中Map与Set都是ES6新的数据结构。Map是类似Object的一种键值对集合，不同与Object，Map的键不仅限于是String或Symbol类型，其他各种类型的值包括对象都可以成为Map的键。Set是类似数组的一种数据结构，不同点在于Set中没有重复的值。</p>
+<h2 id="1、Map"><a href="#1、Map" class="headerlink" title="1、Map"></a>1、Map</h2><p>&emsp;&emsp;Map对象保存键值对，并且能够记住键的原始插入顺序。任何值(对象或者原始值) 都可以作为一个键或一个值。</p>
+<p>&emsp;&emsp;一个Map对象在迭代时会根据对象中元素的插入顺序来进行一个 for…of 循环在每次迭代后会返回一个形式为[key，value]的数组。</p>
+<p><em>&emsp;&emsp;[注] for in 与 for of 语句的区别：</em><br><em>&emsp;&emsp;① for…in语句以任意顺序遍历一个对象的除Symbol以外的可枚举属性，为遍历对象属性而构建的，不建议用于迭代一个关注索引顺序的数组，数组可以用 Array.prototype.forEach() 和 for … of</em><br><em>&emsp;&emsp;② for…of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments 对象等等）上创建一个迭代循环，调用自定义迭代钩子，并为每个不同属性的值迭代处理</em></p>
+<p><em>&emsp;&emsp;[注] Map中键 NaN 是与 NaN 相等的（虽然 NaN !== NaN），剩下所有其它的值是根据 === 运算符的结果判断是否相等。在目前的ECMAScript规范中，-0和+0被认为是相等的。</em></p>
+<h4 id="1-Objects-和-maps-的比较"><a href="#1-Objects-和-maps-的比较" class="headerlink" title="1) Objects 和 maps 的比较"></a>1) Objects 和 maps 的比较</h4><p>&emsp;&emsp;Objects 和 Maps 类似的是，它们都允许你按键存取一个值、删除键、检测一个键是否绑定了值。不过 Maps 和 Objects 有一些重要的区别，在下列情况里使用 Map 是更好的选择:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Map</th>
+<th>Object</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>意外的键</td>
+<td>Map 默认情况不包含任何键。只包含显式插入的键</td>
+<td>Object 原型链上的可能存在键名与设置的键名产生冲突 <em>(可通过Object.create(null)来创建一个没有原型的对象)</em></td>
+</tr>
+<tr>
+<td>键的类型</td>
+<td>Map 的键可以是任意值，包括函数、对象或任意基本类型</td>
+<td>Object 的键必须是一个 String 或是Symbol</td>
+</tr>
+<tr>
+<td>键的顺序</td>
+<td><u>Map 中的 key 是有序的，迭代时按插入的顺序返回键值</u></td>
+<td><u>Object 的键是无序的</u></td>
+</tr>
+<tr>
+<td>Size</td>
+<td>Map 的键值对个数可通过 size 属性获取</td>
+<td>Object 的键值对个数只能手动计算</td>
+</tr>
+<tr>
+<td>迭代</td>
+<td>Map 是 iterable 的，可直接被迭代</td>
+<td>Object需要以某种方式获取它的键然后才能迭代</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>在频繁增删键值对的场景下表现更好</td>
+<td>在频繁添加和删除键值对的场景下未作出优化</td>
+</tr>
+</tbody></table>
+<h4 id="注-JavaScript-中的相等性判断"><a href="#注-JavaScript-中的相等性判断" class="headerlink" title="[注] JavaScript 中的相等性判断"></a>[注] JavaScript 中的相等性判断</h4><p>(1) ES2015中有四种相等算法：<br>① 抽象（非严格）相等比较(==)<br>② 严格相等比较(===)，用于  Array.prototype.indexOf, Array.prototype.lastIndexOf, 和 case-matching<br>③ 同值零，用于 %TypedArray% 和 ArrayBuffer 构造函数、以及Map和Set操作, 并将用于 ES2016/ES7 中的String.prototype.includes<br>④ 同值，用于所有其他地方</p>
+<p>(2) JavaScript提供三种不同的值比较操作：<br>① 严格相等比较，使用 ===<br>② 抽象相等比较,使用 ==<br>③ Object.is （ECMAScript 2015/ ES6 新特性，有特殊用途）</p>
+<p>抽象相等比较将执行类型转换; 严格相等比较将进行相同的比较，而不进行类型转换 (如果类型不同, 只是总会返回 false );  而Object.is的行为方式与三等号相同，但是对于NaN和-0和+0进行特殊处理不相同，Object.is（+0，-0）将为 false，而Object.is（NaN，NaN）将为 true。</p>
+<p>(3) 不同判等模型的判等结果：</p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>y</th>
+<th>==</th>
+<th>===</th>
+<th>Object.is</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>undefined</td>
+<td>undefined</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>null</td>
+<td>null</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>false</td>
+<td>false</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>“foo”</td>
+<td>“foo”</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>+0</td>
+<td>-0</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr>
+<td>0</td>
+<td>false</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>“”</td>
+<td>false</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>“”</td>
+<td>0</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>“0”</td>
+<td>0</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>“1”</td>
+<td>1</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>[1,2]</td>
+<td>“1,2”</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>new String(“foo”)</td>
+<td>“foo”</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>null</td>
+<td>undefined</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>null</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>undefined</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>{ foo: “bar” }</td>
+<td>{ foo: “bar” }</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>new String(“foo”)</td>
+<td>new String(“foo”)</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>0</td>
+<td>null</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>0</td>
+<td>NaN</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>“foo”</td>
+<td>NaN</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>NaN</td>
+<td>NaN</td>
+<td>false</td>
+<td>false</td>
+<td>true</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>HTML(5)概述</title>
     <url>/2020/09/14/html/HTML-5-%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<p>HTML称为超文本标记语言（Hyper Text Markup Language），用来描述网页文档内容的含义和结构。</p>
@@ -1452,238 +1684,6 @@
 ]]></content>
       <categories>
         <category>HTML</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JS Map、Set关键字</title>
-    <url>/2021/06/10/javascript/JS%20Map%E3%80%81Set%E5%85%B3%E9%94%AE%E5%AD%97/</url>
-    <content><![CDATA[<p>JavaScript中Map与Set都是ES6新的数据结构。Map是类似Object的一种键值对集合，不同与Object，Map的键不仅限于是String或Symbol类型，其他各种类型的值包括对象都可以成为Map的键。Set是类似数组的一种数据结构，不同点在于Set中没有重复的值。</p>
-<h2 id="1、Map"><a href="#1、Map" class="headerlink" title="1、Map"></a>1、Map</h2><p>&emsp;&emsp;Map对象保存键值对，并且能够记住键的原始插入顺序。任何值(对象或者原始值) 都可以作为一个键或一个值。</p>
-<p>&emsp;&emsp;一个Map对象在迭代时会根据对象中元素的插入顺序来进行一个 for…of 循环在每次迭代后会返回一个形式为[key，value]的数组。</p>
-<p><em>&emsp;&emsp;[注] for in 与 for of 语句的区别：</em><br><em>&emsp;&emsp;① for…in语句以任意顺序遍历一个对象的除Symbol以外的可枚举属性，为遍历对象属性而构建的，不建议用于迭代一个关注索引顺序的数组，数组可以用 Array.prototype.forEach() 和 for … of</em><br><em>&emsp;&emsp;② for…of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments 对象等等）上创建一个迭代循环，调用自定义迭代钩子，并为每个不同属性的值迭代处理</em></p>
-<p><em>&emsp;&emsp;[注] Map中键 NaN 是与 NaN 相等的（虽然 NaN !== NaN），剩下所有其它的值是根据 === 运算符的结果判断是否相等。在目前的ECMAScript规范中，-0和+0被认为是相等的。</em></p>
-<h4 id="1-Objects-和-maps-的比较"><a href="#1-Objects-和-maps-的比较" class="headerlink" title="1) Objects 和 maps 的比较"></a>1) Objects 和 maps 的比较</h4><p>&emsp;&emsp;Objects 和 Maps 类似的是，它们都允许你按键存取一个值、删除键、检测一个键是否绑定了值。不过 Maps 和 Objects 有一些重要的区别，在下列情况里使用 Map 是更好的选择:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Map</th>
-<th>Object</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>意外的键</td>
-<td>Map 默认情况不包含任何键。只包含显式插入的键</td>
-<td>Object 原型链上的可能存在键名与设置的键名产生冲突 <em>(可通过Object.create(null)来创建一个没有原型的对象)</em></td>
-</tr>
-<tr>
-<td>键的类型</td>
-<td>Map 的键可以是任意值，包括函数、对象或任意基本类型</td>
-<td>Object 的键必须是一个 String 或是Symbol</td>
-</tr>
-<tr>
-<td>键的顺序</td>
-<td><u>Map 中的 key 是有序的，迭代时按插入的顺序返回键值</u></td>
-<td><u>Object 的键是无序的</u></td>
-</tr>
-<tr>
-<td>Size</td>
-<td>Map 的键值对个数可通过 size 属性获取</td>
-<td>Object 的键值对个数只能手动计算</td>
-</tr>
-<tr>
-<td>迭代</td>
-<td>Map 是 iterable 的，可直接被迭代</td>
-<td>Object需要以某种方式获取它的键然后才能迭代</td>
-</tr>
-<tr>
-<td>性能</td>
-<td>在频繁增删键值对的场景下表现更好</td>
-<td>在频繁添加和删除键值对的场景下未作出优化</td>
-</tr>
-</tbody></table>
-<h4 id="注-JavaScript-中的相等性判断"><a href="#注-JavaScript-中的相等性判断" class="headerlink" title="[注] JavaScript 中的相等性判断"></a>[注] JavaScript 中的相等性判断</h4><p>(1) ES2015中有四种相等算法：<br>① 抽象（非严格）相等比较(==)<br>② 严格相等比较(===)，用于  Array.prototype.indexOf, Array.prototype.lastIndexOf, 和 case-matching<br>③ 同值零，用于 %TypedArray% 和 ArrayBuffer 构造函数、以及Map和Set操作, 并将用于 ES2016/ES7 中的String.prototype.includes<br>④ 同值，用于所有其他地方</p>
-<p>(2) JavaScript提供三种不同的值比较操作：<br>① 严格相等比较，使用 ===<br>② 抽象相等比较,使用 ==<br>③ Object.is （ECMAScript 2015/ ES6 新特性，有特殊用途）</p>
-<p>抽象相等比较将执行类型转换; 严格相等比较将进行相同的比较，而不进行类型转换 (如果类型不同, 只是总会返回 false );  而Object.is的行为方式与三等号相同，但是对于NaN和-0和+0进行特殊处理不相同，Object.is（+0，-0）将为 false，而Object.is（NaN，NaN）将为 true。</p>
-<p>(3) 不同判等模型的判等结果：</p>
-<table>
-<thead>
-<tr>
-<th>x</th>
-<th>y</th>
-<th>==</th>
-<th>===</th>
-<th>Object.is</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>undefined</td>
-<td>undefined</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>null</td>
-<td>null</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>false</td>
-<td>false</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>“foo”</td>
-<td>“foo”</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>0</td>
-<td>0</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>+0</td>
-<td>-0</td>
-<td>true</td>
-<td>true</td>
-<td>false</td>
-</tr>
-<tr>
-<td>0</td>
-<td>false</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>“”</td>
-<td>false</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>“”</td>
-<td>0</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>“0”</td>
-<td>0</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>“1”</td>
-<td>1</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>[1,2]</td>
-<td>“1,2”</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>new String(“foo”)</td>
-<td>“foo”</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>null</td>
-<td>undefined</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>null</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>undefined</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>{ foo: “bar” }</td>
-<td>{ foo: “bar” }</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>new String(“foo”)</td>
-<td>new String(“foo”)</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>0</td>
-<td>null</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>0</td>
-<td>NaN</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>“foo”</td>
-<td>NaN</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>NaN</td>
-<td>NaN</td>
-<td>false</td>
-<td>false</td>
-<td>true</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
       </categories>
       <tags>
         <tag>WEB技术</tag>
