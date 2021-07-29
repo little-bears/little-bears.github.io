@@ -349,6 +349,648 @@
       </tags>
   </entry>
   <entry>
+    <title>HTML Canvas（2D时序动画）</title>
+    <url>/2020/09/15/html/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/</url>
+    <content><![CDATA[<p>HTML5 &lt;canvas&gt; 标签用于绘制图像，但元素本身并没有绘制能力（它仅仅是图形的容器），您必须使用JavaScript脚本（相关API）来完成实际的绘图任务。</p>
+<h2 id="1、坐标系"><a href="#1、坐标系" class="headerlink" title="1、坐标系"></a>1、坐标系</h2><h4 id="1-标准（初始）坐标系"><a href="#1-标准（初始）坐标系" class="headerlink" title="(1) 标准（初始）坐标系"></a>(1) 标准（初始）坐标系</h4><p><img src="/images/canvas/%E6%A0%87%E5%87%86%EF%BC%88%E5%88%9D%E5%A7%8B%EF%BC%89%E5%9D%90%E6%A0%87%E7%B3%BB.png" alt="标准（初始）坐标系"><br>&emsp;&emsp;canvas 元素默认被网格所覆盖。通常来说网格中的一个单元相当于 canvas 元素中的一像素。栅格的起点为左上角，坐标为 (0,0) 。所有元素的位置都相对于原点来定位。所以图中蓝色方形左上角的坐标为距离左边（X 轴）x 像素，距离上边（Y 轴）y 像素，坐标为 (x,y)。</p>
+<h4 id="2-偏移坐标原点（translate方法）"><a href="#2-偏移坐标原点（translate方法）" class="headerlink" title="(2) 偏移坐标原点（translate方法）"></a>(2) 偏移坐标原点（translate方法）</h4><p><img src="/images/canvas/%E5%81%8F%E7%A7%BB%E5%9D%90%E6%A0%87%E5%8E%9F%E7%82%B9.png" alt="偏移坐标原点"><br>&emsp;&emsp;translate 方法用来移动 canvas 的原点到指定的位置。接受两个参数。x 是左右的偏移量，y 是上下的偏移量。</p>
+<h4 id="3-旋转坐标轴（rotate方法）"><a href="#3-旋转坐标轴（rotate方法）" class="headerlink" title="(3) 旋转坐标轴（rotate方法）"></a>(3) 旋转坐标轴（rotate方法）</h4><p><img src="/images/canvas/%E6%97%8B%E8%BD%AC%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="旋转坐标轴"><br>&emsp;&emsp;rotate方法用来旋转坐标轴，只接受一个参数：旋转的角度(angle)，它是顺时针方向的，以弧度为单位的值。旋转的中心是坐标原点。</p>
+<h2 id="2、绘图流程"><a href="#2、绘图流程" class="headerlink" title="2、绘图流程"></a>2、绘图流程</h2><h4 id="1-创建canvas元素（图形容器）"><a href="#1-创建canvas元素（图形容器）" class="headerlink" title="(1) 创建canvas元素（图形容器）"></a>(1) 创建canvas元素（图形容器）</h4><pre><code>  &lt;canvas id=&quot;myCanvas&quot; width=&quot;500&quot; height=&quot;500&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<h4 id="2-获取canvas-DOM元素"><a href="#2-获取canvas-DOM元素" class="headerlink" title="(2) 获取canvas DOM元素"></a>(2) 获取canvas DOM元素</h4><pre><code>  let canvas=document.getElementById(&quot;myCanvas&quot;)
+</code></pre>
+<h4 id="3-获得canvas-context-对象"><a href="#3-获得canvas-context-对象" class="headerlink" title="(3) 获得canvas context 对象"></a>(3) 获得canvas context 对象</h4><pre><code>  let ctx=canvas.getContext(&quot;2d&quot;)
+</code></pre>
+<h4 id="4-调用相关绘图API定义要绘制的路径与图像"><a href="#4-调用相关绘图API定义要绘制的路径与图像" class="headerlink" title="(4) 调用相关绘图API定义要绘制的路径与图像"></a>(4) 调用相关绘图API定义要绘制的路径与图像</h4><pre><code>  // 画线    
+  ctx.moveTo(0, 0);
+  ctx.lineTo(100, 100);
+  // 画圆
+  ctx.arc(95, 50, 40, 2 * Math.PI, 0);
+  // ...
+  // 可添加对键盘鼠标键盘事件的处理，实现交互动画
+</code></pre>
+<h4 id="5-绘制已定义的路径及图像"><a href="#5-绘制已定义的路径及图像" class="headerlink" title="(5) 绘制已定义的路径及图像"></a>(5) 绘制已定义的路径及图像</h4><pre><code>  ctx.stroke(); // 有时会重新映射坐标原点或者旋转画布坐标轴，需要ctx.save()与ctx.restore()配合使用来存储于恢复画布状态
+</code></pre>
+<h4 id="6-定时刷新canvas从而实现动画效果"><a href="#6-定时刷新canvas从而实现动画效果" class="headerlink" title="(6) 定时刷新canvas从而实现动画效果"></a>(6) 定时刷新canvas从而实现动画效果</h4><pre><code>  // requestAnimationFrame()方法（推荐）或者setInterval()/递归调用setTimeout()方法进行刷新动画
+</code></pre>
+<h2 id="3、常用绘图属性与API方法"><a href="#3、常用绘图属性与API方法" class="headerlink" title="3、常用绘图属性与API方法"></a>3、常用绘图属性与API方法</h2><h4 id="1-颜色、样式、阴影属性与方法"><a href="#1-颜色、样式、阴影属性与方法" class="headerlink" title="(1) 颜色、样式、阴影属性与方法"></a>(1) 颜色、样式、阴影属性与方法</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fillStyle</td>
+<td>设置或返回用于填充绘画的颜色、渐变或模式</td>
+</tr>
+<tr>
+<td>strokeStyle</td>
+<td>设置或返回用于笔触的颜色、渐变或模式</td>
+</tr>
+<tr>
+<td>shadowColor</td>
+<td>设置或返回用于阴影的颜色</td>
+</tr>
+<tr>
+<td>shadowBlur</td>
+<td>设置或返回用于阴影的模糊级别</td>
+</tr>
+<tr>
+<td>shadowOffsetX</td>
+<td>设置或返回阴影与形状的水平距离</td>
+</tr>
+<tr>
+<td>shadowOffsetY</td>
+<td>设置或返回阴影与形状的垂直距离</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>createLinearGradient()</td>
+<td>创建线性渐变（用在画布内容上）</td>
+</tr>
+<tr>
+<td>createPattern()</td>
+<td>在指定的方向上重复指定的元素</td>
+</tr>
+<tr>
+<td>createRadialGradient()</td>
+<td>创建放射状/环形的渐变（用在画布内容上）</td>
+</tr>
+<tr>
+<td>addColorStop()</td>
+<td>规定渐变对象中的颜色和停止位置</td>
+</tr>
+</tbody></table>
+<h4 id="2-线条样式属性"><a href="#2-线条样式属性" class="headerlink" title="(2) 线条样式属性"></a>(2) 线条样式属性</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lineCap</td>
+<td>设置或返回线条的结束端点样式(值为square、round，线条会稍稍变长)</td>
+</tr>
+<tr>
+<td>lineJoin</td>
+<td>设置或返回两条线相交时，所创建的拐角类型</td>
+</tr>
+<tr>
+<td>lineWidth</td>
+<td>设置或返回当前的线条宽度</td>
+</tr>
+<tr>
+<td>miterLimit</td>
+<td>设置或返回最大斜接长度</td>
+</tr>
+</tbody></table>
+<h4 id="3-矩形方法"><a href="#3-矩形方法" class="headerlink" title="(3) 矩形方法"></a>(3) 矩形方法</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rect()</td>
+<td>创建矩形</td>
+</tr>
+<tr>
+<td>fillRect()</td>
+<td>绘制‘被填充’的矩形</td>
+</tr>
+<tr>
+<td>strokeRect()</td>
+<td>绘制矩形（无填充）</td>
+</tr>
+<tr>
+<td>clearRect()</td>
+<td>在给定的矩形内清除指定的像素</td>
+</tr>
+</tbody></table>
+<h4 id="4-路径方法"><a href="#4-路径方法" class="headerlink" title="(4) 路径方法"></a>(4) 路径方法</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fill()</td>
+<td>填充当前绘图（路径）</td>
+</tr>
+<tr>
+<td>stroke()</td>
+<td>绘制已定义的路径</td>
+</tr>
+<tr>
+<td>beginPath()</td>
+<td>起始一条路径，或重置当前路径</td>
+</tr>
+<tr>
+<td>moveTo()</td>
+<td>把路径移动到画布中的指定点，不创建线条</td>
+</tr>
+<tr>
+<td>closePath()</td>
+<td>创建从当前点回到起始点的路径</td>
+</tr>
+<tr>
+<td>lineTo()</td>
+<td>添加一个新点，然后在画布中创建从该点到最后指定点的线条</td>
+</tr>
+<tr>
+<td>clip()</td>
+<td>原始画布剪切任意形状和尺寸的区域(裁剪路径的作用可制作遮罩)</td>
+</tr>
+<tr>
+<td>quadraticCurveTo()</td>
+<td>创建二次贝塞尔曲线</td>
+</tr>
+<tr>
+<td>bezierCurveTo()</td>
+<td>创建三次贝塞尔曲线</td>
+</tr>
+<tr>
+<td>arc()</td>
+<td>创建弧/曲线（用于创建圆形或部分圆）</td>
+</tr>
+<tr>
+<td>arcTo()</td>
+<td>创建两切线之间的弧/曲线</td>
+</tr>
+<tr>
+<td>isPointInPath()</td>
+<td>如果指定的点位于当前路径中，则返回true，否则返回false</td>
+</tr>
+<tr>
+<td>setLineDash()</td>
+<td>填充线时使用虚线模式（参数为数组，交替描述绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复）</td>
+</tr>
+</tbody></table>
+<p><em>&emsp;&emsp;注：一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。您也可以在使用 clip() 方法前通过使用 save() 方法对当前画布区域进行保存，并在以后的任意时间对其进行恢复（通过 restore() 方法）</em></p>
+<h4 id="5-转换方法"><a href="#5-转换方法" class="headerlink" title="(5) 转换方法"></a>(5) 转换方法</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>scale()</td>
+<td>缩放当前绘图至更大或更小</td>
+</tr>
+<tr>
+<td>rotate()</td>
+<td>旋转当前绘图</td>
+</tr>
+<tr>
+<td>translate()</td>
+<td>重新映射画布上的 (0,0) 位置</td>
+</tr>
+<tr>
+<td>transform()</td>
+<td>替换绘图的当前转换矩阵</td>
+</tr>
+<tr>
+<td>setTransform()</td>
+<td>将当前转换重置为单位矩阵。然后运行transform()</td>
+</tr>
+</tbody></table>
+<h4 id="6-文本属性与方法"><a href="#6-文本属性与方法" class="headerlink" title="(6) 文本属性与方法"></a>(6) 文本属性与方法</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>font</td>
+<td>设置或返回文本内容的当前字体属性</td>
+</tr>
+<tr>
+<td>textAlign</td>
+<td>设置或返回文本内容的当前对齐方式</td>
+</tr>
+<tr>
+<td>textBaseline</td>
+<td>设置或返回在绘制文本时使用的当前文本基线</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fillText()</td>
+<td>在画布上绘制”被填充的”文本</td>
+</tr>
+<tr>
+<td>strokeText()</td>
+<td>在画布上绘制文本（无填充）</td>
+</tr>
+<tr>
+<td>measureText()</td>
+<td>返回包含指定文本宽度的对象</td>
+</tr>
+</tbody></table>
+<h4 id="7-像素操作属性与方法"><a href="#7-像素操作属性与方法" class="headerlink" title="(7) 像素操作属性与方法"></a>(7) 像素操作属性与方法</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>width</td>
+<td>返回 ImageData 对象的宽度</td>
+</tr>
+<tr>
+<td>height</td>
+<td>返回 ImageData 对象的高度</td>
+</tr>
+<tr>
+<td>data</td>
+<td>返回一个对象，其包含指定的 ImageData 对象的图像数据</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>createImageData()</td>
+<td>创建新的、空白的 ImageData 对象</td>
+</tr>
+<tr>
+<td>getImageData()</td>
+<td>返回 ImageData 对象，该对象为画布上指定的矩形复制像素数据</td>
+</tr>
+<tr>
+<td>putImageData()</td>
+<td>把图像数据（从指定的 ImageData 对象）放回画布上</td>
+</tr>
+</tbody></table>
+<h4 id="8-图像绘制方法"><a href="#8-图像绘制方法" class="headerlink" title="(8) 图像绘制方法"></a>(8) 图像绘制方法</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>drawImage()</td>
+<td>向画布上绘制图像、画布或视频</td>
+</tr>
+</tbody></table>
+<pre><code>  context.drawImage(img,[sx,sy,swidth,sheight,]x,y,[width,height]); // 语法，其中img为Image实例
+</code></pre>
+<h4 id="9-其他属性与方法"><a href="#9-其他属性与方法" class="headerlink" title="(9) 其他属性与方法"></a>(9) 其他属性与方法</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>globalAlpha</td>
+<td>设置或返回绘图的当前 alpha 或透明值</td>
+</tr>
+<tr>
+<td>globalCompositeOperation</td>
+<td>设置或返回新图像如何绘制到已有的图像上</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>save()</td>
+<td>保存当前环境的状态（可以调用任意多次save方法，类似数组的push）</td>
+</tr>
+<tr>
+<td>restore()</td>
+<td>返回之前保存过的路径状态和属性（调用restore方法，上一个保存的状态就从栈中弹出，类似于数组pop）</td>
+</tr>
+</tbody></table>
+<h2 id="4、canvas小案例（时钟）"><a href="#4、canvas小案例（时钟）" class="headerlink" title="4、canvas小案例（时钟）"></a>4、canvas小案例（时钟）</h2><p>(1) 动画效果：<br><img src="/images/canvas/%E6%97%B6%E9%92%9F.gif" alt="时钟"><br>(2) 实现代码：</p>
+<pre><code>  &lt;!DOCTYPE html&gt;
+    &lt;html lang=&quot;en&quot;&gt;
+      &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+        &lt;title&gt;时钟&lt;/title&gt;
+        &lt;style&gt;
+            html,
+            body &#123;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            &#125;
+            body &#123;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;canvas id=&quot;clock&quot; height=&quot;250px&quot; width=&quot;250px&quot;&gt;&lt;/canvas&gt;
+        &lt;script&gt;
+            // 时钟
+            let dom = document.getElementById(&#39;clock&#39;);
+            let ctx = dom.getContext(&#39;2d&#39;);
+            let width = ctx.canvas.width;
+            let height = ctx.canvas.height;
+            let r = width / 2;
+            // 绘制时钟，定义计时器对其进行实时刷新
+            draw();
+            setInterval(draw, 1000);
+
+            //绘制时钟圆环
+            function drawBackground() &#123;
+                ctx.save();
+                ctx.translate(r, r);
+                ctx.beginPath();
+                ctx.lineWidth = 10;
+                ctx.arc(0, 0, r - ctx.lineWidth / 2, 0, 2 * Math.PI, false);
+                ctx.stroke();
+            &#125;
+            // 绘制时间数字
+            function drawNumber() &#123;
+                let hourNumbers = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2];
+                hourNumbers.map(function (number, i) &#123;
+                    let rad = 2 * Math.PI / 12 * i;
+                    let x = Math.cos(rad) * (r - 30);
+                    let y = Math.sin(rad) * (r - 30);
+                    ctx.textAlign = &#39;center&#39;;
+                    ctx.textBaseline = &#39;middle&#39;;
+                    ctx.font = 16 + &quot;px Arial&quot;;
+                    ctx.fillText(number, x, y)
+                &#125;);
+                ctx.stroke();
+            &#125;
+            // 绘制刻度
+            function drawDots() &#123;
+                let hourNumbers = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2];
+                for (let i = 0; i &lt; 60; i++) &#123;
+                    let rad = 2 * Math.PI / 60 * i;
+                    let x = Math.cos(rad) * (r - 16);
+                    let y = Math.sin(rad) * (r - 16) + 1;
+                    ctx.textAlign = &#39;center&#39;;
+                    ctx.textBaseline = &#39;middle&#39;;
+                    ctx.font = 18 + &quot;px Arial&quot;;
+                    if (i % 5 == 0) &#123;
+                        ctx.fillStyle = &#39;black&#39;;
+                    &#125; else &#123;
+                        ctx.fillStyle = &#39;#d1d1d1&#39;;
+                    &#125;
+                    ctx.fillText(&#39; • &#39;, x, y)
+                &#125;
+                ctx.stroke();
+            &#125;
+            // 绘制时针
+            function drawHour(hour, minute) &#123;
+                ctx.save();
+                ctx.beginPath();
+                let rad = 2 * Math.PI / 12 * hour;
+                let mrad = 2 * Math.PI / 12 / 60 * minute;
+                ctx.rotate(rad + mrad);
+                ctx.lineWidth = 6;
+                ctx.moveTo(0, 10);
+                ctx.lineTo(0, -r / 2);
+                ctx.lineCap = &#39;round&#39;;
+                ctx.stroke();
+                ctx.restore();
+            &#125;
+            // 绘制分针
+            function drawMinute(minute, second) &#123;
+                ctx.save()
+                ctx.beginPath();
+                let rad = 2 * Math.PI / 60 * minute;
+                let mrad = 2 * Math.PI / 60 / 60 * second;
+                ctx.rotate(rad + mrad);
+                ctx.lineWidth = 4;
+                ctx.moveTo(0, 10);
+                ctx.lineTo(0, -r / 2 - 10);
+                ctx.lineCap = &#39;round&#39;;
+                ctx.stroke();
+                ctx.restore();
+            &#125;
+            // 绘制秒针
+            function drawSecond(second) &#123;
+                ctx.save();
+                ctx.beginPath();
+                let rad = 2 * Math.PI / 60 * second;
+                ctx.rotate(rad);
+                ctx.lineWidth = 2;
+                ctx.moveTo(0, 10);
+                ctx.lineTo(0, -r / 2 - 20);
+                let gnt1 = ctx.createLinearGradient(0, 0, 0, -r / 2 - 20);
+                gnt1.addColorStop(0, &#39;red&#39;);
+                gnt1.addColorStop(1, &#39;rgb(250, 94, 94)&#39;);
+                ctx.strokeStyle = gnt1;
+                ctx.lineCap = &#39;round&#39;;
+                ctx.stroke();
+                ctx.restore();
+            &#125;
+            // 主函数-绘制时钟
+            function draw() &#123;
+                ctx.clearRect(0, 0, 300, 300);
+                let now = new Date();
+                let hour = now.getHours() &lt; 10 ? &#39;0&#39; + now.getHours() : now.getHours();
+                let minute = now.getMinutes() &lt; 10 ? &#39;0&#39; + now.getMinutes() : now.getMinutes();
+                let second = now.getSeconds() &lt; 10 ? &#39;0&#39; + now.getSeconds() : now.getSeconds();
+                drawBackground();
+                drawNumber();
+                drawDots();
+                drawHour(hour, minute);
+                drawMinute(minute, second);
+                drawSecond(second);
+                ctx.restore();
+            &#125;
+        &lt;/script&gt;
+    &lt;/body&gt;
+  &lt;/html&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>HTML</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS (异步)异常捕获与处理</title>
+    <url>/2021/07/01/javascript/JS%20(%E5%BC%82%E6%AD%A5)%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E4%B8%8E%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<p>异常处理，是编程语言或计算机硬件里的一种机制，用于处理软件或信息系统中出现的异常状况（即超出程序正常执行流程的某些特殊条件）。通过异常处理，我们可以对用户在程序中的非法输入或者程序内部逻辑问题进行控制和提示，以防程序崩溃</p>
+<h2 id="1、Error对象"><a href="#1、Error对象" class="headerlink" title="1、Error对象"></a>1、Error对象</h2><p>&emsp;&emsp;通过Error的构造器可以创建一个错误对象。当运行时错误产生时，Error的实例对象会被抛出。Error对象也可用于用户自定义的异常的基础对象</p>
+<p>&emsp;&emsp;语法：</p>
+<pre><code>  new Error([message[, fileName[,lineNumber]]])
+</code></pre>
+<p><em>&emsp;&emsp;[注] 当代码运行时的发生错误，会创建新的Error 对象，并将其抛出。当像函数一样使用 Error 时，它将返回一个 Error 对象。即仅仅调用 Error 产生的结果与通过new 关键字构造 Error 对象生成的结果相同</em></p>
+<h4 id="通用的Error构造函数"><a href="#通用的Error构造函数" class="headerlink" title="通用的Error构造函数"></a>通用的Error构造函数</h4><p>&emsp;&emsp;EvalError: 创建一个error实例，表示错误的原因与 eval() 有关<br>&emsp;&emsp;InternalError：创建一个代表Javascript引擎内部错误的异常抛出的实例，比如递归太深导致爆栈<br>&emsp;&emsp;RangeError：创建一个error实例，表示错误的原因为数值变量或参数超出其有效范围，比如数组越界<br>&emsp;&emsp;ReferenceError：创建一个error实例，表示错误的原因为无效引用，比如访问了未定义的变量<br>&emsp;&emsp;SyntaxError：创建一个error实例，表示错误的原因为在解析代码的过程中发生了语法错误<br>&emsp;&emsp;TypeError：创建一个error实例，表示错误的原因为变量或参数不属于有效类型<br>&emsp;&emsp;URIError：创建一个error实例，表示错误的原因为给 encodeURI()或 decodeURI()传递的参数无效</p>
+<p><em>&emsp;&emsp;[注] Error.prototype 允许添加属性到 Error 实例；全局 Error 对象自身不包含任何方法，但存在一些从原型链中继承的方法</em></p>
+<h2 id="2、异常捕获"><a href="#2、异常捕获" class="headerlink" title="2、异常捕获"></a>2、异常捕获</h2><p>&emsp;&emsp;通常用 throw 关键字来<u>抛出</u>创建的 Error 对象，使用 try…catch 结构来<u>捕获</u>异常。try…catch 语句标记一块待尝试的语句，并规定一个以上的响应应该有一个异常被抛出。如果我们抛出一个异常，try…catch语句就捕获它，如果try代码块没有抛出异常，catch代码块就会被跳过。finally 代码块总会紧跟在try和catch代码块之后执行，但会在try和catch代码块之后的其他代码之前执行</p>
+<pre><code>  try &#123;
+    throw new Error(&#39;哎呀，发送了一个未知错误~&#39;)
+  &#125; catch (e) &#123;
+    console.log(`$&#123;e.name&#125; : $&#123;e.message&#125;`)
+    console.log(&#39;代码执行到这里了~&#39;)
+  &#125;
+
+  // 输出：
+  // Error : 哎呀，发送了一个未知错误~
+  // 代码执行到这里了~
+</code></pre>
+<p>&emsp;&emsp;不过 try…catch 只能捕获同步异常，捕获不到异步异常！</p>
+<pre><code>  try &#123;
+    setTimeout(() =&gt; &#123;
+      throw new Error(&#39;哎呀，发送了一个未知错误~&#39;)
+    &#125;, 0)
+  &#125; catch (e) &#123;
+    console.log(`$&#123;e.name&#125; : $&#123;e.message&#125;`)
+    console.log(&#39;代码执行到这里了~&#39;)
+  &#125;
+
+  // 输出：这段代码没有输出
+  // 浏览器控制台打印错误：Uncaught Error: 哎呀，发送了一个未知错误~
+
+  // 结论：try...catch 未能捕获异步异常
+</code></pre>
+<h2 id="3、异步异常捕获"><a href="#3、异步异常捕获" class="headerlink" title="3、异步异常捕获"></a>3、异步异常捕获</h2><p>&emsp;&emsp;从 ECMAScript 6 开始，JavaScript 增加了对 Promise 对象的支持，它允许你对延时和异步操作流进行控制，也可以对异步异常进行捕获处理：<br>&emsp;&emsp;☞ pending：初始的状态，即正在执行，不处于 fulfilled 或 rejected 状态<br>&emsp;&emsp;☞ fulfilled：成功的完成了操作<br>&emsp;&emsp;☞ rejected：失败，没有完成操作<br>&emsp;&emsp;☞ settled：Promise 处于 fulfilled 或 rejected 二者中的任意一个状态, 不会是 pending，即处于已敲定的状态</p>
+<p><img src="/images/javascript/Promise%E6%B5%81%E7%A8%8B.png" alt="Promise流程"></p>
+<p>&emsp;&emsp;待定状态的 Promise 对象要么会通过一个值被兑现（fulfilled），要么会通过一个原因（错误）被拒绝（rejected）。当这些情况之一发生时，我们用 promise 的 then 方法排列起来的相关处理程序就会被调用</p>
+<p><em>&emsp;&emsp;[注] Promise.prototype.then 和  Promise.prototype.catch 方法返回的是 promise， 所以它们可以被链式调用。任何不是 throw 的终止都会创建一个”已决议”状态，resolve() 方法可能将 pending 状态转化为 fulfilled 或 rejected 状态；而以 throw 终止则会创建一个”已拒绝”状态，reject() 方法会将 pending 状态转化为  rejected 状态</em></p>
+<p>&emsp;&emsp;Promise捕获异常示例：</p>
+<pre><code>  new Promise((resolve, reject) =&gt; &#123;
+    setTimeout(() =&gt; &#123;
+      try &#123;
+        throw &#39;出错啦~&#39;
+        resolve(true)
+      &#125; catch (err) &#123;
+        reject(err)
+      &#125;
+    &#125;, 0)
+  &#125;).then(res =&gt; &#123;
+    console.log(`已兑现: $&#123;res&#125;`)
+  &#125;).catch(err =&gt; &#123;
+    console.log(`已拒绝: $&#123;err&#125;`) // 已拒绝: 出错啦~
+  &#125;).finally(() =&gt; &#123;
+    console.log(&#39;Promise执行已完成&#39;) // Promise执行已完成
+  &#125;)
+</code></pre>
+<p>&emsp;&emsp;try…catch语句不能捕获异步异常，但可以在Promise函数体的异步操作执行时，将异步操作的错误信息通过reject(err)函数抛出，此时Promise状态变为rejected状态，在Promise的catch分支中将reject()函数抛出的err错误信息捕获。项目中我们可以使用Promise封装ajax请求，来实现对请求失败的<u>统一处理</u>~</p>
+<h2 id="4、Vue项目中使用axios请求数据并统一处理异常"><a href="#4、Vue项目中使用axios请求数据并统一处理异常" class="headerlink" title="4、Vue项目中使用axios请求数据并统一处理异常"></a>4、Vue项目中使用axios请求数据并统一处理异常</h2><p>&emsp;&emsp;1) 对axios配置超时等属性，对请求与响应作统一拦截处理</p>
+<pre><code>  // src/api/axios.js
+
+  import axios from &#39;axios&#39;
+  import &#123; get &#125; from &#39;lodash&#39;
+  import qs from &#39;qs&#39;
+  import &#123; Message &#125; from &#39;element-ui&#39;
+  import Router from &#39;@/router&#39;
+  import store from &#39;../store&#39;
+
+  const instance = axios.create(&#123;
+    baseURL: &#39;/api&#39;,
+    timeout: 1000 * 30
+  &#125;)
+
+  instance.interceptors.request.use(config =&gt; &#123;
+    // 给header统一加上Token信息
+    config.headers.Token = localStorage.getItem(&#39;accessToken&#39;)
+    // 预处理get请求url上的数组信息
+    if (config.method === &#39;get&#39;) &#123;
+      config.paramsSerializer = params =&gt; &#123;
+        return qs.stringify(params, &#123; indices: false &#125;)
+      &#125;
+    &#125;
+    return config
+  &#125;)
+
+  instance.interceptors.response.use(
+    // 请求成功，返回服务端响应内容
+    response =&gt; response.data,
+    // 请求失败，统一处理错误信息
+    error =&gt; &#123;
+      if (error.response) &#123;
+        // 登录信息过期移除缓存的用户信息，跳转登录页
+        if (error.response.status === 401) &#123;
+          localStorage.removeItem(&#39;userInfo&#39;)
+          store.commit(&#39;clearUserInfo&#39;)
+          // Message.error(&#39;您的登录已过期，请重新登录&#39;)
+          Message.error(get(error, &#39;response.data.message&#39;, &#39;您的登录已过期，请重新登录&#39;))
+          Router.push(&#39;/login&#39;)
+          return Promise.resolve()
+        &#125; else &#123;
+          // 统一处理错误，并将错误抛出，具体请求也能拿到错误信息
+          Message.error(get(error, &#39;response.data.message&#39;, &#39;网络错误，请您稍后尝试&#39;))
+          return Promise.reject(error.response.data)
+        &#125;
+      &#125; else &#123;
+        Message.error(&#39;网络错误，请您稍后尝试&#39;)
+      &#125;
+    &#125;
+  )
+
+  export default instance
+</code></pre>
+<p>&emsp;&emsp;2) 针对功能模块编写API列表文件，对请求进行封装</p>
+<pre><code>  // src/api/menu.js
+
+  import axios from &#39;@/api/axios.js&#39;
+
+  export const fetchFrontMenuList = params =&gt; axios.get(&#39;/v1/menu-front&#39;, &#123; params &#125;)
+  export const fetchBannerList = menuId =&gt; axios.get(`/v1/menu-front/$&#123;menuId&#125;/banner`)
+</code></pre>
+<p>&emsp;&emsp;3) 页面中接口的简单使用</p>
+<pre><code>  // src/views/Index.vue
+
+  &lt;script&gt;
+    import &#123; Vue, Component, Watch &#125; from &#39;vue-property-decorator&#39;
+    import &#123; fetchFrontMenuList &#125; from &#39;@/api/menu&#39;
+
+    export default @Component(&#123;&#125;)
+    class Index extends Vue &#123;
+      menuList = []
+
+      async created () &#123;
+        const resp = await fetchFrontMenuList(&#123; status: 0 &#125;)
+        this.menuList = (resp.data || [])
+      &#125;
+    &#125;
+  &lt;/script&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>HTML(5)概述</title>
     <url>/2020/09/14/html/HTML-5-%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<p>HTML称为超文本标记语言（Hyper Text Markup Language），用来描述网页文档内容的含义和结构。</p>
@@ -965,518 +1607,6 @@
       </tags>
   </entry>
   <entry>
-    <title>HTML Canvas（2D时序动画）</title>
-    <url>/2020/09/15/html/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/</url>
-    <content><![CDATA[<p>HTML5 &lt;canvas&gt; 标签用于绘制图像，但元素本身并没有绘制能力（它仅仅是图形的容器），您必须使用JavaScript脚本（相关API）来完成实际的绘图任务。</p>
-<h2 id="1、坐标系"><a href="#1、坐标系" class="headerlink" title="1、坐标系"></a>1、坐标系</h2><h4 id="1-标准（初始）坐标系"><a href="#1-标准（初始）坐标系" class="headerlink" title="(1) 标准（初始）坐标系"></a>(1) 标准（初始）坐标系</h4><p><img src="/images/canvas/%E6%A0%87%E5%87%86%EF%BC%88%E5%88%9D%E5%A7%8B%EF%BC%89%E5%9D%90%E6%A0%87%E7%B3%BB.png" alt="标准（初始）坐标系"><br>&emsp;&emsp;canvas 元素默认被网格所覆盖。通常来说网格中的一个单元相当于 canvas 元素中的一像素。栅格的起点为左上角，坐标为 (0,0) 。所有元素的位置都相对于原点来定位。所以图中蓝色方形左上角的坐标为距离左边（X 轴）x 像素，距离上边（Y 轴）y 像素，坐标为 (x,y)。</p>
-<h4 id="2-偏移坐标原点（translate方法）"><a href="#2-偏移坐标原点（translate方法）" class="headerlink" title="(2) 偏移坐标原点（translate方法）"></a>(2) 偏移坐标原点（translate方法）</h4><p><img src="/images/canvas/%E5%81%8F%E7%A7%BB%E5%9D%90%E6%A0%87%E5%8E%9F%E7%82%B9.png" alt="偏移坐标原点"><br>&emsp;&emsp;translate 方法用来移动 canvas 的原点到指定的位置。接受两个参数。x 是左右的偏移量，y 是上下的偏移量。</p>
-<h4 id="3-旋转坐标轴（rotate方法）"><a href="#3-旋转坐标轴（rotate方法）" class="headerlink" title="(3) 旋转坐标轴（rotate方法）"></a>(3) 旋转坐标轴（rotate方法）</h4><p><img src="/images/canvas/%E6%97%8B%E8%BD%AC%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="旋转坐标轴"><br>&emsp;&emsp;rotate方法用来旋转坐标轴，只接受一个参数：旋转的角度(angle)，它是顺时针方向的，以弧度为单位的值。旋转的中心是坐标原点。</p>
-<h2 id="2、绘图流程"><a href="#2、绘图流程" class="headerlink" title="2、绘图流程"></a>2、绘图流程</h2><h4 id="1-创建canvas元素（图形容器）"><a href="#1-创建canvas元素（图形容器）" class="headerlink" title="(1) 创建canvas元素（图形容器）"></a>(1) 创建canvas元素（图形容器）</h4><pre><code>  &lt;canvas id=&quot;myCanvas&quot; width=&quot;500&quot; height=&quot;500&quot;&gt;&lt;/canvas&gt;
-</code></pre>
-<h4 id="2-获取canvas-DOM元素"><a href="#2-获取canvas-DOM元素" class="headerlink" title="(2) 获取canvas DOM元素"></a>(2) 获取canvas DOM元素</h4><pre><code>  let canvas=document.getElementById(&quot;myCanvas&quot;)
-</code></pre>
-<h4 id="3-获得canvas-context-对象"><a href="#3-获得canvas-context-对象" class="headerlink" title="(3) 获得canvas context 对象"></a>(3) 获得canvas context 对象</h4><pre><code>  let ctx=canvas.getContext(&quot;2d&quot;)
-</code></pre>
-<h4 id="4-调用相关绘图API定义要绘制的路径与图像"><a href="#4-调用相关绘图API定义要绘制的路径与图像" class="headerlink" title="(4) 调用相关绘图API定义要绘制的路径与图像"></a>(4) 调用相关绘图API定义要绘制的路径与图像</h4><pre><code>  // 画线    
-  ctx.moveTo(0, 0);
-  ctx.lineTo(100, 100);
-  // 画圆
-  ctx.arc(95, 50, 40, 2 * Math.PI, 0);
-  // ...
-  // 可添加对键盘鼠标键盘事件的处理，实现交互动画
-</code></pre>
-<h4 id="5-绘制已定义的路径及图像"><a href="#5-绘制已定义的路径及图像" class="headerlink" title="(5) 绘制已定义的路径及图像"></a>(5) 绘制已定义的路径及图像</h4><pre><code>  ctx.stroke(); // 有时会重新映射坐标原点或者旋转画布坐标轴，需要ctx.save()与ctx.restore()配合使用来存储于恢复画布状态
-</code></pre>
-<h4 id="6-定时刷新canvas从而实现动画效果"><a href="#6-定时刷新canvas从而实现动画效果" class="headerlink" title="(6) 定时刷新canvas从而实现动画效果"></a>(6) 定时刷新canvas从而实现动画效果</h4><pre><code>  // requestAnimationFrame()方法（推荐）或者setInterval()/递归调用setTimeout()方法进行刷新动画
-</code></pre>
-<h2 id="3、常用绘图属性与API方法"><a href="#3、常用绘图属性与API方法" class="headerlink" title="3、常用绘图属性与API方法"></a>3、常用绘图属性与API方法</h2><h4 id="1-颜色、样式、阴影属性与方法"><a href="#1-颜色、样式、阴影属性与方法" class="headerlink" title="(1) 颜色、样式、阴影属性与方法"></a>(1) 颜色、样式、阴影属性与方法</h4><table>
-<thead>
-<tr>
-<th>属性</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>fillStyle</td>
-<td>设置或返回用于填充绘画的颜色、渐变或模式</td>
-</tr>
-<tr>
-<td>strokeStyle</td>
-<td>设置或返回用于笔触的颜色、渐变或模式</td>
-</tr>
-<tr>
-<td>shadowColor</td>
-<td>设置或返回用于阴影的颜色</td>
-</tr>
-<tr>
-<td>shadowBlur</td>
-<td>设置或返回用于阴影的模糊级别</td>
-</tr>
-<tr>
-<td>shadowOffsetX</td>
-<td>设置或返回阴影与形状的水平距离</td>
-</tr>
-<tr>
-<td>shadowOffsetY</td>
-<td>设置或返回阴影与形状的垂直距离</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>createLinearGradient()</td>
-<td>创建线性渐变（用在画布内容上）</td>
-</tr>
-<tr>
-<td>createPattern()</td>
-<td>在指定的方向上重复指定的元素</td>
-</tr>
-<tr>
-<td>createRadialGradient()</td>
-<td>创建放射状/环形的渐变（用在画布内容上）</td>
-</tr>
-<tr>
-<td>addColorStop()</td>
-<td>规定渐变对象中的颜色和停止位置</td>
-</tr>
-</tbody></table>
-<h4 id="2-线条样式属性"><a href="#2-线条样式属性" class="headerlink" title="(2) 线条样式属性"></a>(2) 线条样式属性</h4><table>
-<thead>
-<tr>
-<th>属性</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>lineCap</td>
-<td>设置或返回线条的结束端点样式(值为square、round，线条会稍稍变长)</td>
-</tr>
-<tr>
-<td>lineJoin</td>
-<td>设置或返回两条线相交时，所创建的拐角类型</td>
-</tr>
-<tr>
-<td>lineWidth</td>
-<td>设置或返回当前的线条宽度</td>
-</tr>
-<tr>
-<td>miterLimit</td>
-<td>设置或返回最大斜接长度</td>
-</tr>
-</tbody></table>
-<h4 id="3-矩形方法"><a href="#3-矩形方法" class="headerlink" title="(3) 矩形方法"></a>(3) 矩形方法</h4><table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>rect()</td>
-<td>创建矩形</td>
-</tr>
-<tr>
-<td>fillRect()</td>
-<td>绘制‘被填充’的矩形</td>
-</tr>
-<tr>
-<td>strokeRect()</td>
-<td>绘制矩形（无填充）</td>
-</tr>
-<tr>
-<td>clearRect()</td>
-<td>在给定的矩形内清除指定的像素</td>
-</tr>
-</tbody></table>
-<h4 id="4-路径方法"><a href="#4-路径方法" class="headerlink" title="(4) 路径方法"></a>(4) 路径方法</h4><table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>fill()</td>
-<td>填充当前绘图（路径）</td>
-</tr>
-<tr>
-<td>stroke()</td>
-<td>绘制已定义的路径</td>
-</tr>
-<tr>
-<td>beginPath()</td>
-<td>起始一条路径，或重置当前路径</td>
-</tr>
-<tr>
-<td>moveTo()</td>
-<td>把路径移动到画布中的指定点，不创建线条</td>
-</tr>
-<tr>
-<td>closePath()</td>
-<td>创建从当前点回到起始点的路径</td>
-</tr>
-<tr>
-<td>lineTo()</td>
-<td>添加一个新点，然后在画布中创建从该点到最后指定点的线条</td>
-</tr>
-<tr>
-<td>clip()</td>
-<td>原始画布剪切任意形状和尺寸的区域(裁剪路径的作用可制作遮罩)</td>
-</tr>
-<tr>
-<td>quadraticCurveTo()</td>
-<td>创建二次贝塞尔曲线</td>
-</tr>
-<tr>
-<td>bezierCurveTo()</td>
-<td>创建三次贝塞尔曲线</td>
-</tr>
-<tr>
-<td>arc()</td>
-<td>创建弧/曲线（用于创建圆形或部分圆）</td>
-</tr>
-<tr>
-<td>arcTo()</td>
-<td>创建两切线之间的弧/曲线</td>
-</tr>
-<tr>
-<td>isPointInPath()</td>
-<td>如果指定的点位于当前路径中，则返回true，否则返回false</td>
-</tr>
-<tr>
-<td>setLineDash()</td>
-<td>填充线时使用虚线模式（参数为数组，交替描述绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复）</td>
-</tr>
-</tbody></table>
-<p><em>&emsp;&emsp;注：一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。您也可以在使用 clip() 方法前通过使用 save() 方法对当前画布区域进行保存，并在以后的任意时间对其进行恢复（通过 restore() 方法）</em></p>
-<h4 id="5-转换方法"><a href="#5-转换方法" class="headerlink" title="(5) 转换方法"></a>(5) 转换方法</h4><table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>scale()</td>
-<td>缩放当前绘图至更大或更小</td>
-</tr>
-<tr>
-<td>rotate()</td>
-<td>旋转当前绘图</td>
-</tr>
-<tr>
-<td>translate()</td>
-<td>重新映射画布上的 (0,0) 位置</td>
-</tr>
-<tr>
-<td>transform()</td>
-<td>替换绘图的当前转换矩阵</td>
-</tr>
-<tr>
-<td>setTransform()</td>
-<td>将当前转换重置为单位矩阵。然后运行transform()</td>
-</tr>
-</tbody></table>
-<h4 id="6-文本属性与方法"><a href="#6-文本属性与方法" class="headerlink" title="(6) 文本属性与方法"></a>(6) 文本属性与方法</h4><table>
-<thead>
-<tr>
-<th>属性</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>font</td>
-<td>设置或返回文本内容的当前字体属性</td>
-</tr>
-<tr>
-<td>textAlign</td>
-<td>设置或返回文本内容的当前对齐方式</td>
-</tr>
-<tr>
-<td>textBaseline</td>
-<td>设置或返回在绘制文本时使用的当前文本基线</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>fillText()</td>
-<td>在画布上绘制”被填充的”文本</td>
-</tr>
-<tr>
-<td>strokeText()</td>
-<td>在画布上绘制文本（无填充）</td>
-</tr>
-<tr>
-<td>measureText()</td>
-<td>返回包含指定文本宽度的对象</td>
-</tr>
-</tbody></table>
-<h4 id="7-像素操作属性与方法"><a href="#7-像素操作属性与方法" class="headerlink" title="(7) 像素操作属性与方法"></a>(7) 像素操作属性与方法</h4><table>
-<thead>
-<tr>
-<th>属性</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>width</td>
-<td>返回 ImageData 对象的宽度</td>
-</tr>
-<tr>
-<td>height</td>
-<td>返回 ImageData 对象的高度</td>
-</tr>
-<tr>
-<td>data</td>
-<td>返回一个对象，其包含指定的 ImageData 对象的图像数据</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>createImageData()</td>
-<td>创建新的、空白的 ImageData 对象</td>
-</tr>
-<tr>
-<td>getImageData()</td>
-<td>返回 ImageData 对象，该对象为画布上指定的矩形复制像素数据</td>
-</tr>
-<tr>
-<td>putImageData()</td>
-<td>把图像数据（从指定的 ImageData 对象）放回画布上</td>
-</tr>
-</tbody></table>
-<h4 id="8-图像绘制方法"><a href="#8-图像绘制方法" class="headerlink" title="(8) 图像绘制方法"></a>(8) 图像绘制方法</h4><table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>drawImage()</td>
-<td>向画布上绘制图像、画布或视频</td>
-</tr>
-</tbody></table>
-<pre><code>  context.drawImage(img,[sx,sy,swidth,sheight,]x,y,[width,height]); // 语法，其中img为Image实例
-</code></pre>
-<h4 id="9-其他属性与方法"><a href="#9-其他属性与方法" class="headerlink" title="(9) 其他属性与方法"></a>(9) 其他属性与方法</h4><table>
-<thead>
-<tr>
-<th>属性</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>globalAlpha</td>
-<td>设置或返回绘图的当前 alpha 或透明值</td>
-</tr>
-<tr>
-<td>globalCompositeOperation</td>
-<td>设置或返回新图像如何绘制到已有的图像上</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>save()</td>
-<td>保存当前环境的状态（可以调用任意多次save方法，类似数组的push）</td>
-</tr>
-<tr>
-<td>restore()</td>
-<td>返回之前保存过的路径状态和属性（调用restore方法，上一个保存的状态就从栈中弹出，类似于数组pop）</td>
-</tr>
-</tbody></table>
-<h2 id="4、canvas小案例（时钟）"><a href="#4、canvas小案例（时钟）" class="headerlink" title="4、canvas小案例（时钟）"></a>4、canvas小案例（时钟）</h2><p>(1) 动画效果：<br><img src="/images/canvas/%E6%97%B6%E9%92%9F.gif" alt="时钟"><br>(2) 实现代码：</p>
-<pre><code>  &lt;!DOCTYPE html&gt;
-    &lt;html lang=&quot;en&quot;&gt;
-      &lt;head&gt;
-        &lt;meta charset=&quot;UTF-8&quot;&gt;
-        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-        &lt;title&gt;时钟&lt;/title&gt;
-        &lt;style&gt;
-            html,
-            body &#123;
-                width: 100%;
-                height: 100%;
-                margin: 0;
-                padding: 0;
-            &#125;
-            body &#123;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            &#125;
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;canvas id=&quot;clock&quot; height=&quot;250px&quot; width=&quot;250px&quot;&gt;&lt;/canvas&gt;
-        &lt;script&gt;
-            // 时钟
-            let dom = document.getElementById(&#39;clock&#39;);
-            let ctx = dom.getContext(&#39;2d&#39;);
-            let width = ctx.canvas.width;
-            let height = ctx.canvas.height;
-            let r = width / 2;
-            // 绘制时钟，定义计时器对其进行实时刷新
-            draw();
-            setInterval(draw, 1000);
-
-            //绘制时钟圆环
-            function drawBackground() &#123;
-                ctx.save();
-                ctx.translate(r, r);
-                ctx.beginPath();
-                ctx.lineWidth = 10;
-                ctx.arc(0, 0, r - ctx.lineWidth / 2, 0, 2 * Math.PI, false);
-                ctx.stroke();
-            &#125;
-            // 绘制时间数字
-            function drawNumber() &#123;
-                let hourNumbers = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2];
-                hourNumbers.map(function (number, i) &#123;
-                    let rad = 2 * Math.PI / 12 * i;
-                    let x = Math.cos(rad) * (r - 30);
-                    let y = Math.sin(rad) * (r - 30);
-                    ctx.textAlign = &#39;center&#39;;
-                    ctx.textBaseline = &#39;middle&#39;;
-                    ctx.font = 16 + &quot;px Arial&quot;;
-                    ctx.fillText(number, x, y)
-                &#125;);
-                ctx.stroke();
-            &#125;
-            // 绘制刻度
-            function drawDots() &#123;
-                let hourNumbers = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2];
-                for (let i = 0; i &lt; 60; i++) &#123;
-                    let rad = 2 * Math.PI / 60 * i;
-                    let x = Math.cos(rad) * (r - 16);
-                    let y = Math.sin(rad) * (r - 16) + 1;
-                    ctx.textAlign = &#39;center&#39;;
-                    ctx.textBaseline = &#39;middle&#39;;
-                    ctx.font = 18 + &quot;px Arial&quot;;
-                    if (i % 5 == 0) &#123;
-                        ctx.fillStyle = &#39;black&#39;;
-                    &#125; else &#123;
-                        ctx.fillStyle = &#39;#d1d1d1&#39;;
-                    &#125;
-                    ctx.fillText(&#39; • &#39;, x, y)
-                &#125;
-                ctx.stroke();
-            &#125;
-            // 绘制时针
-            function drawHour(hour, minute) &#123;
-                ctx.save();
-                ctx.beginPath();
-                let rad = 2 * Math.PI / 12 * hour;
-                let mrad = 2 * Math.PI / 12 / 60 * minute;
-                ctx.rotate(rad + mrad);
-                ctx.lineWidth = 6;
-                ctx.moveTo(0, 10);
-                ctx.lineTo(0, -r / 2);
-                ctx.lineCap = &#39;round&#39;;
-                ctx.stroke();
-                ctx.restore();
-            &#125;
-            // 绘制分针
-            function drawMinute(minute, second) &#123;
-                ctx.save()
-                ctx.beginPath();
-                let rad = 2 * Math.PI / 60 * minute;
-                let mrad = 2 * Math.PI / 60 / 60 * second;
-                ctx.rotate(rad + mrad);
-                ctx.lineWidth = 4;
-                ctx.moveTo(0, 10);
-                ctx.lineTo(0, -r / 2 - 10);
-                ctx.lineCap = &#39;round&#39;;
-                ctx.stroke();
-                ctx.restore();
-            &#125;
-            // 绘制秒针
-            function drawSecond(second) &#123;
-                ctx.save();
-                ctx.beginPath();
-                let rad = 2 * Math.PI / 60 * second;
-                ctx.rotate(rad);
-                ctx.lineWidth = 2;
-                ctx.moveTo(0, 10);
-                ctx.lineTo(0, -r / 2 - 20);
-                let gnt1 = ctx.createLinearGradient(0, 0, 0, -r / 2 - 20);
-                gnt1.addColorStop(0, &#39;red&#39;);
-                gnt1.addColorStop(1, &#39;rgb(250, 94, 94)&#39;);
-                ctx.strokeStyle = gnt1;
-                ctx.lineCap = &#39;round&#39;;
-                ctx.stroke();
-                ctx.restore();
-            &#125;
-            // 主函数-绘制时钟
-            function draw() &#123;
-                ctx.clearRect(0, 0, 300, 300);
-                let now = new Date();
-                let hour = now.getHours() &lt; 10 ? &#39;0&#39; + now.getHours() : now.getHours();
-                let minute = now.getMinutes() &lt; 10 ? &#39;0&#39; + now.getMinutes() : now.getMinutes();
-                let second = now.getSeconds() &lt; 10 ? &#39;0&#39; + now.getSeconds() : now.getSeconds();
-                drawBackground();
-                drawNumber();
-                drawDots();
-                drawHour(hour, minute);
-                drawMinute(minute, second);
-                drawSecond(second);
-                ctx.restore();
-            &#125;
-        &lt;/script&gt;
-    &lt;/body&gt;
-  &lt;/html&gt;
-</code></pre>
-]]></content>
-      <categories>
-        <category>HTML</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JS (异步)异常捕获处理</title>
-    <url>/2021/07/01/javascript/JS%20(%E5%BC%82%E6%AD%A5)%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%A4%84%E7%90%86/</url>
-    <content><![CDATA[<p>异常处理，是编程语言或计算机硬件里的一种机制，用于处理软件或信息系统中出现的异常状况（即超出程序正常执行流程的某些特殊条件）。通过异常处理，我们可以对用户在程序中的非法输入或者程序内部逻辑问题进行控制和提示，以防程序崩溃</p>
-<h2 id="1、Error对象"><a href="#1、Error对象" class="headerlink" title="1、Error对象"></a>1、Error对象</h2><p>&emsp;&emsp;通过Error的构造器可以创建一个错误对象。当运行时错误产生时，Error的实例对象会被抛出。Error对象也可用于用户自定义的异常的基础对象</p>
-<p>&emsp;&emsp;语法：</p>
-<pre><code>  new Error([message[, fileName[,lineNumber]]])
-</code></pre>
-<p><em>&emsp;&emsp;[注] 当代码运行时的发生错误，会创建新的Error 对象，并将其抛出。当像函数一样使用 Error 时，它将返回一个 Error 对象。即仅仅调用 Error 产生的结果与通过new 关键字构造 Error 对象生成的结果相同</em></p>
-<h4 id="1-通用的Error构造函数"><a href="#1-通用的Error构造函数" class="headerlink" title="1) 通用的Error构造函数"></a>1) 通用的Error构造函数</h4><p>&emsp;&emsp;EvalError: 创建一个error实例，表示错误的原因与 eval() 有关<br>&emsp;&emsp;InternalError：创建一个代表Javascript引擎内部错误的异常抛出的实例，比如递归太深导致爆栈<br>&emsp;&emsp;RangeError：创建一个error实例，表示错误的原因为数值变量或参数超出其有效范围，比如数组越界<br>&emsp;&emsp;ReferenceError：创建一个error实例，表示错误的原因为无效引用，比如访问了未定义的变量<br>&emsp;&emsp;SyntaxError：创建一个error实例，表示错误的原因为在解析代码的过程中发生了语法错误<br>&emsp;&emsp;TypeError：创建一个error实例，表示错误的原因为变量或参数不属于有效类型<br>&emsp;&emsp;URIError：创建一个error实例，表示错误的原因为给 encodeURI()或 decodeURI()传递的参数无效</p>
-<p><em>&emsp;&emsp;[注] Error.prototype 允许添加属性到 Error 实例；全局 Error 对象自身不包含任何方法，但存在一些从原型链中继承的方法</em></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JS Map、Set关键字</title>
     <url>/2021/06/10/javascript/JS%20Map%E3%80%81Set%E5%85%B3%E9%94%AE%E5%AD%97/</url>
     <content><![CDATA[<p><u>JavaScript 中Map与Set都是ES6新的数据结构，分别存储数据映射关系与数据集合。</u>Map是类似Object的一种键值对集合，不同与Object，Map的键不仅限于是String或Symbol类型，其他各种类型的值包括对象都可以成为Map的键。Set是类似数组的一种数据结构，不同点在于Set中没有重复的值。</p>
@@ -1926,7 +2056,19 @@
   const instance = new ClassA()
   instance.logger() // classA被调用了
 </code></pre>
-<p><em>&emsp;&emsp;[注] 在使用ES7装饰器模块目前需要引入babel模块的 transform-decorators-legacy 库将代码转换为ES5或ES6运行。<u>ES7的装饰器 decorator 是依赖于 ES5 的 Object.defineProperty 方法。还有更高级的用法 ，这里只做简单提及</u></em></p>
+<p><em>&emsp;&emsp;[注] 在使用ES7装饰器模块目前需要引入babel模块的 transform-decorators-legacy 库将代码转换为ES5或ES6运行。<u>ES7的装饰器 decorator 是依赖于 ES5 的 Object.defineProperty 方法</u></em></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS modules模块化、按需引入</title>
+    <url>/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/</url>
+    <content><![CDATA[<p>一种将 JavaScript 程序拆分为可按需导入的单独模块的机制。</p>
 ]]></content>
       <categories>
         <category>JavaScript</category>

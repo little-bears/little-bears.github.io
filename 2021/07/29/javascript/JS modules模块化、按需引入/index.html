@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>JS (异步)异常捕获处理 |  码农日志</title>
+      <title>JS modules模块化、按需引入 |  码农日志</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -55,7 +55,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-javascript/JS (异步)异常捕获处理"
+  id="post-javascript/JS modules模块化、按需引入"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -66,7 +66,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  JS (异步)异常捕获处理
+  JS modules模块化、按需引入
 </h1>
  
 
@@ -74,8 +74,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2021/07/01/javascript/JS%20(%E5%BC%82%E6%AD%A5)%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%A4%84%E7%90%86/" class="article-date">
-  <time datetime="2021-07-01T15:39:31.000Z" itemprop="datePublished">2021-07-01</time>
+      <a href="/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/" class="article-date">
+  <time datetime="2021-07-29T07:25:37.000Z" itemprop="datePublished">2021-07-29</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">522</span>
+            <span class="post-count">22</span>
         </span>
     </span>
 
@@ -102,22 +102,13 @@
  
     </div>
       
-    <div class="tocbot"></div>
-
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>异常处理，是编程语言或计算机硬件里的一种机制，用于处理软件或信息系统中出现的异常状况（即超出程序正常执行流程的某些特殊条件）。通过异常处理，我们可以对用户在程序中的非法输入或者程序内部逻辑问题进行控制和提示，以防程序崩溃</p>
-<h2 id="1、Error对象"><a href="#1、Error对象" class="headerlink" title="1、Error对象"></a>1、Error对象</h2><p>&emsp;&emsp;通过Error的构造器可以创建一个错误对象。当运行时错误产生时，Error的实例对象会被抛出。Error对象也可用于用户自定义的异常的基础对象</p>
-<p>&emsp;&emsp;语法：</p>
-<pre><code>  new Error([message[, fileName[,lineNumber]]])
-</code></pre>
-<p><em>&emsp;&emsp;[注] 当代码运行时的发生错误，会创建新的Error 对象，并将其抛出。当像函数一样使用 Error 时，它将返回一个 Error 对象。即仅仅调用 Error 产生的结果与通过new 关键字构造 Error 对象生成的结果相同</em></p>
-<h4 id="1-通用的Error构造函数"><a href="#1-通用的Error构造函数" class="headerlink" title="1) 通用的Error构造函数"></a>1) 通用的Error构造函数</h4><p>&emsp;&emsp;EvalError: 创建一个error实例，表示错误的原因与 eval() 有关<br>&emsp;&emsp;InternalError：创建一个代表Javascript引擎内部错误的异常抛出的实例，比如递归太深导致爆栈<br>&emsp;&emsp;RangeError：创建一个error实例，表示错误的原因为数值变量或参数超出其有效范围，比如数组越界<br>&emsp;&emsp;ReferenceError：创建一个error实例，表示错误的原因为无效引用，比如访问了未定义的变量<br>&emsp;&emsp;SyntaxError：创建一个error实例，表示错误的原因为在解析代码的过程中发生了语法错误<br>&emsp;&emsp;TypeError：创建一个error实例，表示错误的原因为变量或参数不属于有效类型<br>&emsp;&emsp;URIError：创建一个error实例，表示错误的原因为给 encodeURI()或 decodeURI()传递的参数无效</p>
-<p><em>&emsp;&emsp;[注] Error.prototype 允许添加属性到 Error 实例；全局 Error 对象自身不包含任何方法，但存在一些从原型链中继承的方法</em></p>
+  <p>一种将 JavaScript 程序拆分为可按需导入的单独模块的机制。</p>
  
       <!-- reward -->
       
@@ -188,7 +179,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/07/01/javascript/JS%20(%E5%BC%82%E6%AD%A5)%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%A4%84%E7%90%86/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -202,9 +193,9 @@
   <nav class="article-nav">
     
     
-      <a href="/2021/06/22/javascript/JS%20Proxy%E3%80%81Reflect%E4%B8%8E@Decorator/" class="article-nav-link">
+      <a href="/2021/07/01/javascript/JS%20(%E5%BC%82%E6%AD%A5)%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E4%B8%8E%E5%A4%84%E7%90%86/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">JS Proxy、Reflect与@Decorator</div>
+        <div class="article-nav-title">JS (异步)异常捕获与处理</div>
       </a>
     
   </nav>
