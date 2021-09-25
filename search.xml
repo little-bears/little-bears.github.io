@@ -1939,6 +1939,18 @@
       </tags>
   </entry>
   <entry>
+    <title>JS modules模块化、按需引入</title>
+    <url>/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/</url>
+    <content><![CDATA[<p>一种将 JavaScript 程序拆分为可按需导入的单独模块的机制。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JS Proxy、Reflect与@Decorator</title>
     <url>/2021/06/22/javascript/JS%20Proxy%E3%80%81Reflect%E4%B8%8E@Decorator/</url>
     <content><![CDATA[<h2 id="1、Proxy关键字"><a href="#1、Proxy关键字" class="headerlink" title="1、Proxy关键字"></a>1、Proxy关键字</h2><p>&emsp;&emsp;Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等），即进行数据劫持</p>
@@ -2057,18 +2069,6 @@
   instance.logger() // classA被调用了
 </code></pre>
 <p><em>&emsp;&emsp;[注] 在使用ES7装饰器模块目前需要引入babel模块的 transform-decorators-legacy 库将代码转换为ES5或ES6运行。<u>ES7的装饰器 decorator 是依赖于 ES5 的 Object.defineProperty 方法</u></em></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JS modules模块化、按需引入</title>
-    <url>/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/</url>
-    <content><![CDATA[<p>一种将 JavaScript 程序拆分为可按需导入的单独模块的机制。</p>
 ]]></content>
       <categories>
         <category>JavaScript</category>
