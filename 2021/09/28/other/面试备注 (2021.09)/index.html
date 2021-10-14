@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>JavaScript概述 |  码农日志</title>
+      <title>面试备注 (2021.09) |  码农日志</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -55,7 +55,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-javascript/JavaScript概述"
+  id="post-other/面试备注 (2021.09)"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -66,7 +66,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  JavaScript概述
+  面试备注 (2021.09)
 </h1>
  
 
@@ -74,11 +74,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2020/12/03/javascript/JavaScript%E6%A6%82%E8%BF%B0/" class="article-date">
-  <time datetime="2020-12-03T07:53:39.000Z" itemprop="datePublished">2020-12-03</time>
+      <a href="/2021/09/28/other/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/" class="article-date">
+  <time datetime="2021-09-28T06:10:25.000Z" itemprop="datePublished">2021-09-28</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+    <a class="article-category-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a>
   </div>
   
 <div class="word_count">
@@ -110,88 +110,108 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>JavaScript ( JS ) 是一种具有函数优先的轻量级，解释型或即时编译型，单线程的脚本语言，它可以在网页上实现复杂的功能，网页展现给你的不再是简单的静态页面信息，而是实时的内容更新，交互式的地图，2D/3D 动画，滚动播放的视频等更加丰富的内容，也能实现用户在网页界面上与服务器相关交互功能</p>
-<h2 id="1、语言特性"><a href="#1、语言特性" class="headerlink" title="1、语言特性"></a>1、语言特性</h2><p>&emsp;&emsp;JavaScript是一门动态的、弱类型、基于原型（prototype）的脚本语言。在JavaScript中“一切皆对象”，在这一方面，它比其他的面向对象的语言来得更为彻底。即使作为代码本身载体的函数（function），也是对象。</p>
-<h2 id="2、基本语法"><a href="#2、基本语法" class="headerlink" title="2、基本语法"></a>2、基本语法</h2><h4 id="1-向页面添加JavaScript"><a href="#1-向页面添加JavaScript" class="headerlink" title="1) 向页面添加JavaScript"></a>1) 向页面添加JavaScript</h4><p>&emsp;&emsp;在body标签结束前插入以下script标签引入JavaScript， <u>JavaScript 是区分大小写的</u></p>
-<pre><code>  // 方式1：内联JavaScript
-  &lt;script&gt;
-    ...在此编写JavaScript代码...
-  &lt;/script&gt;
+  <h5 id="1、ES常见数据类型："><a href="#1、ES常见数据类型：" class="headerlink" title="1、ES常见数据类型："></a>1、ES常见数据类型：</h5><p>&emsp;&emsp;基本类型：Number、String、Boolean、undefined、null<br>&emsp;&emsp;引用类型：Object</p>
+<p><em>&emsp;&emsp;[注] 判断变量数据类型：typeof、instanceof、constructor、Object.prototype.toString.call()</em></p>
+<h5 id="2、使用数据构造函数与new-数据类型构造的区别"><a href="#2、使用数据构造函数与new-数据类型构造的区别" class="headerlink" title="2、使用数据构造函数与new 数据类型构造的区别"></a>2、使用数据构造函数与new 数据类型构造的区别</h5><pre><code>  Number(1) === new Number(1) // false
+  typeof Number(1) // number
+  typeof new Number(1) // object
+</code></pre>
+<p>&emsp;&emsp;如上代码，像普通函数一样直接调用构造函数，会执行相应的类型转换返回原始数据类型。new关键字调用构造函数，返回实例化新创建的对象</p>
+<h5 id="3、JS预编译过程"><a href="#3、JS预编译过程" class="headerlink" title="3、JS预编译过程"></a>3、JS预编译过程</h5><p>&emsp;&emsp;全局预编译：<br>&emsp;&emsp;① 创建GO对象<br>&emsp;&emsp;② 找变量申明，将变量名作为GO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
+<p>&emsp;&emsp;函数预编译：<br>&emsp;&emsp;① 创建AO对象<br>&emsp;&emsp;② 找变量申明与函数形参，将变量与函数形参名作为AO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 将函数实参与形参统一<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
+<p><em>&emsp;&emsp;[注] 函数预编译发生在代码运行前的瞬间，具体过程见文章：<a href="/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/#2%E3%80%81%E9%A2%84%E8%A7%A3%E6%9E%90%E4%B8%8E%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87">《JS预解析、作用域、执行上下文、this》</a></em></p>
+<h5 id="4、CSS选择器优先级顺序"><a href="#4、CSS选择器优先级顺序" class="headerlink" title="4、CSS选择器优先级顺序"></a>4、CSS选择器优先级顺序</h5><p>&emsp;&emsp;!important &gt; 行内样式 &gt; id选择器 &gt; class选择器 &gt; 标签(伪元素)选择器 &gt; *(通配符) &gt; 继承样式 &gt; 默认样式</p>
+<pre><code>  &lt;!DOCTYPE html&gt;
+  &lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+  &lt;style&gt;
+  div &#123; width: 100px; height: 100px &#125;
+  .parnel &#123; background-color: black; &#125;
+  .container .parnel &#123; background-color: blue; &#125;
+  #frist-box &#123; background-color: green; &#125;
+  .container #ce-box &#123; background-color: red; &#125;
+  .container div#ce-box &#123; background-color: yellow; &#125;
+  &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;parnel&quot; id=&quot;frist-box&quot;&gt;&lt;/div&gt; // green (绿色)
+  &lt;div class=&quot;parnel&quot; id=&quot;ce-box&quot;&gt;&lt;/div&gt; // yellow (黄色)
+  &lt;div class=&quot;parnel&quot; style=&quot;background: blue;&quot;&gt;&lt;/div&gt; // blue (蓝色)
+  &lt;/div&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;
+</code></pre>
+<h5 id="5、JS事件捕获和事件冒泡的执行顺序"><a href="#5、JS事件捕获和事件冒泡的执行顺序" class="headerlink" title="5、JS事件捕获和事件冒泡的执行顺序"></a>5、JS事件捕获和事件冒泡的执行顺序</h5><p>&emsp;&emsp;JS事件处理机制是：先捕获，后冒泡。捕获从上到下，冒泡从下到上。(比喻：捕获像石头沉海底，冒泡则像触底的石头产生的气泡冒出水面)</p>
+<pre><code>  const box1 = document.getElementById(&#39;box1&#39;)
+  const box2 = document.getElementById(&#39;box2&#39;)
+  document.body.addEventListener(&#39;click&#39;, function () &#123;
+     console.log(1)
+  &#125;, true)
+  box1.onclick = function () &#123;
+     console.log(2)
+  &#125;
+  box1.addEventListener(&#39;click&#39;, function() &#123;
+     console.log(3)
+  &#125;, true)
+  box2.onclick = function (e) &#123;
+     console.log(4)
+  &#125;
+  box2.addEventListener(&#39;click&#39;, function(e) &#123;
+     // e.stopPropagation()
+     console.log(5)
+  &#125;)
 
-  // 方式2：外部引入JavaScript
-  &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+  // 依次输出：1、3、4、5、2
+  // 若在box2的onclick或addEventListener事件回调里事件阻止冒泡，则依次输出：1、3、4、5
 </code></pre>
-<p><em>&emsp;&emsp;[注] 在外部引入JS时，在必要的时候（防止加载阻塞页面渲染问题或对多个有依赖关系的脚本对加载顺序有要求），我们需要在&lt;script&gt;标签上加上async或defer修饰符（属性）（这是解决脚本阻塞问题的两种方式）。<u>浏览器遇到 async 脚本时不会阻塞页面渲染，而是直接下载然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。</u>当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async 是最理想的选择；<u>defer 属性的脚本将按照在页面中出现的顺序加载，可保证脚本的加载顺序</u></em></p>
-<h4 id="2-变量"><a href="#2-变量" class="headerlink" title="2) 变量"></a>2) 变量</h4><p>&emsp;&emsp;变量是用来存储数值的，那么有一个重要的概念需要区分。变量不是数值本身，它们仅仅是一个用于存储数值的容器，JS中使用var、let、const来定义变量</p>
-<p>&emsp;&emsp;<strong>构造变量名称（唯一标识符）的通用规则是：</strong><br>&emsp;&emsp;名称可包含字母、数字、下划线和美元符号<br>&emsp;&emsp;名称必须以字母、$或_开头<br>&emsp;&emsp;名称对大小写敏感<br>&emsp;&emsp;保留关键字不能作为变量名称</p>
-<pre><code>  var a;
-  let b;
-  onst C = 100; // 定义常量必须进行初始化，常量一般用大写英文命名
-</code></pre>
-<p>&emsp;&emsp;变量类型：<br>&emsp;&emsp;值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol<br>&emsp;&emsp;引用数据类型：对象(Object，JavaScript 对象是键值对的容器)、数组(Array)、函数(Function)，还有两个特殊的对象：正则（RegExp）和日期（Date）</p>
-<h4 id="3-语句与表达式"><a href="#3-语句与表达式" class="headerlink" title="3) 语句与表达式"></a>3) 语句与表达式</h4><p>&emsp;&emsp;<u>JavaScript区分表达式和语句</u><br>&emsp;&emsp;表达式是输出值的，并且可以写在任何需要一个值的地方，例如函数的参数等。一般来讲，表达式由变量、操作符和约束条件等以能求得有意义的数值（非undefined）为目的排列所得的组合<br>&emsp;&emsp;语句表示执行了一个动作，例如循环控制语句(for、while…)和分支判断语句(if)等。一个程序基本上就是一系列的语句的集合。在JavaScript中需要语句的地方，也可以写入一个表达式。但不能够在需要表达式的地方写入一个语句。我们常用分号分语句，使得可以在一行编写多条语句。<br>&emsp;&emsp;常用运算符：=、+、-、*、/、==、!=、&gt;、&lt;、&amp;&amp;、||、位运算符、……<br>&emsp;&emsp;常用语句：</p>
-<pre><code>  // 赋值语句    
-  let a = 5, b = 8;
-  
-  // if条件判断语句
-  if (condition1) &#123;
-    // 当条件 1 为 true 时执行的代码
-  &#125;
-  else if (condition2) &#123;
-    // 当条件 2 为 true 时执行的代码
-  &#125;
-  else &#123;
-    // 当条件 1 和 条件 2 都不为 true 时执行的代码
-  &#125;
-  
-  // switch分支语句
-  switch (n) &#123;
-    case 1:
-      // 执行代码块 1
-      break; // 阻止代码向下一个case执行，有时为了逻辑需要（如累加等），switch语句中不会使用此关键字
-    case 2:
-      // 执行代码块 2
-      break;
-    default:
-    // 与 case 1 和 case 2 不同时执行的代码
-  &#125;
-  
-  // for、while、do while循环语句（break 语句用于跳出循环，continue 用于跳过循环中的一个迭代）
-  for (语句 1; 语句 2; 语句 3)
-  &#123;
-    // 语句2为真执行的代码块
-  &#125;
-  while (条件) &#123;
-    // 条件为真执行的代码块
-  &#125;
-  do &#123;
-    // 代码块会在条件被测试前执行，代码块至少被执行一次
-  &#125; while (条件);
-</code></pre>
-<h4 id="4-字符串模板"><a href="#4-字符串模板" class="headerlink" title="4) 字符串模板"></a>4) 字符串模板</h4><p>&emsp;&emsp;模板字符串使用反引号<u>(` `)</u> 来代替普通字符串中的用双引号和单引号。模板字符串可以包含特定语法（${ expression } ）的占位符。占位符中的表达式和周围的文本会一起传递给一个默认函数，该函数负责将所有的部分连接起来。<u>特别的，如果一个模板字符串由表达式开头，则该字符串被称为带标签的模板字符串，该表达式通常是一个函数，它会在模板字符串处理后被调用，在输出最终结果前，你都可以通过该函数来对模板字符串进行操作处理。</u>注意，在模版字符串内使用反引号（`）时，需要在它前面加转义符（），<strong>字符串模板可以嵌套使用。</strong></p>
-<pre><code>  let a = 4;
-  function upgradePhone(str, a)&#123; // [注] 函数的第一个参数是数组（模板中各个原生字符串）。其余的参数为模板中的变量
-    return &#39;带标签的模板字符串，&#39; + str[0] + (a + 2) + str[1];
-  &#125;
+<p><em>&emsp;&emsp;[注] element.addEventListener(event, function, useCapture)中的useCapture为可选参数.true，表示回调函数在事件捕获阶段执行；false，默认值，表示回调函数在冒泡阶段执行</em></p>
+<h5 id="6、JS创建、删除、替换、插入节点"><a href="#6、JS创建、删除、替换、插入节点" class="headerlink" title="6、JS创建、删除、替换、插入节点"></a>6、JS创建、删除、替换、插入节点</h5><p>&emsp;&emsp;doument全局HTML文档对象对应方法分别为：createElement、removeChild、replaceChild、appendChild/insertBefore</p>
+<h5 id="7、网站性能优化"><a href="#7、网站性能优化" class="headerlink" title="7、网站性能优化"></a>7、网站性能优化</h5><p>&emsp;&emsp;① CDN<br>&emsp;&emsp;② 减少HTTP请求<br>&emsp;&emsp;③ 减少DOM请求<br>&emsp;&emsp;④ gzip (压缩网站静态资源)<br>&emsp;&emsp;⑤ 代码压缩<br>&emsp;&emsp;⑥ 代码级优化 (减少cookie传输、分批延迟进行HTTP请求、异步执行内嵌脚本)</p>
+<h5 id="8、跨域"><a href="#8、跨域" class="headerlink" title="8、跨域"></a>8、跨域</h5><p>&emsp;&emsp;浏览器同源策略规定的一种安全机制<br><em>&emsp;&emsp;[注] 当一个 url 的协议、域名与端口号三者任意一个与当前页面的 url 不同则为跨域</em></p>
+<p>&emsp;&emsp;非同源限制：<br>&emsp;&emsp;① 无法读取其cookie、localStorage、indexedDB等数据<br>&emsp;&emsp;② 无法获取其DOM<br>&emsp;&emsp;③ 无法向非同源地址发送Ajax请求</p>
+<p>&emsp;&emsp;<strong>跨域是在浏览器环境限制了Ajax请求响应，浏览器对HTTP请求无限制，如通过form表单发起HTTP请求时无跨域问题 ，代理服务器(脱离浏览器环境)与服务器之间是HTTP请求、以及浏览器地址栏访问URL也是HTTP请求，所以无跨域问题。 跨域时Ajax请求已被服务器接受并响应，只是响应被浏览器拦截了</strong></p>
+<p>&emsp;&emsp;解决方法：<br>&emsp;&emsp;jsonp、CORS跨域资源共享、代理(前端代理、nginx、代理插件whistle…)、Nodejs中间件…</p>
+<h5 id="9、this"><a href="#9、this" class="headerlink" title="9、this"></a>9、this</h5><p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，this指向window或者调用对象<br>&emsp;&emsp;② 在函数上下文中，this指向取决于函数调用方式。在非严格模式下，this指向window；<u>在严格模式下，this指向调用对象，若无调用对象，即直接调用函数，this为undefined</u><br>&emsp;&emsp;③ 在类中，基类与派生类表现形式不同。在基类中，this是一个常规对象，所有非静态方法都会添加到this的原型上。在派生类中，构造函数constructor没有初始化this绑定，需要在构造函数中调用super()函数才能生成一个this，否则为undefined</p>
+<p><em>&emsp;&emsp;[注] 直接使用 super 对象调用父级方法时，super 会绑定当前子类的 this</em></p>
+<h5 id="10、异步任务的优先级："><a href="#10、异步任务的优先级：" class="headerlink" title="10、异步任务的优先级："></a>10、异步任务的优先级：</h5><p>&emsp;&emsp;process.nextTick(Nodejs) &gt; Promise(微任务) &gt; setImmediate(Nodejs) &gt; setTimeout/setInterval</p>
+<pre><code>  console.log(1)
+  var p1 = new Promise(function(resolve, reject) &#123;
+     console.log(2)
+     resolve()
+  &#125;)
+  p1.then(function()&#123;
+     console.log(3)
+  &#125;)
+  setTimeout(()=&gt;&#123;
+     console.log(4)
+  &#125;, 0)
+  setTimeout(()=&gt;&#123;
+     console.log(5)
+  &#125;,0)
+  console.log(6)
 
-  console.log(`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 我有一个苹果6s，哈哈哈~
-  console.log(upgradePhone`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 带标签的模板字符串，我有一个苹果6s，哈哈哈~
+  //依次输出：1、2、6、3、4、5
 </code></pre>
-<h4 id="5-解构赋值"><a href="#5-解构赋值" class="headerlink" title="5) 解构赋值"></a>5) 解构赋值</h4><p>&emsp;&emsp;解构赋值语法是一种 Javascript 表达式。通过解构赋值, 可以将属性/值从对象/数组中取出,赋值给其他变量。使得对象和数组逐个对应表达式，或称对象字面量和数组字面量，提供了一种简单的定义一个特定的数据组的方法<br>&emsp;&emsp;特别的：<u>赋值语句周围的圆括号()在使用对象字面量无声明解构赋值时是必须的</u>，否则左边被认为是一个块而不是对象字面量。<u>并且()表达式之前需要有一个分号，否则它可能会被当成上一行中的函数执行</u></p>
-<pre><code>  let a, b, C;
-  [a, b = 0] = [10, 20, 30, 40, 50]; // a:10, b:20 [注] 为了防止取出一个值为undefined，可以在表达式左边预设默认值
-  [a, b, ...C] = [10, 20, 30, 40, 50]; // a:10，b:20, C: [30, 40, 50]
-  (&#123; a, b = 0&#125; = &#123; a: 10, b: 20 &#125;); // a: 10, b: 20
-  (&#123;a, b, ...C&#125; = &#123;a: 10, b: 20, c: 30, d: 40&#125;); // a: 10, b: 20, C: &#123;c: 30, d: 40&#125;
-</code></pre>
-<h4 id="6-函数"><a href="#6-函数" class="headerlink" title="6) 函数"></a>6) 函数</h4><p>&emsp;&emsp;函数就是包裹在花括号中的代码块，使用关键字function进行定义。当调用该函数时，会执行函数内的代码，在调用函数时，可以向其传递参数。这些参数可以在函数中使用，多个参数用逗号（,）分割。<u>变量和参数必须以一致的顺序出现。</u>第一个变量就是第一个被传递的参数的给定的值，以此类推。有时，我们会希望函数将值返回调用的地方。通过使用return语句就可以实现。在使用return语句时，函数会停止执行(无论后面是否还存在语句)，并返回指定的值。</p>
-<p><em>&emsp;&emsp;[注] <u>函数有作用域的概念，在函数内部定义的变量，只能在函数内部访问它（闭包情况除外），此时该变量的作用域是局部的。特别的，如果给未声明的变量赋值，该变量会被自动配置为全局变量（隐式全局变量，也为window对象的属性）。</u></em></p>
-<pre><code>  function functionName(var1, var2, ...) &#123;
-    // 代码
-    // return value;
+<p><em>&emsp;&emsp;[注] 异步线程与主线程通信依赖于事件循环 (Event Loop) 机制</em></p>
+<h5 id="11、深浅拷贝"><a href="#11、深浅拷贝" class="headerlink" title="11、深浅拷贝"></a>11、深浅拷贝</h5><p>深拷贝和浅拷贝主要是针对Object和Array这样的引用数据类型来说的。浅拷贝只复制指向某个对象的指针(不复制对象本身，仅仅复制了对象被存储的内存地址)，新旧对象数据还是共享同一块内存空间，状态会相互影响；深拷贝会复制对象数据本身，再存储到新的内存地址空间中，新旧对象被存储的内存地址不同，状态也不会相互影响</p>
+<p>&emsp;&emsp;一道笔试题：</p>
+<pre><code>  let user = &#123;age: 30&#125;
+  function change(user) &#123;
+     // user.age = 40 //(1) &#123;age: 40&#125;
+     user = &#123;age: 50&#125; //(2) &#123;age: 30&#125;
   &#125;
+  change(user)
+  console.log(user)
 </code></pre>
-<h2 id="3、可维护的JavaScript代码"><a href="#3、可维护的JavaScript代码" class="headerlink" title="3、可维护的JavaScript代码"></a>3、可维护的JavaScript代码</h2><p>&emsp;&emsp;(1) 尽量不使用全局变量，更不能使用隐式全局变量<br>&emsp;&emsp;(2) 尽量使用let、const语句声明多个变量，并以逗号分隔<br>&emsp;&emsp;(3) 循环存储长度，只检索了一次循环对象的长度值。（’i–’优于’i+=i,i=i+1’优于’i++’）<br>&emsp;&emsp;(4) 数组使用正常的for循环，对象使用for-in循环。（在for-in中，属性列表的顺序（序列）是不能保证的）（hasOwnProperty()方法，可以过滤掉原型链上的属性）<br>&emsp;&emsp;(5) 不扩展内置原型Prototypes<br>&emsp;&emsp;(6) switch语句增强可读性和健壮性，以default结束switch<br>&emsp;&emsp;(7) 避免隐式类型转换<br>&emsp;&emsp;(8) 避免eval()（eval()会干扰作用域链），实在用使用eval(),可以用new Function()代替<br>&emsp;&emsp;(9) 给setInterval(), setTimeout()和Function()构造函数传递字符串或匿名函数<br>&emsp;&emsp;(10) parseInt()传递基数参数，+，Number()优于parseInt()<br>&emsp;&emsp;(11) 缩进<br>&emsp;&emsp;(12) 使用花括号{}，建议并始终把左花括号与之前的语句放在同一行<br>&emsp;&emsp;(13) 空格<br>&emsp;&emsp;(14) <u>命名方式</u><br>&emsp;&emsp;(15) 注释</p>
+<p>&emsp;&emsp;对象参数是浅拷贝，形参user与实参user都指向前面let定义的{age: 30}对象。在函数内部，第(1)种情况使用形参user指针访问到存储空间的{age: 30}对象，并将修改age的值为40，由于形参user与实参user指向同一内存地址，状态会同步变化，所以输出{user: 40}。第二种情况，直接将形参user指向一个新对象{user: 50}对象。这并不会影响实参user的指向，所以输出先前定义的{age: 30}对象</p>
+<h5 id="12、Ajax-axios-fetch之间的区别"><a href="#12、Ajax-axios-fetch之间的区别" class="headerlink" title="12、Ajax,axios,fetch之间的区别"></a>12、Ajax,axios,fetch之间的区别</h5><p>&emsp;&emsp;三者都是与服务器交换数据的技术,也有一定的区别：<br>&emsp;&emsp;(1) 在原生JS中,Ajax是基于XMLHttpRequest对象，实现了网页的局部数据刷新<br>&emsp;&emsp;(2) axios利用Promise对原生Ajax进行封装，支持 Promise API，可以链式调用从而避免了原生Ajax回调地狱的问题，还提供了并发请求等功能<br>&emsp;&emsp;(3) fecth是在ES6中，Ajax的替代品，是原生JS技术，请求实现时不基于XMLHttpRequest对象</p>
+<h5 id="13、webpack的打包原理"><a href="#13、webpack的打包原理" class="headerlink" title="13、webpack的打包原理"></a>13、webpack的打包原理</h5><p>&emsp;&emsp;webpack是一个现代JavaScript应用程序的静态模块打包器。当webpack处理应用程序时,它会递归地构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将所有这些模块要经过Loader，Plugin一系列翻译处理流程后，打包成一个或多个bundle文件。</p>
+<h5 id="14、Vue-history模式发布注意什么？与hash模式的区别？"><a href="#14、Vue-history模式发布注意什么？与hash模式的区别？" class="headerlink" title="14、Vue history模式发布注意什么？与hash模式的区别？"></a>14、Vue history模式发布注意什么？与hash模式的区别？</h5><p>&emsp;&emsp;history与hash模式可以在不刷新页面的前提下，改变了页面的URL，从而Vue等框架监听到页面URL变化，通过一定规则，来实现页面中部分组件的移除或更新，从而达到局部更新页面的状态的目的</p>
+<p>&emsp;&emsp;history与hash模式的区别：</p>
+<p>&emsp;&emsp;(1) history模式是基于HTML5中新增的pushState()和replaceState()方法来完成改变URL<br>&emsp;&emsp;&emsp;&emsp;① URL(包含匹配路由的相关信息)与服务器请求时可能造成一些请求出现404的问题<br>&emsp;&emsp;&emsp;&emsp;② 可能需要服务器重定向逻辑的支持</p>
+<p>&emsp;&emsp;(2) hash模式路径中带有’#’(锚点)符号，没有history模式的问题<br>&emsp;&emsp;&emsp;&emsp;① 影响美观<br>&emsp;&emsp;&emsp;&emsp;② 不符合规范，一些第三方分享链接可能不支持URL中带有’#’号<br>&emsp;&emsp;&emsp;&emsp;③ 原有的锚点功能会失效<br>&emsp;&emsp;&emsp;&emsp;④ 传参基于URL，浏览器对长度有限制</p>
+<p>&emsp;&emsp;所以，Vue history模式发布发布时，要确认在静态文件夹public目录下的index.html模板文件等文件中有没有采用<u>相对路径</u>引入样式、字体，JS脚本文件等，<strong>[ 需修改为绝对路径 ]</strong>。否则可能导致浏览器在某些二级路由页面刷新时，公用组件的组件的样式，JS脚本等文件加载失败(服务器返回404)，从而导致组件样式与功能出现问题</p>
  
       <!-- reward -->
       
@@ -262,12 +282,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/12/03/javascript/JavaScript%E6%A6%82%E8%BF%B0/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/09/28/other/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8/" rel="tag">面试备注</a></li></ul>
 
     </footer>
   </div>
@@ -275,19 +295,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            JS预解析、作用域、执行上下文、this
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/11/26/css/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/" class="article-nav-link">
+      <a href="/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">CSS动画（过渡、关键帧、3次贝塞尔曲线）</div>
+        <div class="article-nav-title">JS modules模块化、按需引入</div>
       </a>
     
   </nav>
