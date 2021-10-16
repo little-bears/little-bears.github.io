@@ -1939,6 +1939,19 @@
       </tags>
   </entry>
   <entry>
+    <title>JS modules模块化、按需引入</title>
+    <url>/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/</url>
+    <content><![CDATA[<p>一种将 JavaScript 程序拆分为可按需导入的单独模块的机制。<br>JavaScript模式的基本特征：<br>(1) 模块化，可重用<br>(2) 封装了变量和function，和全局的namaspace不接触，松耦合<br>(3) 只暴露可用公用(public)的方法，其它私有方法全部隐藏</p>
+<p>–待完善–</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JS Proxy、Reflect与@Decorator</title>
     <url>/2021/06/22/javascript/JS%20Proxy%E3%80%81Reflect%E4%B8%8E@Decorator/</url>
     <content><![CDATA[<h2 id="1、Proxy关键字"><a href="#1、Proxy关键字" class="headerlink" title="1、Proxy关键字"></a>1、Proxy关键字</h2><p>&emsp;&emsp;Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等），即进行数据劫持</p>
@@ -2066,18 +2079,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JS modules模块化、按需引入</title>
-    <url>/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/</url>
-    <content><![CDATA[<p>一种将 JavaScript 程序拆分为可按需导入的单独模块的机制。<br>JavaScript模式的基本特征：<br>(1) 模块化，可重用<br>(2) 封装了变量和function，和全局的namaspace不接触，松耦合<br>(3) 只暴露可用公用(public)的方法，其它私有方法全部隐藏</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaScript概述</title>
     <url>/2020/12/03/javascript/JavaScript%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<p>JavaScript ( JS ) 是一种具有函数优先的轻量级，解释型或即时编译型，单线程的脚本语言，它可以在网页上实现复杂的功能，网页展现给你的不再是简单的静态页面信息，而是实时的内容更新，交互式的地图，2D/3D 动画，滚动播放的视频等更加丰富的内容，也能实现用户在网页界面上与服务器相关交互功能</p>
@@ -2168,119 +2169,6 @@
       </categories>
       <tags>
         <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试备注 (2021.09)</title>
-    <url>/2021/09/28/other/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/</url>
-    <content><![CDATA[<h5 id="1、ES常见数据类型："><a href="#1、ES常见数据类型：" class="headerlink" title="1、ES常见数据类型："></a>1、ES常见数据类型：</h5><p>&emsp;&emsp;基本类型：Number、String、Boolean、undefined、null<br>&emsp;&emsp;引用类型：Object</p>
-<p><em>&emsp;&emsp;[注] 判断变量数据类型：typeof、instanceof、constructor、Object.prototype.toString.call()</em></p>
-<h5 id="2、使用数据构造函数与new-数据类型构造的区别"><a href="#2、使用数据构造函数与new-数据类型构造的区别" class="headerlink" title="2、使用数据构造函数与new 数据类型构造的区别"></a>2、使用数据构造函数与new 数据类型构造的区别</h5><pre><code>  Number(1) === new Number(1) // false
-  typeof Number(1) // number
-  typeof new Number(1) // object
-</code></pre>
-<p>&emsp;&emsp;如上代码，像普通函数一样直接调用构造函数，会执行相应的类型转换返回原始数据类型。new关键字调用构造函数，返回实例化新创建的对象</p>
-<h5 id="3、JS预编译过程"><a href="#3、JS预编译过程" class="headerlink" title="3、JS预编译过程"></a>3、JS预编译过程</h5><p>&emsp;&emsp;全局预编译：<br>&emsp;&emsp;① 创建GO对象<br>&emsp;&emsp;② 找变量申明，将变量名作为GO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
-<p>&emsp;&emsp;函数预编译：<br>&emsp;&emsp;① 创建AO对象<br>&emsp;&emsp;② 找变量申明与函数形参，将变量与函数形参名作为AO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 将函数实参与形参统一<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
-<p><em>&emsp;&emsp;[注] 函数预编译发生在代码运行前的瞬间，具体过程见文章：<a href="/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/#2%E3%80%81%E9%A2%84%E8%A7%A3%E6%9E%90%E4%B8%8E%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87">《JS预解析、作用域、执行上下文、this》</a></em></p>
-<h5 id="4、CSS选择器优先级顺序"><a href="#4、CSS选择器优先级顺序" class="headerlink" title="4、CSS选择器优先级顺序"></a>4、CSS选择器优先级顺序</h5><p>&emsp;&emsp;!important &gt; 行内样式 &gt; id选择器 &gt; class选择器 &gt; 标签(伪元素)选择器 &gt; *(通配符) &gt; 继承样式 &gt; 默认样式</p>
-<pre><code>  &lt;!DOCTYPE html&gt;
-  &lt;html lang=&quot;en&quot;&gt;
-  &lt;head&gt;
-  &lt;style&gt;
-  div &#123; width: 100px; height: 100px &#125;
-  .parnel &#123; background-color: black; &#125;
-  .container .parnel &#123; background-color: blue; &#125;
-  #frist-box &#123; background-color: green; &#125;
-  .container #ce-box &#123; background-color: red; &#125;
-  .container div#ce-box &#123; background-color: yellow; &#125;
-  &lt;/style&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-  &lt;div class=&quot;container&quot;&gt;
-  &lt;div class=&quot;parnel&quot; id=&quot;frist-box&quot;&gt;&lt;/div&gt; // green (绿色)
-  &lt;div class=&quot;parnel&quot; id=&quot;ce-box&quot;&gt;&lt;/div&gt; // yellow (黄色)
-  &lt;div class=&quot;parnel&quot; style=&quot;background: blue;&quot;&gt;&lt;/div&gt; // blue (蓝色)
-  &lt;/div&gt;
-  &lt;/body&gt;
-  &lt;/html&gt;
-</code></pre>
-<h5 id="5、JS事件捕获和事件冒泡的执行顺序"><a href="#5、JS事件捕获和事件冒泡的执行顺序" class="headerlink" title="5、JS事件捕获和事件冒泡的执行顺序"></a>5、JS事件捕获和事件冒泡的执行顺序</h5><p>&emsp;&emsp;JS事件处理机制是：先捕获，后冒泡。捕获从上到下，冒泡从下到上。(比喻：捕获像石头沉海底，冒泡则像触底的石头产生的气泡冒出水面)</p>
-<pre><code>  const box1 = document.getElementById(&#39;box1&#39;)
-  const box2 = document.getElementById(&#39;box2&#39;)
-  document.body.addEventListener(&#39;click&#39;, function () &#123;
-     console.log(1)
-  &#125;, true)
-  box1.onclick = function () &#123;
-     console.log(2)
-  &#125;
-  box1.addEventListener(&#39;click&#39;, function() &#123;
-     console.log(3)
-  &#125;, true)
-  box2.onclick = function (e) &#123;
-     console.log(4)
-  &#125;
-  box2.addEventListener(&#39;click&#39;, function(e) &#123;
-     // e.stopPropagation()
-     console.log(5)
-  &#125;)
-
-  // 依次输出：1、3、4、5、2
-  // 若在box2的onclick或addEventListener事件回调里事件阻止冒泡，则依次输出：1、3、4、5
-</code></pre>
-<p><em>&emsp;&emsp;[注] element.addEventListener(event, function, useCapture)中的useCapture为可选参数.true，表示回调函数在事件捕获阶段执行；false，默认值，表示回调函数在冒泡阶段执行</em></p>
-<h5 id="6、JS创建、删除、替换、插入节点"><a href="#6、JS创建、删除、替换、插入节点" class="headerlink" title="6、JS创建、删除、替换、插入节点"></a>6、JS创建、删除、替换、插入节点</h5><p>&emsp;&emsp;doument全局HTML文档对象对应方法分别为：createElement、removeChild、replaceChild、appendChild/insertBefore</p>
-<h5 id="7、网站性能优化"><a href="#7、网站性能优化" class="headerlink" title="7、网站性能优化"></a>7、网站性能优化</h5><p>&emsp;&emsp;① CDN<br>&emsp;&emsp;② 减少HTTP请求<br>&emsp;&emsp;③ 减少DOM请求<br>&emsp;&emsp;④ gzip (压缩网站静态资源)<br>&emsp;&emsp;⑤ 代码压缩<br>&emsp;&emsp;⑥ 代码级优化 (减少cookie传输、分批延迟进行HTTP请求、异步执行内嵌脚本)</p>
-<h5 id="8、跨域"><a href="#8、跨域" class="headerlink" title="8、跨域"></a>8、跨域</h5><p>&emsp;&emsp;浏览器同源策略规定的一种安全机制<br><em>&emsp;&emsp;[注] 当一个 url 的协议、域名与端口号三者任意一个与当前页面的 url 不同则为跨域</em></p>
-<p>&emsp;&emsp;非同源限制：<br>&emsp;&emsp;① 无法读取其cookie、localStorage、indexedDB等数据<br>&emsp;&emsp;② 无法获取其DOM<br>&emsp;&emsp;③ 无法向非同源地址发送Ajax请求</p>
-<p>&emsp;&emsp;<strong>跨域是在浏览器环境限制了Ajax请求响应，浏览器对HTTP请求无限制，如通过form表单发起HTTP请求时无跨域问题 ，代理服务器(脱离浏览器环境)与服务器之间是HTTP请求、以及浏览器地址栏访问URL也是HTTP请求，所以无跨域问题。 跨域时Ajax请求已被服务器接受并响应，只是响应被浏览器拦截了</strong></p>
-<p>&emsp;&emsp;解决方法：<br>&emsp;&emsp;jsonp、CORS跨域资源共享、代理(前端代理、nginx、代理插件whistle…)、Nodejs中间件…</p>
-<h5 id="9、this"><a href="#9、this" class="headerlink" title="9、this"></a>9、this</h5><p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，this指向window或者调用对象<br>&emsp;&emsp;② 在函数上下文中，this指向取决于函数调用方式。在非严格模式下，this指向window；<u>在严格模式下，this指向调用对象，若无调用对象，即直接调用函数，this为undefined</u><br>&emsp;&emsp;③ 在类中，基类与派生类表现形式不同。在基类中，this是一个常规对象，所有非静态方法都会添加到this的原型上。在派生类中，构造函数constructor没有初始化this绑定，需要在构造函数中调用super()函数才能生成一个this，否则为undefined</p>
-<p><em>&emsp;&emsp;[注] 直接使用 super 对象调用父级方法时，super 会绑定当前子类的 this</em></p>
-<h5 id="10、异步任务的优先级："><a href="#10、异步任务的优先级：" class="headerlink" title="10、异步任务的优先级："></a>10、异步任务的优先级：</h5><p>&emsp;&emsp;process.nextTick(Nodejs) &gt; Promise(微任务) &gt; setImmediate(Nodejs) &gt; setTimeout/setInterval</p>
-<pre><code>  console.log(1)
-  var p1 = new Promise(function(resolve, reject) &#123;
-     console.log(2)
-     resolve()
-  &#125;)
-  p1.then(function()&#123;
-     console.log(3)
-  &#125;)
-  setTimeout(()=&gt;&#123;
-     console.log(4)
-  &#125;, 0)
-  setTimeout(()=&gt;&#123;
-     console.log(5)
-  &#125;,0)
-  console.log(6)
-
-  //依次输出：1、2、6、3、4、5
-</code></pre>
-<p><em>&emsp;&emsp;[注] 异步线程与主线程通信依赖于事件循环 (Event Loop) 机制</em></p>
-<h5 id="11、深浅拷贝"><a href="#11、深浅拷贝" class="headerlink" title="11、深浅拷贝"></a>11、深浅拷贝</h5><p>深拷贝和浅拷贝主要是针对Object和Array这样的引用数据类型来说的。浅拷贝只复制指向某个对象的指针(不复制对象本身，仅仅复制了对象被存储的内存地址)，新旧对象数据还是共享同一块内存空间，状态会相互影响；深拷贝会复制对象数据本身，再存储到新的内存地址空间中，新旧对象被存储的内存地址不同，状态也不会相互影响</p>
-<p>&emsp;&emsp;一道笔试题：</p>
-<pre><code>  let user = &#123;age: 30&#125;
-  function change(user) &#123;
-     // user.age = 40 //(1) &#123;age: 40&#125;
-     user = &#123;age: 50&#125; //(2) &#123;age: 30&#125;
-  &#125;
-  change(user)
-  console.log(user)
-</code></pre>
-<p>&emsp;&emsp;对象参数是浅拷贝，形参user与实参user都指向前面let定义的{age: 30}对象。在函数内部，第(1)种情况使用形参user指针访问到存储空间的{age: 30}对象，并将修改age的值为40，由于形参user与实参user指向同一内存地址，状态会同步变化，所以输出{user: 40}。第二种情况，直接将形参user指向一个新对象{user: 50}对象。这并不会影响实参user的指向，所以输出先前定义的{age: 30}对象</p>
-<h5 id="12、Ajax-axios-fetch之间的区别"><a href="#12、Ajax-axios-fetch之间的区别" class="headerlink" title="12、Ajax,axios,fetch之间的区别"></a>12、Ajax,axios,fetch之间的区别</h5><p>&emsp;&emsp;三者都是与服务器交换数据的技术,也有一定的区别：<br>&emsp;&emsp;(1) 在原生JS中,Ajax是基于XMLHttpRequest对象，实现了网页的局部数据刷新<br>&emsp;&emsp;(2) axios利用Promise对原生Ajax进行封装，支持 Promise API，可以链式调用从而避免了原生Ajax回调地狱的问题，还提供了并发请求等功能<br>&emsp;&emsp;(3) fecth是在ES6中，Ajax的替代品，是原生JS技术，请求实现时不基于XMLHttpRequest对象</p>
-<h5 id="13、webpack的打包原理"><a href="#13、webpack的打包原理" class="headerlink" title="13、webpack的打包原理"></a>13、webpack的打包原理</h5><p>&emsp;&emsp;webpack是一个现代JavaScript应用程序的静态模块打包器。当webpack处理应用程序时,它会递归地构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将所有这些模块要经过Loader，Plugin一系列翻译处理流程后，打包成一个或多个bundle文件。</p>
-<h5 id="14、Vue-history模式发布注意什么？与hash模式的区别？"><a href="#14、Vue-history模式发布注意什么？与hash模式的区别？" class="headerlink" title="14、Vue history模式发布注意什么？与hash模式的区别？"></a>14、Vue history模式发布注意什么？与hash模式的区别？</h5><p>&emsp;&emsp;history与hash模式可以在不刷新页面的前提下，改变了页面的URL，从而Vue等框架监听到页面URL变化，通过一定规则，来实现页面中部分组件的移除或更新，从而达到局部更新页面的状态的目的</p>
-<p>&emsp;&emsp;history与hash模式的区别：</p>
-<p>&emsp;&emsp;(1) history模式是基于HTML5中新增的pushState()和replaceState()方法来完成改变URL<br>&emsp;&emsp;&emsp;&emsp;① URL(包含匹配路由的相关信息)与服务器请求时可能造成一些请求出现404的问题<br>&emsp;&emsp;&emsp;&emsp;② 可能需要服务器重定向逻辑的支持</p>
-<p>&emsp;&emsp;(2) hash模式路径中带有’#’(锚点)符号，没有history模式的问题<br>&emsp;&emsp;&emsp;&emsp;① 影响美观<br>&emsp;&emsp;&emsp;&emsp;② 不符合规范，一些第三方分享链接可能不支持URL中带有’#’号<br>&emsp;&emsp;&emsp;&emsp;③ 原有的锚点功能会失效<br>&emsp;&emsp;&emsp;&emsp;④ 传参基于URL，浏览器对长度有限制</p>
-<p>&emsp;&emsp;所以，Vue history模式发布发布时，要确认在静态文件夹public目录下的index.html模板文件等文件中有没有采用<u>相对路径</u>引入样式、字体，JS脚本文件等，<strong>[ 需修改为绝对路径 ]</strong>。否则可能导致浏览器在某些二级路由页面刷新时，公用组件的组件的样式，JS脚本等文件加载失败(服务器返回404)，从而导致组件样式与功能出现问题</p>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>面试备注</tag>
       </tags>
   </entry>
   <entry>
@@ -4603,6 +4491,160 @@
       </categories>
       <tags>
         <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试备注 (2021.09)</title>
+    <url>/2021/09/28/other/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/</url>
+    <content><![CDATA[<h5 id="1、ES常见数据类型："><a href="#1、ES常见数据类型：" class="headerlink" title="1、ES常见数据类型："></a>1、ES常见数据类型：</h5><p>&emsp;&emsp;基本类型：Number、String、Boolean、undefined、null<br>&emsp;&emsp;引用类型：Object</p>
+<p><em>&emsp;&emsp;[注] 判断变量数据类型：typeof、instanceof、constructor、Object.prototype.toString.call()</em></p>
+<h5 id="2、使用数据构造函数与new-数据类型构造的区别"><a href="#2、使用数据构造函数与new-数据类型构造的区别" class="headerlink" title="2、使用数据构造函数与new 数据类型构造的区别"></a>2、使用数据构造函数与new 数据类型构造的区别</h5><pre><code>  Number(1) === new Number(1) // false
+  typeof Number(1) // number
+  typeof new Number(1) // object
+</code></pre>
+<p>&emsp;&emsp;如上代码，像普通函数一样直接调用构造函数，会执行相应的类型转换返回原始数据类型。new关键字调用构造函数，返回实例化新创建的对象</p>
+<h5 id="3、JS预编译过程"><a href="#3、JS预编译过程" class="headerlink" title="3、JS预编译过程"></a>3、JS预编译过程</h5><p>&emsp;&emsp;全局预编译：<br>&emsp;&emsp;① 创建GO对象<br>&emsp;&emsp;② 找变量申明，将变量名作为GO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
+<p>&emsp;&emsp;函数预编译：<br>&emsp;&emsp;① 创建AO对象<br>&emsp;&emsp;② 找变量申明与函数形参，将变量与函数形参名作为AO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 将函数实参与形参统一<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
+<p><em>&emsp;&emsp;[注] 函数预编译发生在代码运行前的瞬间，具体过程见文章：<a href="/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/#2%E3%80%81%E9%A2%84%E8%A7%A3%E6%9E%90%E4%B8%8E%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87">《JS预解析、作用域、执行上下文、this》</a></em></p>
+<h5 id="4、CSS选择器优先级顺序"><a href="#4、CSS选择器优先级顺序" class="headerlink" title="4、CSS选择器优先级顺序"></a>4、CSS选择器优先级顺序</h5><p>&emsp;&emsp;!important &gt; 行内样式 &gt; id选择器 &gt; class选择器 &gt; 标签(伪元素)选择器 &gt; *(通配符) &gt; 继承样式 &gt; 默认样式</p>
+<pre><code>  &lt;!DOCTYPE html&gt;
+  &lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+  &lt;style&gt;
+  div &#123; width: 100px; height: 100px &#125;
+  .parnel &#123; background-color: black; &#125;
+  .container .parnel &#123; background-color: blue; &#125;
+  #frist-box &#123; background-color: green; &#125;
+  .container #ce-box &#123; background-color: red; &#125;
+  .container div#ce-box &#123; background-color: yellow; &#125;
+  &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;parnel&quot; id=&quot;frist-box&quot;&gt;&lt;/div&gt; // green (绿色)
+  &lt;div class=&quot;parnel&quot; id=&quot;ce-box&quot;&gt;&lt;/div&gt; // yellow (黄色)
+  &lt;div class=&quot;parnel&quot; style=&quot;background: blue;&quot;&gt;&lt;/div&gt; // blue (蓝色)
+  &lt;/div&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;
+</code></pre>
+<h5 id="5、JS事件捕获和事件冒泡的执行顺序"><a href="#5、JS事件捕获和事件冒泡的执行顺序" class="headerlink" title="5、JS事件捕获和事件冒泡的执行顺序"></a>5、JS事件捕获和事件冒泡的执行顺序</h5><p>&emsp;&emsp;JS事件处理机制是：先捕获，后冒泡。捕获从上到下，冒泡从下到上。(比喻：捕获像石头沉海底，冒泡则像触底的石头产生的气泡冒出水面)</p>
+<pre><code>  const box1 = document.getElementById(&#39;box1&#39;)
+  const box2 = document.getElementById(&#39;box2&#39;)
+  document.body.addEventListener(&#39;click&#39;, function () &#123;
+     console.log(1)
+  &#125;, true)
+  box1.onclick = function () &#123;
+     console.log(2)
+  &#125;
+  box1.addEventListener(&#39;click&#39;, function() &#123;
+     console.log(3)
+  &#125;, true)
+  box2.onclick = function (e) &#123;
+     console.log(4)
+  &#125;
+  box2.addEventListener(&#39;click&#39;, function(e) &#123;
+     // e.stopPropagation()
+     console.log(5)
+  &#125;)
+
+  // 依次输出：1、3、4、5、2
+  // 若在box2的onclick或addEventListener事件回调里事件阻止冒泡，则依次输出：1、3、4、5
+</code></pre>
+<p><em>&emsp;&emsp;[注] element.addEventListener(event, function, useCapture)中的useCapture为可选参数.true，表示回调函数在事件捕获阶段执行；false，默认值，表示回调函数在冒泡阶段执行</em></p>
+<h5 id="6、JS创建、删除、替换、插入节点"><a href="#6、JS创建、删除、替换、插入节点" class="headerlink" title="6、JS创建、删除、替换、插入节点"></a>6、JS创建、删除、替换、插入节点</h5><p>&emsp;&emsp;doument全局HTML文档对象对应方法分别为：createElement、removeChild、replaceChild、appendChild/insertBefore</p>
+<h5 id="7、网站性能优化"><a href="#7、网站性能优化" class="headerlink" title="7、网站性能优化"></a>7、网站性能优化</h5><p>&emsp;&emsp;① CDN<br>&emsp;&emsp;② 减少HTTP请求<br>&emsp;&emsp;③ 减少DOM请求<br>&emsp;&emsp;④ gzip (压缩网站静态资源)<br>&emsp;&emsp;⑤ 代码压缩<br>&emsp;&emsp;⑥ 代码级优化 (减少cookie传输、分批延迟进行HTTP请求、异步执行内嵌脚本)</p>
+<h5 id="8、跨域"><a href="#8、跨域" class="headerlink" title="8、跨域"></a>8、跨域</h5><p>&emsp;&emsp;浏览器同源策略规定的一种安全机制<br><em>&emsp;&emsp;[注] 当一个 url 的协议、域名与端口号三者任意一个与当前页面的 url 不同则为跨域</em></p>
+<p>&emsp;&emsp;非同源限制：<br>&emsp;&emsp;① 无法读取其cookie、localStorage、indexedDB等数据<br>&emsp;&emsp;② 无法获取其DOM<br>&emsp;&emsp;③ 无法向非同源地址发送Ajax请求</p>
+<p>&emsp;&emsp;<strong>跨域是在浏览器环境限制了Ajax请求响应，浏览器对HTTP请求无限制，如通过form表单发起HTTP请求时无跨域问题 ，代理服务器(脱离浏览器环境)与服务器之间是HTTP请求、以及浏览器地址栏访问URL也是HTTP请求，所以无跨域问题。 跨域时Ajax请求已被服务器接受并响应，只是响应被浏览器拦截了</strong></p>
+<p>&emsp;&emsp;解决方法：<br>&emsp;&emsp;jsonp、CORS跨域资源共享、代理(前端代理、nginx、代理插件whistle…)、Nodejs中间件…</p>
+<h5 id="9、this"><a href="#9、this" class="headerlink" title="9、this"></a>9、this</h5><p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，this指向window或者调用对象<br>&emsp;&emsp;② 在函数上下文中，this指向取决于函数调用方式。在非严格模式下，this指向window；<u>在严格模式下，this指向调用对象，若无调用对象，即直接调用函数，this为undefined</u><br>&emsp;&emsp;③ 在类中，基类与派生类表现形式不同。在基类中，this是一个常规对象，所有非静态方法都会添加到this的原型上。在派生类中，构造函数constructor没有初始化this绑定，需要在构造函数中调用super()函数才能生成一个this，否则为undefined</p>
+<p><em>&emsp;&emsp;[注] 直接使用 super 对象调用父级方法时，super 会绑定当前子类的 this</em></p>
+<h5 id="10、异步任务的优先级："><a href="#10、异步任务的优先级：" class="headerlink" title="10、异步任务的优先级："></a>10、异步任务的优先级：</h5><p>&emsp;&emsp;process.nextTick(Nodejs) &gt; Promise(微任务) &gt; setImmediate(Nodejs) &gt; setTimeout/setInterval</p>
+<pre><code>  console.log(1)
+  var p1 = new Promise(function(resolve, reject) &#123;
+     console.log(2)
+     resolve()
+  &#125;)
+  p1.then(function()&#123;
+     console.log(3)
+  &#125;)
+  setTimeout(()=&gt;&#123;
+     console.log(4)
+  &#125;, 0)
+  setTimeout(()=&gt;&#123;
+     console.log(5)
+  &#125;,0)
+  console.log(6)
+
+  //依次输出：1、2、6、3、4、5
+</code></pre>
+<p><em>&emsp;&emsp;[注] 异步线程与主线程通信依赖于事件循环 (Event Loop) 机制</em></p>
+<h5 id="11、深浅拷贝"><a href="#11、深浅拷贝" class="headerlink" title="11、深浅拷贝"></a>11、深浅拷贝</h5><p>深拷贝和浅拷贝主要是针对Object和Array这样的引用数据类型来说的。浅拷贝只复制指向某个对象的指针(不复制对象本身，仅仅复制了对象被存储的内存地址)，新旧对象数据还是共享同一块内存空间，状态会相互影响；深拷贝会复制对象数据本身，再存储到新的内存地址空间中，新旧对象被存储的内存地址不同，状态也不会相互影响</p>
+<p>&emsp;&emsp;一道笔试题：</p>
+<pre><code>  let user = &#123;age: 30&#125;
+  function change(user) &#123;
+     // user.age = 40 //(1) &#123;age: 40&#125;
+     user = &#123;age: 50&#125; //(2) &#123;age: 30&#125;
+  &#125;
+  change(user)
+  console.log(user)
+</code></pre>
+<p>&emsp;&emsp;对象参数是浅拷贝，形参user与实参user都指向前面let定义的{age: 30}对象。在函数内部，第(1)种情况使用形参user指针访问到存储空间的{age: 30}对象，并将修改age的值为40，由于形参user与实参user指向同一内存地址，状态会同步变化，所以输出{user: 40}。第二种情况，直接将形参user指向一个新对象{user: 50}对象。这并不会影响实参user的指向，所以输出先前定义的{age: 30}对象</p>
+<h5 id="12、Ajax-axios-fetch之间的区别"><a href="#12、Ajax-axios-fetch之间的区别" class="headerlink" title="12、Ajax,axios,fetch之间的区别"></a>12、Ajax,axios,fetch之间的区别</h5><p>&emsp;&emsp;三者都是与服务器交换数据的技术,也有一定的区别：<br>&emsp;&emsp;(1) 在原生JS中,Ajax是基于XMLHttpRequest对象，实现了网页的局部数据刷新<br>&emsp;&emsp;(2) axios利用Promise对原生Ajax进行封装，支持 Promise API，可以链式调用从而避免了原生Ajax回调地狱的问题，还提供了并发请求等功能<br>&emsp;&emsp;(3) fecth是在ES6中，Ajax的替代品，是原生JS技术，请求实现时不基于XMLHttpRequest对象</p>
+<h5 id="13、webpack的打包原理"><a href="#13、webpack的打包原理" class="headerlink" title="13、webpack的打包原理"></a>13、webpack的打包原理</h5><p>&emsp;&emsp;webpack是一个现代JavaScript应用程序的静态模块打包器。当webpack处理应用程序时,它会递归地构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将所有这些模块要经过Loader，Plugin一系列翻译处理流程后，打包成一个或多个bundle文件。</p>
+<h5 id="14、Vue-history模式发布注意什么？与hash模式的区别？"><a href="#14、Vue-history模式发布注意什么？与hash模式的区别？" class="headerlink" title="14、Vue history模式发布注意什么？与hash模式的区别？"></a>14、Vue history模式发布注意什么？与hash模式的区别？</h5><p>&emsp;&emsp;history与hash模式可以在不刷新页面的前提下，改变了页面的URL，从而Vue等框架监听到页面URL变化，通过一定规则，来实现页面中部分组件的移除或更新，从而达到局部更新页面的状态的目的</p>
+<p>&emsp;&emsp;history与hash模式的区别：</p>
+<p>&emsp;&emsp;(1) history模式是基于HTML5中新增的pushState()和replaceState()方法来完成改变URL<br>&emsp;&emsp;&emsp;&emsp;① URL(包含匹配路由的相关信息)与服务器请求时可能造成一些请求出现404的问题<br>&emsp;&emsp;&emsp;&emsp;② 可能需要服务器重定向逻辑的支持</p>
+<p>&emsp;&emsp;(2) hash模式路径中带有’#’(锚点)符号，没有history模式的问题<br>&emsp;&emsp;&emsp;&emsp;① 影响美观<br>&emsp;&emsp;&emsp;&emsp;② 不符合规范，一些第三方分享链接可能不支持URL中带有’#’号<br>&emsp;&emsp;&emsp;&emsp;③ 原有的锚点功能会失效<br>&emsp;&emsp;&emsp;&emsp;④ 传参基于URL，浏览器对长度有限制</p>
+<p>&emsp;&emsp;所以，Vue history模式发布发布时，要确认在静态文件夹public目录下的index.html模板文件等文件中有没有采用<u>相对路径</u>引入样式、字体，JS脚本文件等，<strong>[ 需修改为绝对路径 ]</strong>。否则可能导致浏览器在某些二级路由页面刷新时，公用组件的组件的样式，JS脚本等文件加载失败(服务器返回404)，从而导致组件样式与功能出现问题</p>
+<h4 id="15、MVVM模式-Vue如何实现数据动态响应"><a href="#15、MVVM模式-Vue如何实现数据动态响应" class="headerlink" title="15、MVVM模式 Vue如何实现数据动态响应"></a>15、MVVM模式 Vue如何实现数据动态响应</h4><p>&emsp;&emsp;MVVM（Model View ViewModel）是MVC的升级版，采用ViewModel层将视图（View）与数据模型（Model）进行解耦。将视图DOM封装，利用观察者模式（发布订阅）实现视图与数据模型的动态响应与同步更新</p>
+<p><img src="/images/other/mvvm.webp" alt="avatar"></p>
+<p>&emsp;&emsp;(1) 数据模型层数据同步更新到视图<br>&emsp;&emsp;① 实现数据劫持，Vue2.x中采用Object.defineProperty()实现；Vue3.x中采用新的API Proxy()来实现检测数据变化<br>&emsp;&emsp;② 实现发布订阅者模式，视图层订阅数据模型层数据更新的消息。当数据模型层数据更新时，会将更新函数发布到对应的全部的订阅者<br>&emsp;&emsp;③ 结合数据劫持和发布订阅模式，解析 HTML 结构中绑定的变量（订阅者），当数据模型中对应数据更新后，对应变量会通过数据模型层发布的更新函数进行更新，从而达到更新视图层的目的</p>
+<p>&emsp;&emsp;(2) 视图层输入（数据模型层某些数据的数据源）更新到数据模型层<br>&emsp;&emsp;视图层通过事件绑定监听数据变化，从而在对应的事件回调函数里更新数据模型层的数据</p>
+<h4 id="16、函数柯里化"><a href="#16、函数柯里化" class="headerlink" title="16、函数柯里化"></a>16、函数柯里化</h4><p>&emsp;&emsp;函数柯里化是一种将使用多个参数的一个函数转换成一系列使用一个参数的函数的技术</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function add(a, b, c) &#123;</span><br><span class="line">  return a + b + c</span><br><span class="line">&#125;</span><br><span class="line">add(1, 2, 3) &#x2F;&#x2F; 6</span><br><span class="line"></span><br><span class="line">function add(a) &#123;</span><br><span class="line">  return function (b) &#123;</span><br><span class="line">    return function (c) &#123;</span><br><span class="line">      return a + b + c</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">add(1)(2)(3) &#x2F;&#x2F; 6</span><br></pre></td></tr></table></figure>
+
+<p><em>&emsp;&emsp;[注] 函数作为参数或者返回值是函数的函数成为<u>高阶函数</u></em></p>
+<p>&emsp;&emsp;一个通用的柯里化方法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function curry(fn, ...args) &#123;</span><br><span class="line">   return fn.length &gt; args.length ? (...args2) &#x3D;&gt; curry(fn, ...args, ...args2) : fn(...args)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function fn(a, b, c, d) &#123;</span><br><span class="line">  console.log(a + b + c + d)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn &#x3D; curry(fn)</span><br><span class="line">fn(1)(2)(3, 4)</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;函数柯里化与柯里化函数执行过程如下：</p>
+<p><img src="/images/other/curry_1.png" alt="curry_1"><br><img src="/images/other/curry_2.png" alt="curry_2"><br><img src="/images/other/curry_3.png" alt="curry_3"></p>
+<p>&emsp;&emsp;函数柯里化的特点：<br>&emsp;&emsp;提高了代码的通用性，可实现函数延迟到最后一起执行来完成特定场景的功能，编码灵活执行效率高，但编码逻辑比较复杂，不利于代码维护。</p>
+<h4 id="17、WEB安全问题"><a href="#17、WEB安全问题" class="headerlink" title="17、WEB安全问题"></a>17、WEB安全问题</h4><p>&emsp;&emsp;一般来说，WEB安全问题大部分还是更依赖于后端的过滤和拦截措施，毕竟服务器直接在操作数据库，服务器在接收到前端脚本和不加以限制的执行。或是服务器500时，直接返回服务器错误（如数据库对应错误），会暴露数据库信息导致很多潜在的安全问题。不管怎样，网络也没有绝对的安全~</p>
+<p>&emsp;&emsp;WEB基本攻击大致可以分为：</p>
+<p>&emsp;&emsp;(1) 资源枚举获取站点代码文件<br>&emsp;&emsp;别有用心的人或网络爬虫会遍历你站点所有可访问的目录，通过分析文件或文件夹命名，将类似项目或重要的文件（如网站备份文件等）进行下载；或者直接全部下载。也可以通过一定的线索获取到数据库的数据，比如服务器不够健壮，页面url被随意篡改后返回了数据库错误信息，也存在一定安全隐患</p>
+<p>&emsp;&emsp;(2) 通过参数操纵获取数据库信息<br>&emsp;&emsp;主要包括了SQL注入(以及XPath注入)、XSS和会话劫持等</p>
+<p>&emsp;&emsp;① SQL注入很好理解，前端将含有SQL操作语句的信息给后端，后端没做过滤直接执行暴露了数据库信息，前端提交方式可以是表单输入以Ajax的方式被提交，或是直接更改一些带参的url导致SQL语句被提交的数据库<br>如一个url的地址site.com/list?id=1被改成site.com/list?id=1’ or ‘1’=’1，可能执行select * from table where id=’1’ or ‘1’=’1’，将会导致数据库table表的所有信息被返回。还有更高级的SQL注入，不局限与某个数据表，可直接获取数据库更多信息。XPath注入与SQL注入思路是相同的，只是采用xml的格式获取数据</p>
+<p>&emsp;&emsp;② XSS（cross-site scripting跨域脚本攻击），有两个特点；跨域，客户端执行<br>&emsp;&emsp;Reflected XSS（基于反射的XSS攻击），如利用&lt;script&gt;发送一些恶意代码给服务器，服务器返回相关信息（如用户cookie，token等信息），在客户端对这些信息进行收集<br>&emsp;&emsp;Stored XSS（基于存储的XSS攻击），将恶意代码存储在可访问文件内，文件在部署到服务器，访问这个文件的用户可能会被恶意收集一些信息<br>&emsp;&emsp;DOM-based or local XSS（基于DOM或本地的XSS攻击），通过&lt;script&gt;（植入脚本）在页面插入相关DOM节点，用户点击可以触发一些恶意事件处理函数，不需要经过服务器就能获取用户本地数据</p>
+<p>&emsp;&emsp;③ 利用HTTP协议的不安全特点，别有用心的人或网络爬虫会通过分析报文信息，将合法的访问者断开，伪装成合法用户让继续与服务器交换数据</p>
+<p>&emsp;&emsp;(3) CSRF攻击、钓鱼攻击和拒绝服务攻击<br>&emsp;&emsp;CSRF攻击与XSS非常相似，但XSS是利用用户对当前网站的信任来发起攻击，而CSRF是利用网站对用户的信任来发起攻击，利用img、script、iframe无跨域问题，如在页面或邮件放置这些标签，进行一些恶意访问操作。如在邮件中插入&lt;img src=’xxx.com/xxx’/&gt;发送然后发送给用户, 用户只要打开邮件，img立即就会请求xxx.com/xxx带上用户cookie完成一些恶意操作<br>&emsp;&emsp;钓鱼攻击就是伪造站点恶意收集用户信息<br>&emsp;&emsp;拒绝服务就是采用脚本疯狂向服务器发送请求，导致服务器超负荷并关闭</p>
+<p>&emsp;&emsp;<strong>安全问题解决方式：</strong><br>&emsp;&emsp;不要将重要备份文件放在公网上<br>&emsp;&emsp;服务器不要相信前端传递的任何信息，对用户输入也要谨慎返回<br>&emsp;&emsp;不要随意使用免费的WiFi网络<br>&emsp;&emsp;网站使用HTTPS协议<br>&emsp;&emsp;服务器要限制用户频繁请求，或采用一定的技术来解决网络延迟和阻塞问题</p>
+<h4 id="18、HTTP缓存策略"><a href="#18、HTTP缓存策略" class="headerlink" title="18、HTTP缓存策略"></a>18、HTTP缓存策略</h4><p>&emsp;&emsp;–待完善–</p>
+<h4 id="19、Vue虚拟DOM-Diff算法"><a href="#19、Vue虚拟DOM-Diff算法" class="headerlink" title="19、Vue虚拟DOM Diff算法"></a>19、Vue虚拟DOM Diff算法</h4><p>&emsp;&emsp;在Vue与React等框架中，为了避免页面更新时频繁的进行页面重绘等操作，减少浏览器性能消耗，使用JS对象来描述页面真实的DOM。在页面数据更新时，会将更新后的虚拟DOM结构与之前的虚拟DOM结构采用Diff算法进行对比，最后将对比出来的差异的部分进行重新的真实DOM的渲染</p>
+<p><img src="/images/other/vNode.png" alt="vNode"></p>
+<p>&emsp;&emsp;在页面数据发生变化时，根据Vue相关响应式原理，会生成新的虚拟DOM结构，进行Diff算法（React Diff算法与Vue一致）来计算页面最小更新。匹配的最小单位是标签，只进行只进行同层级比较，忽略跨级操作。如上图中的&lt;ul&gt;结构不会与&lt;li&gt;结构进行比较。若&lt;ul&gt;结构一致，还有子元素时，会对里面的&lt;li&gt;进行一一比较，若&lt;ul&gt;已经不同，直接回新的&lt;ul&gt;更新页面上对应的真实DOM</p>
+<p>&emsp;&emsp;为了提高效率，框架一般要求在循环出来的最外层元素添加唯一的key标识，便于Diff算法比较时具有更高效率</p>
+<p><em>&emsp;&emsp;[注] 一般不使用 index 作为 key 的值，因为在对数据进行逆序添加、逆序删除等破坏顺序操作时：①会造成没必要的真实DOM的更新 ② DOM 结构中包含输入类元素，会导致元素绑定的值出现错误，因为Diff 算法无法知道输出类元素绑定的值是什么。如果不存在对数据的逆序添加、逆序删除等破坏顺序操作，仅用于渲染列表用于展示，使用 index 作为 key 是没有问题的</em></p>
+<h4 id="20、数据去重与排序"><a href="#20、数据去重与排序" class="headerlink" title="20、数据去重与排序"></a>20、数据去重与排序</h4><p>&emsp;&emsp;(1) 数据去重<br>&emsp;&emsp;数据去重相对来说较简单，这里直接提供几种实现方式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; indexOf去重</span><br><span class="line">function unique (arr) &#123;</span><br><span class="line">   const list &#x3D; []</span><br><span class="line">   for (let i &#x3D; 0, cnt &#x3D; arr.length; i &lt; cnt; i++) &#123;</span><br><span class="line">      if (list.indexOf(arr[i]) &#x3D;&#x3D;&#x3D; -1) &#123;</span><br><span class="line">         list.push(arr[i])</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   return list</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2、filter + indexOf去重</span><br><span class="line">function unique (arr) &#123;</span><br><span class="line">   return arr.filter((item, index) &#x3D;&gt; arr.indexOf(item) &#x3D;&#x3D;&#x3D; index)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;(2) 排序<br>&emsp;&emsp;排序思想有很多，这里简单分享几种常用的：冒泡排序、选择排序、快速排序<br>&emsp;&emsp;① 冒泡排序<br>&emsp;&emsp;思路：冒泡排序就是依次比较两个相邻元素，若结果与要求的排列顺序不一致，交互两个元素的位置。这样每次能将最大或最小元素移动到当前排序区间的末尾。若有n个元数需要排序，重复上面的步骤n-1次，每次将当前排序区间最大或最小元素移动到当前区间末尾后，得到的序列就是有序的</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function sort(arr) &#123;</span><br><span class="line">   for (let i &#x3D; 0, len &#x3D; arr.length; i &lt; len - 1; i++) &#123;</span><br><span class="line">      for (let j &#x3D; 0; j &lt; len - 1 - i; j++) &#123;</span><br><span class="line">         if (arr[j] &gt; arr[j + 1]) &#123;</span><br><span class="line">            [arr[j], arr[j + 1]] &#x3D; [arr[j + 1], arr[j]]</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   return arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;冒泡排序时间复杂度O(n<sup>2</sup>)，一般来说是稳定的<br><em>&emsp;&emsp;[注] <u>对于排序算法是否稳定的定义：当存在多个相同元素时，排序结果不影响这些相同元素的初始时的相对顺序，我们称该排序算法是稳定的，否则是不稳定的。</u>这里若将 if 的判断条件 arr[j] &gt; arr[j + 1] 改为 arr[j] &gt;= arr[j + 1] 时，会交换相邻的两个相同元素，这时的冒泡排序算法是<strong>不稳定的</strong></em></p>
+<p>&emsp;&emsp;② 选择排序<br>&emsp;&emsp;思路：选择排序先选择当前排序区间第一个元素为基数，依次与其余元素进行比较，每次选择出最大或最小元素放置在区间末尾。若有n个元数需要排序，重复上面的步骤n-1次，每次选择出当前排序区间最大或最小元素放置到当前区间末尾后，得到的序列就是有序的</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function sort(arr) &#123;</span><br><span class="line">   let inx</span><br><span class="line">   for (let i &#x3D; 0, len &#x3D; arr.length; i &lt; len - 1; i++) &#123;</span><br><span class="line">      inx &#x3D; i</span><br><span class="line">      for (let j &#x3D; i + 1; j &lt; len; j++) &#123;</span><br><span class="line">         if (arr[inx] &gt; arr[j]) &#123;</span><br><span class="line">         inx &#x3D; j</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      [arr[inx], arr[i]] &#x3D; [arr[i], arr[inx]]</span><br><span class="line">   &#125;</span><br><span class="line">   return arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;选择排序时间复杂度O(n<sup>2</sup>)，不稳定</p>
+<p>&emsp;&emsp;③ 快速排序<br>&emsp;&emsp;思路：在当前排序区间中选择一个任意元素为分界值，通过该分界值，将当前区间内的其他值按大小放在该值左右两边。依次对左右两边的区间递归进行上面的排序步骤，直到当前排序区间长度为1时进行回溯。回溯完成得到的序列就是有序的</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function quickSort(arr, left, right) &#123;</span><br><span class="line">   if (left &gt;&#x3D; right) return</span><br><span class="line">   let i &#x3D; left, j &#x3D; right, base &#x3D; arr[i]</span><br><span class="line">   while (i &lt; j) &#123;</span><br><span class="line">      while (i &lt; j &amp;&amp; arr[j] &gt; base) &#123;</span><br><span class="line">         j--</span><br><span class="line">      &#125;</span><br><span class="line">      while (i &lt; j &amp;&amp; a[i] &lt;&#x3D; base) &#123;</span><br><span class="line">         i++</span><br><span class="line">      &#125;</span><br><span class="line">      if (i &lt; j) &#123;</span><br><span class="line">         [a[i], a[j]] &#x3D; [a[j], a[i]]</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   arr[left] &#x3D; arr[i]</span><br><span class="line">   a[i] &#x3D; base</span><br><span class="line">   quickSort(arr, left, i - 1)</span><br><span class="line">   quickSort(arr, i + 1, right)</span><br><span class="line">   return arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;快速排序时间复杂度一般来说是O(nlogn)，不稳定</p>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>面试备注</tag>
       </tags>
   </entry>
   <entry>
