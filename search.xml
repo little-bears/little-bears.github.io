@@ -1,181 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>JS (异步)异常捕获与处理</title>
-    <url>/2021/07/01/javascript/JS%20(%E5%BC%82%E6%AD%A5)%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E4%B8%8E%E5%A4%84%E7%90%86/</url>
-    <content><![CDATA[<p>异常处理，是编程语言或计算机硬件里的一种机制，用于处理软件或信息系统中出现的异常状况（即超出程序正常执行流程的某些特殊条件）。通过异常处理，我们可以对用户在程序中的非法输入或者程序内部逻辑问题进行控制和提示，以防程序崩溃</p>
-<h2 id="1、Error对象"><a href="#1、Error对象" class="headerlink" title="1、Error对象"></a>1、Error对象</h2><p>&emsp;&emsp;通过Error的构造器可以创建一个错误对象。当运行时错误产生时，Error的实例对象会被抛出。Error对象也可用于用户自定义的异常的基础对象</p>
-<p>&emsp;&emsp;语法：</p>
-<pre><code>  new Error([message[, fileName[,lineNumber]]])
-</code></pre>
-<p><em>&emsp;&emsp;[注] 当代码运行时的发生错误，会创建新的Error 对象，并将其抛出。当像函数一样使用 Error 时，它将返回一个 Error 对象。即仅仅调用 Error 产生的结果与通过new 关键字构造 Error 对象生成的结果相同</em></p>
-<h4 id="通用的Error构造函数"><a href="#通用的Error构造函数" class="headerlink" title="通用的Error构造函数"></a>通用的Error构造函数</h4><p>&emsp;&emsp;EvalError: 创建一个error实例，表示错误的原因与 eval() 有关<br>&emsp;&emsp;InternalError：创建一个代表Javascript引擎内部错误的异常抛出的实例，比如递归太深导致爆栈<br>&emsp;&emsp;RangeError：创建一个error实例，表示错误的原因为数值变量或参数超出其有效范围，比如数组越界<br>&emsp;&emsp;ReferenceError：创建一个error实例，表示错误的原因为无效引用，比如访问了未定义的变量<br>&emsp;&emsp;SyntaxError：创建一个error实例，表示错误的原因为在解析代码的过程中发生了语法错误<br>&emsp;&emsp;TypeError：创建一个error实例，表示错误的原因为变量或参数不属于有效类型<br>&emsp;&emsp;URIError：创建一个error实例，表示错误的原因为给 encodeURI()或 decodeURI()传递的参数无效</p>
-<p><em>&emsp;&emsp;[注] Error.prototype 允许添加属性到 Error 实例；全局 Error 对象自身不包含任何方法，但存在一些从原型链中继承的方法</em></p>
-<h2 id="2、异常捕获"><a href="#2、异常捕获" class="headerlink" title="2、异常捕获"></a>2、异常捕获</h2><p>&emsp;&emsp;通常用 throw 关键字来<u>抛出</u>创建的 Error 对象，使用 try…catch 结构来<u>捕获</u>异常。try…catch 语句标记一块待尝试的语句，并规定一个以上的响应应该有一个异常被抛出。如果我们抛出一个异常，try…catch语句就捕获它，如果try代码块没有抛出异常，catch代码块就会被跳过。finally 代码块总会紧跟在try和catch代码块之后执行，但会在try和catch代码块之后的其他代码之前执行</p>
-<pre><code>  try &#123;
-    throw new Error(&#39;哎呀，发送了一个未知错误~&#39;)
-  &#125; catch (e) &#123;
-    console.log(`$&#123;e.name&#125; : $&#123;e.message&#125;`)
-    console.log(&#39;代码执行到这里了~&#39;)
-  &#125;
-
-  // 输出：
-  // Error : 哎呀，发送了一个未知错误~
-  // 代码执行到这里了~
-</code></pre>
-<p>&emsp;&emsp;不过 try…catch 只能捕获同步异常，捕获不到异步异常！</p>
-<pre><code>  try &#123;
-    setTimeout(() =&gt; &#123;
-      throw new Error(&#39;哎呀，发送了一个未知错误~&#39;)
-    &#125;, 0)
-  &#125; catch (e) &#123;
-    console.log(`$&#123;e.name&#125; : $&#123;e.message&#125;`)
-    console.log(&#39;代码执行到这里了~&#39;)
-  &#125;
-
-  // 输出：这段代码没有输出
-  // 浏览器控制台打印错误：Uncaught Error: 哎呀，发送了一个未知错误~
-
-  // 结论：try...catch 未能捕获异步异常
-</code></pre>
-<h2 id="3、异步异常捕获"><a href="#3、异步异常捕获" class="headerlink" title="3、异步异常捕获"></a>3、异步异常捕获</h2><p>&emsp;&emsp;从 ECMAScript 6 开始，JavaScript 增加了对 Promise 对象的支持，它允许你对延时和异步操作流进行控制，也可以对异步异常进行捕获处理：<br>&emsp;&emsp;☞ pending：初始的状态，即正在执行，不处于 fulfilled 或 rejected 状态<br>&emsp;&emsp;☞ fulfilled：成功的完成了操作<br>&emsp;&emsp;☞ rejected：失败，没有完成操作<br>&emsp;&emsp;☞ settled：Promise 处于 fulfilled 或 rejected 二者中的任意一个状态, 不会是 pending，即处于已敲定的状态</p>
-<p><img src="/images/javascript/Promise%E6%B5%81%E7%A8%8B.png" alt="Promise流程"></p>
-<p>&emsp;&emsp;待定状态的 Promise 对象要么会通过一个值被兑现（fulfilled），要么会通过一个原因（错误）被拒绝（rejected）。当这些情况之一发生时，我们用 promise 的 then 方法排列起来的相关处理程序就会被调用</p>
-<p><em>&emsp;&emsp;[注] Promise.prototype.then 和  Promise.prototype.catch 方法返回的是 promise， 所以它们可以被链式调用。任何不是 throw 的终止都会创建一个”已决议”状态，resolve() 方法可能将 pending 状态转化为 fulfilled 或 rejected 状态；而以 throw 终止则会创建一个”已拒绝”状态，reject() 方法会将 pending 状态转化为  rejected 状态</em></p>
-<p>&emsp;&emsp;Promise捕获异常示例：</p>
-<pre><code>  new Promise((resolve, reject) =&gt; &#123;
-    setTimeout(() =&gt; &#123;
-      try &#123;
-        throw &#39;出错啦~&#39;
-        resolve(true)
-      &#125; catch (err) &#123;
-        reject(err)
-      &#125;
-    &#125;, 0)
-  &#125;).then(res =&gt; &#123;
-    console.log(`已兑现: $&#123;res&#125;`)
-  &#125;).catch(err =&gt; &#123;
-    console.log(`已拒绝: $&#123;err&#125;`) // 已拒绝: 出错啦~
-  &#125;).finally(() =&gt; &#123;
-    console.log(&#39;Promise执行已完成&#39;) // Promise执行已完成
-  &#125;)
-</code></pre>
-<p>&emsp;&emsp;try…catch语句不能捕获异步异常，但可以在Promise函数体的异步操作执行时，将异步操作的错误信息通过reject(err)函数抛出，此时Promise状态变为rejected状态，在Promise的catch分支中将reject()函数抛出的err错误信息捕获。项目中我们可以使用Promise封装ajax请求，来实现对请求失败的<u>统一处理</u>~</p>
-<h2 id="4、Vue项目中使用axios请求数据并统一处理异常"><a href="#4、Vue项目中使用axios请求数据并统一处理异常" class="headerlink" title="4、Vue项目中使用axios请求数据并统一处理异常"></a>4、Vue项目中使用axios请求数据并统一处理异常</h2><p>&emsp;&emsp;1) 对axios配置超时等属性，对请求与响应作统一拦截处理</p>
-<pre><code>  // src/api/axios.js
-
-  import axios from &#39;axios&#39;
-  import &#123; get &#125; from &#39;lodash&#39;
-  import qs from &#39;qs&#39;
-  import &#123; Message &#125; from &#39;element-ui&#39;
-  import Router from &#39;@/router&#39;
-  import store from &#39;../store&#39;
-
-  const instance = axios.create(&#123;
-    baseURL: &#39;/api&#39;,
-    timeout: 1000 * 30
-  &#125;)
-
-  instance.interceptors.request.use(config =&gt; &#123;
-    // 给header统一加上Token信息
-    config.headers.Token = localStorage.getItem(&#39;accessToken&#39;)
-    // 预处理get请求url上的数组信息
-    if (config.method === &#39;get&#39;) &#123;
-      config.paramsSerializer = params =&gt; &#123;
-        return qs.stringify(params, &#123; indices: false &#125;)
-      &#125;
-    &#125;
-    return config
-  &#125;)
-
-  instance.interceptors.response.use(
-    // 请求成功，返回服务端响应内容
-    response =&gt; response.data,
-    // 请求失败，统一处理错误信息
-    error =&gt; &#123;
-      if (error.response) &#123;
-        // 登录信息过期移除缓存的用户信息，跳转登录页
-        if (error.response.status === 401) &#123;
-          localStorage.removeItem(&#39;userInfo&#39;)
-          store.commit(&#39;clearUserInfo&#39;)
-          // Message.error(&#39;您的登录已过期，请重新登录&#39;)
-          Message.error(get(error, &#39;response.data.message&#39;, &#39;您的登录已过期，请重新登录&#39;))
-          Router.push(&#39;/login&#39;)
-          return Promise.resolve()
-        &#125; else &#123;
-          // 统一处理错误，并将错误抛出，具体请求也能拿到错误信息
-          Message.error(get(error, &#39;response.data.message&#39;, &#39;网络错误，请您稍后尝试&#39;))
-          return Promise.reject(error.response.data)
-        &#125;
-      &#125; else &#123;
-        Message.error(&#39;网络错误，请您稍后尝试&#39;)
-      &#125;
-    &#125;
-  )
-
-  export default instance
-</code></pre>
-<p>&emsp;&emsp;2) 针对功能模块编写API列表文件，对请求进行封装</p>
-<pre><code>  // src/api/menu.js
-
-  import axios from &#39;@/api/axios.js&#39;
-
-  export const fetchFrontMenuList = params =&gt; axios.get(&#39;/v1/menu-front&#39;, &#123; params &#125;)
-  export const fetchBannerList = menuId =&gt; axios.get(`/v1/menu-front/$&#123;menuId&#125;/banner`)
-</code></pre>
-<p>&emsp;&emsp;3) 页面中接口的简单使用</p>
-<pre><code>  // src/views/Index.vue
-
-  &lt;script&gt;
-    import &#123; Vue, Component, Watch &#125; from &#39;vue-property-decorator&#39;
-    import &#123; fetchFrontMenuList &#125; from &#39;@/api/menu&#39;
-
-    export default @Component(&#123;&#125;)
-    class Index extends Vue &#123;
-      menuList = []
-
-      async created () &#123;
-        const resp = await fetchFrontMenuList(&#123; status: 0 &#125;)
-        this.menuList = (resp.data || [])
-      &#125;
-    &#125;
-  &lt;/script&gt;
-</code></pre>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSS定位（Position）与3D坐标轴</title>
-    <url>/2020/09/27/css/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/</url>
-    <content><![CDATA[<p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终定位的位置。</p>
-<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上、右、下，左方向上的距离。</p>
-<p><img src="/images/css3/%E5%B9%B3%E9%9D%A2%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="平面空间坐标轴"></p>
-<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative、 absolute、fixed，sticky与inherit</p>
-<p>&emsp;&emsp;定位元素：是其计算后位置属性为relative、absolute，fixed或sticky的一个元素</p>
-<p>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。</p>
-<p>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置(x, y)作为原点(0, 0)。<u>在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。</u>而且position: relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
-<p><img src="/images/css3/%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D(relative).png" alt="相对定位(relative)"></p>
-<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位父级(祖先)元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margin），且不会与其他边距合并。特别的，fixed绝对定位（固定定位）是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
-<p><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(absolute).png" alt="绝对定位(absolute)"><br><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(fixed).png" alt="绝对定位(fixed)"></p>
-<p>&emsp;&emsp;(4) 粘性定位(sticky)：元素根据正常文档流进行定位，然后相对它的最近滚动祖先和最近块级祖先，包括table-related元素，基于top, right, bottom, 和 left的值进行偏移。偏移值不会影响任何其他元素的位置。粘性定位表现为相对定位和固定定位叠加的效果。元素在跨越特定阈值前为相对定位(relative)，之后为固定定位(fixed)。</p>
-<p><img src="/images/css3/%E7%B2%98%E6%80%A7%E5%AE%9A%E4%BD%8D(sticky).png" alt="粘性定位(sticky)"></p>
-<h2 id="3、三维空间坐标轴（3D）"><a href="#3、三维空间坐标轴（3D）" class="headerlink" title="3、三维空间坐标轴（3D）"></a>3、三维空间坐标轴（3D）</h2><p>&emsp;&emsp;CSS中3D初始坐标系，其XYZ轴的正方向分别是：向右、向下、向屏幕外。如下图：</p>
-<p><img src="/images/css3/%E4%B8%89%E7%BB%B4%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="三维空间坐标轴"></p>
-<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0）（如上图），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为旋转正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSS动画（过渡、关键帧、3次贝塞尔曲线）</title>
     <url>/2020/11/26/css/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/</url>
     <content><![CDATA[<p>CSS 动画可以在不借助 Javascript 的情况下做出一些相对简单的动画效果，例如缩放、移动、2D/3D旋转等。CSS动画有浏览器控制，表现得很流畅。 <u>CSS动画的时序函数主要为3次贝塞尔曲线。</u></p>
@@ -459,601 +284,23 @@
       </tags>
   </entry>
   <entry>
-    <title>JS modules模块化、按需引入</title>
-    <url>/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/</url>
-    <content><![CDATA[<p>一种将 JavaScript 程序拆分为可按需导入的单独模块的机制。<br>JavaScript模式的基本特征：<br>(1) 模块化，可重用<br>(2) 封装了变量和function，和全局的namaspace不接触，松耦合<br>(3) 只暴露可用公用(public)的方法，其它私有方法全部隐藏</p>
-<p>–待完善–</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JS Map、Set关键字</title>
-    <url>/2021/06/10/javascript/JS%20Map%E3%80%81Set%E5%85%B3%E9%94%AE%E5%AD%97/</url>
-    <content><![CDATA[<p><u>JavaScript 中Map与Set都是ES6新的数据结构，分别存储数据映射关系与数据集合。</u>Map是类似Object的一种键值对集合，不同与Object，Map的键不仅限于是String或Symbol类型，其他各种类型的值包括对象都可以成为Map的键。Set是类似数组的一种数据结构，不同点在于Set中没有重复的值。</p>
-<h2 id="1、Map"><a href="#1、Map" class="headerlink" title="1、Map"></a>1、Map</h2><p>&emsp;&emsp;Map对象保存键值对，并且能够记住键的原始插入顺序。任何值(对象或者原始值) 都可以作为一个键或一个值。</p>
-<p>&emsp;&emsp;一个Map对象在迭代时会根据对象中元素的插入顺序来进行一个 for…of 循环在每次迭代后会返回一个形式为[key，value]的数组。</p>
-<p><em>&emsp;&emsp;[注] for in 与 for of 语句的区别：</em><br><em>&emsp;&emsp;① for…in语句以任意顺序遍历一个对象的除Symbol以外的可枚举属性，为遍历对象属性而构建的，不建议用于迭代一个关注索引顺序的数组，数组可以用 Array.prototype.forEach() 和 for … of</em><br><em>&emsp;&emsp;② for…of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments 对象等等）上创建一个迭代循环，调用自定义迭代钩子，并为每个不同属性的值迭代处理</em></p>
-<p><em>&emsp;&emsp;[注] Map中键 NaN 是与 NaN 相等的（虽然 NaN !== NaN），剩下所有其它的值是根据 === 运算符的结果判断是否相等。在目前的ECMAScript规范中，-0和+0被认为是相等的。</em></p>
-<h4 id="1-Objects-和-maps-的比较"><a href="#1-Objects-和-maps-的比较" class="headerlink" title="1) Objects 和 maps 的比较"></a>1) Objects 和 maps 的比较</h4><p>&emsp;&emsp;Objects 和 Maps 类似的是，它们都允许你按键存取一个值、删除键、检测一个键是否绑定了值。不过 Maps 和 Objects 有一些重要的区别，在下列情况里使用 Map 是更好的选择:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Map</th>
-<th>Object</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>意外的键</td>
-<td>Map 默认情况不包含任何键。只包含显式插入的键</td>
-<td>Object 原型链上的可能存在键名与设置的键名产生冲突 <em>(可通过Object.create(null)来创建一个没有原型的对象)</em></td>
-</tr>
-<tr>
-<td>键的类型</td>
-<td>Map 的键可以是任意值，包括函数、对象或任意基本类型</td>
-<td>Object 的键必须是一个 String 或是Symbol</td>
-</tr>
-<tr>
-<td>键的顺序</td>
-<td><u>Map 中的 key 是有序的，迭代时按插入的顺序返回键值</u></td>
-<td><u>Object 的键是无序的</u></td>
-</tr>
-<tr>
-<td>Size</td>
-<td>Map 的键值对个数可通过 size 属性获取</td>
-<td>Object 的键值对个数只能手动计算</td>
-</tr>
-<tr>
-<td>迭代</td>
-<td>Map 是 iterable 的，可直接被迭代</td>
-<td>Object需要以某种方式获取它的键然后才能迭代</td>
-</tr>
-<tr>
-<td>性能</td>
-<td>在频繁增删键值对的场景下表现更好</td>
-<td>在频繁添加和删除键值对的场景下未作出优化</td>
-</tr>
-</tbody></table>
-<h4 id="2-Map构造函数"><a href="#2-Map构造函数" class="headerlink" title="2) Map构造函数"></a>2) Map构造函数</h4><p>&emsp;&emsp;Map()：创建 Map 对象(使用new关键字)</p>
-<h4 id="3-Map属性"><a href="#3-Map属性" class="headerlink" title="3) Map属性"></a>3) Map属性</h4><p>&emsp;&emsp;Map.length：<u>属性 length 的值为0，想要计算一个 Map 中的条目数量， 使用 Map.prototype.size</u><br>&emsp;&emsp;Map.prototype：表示 Map 构造器的原型。允许添加属性从而应用于所有的 Map 对象</p>
-<h4 id="4-Map实例"><a href="#4-Map实例" class="headerlink" title="4) Map实例"></a>4) Map实例</h4><p>&emsp;&emsp;所有的 Map 对象实例都会继承 Map.prototype</p>
-<p>&emsp;&emsp;(1) 实例属性<br>&emsp;&emsp;Map.prototype.constructor：返回一个函数，它创建了实例的原型。默认是Map函数<br>&emsp;&emsp;Map.prototype.size：返回Map对象的键/值对的数量</p>
-<p>&emsp;&emsp;(2) 实例方法（Map.prototype上的方法）<br>clear()：移除Map对象的所有键/值对<br>delete(key)：Map对象中存在该元素，则移除它并返回 true；否则返回false<br>entries()：返回一个新的 Iterator 对象，它按插入顺序包含了Map对象中每个元素的 [key, value] 数组<br>forEach(callbackFn[(value, key), thisArg])：按插入顺序，为Map对象里的每一键值对调用一次callbackFn函数。如果为forEach提供了thisArg，它将在每次回调中作为this值<br>get(key)：返回键对应的值，如果不存在，则返回undefined<br>has(key)：返回一个布尔值，表示Map实例是否包含键对应的值<br>keys()：返回一个新的 Iterator对象， 它按插入顺序包含了Map对象中每个元素的键<br><u>set(key, value)：设置Map对象中键的值。返回该Map对象</u><br>values()：返回一个新的Iterator对象，它按插入顺序包含了Map对象中每个元素的值 </p>
-<p>&emsp;&emsp;简单示例代码：</p>
-<pre><code>  const a = function a () &#123;&#125;
-  let maps = new Map()
-  // 为maps设置各个类型的键与值
-  maps.set(123, &#39;123aaa&#39;)
-  maps.set(a, &#39;aaa&#39;)
-  maps.set(true, &#39;真值&#39;)
-  maps.set(NaN, &#39;NaN&#39;)
-
-  // 打印maps或相关key对应的value值
-  console.log(maps) // Map(4) &#123;123 =&gt; &quot;123aaa&quot;, ƒ =&gt; &quot;aaa&quot;, true =&gt; &quot;真值&quot;, NaN =&gt; &quot;NaN&quot;&#125;
-  console.log(maps.get(a)) // aaa
-  console.log(maps.get(NaN)) // NaN
-  console.log(maps.get(888)) // undefined
-
-  // for of 遍历map对象
-  for(const m of maps) &#123;
-    console.log(m)
-  &#125;
-  // 输出：
-  // [123, &quot;123aaa&quot;]
-  // [ƒ, &quot;aaa&quot;]
-  // [true, &quot;真值&quot;]
-  // [NaN, &quot;NaN&quot;]
-
-  // forEach遍历map对象
-  maps.forEach((value, key) =&gt; &#123;
-    console.log(key, value)
-  &#125;)
-  // 输出：
-  // 123 &quot;123aaa&quot;
-  // ƒ a () &#123;&#125; &quot;aaa&quot;
-  // true &quot;真值&quot;
-  // NaN &quot;NaN&quot;
-
-  // 常规的Map构造函数可以将一个二维键值对数组转换成一个Map对象
-  const map2 = new Map([[123, &#39;aaaa&#39;],[false, &#39;假值&#39;], [undefined, &#39;undefined&#39;]])
-  console.log(map2) // &#123;123 =&gt; &quot;aaaa&quot;, false =&gt; &quot;假值&quot;, undefined =&gt; &quot;undefined&quot;&#125;
-
-  // 合并两个Map对象时，如果有重复的键值，则后面的会覆盖前面的
-  const map3 = new Map([...maps, ...map2])
-  console.log(map3) // &#123;123 =&gt; &quot;aaaa&quot;, ƒ =&gt; &quot;aaa&quot;, true =&gt; &quot;真值&quot;, NaN =&gt; &quot;NaN&quot;, false =&gt; &quot;假值&quot;, …&#125;
-
-  // 访问map对象的size属性
-  console.log(map3.size) // 6
-
-  // 删除maps对象中的键值对
-  console.log(maps.delete(123)) // true
-  console.log(maps) // &#123;ƒ =&gt; &quot;aaa&quot;, true =&gt; &quot;真值&quot;, NaN =&gt; &quot;NaN&quot;&#125;
-</code></pre>
-<p>&emsp;&emsp;<strong>利用Map对象，可根据存储的数据映射关系对相应key值进行快速查询操作</strong></p>
-<h2 id="2、Set"><a href="#2、Set" class="headerlink" title="2、Set"></a>2、Set</h2><p>&emsp;&emsp;Set对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。Set对象是值的集合，你可以按照插入的顺序迭代它的元素。 Set中的元素只会出现一次，即 Set 中的元素是唯一的</p>
-<h4 id="1-Set构造函数"><a href="#1-Set构造函数" class="headerlink" title="1) Set构造函数"></a>1) Set构造函数</h4><p>&emsp;&emsp;Set()：创建一个新的Set对象(使用new关键字)</p>
-<h4 id="2-Set属性"><a href="#2-Set属性" class="headerlink" title="2) Set属性"></a>2) Set属性</h4><p>&emsp;&emsp;Set.length：<u>属性 length 的值为0，想要计算一个 Set 中的条目数量， 使用 Set.prototype.size</u><br>&emsp;&emsp;Set.prototype：表示 Set 构造器的原型。允许添加属性从而应用于所有的 Set 对象</p>
-<h4 id="3-Set实例"><a href="#3-Set实例" class="headerlink" title="3) Set实例"></a>3) Set实例</h4><p>&emsp;&emsp;所有的 Set 对象实例都会继承 Set.prototype</p>
-<p>&emsp;&emsp;(1) 实例属性<br>&emsp;&emsp;Set.prototype.size：返回Set对象值的数量</p>
-<p>&emsp;&emsp;(2) 实例方法（Set.prototype上的方法）<br>&emsp;&emsp;add(value)：在Set对象尾部添加一个元素。返回该Set对象<br>&emsp;&emsp;clear()：移除Set对象内的所有元素<br>&emsp;&emsp;delete(value)：移除Set中与这个值相等的元素，返回Set.prototype.has(value)在这个操作前会返回的值。如果该元素存在，返回true，否则返回false<br>&emsp;&emsp;entries()：返回一个新的迭代器对象，该对象包含Set对象中的按插入顺序排列的所有元素的值的[value, value]数组。为了使这个方法和Map对象保持相似，每个值的键和值相等<br>&emsp;&emsp;forEach(callbackFn[, thisArg])：按照插入顺序，为Set对象中的每一个值调用一次callBackFn。如果提供了thisArg参数，回调中的this会是这个参数<br>&emsp;&emsp;has(value)：返回一个布尔值，表示该值在Set中存在与否<br>&emsp;&emsp;values()：返回一个新的迭代器对象，该对象包含Set对象中的按插入顺序排列的所有元素的值</p>
-<p>&emsp;&emsp;简单示例代码：</p>
-<pre><code>  const a = function a() &#123; &#125;
-  let sets = new Set()
-  // 为Set对象设置不同类型的值
-  sets.add(123)
-  sets.add(a)
-  sets.add(true)
-  sets.add(NaN)
-  console.log(sets) // &#123;123, ƒ, true, NaN&#125;
-
-  // 给Set对象添加相同的值(无效：Set对象中的元素是唯一的)
-  sets.add(123)
-  sets.add(a)
-  sets.add(true)
-  console.log(sets) // &#123;123, ƒ, true, NaN&#125;
-
-  // 移除Set中的元素
-  sets.delete(123)
-  console.log(sets) // &#123;ƒ, true, NaN&#125;
-
-  // 使用 for of 迭代Set对象
-  for (const item of sets) &#123;
-    console.log(item)
-  &#125;
-
-  // 使用 forEach 迭代Set对象
-  sets.forEach(item =&gt; &#123;
-    console.log(item)
-  &#125;)
-
-  // 数组与Set相互转换
-  const set2 = new Set([1, 2, 3, 4, 2, 4]) // 将数组转换为Set对象，由于Set对象值的唯一性，Set对象中已无重复的值
-  console.log(set2) // &#123;1, 2, 3, 4&#125;
-  console.log([...set2]) // [1, 2, 3, 4] // 可以通过Set进行数组去重~
-</code></pre>
-<p>&emsp;&emsp;<strong>利用Set对象，可实现基本集合操作，比如求交集、并集、差集等</strong></p>
-<h4 id="注-JavaScript-中的相等性判断"><a href="#注-JavaScript-中的相等性判断" class="headerlink" title="[注] JavaScript 中的相等性判断"></a>[注] JavaScript 中的相等性判断</h4><p>&emsp;&emsp;(1) ES2015中有四种相等算法：<br>&emsp;&emsp;① 抽象（非严格）相等比较(==)<br>&emsp;&emsp;② 严格相等比较(===)，用于  Array.prototype.indexOf, Array.prototype.lastIndexOf, 和 case-matching<br>&emsp;&emsp;③ 同值零，用于 %TypedArray% 和 ArrayBuffer 构造函数、以及Map和Set操作, 并将用于 ES2016/ES7 中的String.prototype.includes</p>
-<p><em>&emsp;&emsp;ES5 比较两个值是否相等,只有两个运算符：抽象相等运算符和严格相等运算符。它们都有缺点，前者会自动转换数据类型，后者的NaN不等于自身，以及-0 等于 +0。JavaScript缺乏一种运算,在所有环境中,使得只要两个值是一样的,它们就应该相等。ES6提出“Same-value equality”(同值相等)算法，用来解决这个问题。</em></p>
-<p>&emsp;&emsp;④ 同值，用于所有其他地方</p>
-<p>&emsp;&emsp;(2) JavaScript提供三种不同的值比较操作：<br>&emsp;&emsp;① 严格相等比较，使用 ===<br>&emsp;&emsp;② 抽象相等比较,使用 ==<br>&emsp;&emsp;③ Object.is （ECMAScript 2015/ ES6 新特性，有特殊用途）</p>
-<p>&emsp;&emsp;抽象相等比较将执行类型转换; 严格相等比较将进行相同的比较，而不进行类型转换 (如果类型不同, 只是总会返回 false ); 而Object.is的行为方式与三等号相同，但是对于NaN和-0和+0进行特殊处理不相同，Object.is（+0，-0）将为 false，而Object.is（NaN，NaN）将为 true。</p>
-<p>&emsp;&emsp;(3) 不同判等模型的判等结果：</p>
-<table>
-<thead>
-<tr>
-<th>x</th>
-<th>y</th>
-<th>==</th>
-<th>===</th>
-<th>Object.is</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>undefined</td>
-<td>undefined</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>null</td>
-<td>null</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>false</td>
-<td>false</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>“foo”</td>
-<td>“foo”</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>0</td>
-<td>0</td>
-<td>true</td>
-<td>true</td>
-<td>true</td>
-</tr>
-<tr>
-<td>+0</td>
-<td>-0</td>
-<td>true</td>
-<td>true</td>
-<td>false</td>
-</tr>
-<tr>
-<td>0</td>
-<td>false</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>“”</td>
-<td>false</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>“”</td>
-<td>0</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>“0”</td>
-<td>0</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>“1”</td>
-<td>1</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>[1,2]</td>
-<td>“1,2”</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>new String(“foo”)</td>
-<td>“foo”</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>null</td>
-<td>undefined</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>null</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>undefined</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>{ foo: “bar” }</td>
-<td>{ foo: “bar” }</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>new String(“foo”)</td>
-<td>new String(“foo”)</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>0</td>
-<td>null</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>0</td>
-<td>NaN</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>“foo”</td>
-<td>NaN</td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td>NaN</td>
-<td>NaN</td>
-<td>false</td>
-<td>false</td>
-<td>true</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JS Proxy、Reflect与@Decorator</title>
-    <url>/2021/06/22/javascript/JS%20Proxy%E3%80%81Reflect%E4%B8%8E@Decorator/</url>
-    <content><![CDATA[<h2 id="1、Proxy关键字"><a href="#1、Proxy关键字" class="headerlink" title="1、Proxy关键字"></a>1、Proxy关键字</h2><p>&emsp;&emsp;Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等），即进行数据劫持</p>
-<p>&emsp;&emsp;使用语法：</p>
-<pre><code>  const p = new Proxy(target, handler)
-</code></pre>
-<p>&emsp;&emsp;其中的参数：</p>
-<p>&emsp;&emsp;target：指要使用 Proxy 包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）<br>&emsp;&emsp;handler：一个通常以函数作为属性的对象，各属性中的函数分别定义了在执行各种操作时代理 p 的行为</p>
-<h4 id="Proxy-handler"><a href="#Proxy-handler" class="headerlink" title="Proxy handler"></a>Proxy handler</h4><p>&emsp;&emsp;handler 对象是一个容纳一批特定属性的占位符对象。它包含有 Proxy 的各个捕获器（trap）。所有的捕捉器是可选的。如果没有定义某个捕捉器，那么就会保留源对象的默认行为。标准的捕捉器如下：<br>&emsp;&emsp;▪ getPrototypeOf()：Object.getPrototypeOf 方法的捕捉器（返回指定对象的原型，内部[[Prototype]]属性的值）<br>&emsp;&emsp;▪ setPrototypeOf()：Object.setPrototypeOf 方法的捕捉器（设置一个指定的对象的原型 到另一个对象或null）<br>&emsp;&emsp;▪ isExtensible()：Object.isExtensible 方法的捕捉器（判断对象是否是可拓展的）<br>&emsp;&emsp;▪ preventExtensions()：Object.preventExtensions 方法的捕捉器（让一个对象变为不可扩展，也就是永远不能再添加新的属性）<br>&emsp;&emsp;▪ getOwnPropertyDescriptor()：Object.getOwnPropertyDescriptor 方法的捕捉器（返回指定对象上一个自有属性对应的属性描述符）<br>&emsp;&emsp;▪ defineProperty()：Object.defineProperty 方法的捕捉器（在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象，也可进行数据劫持）<br>&emsp;&emsp;▪ has()：in 操作符的捕捉器<br>&emsp;&emsp;▪ get()：属性读取操作的捕捉器<br>&emsp;&emsp;▪ set()：属性设置操作的捕捉器<br>&emsp;&emsp;▪ deleteProperty()：delete 操作符的捕捉器<br>&emsp;&emsp;▪ ownKeys()：Object.getOwnPropertyNames 方法和 Object.getOwnPropertySymbols 方法的捕捉器<br>&emsp;&emsp;▪ apply()：函数调用操作的捕捉器<br>&emsp;&emsp;▪ construct()：new 操作符的捕捉器</p>
-<p>&emsp;&emsp;简单示例代码：</p>
-<p>&emsp;&emsp;① Proxy代理对象：</p>
-<pre><code>  const p = new Proxy(&#123; name: &#39;xg&#39;&#125;, &#123;
-    get (target, property, receiver) &#123;
-      console.log(`访问了$&#123;JSON.stringify(target)&#125;的$&#123;property&#125;属性，值为$&#123;target[property]&#125;`)
-      return target[property]
-    &#125;,
-    set (target, property, value, receiver) &#123;
-      target[property] = value
-      console.log(`设置了$&#123;JSON.stringify(target)&#125;的$&#123;property&#125;属性，赋值值为$&#123;value&#125;`)
-    &#125;,
-    has (target, property) &#123;
-      console.log(`使用in关键字判断了$&#123;JSON.stringify(target)&#125;对象是否存在$&#123;property&#125;属性，结果为$&#123;target[property] !== undefined&#125;`)
-      return target[property] !== undefined
-    &#125;,
-    deleteProperty (target, property) &#123;
-      delete target[property]
-      console.log(`删除了$&#123;JSON.stringify(target)&#125;的$&#123;property&#125;属性`)
-    &#125;
-  &#125;)
-
-  p.age = 24
-  console.log(&#39;age&#39; in p)
-  console.log(p)
-  console.log(p.name)
-  delete p.age
-  console.log(p)
-
-  // 输出：
-  // 设置了&#123;&quot;name&quot;:&quot;xg&quot;,&quot;age&quot;:24&#125;的age属性，赋值值为24
-  // 使用in关键字判断了&#123;&quot;name&quot;:&quot;xg&quot;,&quot;age&quot;:24&#125;对象是否存在age属性，结果为true
-  // true
-  // Proxy &#123;name: &quot;xg&quot;, age: 24&#125;
-  // 访问了&#123;&quot;name&quot;:&quot;xg&quot;,&quot;age&quot;:24&#125;的name属性，值为xg
-  // xg
-  // 删除了&#123;&quot;name&quot;:&quot;xg&quot;&#125;的age属性
-  // Proxy &#123;name: &quot;xg&quot;&#125;
-</code></pre>
-<p>&emsp;&emsp;② Proxy代理function函数：</p>
-<pre><code>  const A = new Proxy(function (list)  &#123;
-    [this.name, this.age] = list
-    this.sayHello = () =&gt; &#123;
-      console.log(`你好，我是$&#123;this.name&#125;，今年$&#123;this.age&#125;岁了`)
-    &#125;
-  &#125;, &#123;
-    construct (target, argumentsList) &#123;
-      console.log(&#39;对A使用了new关键字&#39;)
-      return new target(argumentsList)
-    &#125;
-  &#125;)
-
-  const a = new A(&#39;xg&#39;, 5)
-  console.log(a)
-  a.sayHello()
-
-  // 输出：
-  // 对A使用了new关键字
-  // Proxy.construct &#123;name: &quot;xg&quot;, age: 5, sayHello: ƒ&#125;
-  //你好，我是xg，今年5岁了
-</code></pre>
-<p>&emsp;&emsp;③ Proxy代理class类：</p>
-<pre><code>  const f = new Proxy(class Person&#123;
-    constructor(list) &#123;
-      [this.name, this.age, this.sex] = list
-    &#125;
-  &#125;, &#123;
-    construct (target, argumentsList) &#123;
-      console.log(&#39;对f使用了new关键字&#39;)
-      return new target(argumentsList)
-    &#125;
-  &#125;)
-
-  const f2 = new f(&#39;xionggang&#39; , &#39;24&#39;, &#39;男&#39;)
-  console.log(f2)
-
-  // 输出：
-  // 对f使用了new关键字
-  // Person &#123;name: &quot;xionggang&quot;, age: &quot;24&quot;, sex: &quot;男&quot;&#125;
-</code></pre>
-<p><em>&emsp;&emsp;[注] <u>Proxy与Object.defineProperty的区别</u>：</em><br><em>&emsp;&emsp;Proxy与Object.defineProperty都能实现数据劫持。Object.defineProperty 只能监听对象的属性,因此我们需要对每个对象的每个属性进行遍历（甚至深层遍历嵌套的对象），不能监听数组的变化，也不能对ES6新产生的 Map,Set 这些数据结构做出监听。Proxy可以直接监听整个对象而非属性，可以直接监听数组的变化，有更多的拦截方法，如ownKeys、deleteProperty、has等。</em></p>
-<h2 id="2、Reflect关键字"><a href="#2、Reflect关键字" class="headerlink" title="2、Reflect关键字"></a>2、Reflect关键字</h2><p>&emsp;&emsp;Reflect 是一个内置的对象，它提供拦截 JavaScript 操作的<u>静态方法</u>。<strong>这些方法与 <a href="/2021/06/22/javascript/JS%20Proxy%E3%80%81Reflect%E4%B8%8E@Decorator/#Proxy-handler">proxy handlers</a> 的方法相同</strong>。Reflect不是一个函数对象，因此它是不可构造的（不能通过new运算符对其进行调用）。<strong>Reflect的所有属性和方法都是<u>静态方法</u></strong>（就如Math对象一样）</p>
-<p><em>&emsp;&emsp;[注] 静态方法与非静态方法：</em><br><em>&emsp;&emsp;静态方法：使用 static 关键字修饰的方法，又叫类方法，属于类不属于对象。可以在实例化前直接通过类名进行调用（生命周期与类的生命周期相同）</em><br><em>&emsp;&emsp;非静态方法：不含有 static 关键字修饰的普通方法，又称为实例方法，成员方法。属于对象的，而不属于类，需要实例化后通过实例进行调用（生命周期与类实例的生命周期相同）</em></p>
-<h4 id="Reflect-静态方法"><a href="#Reflect-静态方法" class="headerlink" title="Reflect 静态方法"></a>Reflect 静态方法</h4><p>&emsp;&emsp;▪ apply(target, thisArgument, argumentsList)：<br>&emsp;&emsp;对一个函数进行调用操作，同时可以传入一个数组作为调用参数。和 Function.prototype.apply() 功能类似<br>&emsp;&emsp;▪ construct(target, argumentsList[, newTarget])：<br>&emsp;&emsp;对构造函数进行 new 操作，相当于执行 new target(…args)<br>&emsp;&emsp;▪ deleteProperty(target, propertyKey)：<br>&emsp;&emsp;作为函数的delete操作符，相当于执行 delete target[name]<br>&emsp;&emsp;▪ get(target, propertyKey[, receiver])：<br>&emsp;&emsp;获取对象身上某个属性的值，类似于 target[name]<br>&emsp;&emsp;▪ set(target, propertyKey, value[, receiver])：<br>&emsp;&emsp;将值分配给属性的函数。返回一个Boolean，如果更新成功，则返回true<br>&emsp;&emsp;▪ getPrototypeOf(target)：<br>&emsp;&emsp;类似于 Object.getPrototypeOf()<br>&emsp;&emsp;▪ has(target, propertyKey)：<br>&emsp;&emsp;判断一个对象是否存在某个属性，和 in 运算符 的功能完全相同<br>&emsp;&emsp;▪ isExtensible(target)：<br>&emsp;&emsp;类似于 Object.isExtensible()<br>&emsp;&emsp;▪ ownKeys(target)：<br>&emsp;&emsp;返回一个包含所有自身属性（不包含继承属性）的数组。(类似于 Object.keys(), 但不会受enumerable影响)<br>&emsp;&emsp;▪ setPrototypeOf(target, prototype)：<br>&emsp;&emsp;设置对象原型的函数. 返回一个 Boolean， 如果更新成功，则返回true</p>
-<p>&emsp;&emsp;简单示例代码：</p>
-<pre><code>  const classObj = &#123; school: &#39;华阳中学&#39; , className: &#39;高三7班&#39;, session: &#39;2019届&#39; &#125;
-  const studentA = Object.create(classObj)
-  console.log(studentA) // &#123; __proto__: &#123; className: &quot;高三7班&quot;, school: &quot;华阳中学&quot; , session: &quot;2019届&quot; &#125;&#125;
-  console.log(Reflect.has(studentA, &#39;school&#39;)) // true
-  Reflect.set(studentA, &#39;name&#39;, &#39;xionggang&#39;)
-  Reflect.set(studentA, &#39;age&#39;, &#39;24&#39;)
-  Reflect.set(studentA, &#39;sex&#39;, &#39;男&#39;)
-  console.log(studentA) // &#123; name: &quot;xionggang&quot;, age: &quot;24&quot;, sex: &quot;男&quot;, __proto__: &#123; className: &quot;高三7班&quot;, school: &quot;华阳中学&quot; , session: &quot;2019届&quot; &#125;&#125;
-  console.log(Reflect.ownKeys(studentA)) // [&quot;name&quot;, &quot;age&quot;, &quot;sex&quot;]
-  console.log(Reflect. getPrototypeOf(studentA)) // &#123;school: &quot;华阳中学&quot;, className: &quot;高三7班&quot;, session: &quot;2019届&quot;&#125;
-  Reflect.deleteProperty(studentA, &#39;age&#39;)
-  Reflect.deleteProperty(studentA, &#39;age&#39;)
-  console.log(studentA) // &#123; name: &quot;xionggang&quot;, sex: &quot;男&quot;, __proto__: &#123; className: &quot;高三7班&quot;, school: &quot;华阳中学&quot; , session: &quot;2019届&quot; &#125;&#125;
-</code></pre>
-<h2 id="3、-Decorator（ES7-装饰器语法糖）"><a href="#3、-Decorator（ES7-装饰器语法糖）" class="headerlink" title="3、@Decorator（ES7 装饰器语法糖）"></a>3、@Decorator（ES7 装饰器语法糖）</h2><p>&emsp;&emsp;装饰器是最新的 ECMA 中的一个<u>提案</u>，是一种与类、函数或对象相关的语法，用来注释或修改(增强)类和类方法等</p>
-<p>&emsp;&emsp;简单使用（给ClassA类添加日志装饰器）：</p>
-<pre><code>  @log
-  class ClassA&#123;&#125;
-  function log (target) &#123;
-    target.prototype.logger = () =&gt; `$&#123;target.name&#125;被调用了`
-  &#125;
-  const instance = new ClassA()
-  instance.logger() // classA被调用了
-</code></pre>
-<p><em>&emsp;&emsp;[注] 在使用ES7装饰器模块目前需要引入babel模块的 transform-decorators-legacy 库将代码转换为ES5或ES6运行。<u>ES7的装饰器 decorator 是依赖于 ES5 的 Object.defineProperty 方法</u></em></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaScript概述</title>
-    <url>/2020/12/03/javascript/JavaScript%E6%A6%82%E8%BF%B0/</url>
-    <content><![CDATA[<p>JavaScript ( JS ) 是一种具有函数优先的轻量级，解释型或即时编译型，单线程的脚本语言，它可以在网页上实现复杂的功能，网页展现给你的不再是简单的静态页面信息，而是实时的内容更新，交互式的地图，2D/3D 动画，滚动播放的视频等更加丰富的内容，也能实现用户在网页界面上与服务器相关交互功能</p>
-<h2 id="1、语言特性"><a href="#1、语言特性" class="headerlink" title="1、语言特性"></a>1、语言特性</h2><p>&emsp;&emsp;JavaScript是一门动态的、弱类型、基于原型（prototype）的脚本语言。在JavaScript中“一切皆对象”，在这一方面，它比其他的面向对象的语言来得更为彻底。即使作为代码本身载体的函数（function），也是对象。</p>
-<h2 id="2、基本语法"><a href="#2、基本语法" class="headerlink" title="2、基本语法"></a>2、基本语法</h2><h4 id="1-向页面添加JavaScript"><a href="#1-向页面添加JavaScript" class="headerlink" title="1) 向页面添加JavaScript"></a>1) 向页面添加JavaScript</h4><p>&emsp;&emsp;在body标签结束前插入以下script标签引入JavaScript， <u>JavaScript 是区分大小写的</u></p>
-<pre><code>  // 方式1：内联JavaScript
-  &lt;script&gt;
-    ...在此编写JavaScript代码...
-  &lt;/script&gt;
-
-  // 方式2：外部引入JavaScript
-  &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-<p><em>&emsp;&emsp;[注] 在外部引入JS时，在必要的时候（防止加载阻塞页面渲染问题或对多个有依赖关系的脚本对加载顺序有要求），我们需要在&lt;script&gt;标签上加上async或defer修饰符（属性）（这是解决脚本阻塞问题的两种方式）。<u>浏览器遇到 async 脚本时不会阻塞页面渲染，而是直接下载然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。</u>当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async 是最理想的选择；<u>defer 属性的脚本将按照在页面中出现的顺序加载，可保证脚本的加载顺序</u></em></p>
-<h4 id="2-变量"><a href="#2-变量" class="headerlink" title="2) 变量"></a>2) 变量</h4><p>&emsp;&emsp;变量是用来存储数值的，那么有一个重要的概念需要区分。变量不是数值本身，它们仅仅是一个用于存储数值的容器，JS中使用var、let、const来定义变量</p>
-<p>&emsp;&emsp;<strong>构造变量名称（唯一标识符）的通用规则是：</strong><br>&emsp;&emsp;名称可包含字母、数字、下划线和美元符号<br>&emsp;&emsp;名称必须以字母、$或_开头<br>&emsp;&emsp;名称对大小写敏感<br>&emsp;&emsp;保留关键字不能作为变量名称</p>
-<pre><code>  var a;
-  let b;
-  onst C = 100; // 定义常量必须进行初始化，常量一般用大写英文命名
-</code></pre>
-<p>&emsp;&emsp;变量类型：<br>&emsp;&emsp;值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol<br>&emsp;&emsp;引用数据类型：对象(Object，JavaScript 对象是键值对的容器)、数组(Array)、函数(Function)，还有两个特殊的对象：正则（RegExp）和日期（Date）</p>
-<h4 id="3-语句与表达式"><a href="#3-语句与表达式" class="headerlink" title="3) 语句与表达式"></a>3) 语句与表达式</h4><p>&emsp;&emsp;<u>JavaScript区分表达式和语句</u><br>&emsp;&emsp;表达式是输出值的，并且可以写在任何需要一个值的地方，例如函数的参数等。一般来讲，表达式由变量、操作符和约束条件等以能求得有意义的数值（非undefined）为目的排列所得的组合<br>&emsp;&emsp;语句表示执行了一个动作，例如循环控制语句(for、while…)和分支判断语句(if)等。一个程序基本上就是一系列的语句的集合。在JavaScript中需要语句的地方，也可以写入一个表达式。但不能够在需要表达式的地方写入一个语句。我们常用分号分语句，使得可以在一行编写多条语句。<br>&emsp;&emsp;常用运算符：=、+、-、*、/、==、!=、&gt;、&lt;、&amp;&amp;、||、位运算符、……<br>&emsp;&emsp;常用语句：</p>
-<pre><code>  // 赋值语句    
-  let a = 5, b = 8;
-  
-  // if条件判断语句
-  if (condition1) &#123;
-    // 当条件 1 为 true 时执行的代码
-  &#125;
-  else if (condition2) &#123;
-    // 当条件 2 为 true 时执行的代码
-  &#125;
-  else &#123;
-    // 当条件 1 和 条件 2 都不为 true 时执行的代码
-  &#125;
-  
-  // switch分支语句
-  switch (n) &#123;
-    case 1:
-      // 执行代码块 1
-      break; // 阻止代码向下一个case执行，有时为了逻辑需要（如累加等），switch语句中不会使用此关键字
-    case 2:
-      // 执行代码块 2
-      break;
-    default:
-    // 与 case 1 和 case 2 不同时执行的代码
-  &#125;
-  
-  // for、while、do while循环语句（break 语句用于跳出循环，continue 用于跳过循环中的一个迭代）
-  for (语句 1; 语句 2; 语句 3)
-  &#123;
-    // 语句2为真执行的代码块
-  &#125;
-  while (条件) &#123;
-    // 条件为真执行的代码块
-  &#125;
-  do &#123;
-    // 代码块会在条件被测试前执行，代码块至少被执行一次
-  &#125; while (条件);
-</code></pre>
-<h4 id="4-字符串模板"><a href="#4-字符串模板" class="headerlink" title="4) 字符串模板"></a>4) 字符串模板</h4><p>&emsp;&emsp;模板字符串使用反引号<u>(` `)</u> 来代替普通字符串中的用双引号和单引号。模板字符串可以包含特定语法（${ expression } ）的占位符。占位符中的表达式和周围的文本会一起传递给一个默认函数，该函数负责将所有的部分连接起来。<u>特别的，如果一个模板字符串由表达式开头，则该字符串被称为带标签的模板字符串，该表达式通常是一个函数，它会在模板字符串处理后被调用，在输出最终结果前，你都可以通过该函数来对模板字符串进行操作处理。</u>注意，在模版字符串内使用反引号（`）时，需要在它前面加转义符（），<strong>字符串模板可以嵌套使用。</strong></p>
-<pre><code>  let a = 4;
-  function upgradePhone(str, a)&#123; // [注] 函数的第一个参数是数组（模板中各个原生字符串）。其余的参数为模板中的变量
-    return &#39;带标签的模板字符串，&#39; + str[0] + (a + 2) + str[1];
-  &#125;
-
-  console.log(`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 我有一个苹果6s，哈哈哈~
-  console.log(upgradePhone`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 带标签的模板字符串，我有一个苹果6s，哈哈哈~
-</code></pre>
-<h4 id="5-解构赋值"><a href="#5-解构赋值" class="headerlink" title="5) 解构赋值"></a>5) 解构赋值</h4><p>&emsp;&emsp;解构赋值语法是一种 Javascript 表达式。通过解构赋值, 可以将属性/值从对象/数组中取出,赋值给其他变量。使得对象和数组逐个对应表达式，或称对象字面量和数组字面量，提供了一种简单的定义一个特定的数据组的方法<br>&emsp;&emsp;特别的：<u>赋值语句周围的圆括号()在使用对象字面量无声明解构赋值时是必须的</u>，否则左边被认为是一个块而不是对象字面量。<u>并且()表达式之前需要有一个分号，否则它可能会被当成上一行中的函数执行</u></p>
-<pre><code>  let a, b, C;
-  [a, b = 0] = [10, 20, 30, 40, 50]; // a:10, b:20 [注] 为了防止取出一个值为undefined，可以在表达式左边预设默认值
-  [a, b, ...C] = [10, 20, 30, 40, 50]; // a:10，b:20, C: [30, 40, 50]
-  (&#123; a, b = 0&#125; = &#123; a: 10, b: 20 &#125;); // a: 10, b: 20
-  (&#123;a, b, ...C&#125; = &#123;a: 10, b: 20, c: 30, d: 40&#125;); // a: 10, b: 20, C: &#123;c: 30, d: 40&#125;
-</code></pre>
-<h4 id="6-函数"><a href="#6-函数" class="headerlink" title="6) 函数"></a>6) 函数</h4><p>&emsp;&emsp;函数就是包裹在花括号中的代码块，使用关键字function进行定义。当调用该函数时，会执行函数内的代码，在调用函数时，可以向其传递参数。这些参数可以在函数中使用，多个参数用逗号（,）分割。<u>变量和参数必须以一致的顺序出现。</u>第一个变量就是第一个被传递的参数的给定的值，以此类推。有时，我们会希望函数将值返回调用的地方。通过使用return语句就可以实现。在使用return语句时，函数会停止执行(无论后面是否还存在语句)，并返回指定的值。</p>
-<p><em>&emsp;&emsp;[注] <u>函数有作用域的概念，在函数内部定义的变量，只能在函数内部访问它（闭包情况除外），此时该变量的作用域是局部的。特别的，如果给未声明的变量赋值，该变量会被自动配置为全局变量（隐式全局变量，也为window对象的属性）。</u></em></p>
-<pre><code>  function functionName(var1, var2, ...) &#123;
-    // 代码
-    // return value;
-  &#125;
-</code></pre>
-<h2 id="3、可维护的JavaScript代码"><a href="#3、可维护的JavaScript代码" class="headerlink" title="3、可维护的JavaScript代码"></a>3、可维护的JavaScript代码</h2><p>&emsp;&emsp;(1) 尽量不使用全局变量，更不能使用隐式全局变量<br>&emsp;&emsp;(2) 尽量使用let、const语句声明多个变量，并以逗号分隔<br>&emsp;&emsp;(3) 循环存储长度，只检索了一次循环对象的长度值。（’i–’优于’i+=i,i=i+1’优于’i++’）<br>&emsp;&emsp;(4) 数组使用正常的for循环，对象使用for-in循环。（在for-in中，属性列表的顺序（序列）是不能保证的）（hasOwnProperty()方法，可以过滤掉原型链上的属性）<br>&emsp;&emsp;(5) 不扩展内置原型Prototypes<br>&emsp;&emsp;(6) switch语句增强可读性和健壮性，以default结束switch<br>&emsp;&emsp;(7) 避免隐式类型转换<br>&emsp;&emsp;(8) 避免eval()（eval()会干扰作用域链），实在用使用eval(),可以用new Function()代替<br>&emsp;&emsp;(9) 给setInterval(), setTimeout()和Function()构造函数传递字符串或匿名函数<br>&emsp;&emsp;(10) parseInt()传递基数参数，+，Number()优于parseInt()<br>&emsp;&emsp;(11) 缩进<br>&emsp;&emsp;(12) 使用花括号{}，建议并始终把左花括号与之前的语句放在同一行<br>&emsp;&emsp;(13) 空格<br>&emsp;&emsp;(14) <u>命名方式</u><br>&emsp;&emsp;(15) 注释</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSS布局（自适应、响应式、Layout）</title>
-    <url>/2020/11/02/css/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/</url>
-    <content><![CDATA[<p>网页布局（layout）是 CSS 的一个重点应用。布局的传统解决方案，基于盒状模型，依赖 display、 position、float、margin、paddding等属性，采用绝对的单位px、相对单位em、vw、vh、rem以及百分比%等单位进行页面设计。本文将从静态布局、流式布局、自适应布局、响应式布局、弹性布局几个方面进行简单介绍。</p>
-<h2 id="1、静态布局"><a href="#1、静态布局" class="headerlink" title="1、静态布局"></a>1、静态布局</h2><p>&emsp;&emsp;页面采用px单位，一般会设置min-width属性，当页面尺寸小于这个宽度时，出现滚动条进行相应显示，当页面尺寸大于这个宽度时，内容区域一般设置为居中显示。使用浮动（float）、定位（position）对元素进行相应的布局<br>&emsp;&emsp;优点：设计简单，编码简单，不用考虑兼容性问题<br>&emsp;&emsp;缺点：有兼容性问题，针对不同的屏幕显示方式单一，对个别用户很不友好。有时也会JS动态修改标签的initial-scale使得页面相应等比缩放，但效果有限</p>
-<h2 id="2、流式布局"><a href="#2、流式布局" class="headerlink" title="2、流式布局"></a>2、流式布局</h2><p>&emsp;&emsp;页面宽度采用%（百分比）进行布局，高度一般使用px进行设置，或设置为auto并结合margin、paddding进行布局。宽度会随着浏览器宽度进行相应的调整，为了防止对应区域过大或过小使得内容超出区域，一般结合max-width与min-width进行设置。这种布局整体布局方式不变，即页面元素间相对位置不变，文字大小一般使用px，不随页面尺寸变化而变化。布局方式的代表如栅格系统（将网页页面按比例分成对应行列来排列页面中元素的分布）<br>&emsp;&emsp;优点：在一定范围内，能较好的应对不同的PC端页面<br>&emsp;&emsp;缺点：不适应与PC端到移动端较大的尺寸跨度，元素区域过大过小很导致显示不友好。文字大小不随页面宽度变化而变化，在不同屏幕会出现页面样式可能不协调的情况</p>
-<h2 id="3、自适应布局"><a href="#3、自适应布局" class="headerlink" title="3、自适应布局"></a>3、自适应布局</h2><p>&emsp;&emsp;自适应网页设计的核心，就是CSS3引入的媒体查询模块（@media）。自动检测屏幕宽度，然后加载相应的CSS文件或样式<br>&emsp;&emsp;采用媒体查询技术，为不同屏幕分辨率定义布局，即定义多个静态布局，每个静态布局对应一个屏幕范围，可对页面元素尺寸与位置进行相应的调整，对文字尺寸等也可以特殊设置或使用百分比%、em，rem，vh、vw等相对单位</p>
-<p>&emsp;&emsp;特别的，其中：<br>&emsp;&emsp;百分比 %是相对于父元素大小的百分比大小<br>&emsp;&emsp;em是最常见的相对长度单位，基准值是当前元素的字号大小<br>&emsp;&emsp;rem代表“ root”：“ root em”，它等于固定在root元素上的字体大小<br>&emsp;&emsp;vh和vw更多是PC端响应式Web设计依赖百分比规则,尺寸vh等于视口高度的1/100，尺寸vw等于视口宽度的1/100。但CSS百分比度量并非始终是解决所有问题的最佳解决方案<br>&emsp;&emsp;<u>在移动设备中，物理设备上的1px一般不等于css的1px像素，在默认情况下，一般来讲，移动设备上的viewport都是要大于浏览器可视区域的，这是因为考虑到移动设备的分辨率相对于桌面电脑来说都比较小，所以为了能在移动设备上正常显示那些传统的为桌面浏览器设计的网站，移动设备上的浏览器都会把自己默认的viewport设为980px、1024px等值，带来的后果就是浏览器会出现横向滚动条。</u>为了避免这种情况，在移动端页面设计时，让当前viewport的宽度等于设备的宽度，同时不允许用户手动缩放。也许允不允许用户缩放不同的网站有不同的要求，使用下面的代码使viewport的宽度等于设备的宽度，即即网页初始大小占屏幕面积的100%</p>
-<pre><code>  // 网页宽度等于屏幕宽度（width=device-width），原始缩放比例为1.0（initial-scale=1）
-  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
-</code></pre>
-<p>&emsp;&emsp;优点：对PC端、移动端不同屏幕尺寸变化时，页面元素都会进行相应的调整，有较好的适应能力<br>&emsp;&emsp;缺点：为了使不同设备达到较好的，对各个不同屏幕尺寸范围会进行长时间的设计与调整，过程中也会产生大量的冗余代码</p>
-<h2 id="4、响应式布局"><a href="#4、响应式布局" class="headerlink" title="4、响应式布局"></a>4、响应式布局</h2><p>&emsp;&emsp;<u>个人认为，响应式布局比适应布局更高级，是自适应布局的优化；自适应布局是响应式布局的一个子集。它们都会使用媒体查询（@media）根据不同的访问设备的宽度加载不同的样式。</u>如果要说区别的话，或许自适应式只考虑了屏幕尺寸大小，主要使用媒体查询技术来相应的适应性调整，而响应式布局可能还会考虑到移动设备的触屏操作、页面元素排版是否合理，是否需要对元素的位置重新进行调整等问题。</p>
-<h2 id="5、弹性布局（Flex布局）"><a href="#5、弹性布局（Flex布局）" class="headerlink" title="5、弹性布局（Flex布局）"></a>5、弹性布局（Flex布局）</h2><p>&emsp;&emsp;Flex 是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性,可以简便、完整、响应式地实现各种页面布局。具体布局方式在上一篇文章(CSS布局类型（Display、Flex、Grid）)已经介绍了，这里就不在赘述。请点击查看：<a href="/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/#emsp-emsp-1-Flex%E5%B8%83%E5%B1%80">Display Flex 传送门</a></p>
-<h2 id="6、网格布局（Grid布局）"><a href="#6、网格布局（Grid布局）" class="headerlink" title="6、网格布局（Grid布局）"></a>6、网格布局（Grid布局）</h2><p>&emsp;&emsp;Grid 布局是目前最强大的布局方案。Grid 布局与Flex布局有一定的相似性，都可以指定容器内部多个项目的位置。但是，它们也存在重大区别。Flex 布局是轴线布局，只能指定项目针对轴线(主轴、交叉轴)的位置，可以看作是一维布局。Grid 布局则是将容器划分成行与列，产生单元格，然后指定项目所在的单元格，可以看作是二维布局。Grid 布局远比 Flex 布局强大。具体布局方式在上一篇文章已经介绍了，这里就不在赘述。请点击查看：<a href="/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/#emsp-emsp-2-Grid%E5%B8%83%E5%B1%80">Display Grid 传送门</a></p>
-<p><em>[注] 在页面的实际设计中，为了使页面达到更合理的布局方式。我们往往会根据布局要求采用多种布局方式来达到我们的目的</em></p>
-<h2 id="题外话1-格式化上下文"><a href="#题外话1-格式化上下文" class="headerlink" title="题外话1 格式化上下文"></a>题外话1 格式化上下文</h2><p>&emsp;&emsp;格式化上下文(Block Formatting Context，BFC)是Web页面的可视CSS渲染的一部分，是块盒子的布局过程发生的区域，也是浮动元素与其他元素交互的区域<br>&emsp;&emsp;创建BFC的方式：<br>&emsp;&emsp;根元素（html）<br>&emsp;&emsp;浮动元素（元素的 float 不是 none）<br>&emsp;&emsp;绝对定位元素（元素的 position 为 absolute 或 fixed）<br>&emsp;&emsp;行内块元素（元素的 display 为 inline-block）<br>&emsp;&emsp;表格元素（元素的 display 为 table-cell、table-caption等，HTML表格单元格默认为该值）<br>&emsp;&emsp;overflow 值不为 visible 的块元素（一般这种方式用得最多：overflow: hidden/auto）<br>&emsp;&emsp;弹性元素（display 为 flex 或 inline-flex 元素的直接子元素）<br>&emsp;&emsp;网格元素（display 为 grid 或 inline-grid 元素的直接子元素）</p>
-<p>&emsp;&emsp;BFC布局规则：<br>&emsp;&emsp;① 内部的块级元素会在垂直方向，依次排列<br>&emsp;&emsp;② 外边距塌陷现象，属于同一个BFC的两个相邻元素的margin会发生重叠（在其中一个元素外面添加一个BFC区域来清除外边距塌陷）<br>&emsp;&emsp;③ 每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)，即使存在浮动也是如此<br>&emsp;&emsp;④ BFC的区域不会与浮动元素重叠，即浮动不会影响其它BFC中元素的布局<br>&emsp;&emsp;&emsp;&emsp;应用：<u>自适应两栏布局</u><br>&emsp;&emsp;⑤ BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素，反之亦然<br>&emsp;&emsp;⑥ 计算BFC的高度时，浮动元素也参与计算，即浮动元素不会超出BFC区域的边界<br>&emsp;&emsp;&emsp;&emsp;应用：<u>利用BFC特性来清除浮动</u>、<u>布局文本环绕图像样式</u>（也可以通过clearfix清除浮动来实现）</p>
-<h2 id="题外话2-clearfix清除浮动"><a href="#题外话2-clearfix清除浮动" class="headerlink" title="题外话2 clearfix清除浮动"></a>题外话2 clearfix清除浮动</h2><p>&emsp;&emsp;原理：clear <strong>属性定义了元素的哪边上不允许出现浮动元素。</strong> <u>如果声明为左边或右边清除(clear: both;)，会使父元素内部之前添加的伪元素的上外边框边界刚好在浮动元素的下外边距边界之下，使得父元素的高度能够超过浮动元素的高度，从而达到清除浮动的目的</u></p>
-<p>&emsp;&emsp;代码：</p>
-<pre><code>  .box:after &#123;
-    content: &#39;&#39;;
-    display: block;
-    clear: both;
-    *zoom: 1;
-    // visibility: hidden;
-    // height: 0;
-    // font-size: 0;
-  &#125;
-</code></pre>
-<h2 id="题外话3-CSS其他知识"><a href="#题外话3-CSS其他知识" class="headerlink" title="题外话3 CSS其他知识"></a>题外话3 CSS其他知识</h2><p>&emsp;&emsp;css模块化有css-in-js的概念，有BEM（block element modifier）命名规范，有less、sass预处理器等方面知识。</p>
+    <title>CSS定位（Position）与3D坐标轴</title>
+    <url>/2020/09/27/css/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/</url>
+    <content><![CDATA[<p>用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终定位的位置。</p>
+<h2 id="1、平面空间坐标轴（2D）"><a href="#1、平面空间坐标轴（2D）" class="headerlink" title="1、平面空间坐标轴（2D）"></a>1、平面空间坐标轴（2D）</h2><p>&emsp;&emsp;在CSS平初始坐标系从屏幕左上角向右为X轴，从左上角向下为Y轴。在position定位方式中，其中top、right、bottom和left代表元素距离参考上、右、下，左方向上的距离。</p>
+<p><img src="/images/css3/%E5%B9%B3%E9%9D%A2%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="平面空间坐标轴"></p>
+<h2 id="2、定位类型"><a href="#2、定位类型" class="headerlink" title="2、定位类型"></a>2、定位类型</h2><p>&emsp;&emsp;position的取值：static、relative、 absolute、fixed，sticky与inherit</p>
+<p>&emsp;&emsp;定位元素：是其计算后位置属性为relative、absolute，fixed或sticky的一个元素</p>
+<p>&emsp;&emsp;(1) 默认定位(static)：该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。</p>
+<p>&emsp;&emsp;(2) 相对定位(relative)：相对于自己最初的位置进行定位，相对位置的坐标参考系是以自己定位前在文档流的位置(x, y)作为原点(0, 0)。<u>在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。</u>而且position: relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效。</p>
+<p><img src="/images/css3/%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D(relative).png" alt="相对定位(relative)"></p>
+<p>&emsp;&emsp;(3) 绝对定位(absolute/fixed)：绝对定位的元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位父级(祖先)元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margin），且不会与其他边距合并。特别的，fixed绝对定位（固定定位）是相对于浏览器窗口（viewport）进行定位，元素的位置在屏幕滚动时不会改变。元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。</p>
+<p><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(absolute).png" alt="绝对定位(absolute)"><br><img src="/images/css3/%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D(fixed).png" alt="绝对定位(fixed)"></p>
+<p>&emsp;&emsp;(4) 粘性定位(sticky)：元素根据正常文档流进行定位，然后相对它的最近滚动祖先和最近块级祖先，包括table-related元素，基于top, right, bottom, 和 left的值进行偏移。偏移值不会影响任何其他元素的位置。粘性定位表现为相对定位和固定定位叠加的效果。元素在跨越特定阈值前为相对定位(relative)，之后为固定定位(fixed)。</p>
+<p><img src="/images/css3/%E7%B2%98%E6%80%A7%E5%AE%9A%E4%BD%8D(sticky).png" alt="粘性定位(sticky)"></p>
+<h2 id="3、三维空间坐标轴（3D）"><a href="#3、三维空间坐标轴（3D）" class="headerlink" title="3、三维空间坐标轴（3D）"></a>3、三维空间坐标轴（3D）</h2><p>&emsp;&emsp;CSS中3D初始坐标系，其XYZ轴的正方向分别是：向右、向下、向屏幕外。如下图：</p>
+<p><img src="/images/css3/%E4%B8%89%E7%BB%B4%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87%E8%BD%B4.png" alt="三维空间坐标轴"></p>
+<p>&emsp;&emsp;对一个元素设置属性 transform-style为preserve-3d ，便可对其进行3D变换，有translateX()，translateY()，translateZ()平移方法以及rotateX()，rotateY()，rotateZ()等旋转方法。一般会对元素设置 perspective 属性来调整元素观测的视角。默认旋转中心为左上角（0,0）（如上图），可通过transform-origin对旋转中心进行移动。<u>当transform使用多个变换函数时，每一个变换函数不仅改变了元素，同时也会改变和元素关联的transform坐标系，当变换函数依次执行时，后一个变换函数总是基于前一个变换后的新transform坐标系执行，所有要注意变换函数的顺序。</u><br>&emsp;&emsp;(1) 对于平移，参照对应坐标轴方向进行相应的平移变换即可。<br>&emsp;&emsp;(2) 对于旋转，先要判断旋转方向，正对某一轴正，其顺时针方向就是该轴旋转的方向，或者采用左手法则判断旋转方向（即左手握住旋转轴，竖起拇指指向旋转轴正方向，其余手指卷曲方向为旋转正方向）；再根据旋转中心的位置进行相应的旋转变换。</p>
 ]]></content>
       <categories>
         <category>CSS</category>
@@ -2166,6 +1413,759 @@
 ]]></content>
       <categories>
         <category>HTML</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS布局（自适应、响应式、Layout）</title>
+    <url>/2020/11/02/css/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/</url>
+    <content><![CDATA[<p>网页布局（layout）是 CSS 的一个重点应用。布局的传统解决方案，基于盒状模型，依赖 display、 position、float、margin、paddding等属性，采用绝对的单位px、相对单位em、vw、vh、rem以及百分比%等单位进行页面设计。本文将从静态布局、流式布局、自适应布局、响应式布局、弹性布局几个方面进行简单介绍。</p>
+<h2 id="1、静态布局"><a href="#1、静态布局" class="headerlink" title="1、静态布局"></a>1、静态布局</h2><p>&emsp;&emsp;页面采用px单位，一般会设置min-width属性，当页面尺寸小于这个宽度时，出现滚动条进行相应显示，当页面尺寸大于这个宽度时，内容区域一般设置为居中显示。使用浮动（float）、定位（position）对元素进行相应的布局<br>&emsp;&emsp;优点：设计简单，编码简单，不用考虑兼容性问题<br>&emsp;&emsp;缺点：有兼容性问题，针对不同的屏幕显示方式单一，对个别用户很不友好。有时也会JS动态修改标签的initial-scale使得页面相应等比缩放，但效果有限</p>
+<h2 id="2、流式布局"><a href="#2、流式布局" class="headerlink" title="2、流式布局"></a>2、流式布局</h2><p>&emsp;&emsp;页面宽度采用%（百分比）进行布局，高度一般使用px进行设置，或设置为auto并结合margin、paddding进行布局。宽度会随着浏览器宽度进行相应的调整，为了防止对应区域过大或过小使得内容超出区域，一般结合max-width与min-width进行设置。这种布局整体布局方式不变，即页面元素间相对位置不变，文字大小一般使用px，不随页面尺寸变化而变化。布局方式的代表如栅格系统（将网页页面按比例分成对应行列来排列页面中元素的分布）<br>&emsp;&emsp;优点：在一定范围内，能较好的应对不同的PC端页面<br>&emsp;&emsp;缺点：不适应与PC端到移动端较大的尺寸跨度，元素区域过大过小很导致显示不友好。文字大小不随页面宽度变化而变化，在不同屏幕会出现页面样式可能不协调的情况</p>
+<h2 id="3、自适应布局"><a href="#3、自适应布局" class="headerlink" title="3、自适应布局"></a>3、自适应布局</h2><p>&emsp;&emsp;自适应网页设计的核心，就是CSS3引入的媒体查询模块（@media）。自动检测屏幕宽度，然后加载相应的CSS文件或样式<br>&emsp;&emsp;采用媒体查询技术，为不同屏幕分辨率定义布局，即定义多个静态布局，每个静态布局对应一个屏幕范围，可对页面元素尺寸与位置进行相应的调整，对文字尺寸等也可以特殊设置或使用百分比%、em，rem，vh、vw等相对单位</p>
+<p>&emsp;&emsp;特别的，其中：<br>&emsp;&emsp;百分比 %是相对于父元素大小的百分比大小<br>&emsp;&emsp;em是最常见的相对长度单位，基准值是当前元素的字号大小<br>&emsp;&emsp;rem代表“ root”：“ root em”，它等于固定在root元素上的字体大小<br>&emsp;&emsp;vh和vw更多是PC端响应式Web设计依赖百分比规则,尺寸vh等于视口高度的1/100，尺寸vw等于视口宽度的1/100。但CSS百分比度量并非始终是解决所有问题的最佳解决方案<br>&emsp;&emsp;<u>在移动设备中，物理设备上的1px一般不等于css的1px像素，在默认情况下，一般来讲，移动设备上的viewport都是要大于浏览器可视区域的，这是因为考虑到移动设备的分辨率相对于桌面电脑来说都比较小，所以为了能在移动设备上正常显示那些传统的为桌面浏览器设计的网站，移动设备上的浏览器都会把自己默认的viewport设为980px、1024px等值，带来的后果就是浏览器会出现横向滚动条。</u>为了避免这种情况，在移动端页面设计时，让当前viewport的宽度等于设备的宽度，同时不允许用户手动缩放。也许允不允许用户缩放不同的网站有不同的要求，使用下面的代码使viewport的宽度等于设备的宽度，即即网页初始大小占屏幕面积的100%</p>
+<pre><code>  // 网页宽度等于屏幕宽度（width=device-width），原始缩放比例为1.0（initial-scale=1）
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
+</code></pre>
+<p>&emsp;&emsp;优点：对PC端、移动端不同屏幕尺寸变化时，页面元素都会进行相应的调整，有较好的适应能力<br>&emsp;&emsp;缺点：为了使不同设备达到较好的，对各个不同屏幕尺寸范围会进行长时间的设计与调整，过程中也会产生大量的冗余代码</p>
+<h2 id="4、响应式布局"><a href="#4、响应式布局" class="headerlink" title="4、响应式布局"></a>4、响应式布局</h2><p>&emsp;&emsp;<u>个人认为，响应式布局比适应布局更高级，是自适应布局的优化；自适应布局是响应式布局的一个子集。它们都会使用媒体查询（@media）根据不同的访问设备的宽度加载不同的样式。</u>如果要说区别的话，或许自适应式只考虑了屏幕尺寸大小，主要使用媒体查询技术来相应的适应性调整，而响应式布局可能还会考虑到移动设备的触屏操作、页面元素排版是否合理，是否需要对元素的位置重新进行调整等问题。</p>
+<h2 id="5、弹性布局（Flex布局）"><a href="#5、弹性布局（Flex布局）" class="headerlink" title="5、弹性布局（Flex布局）"></a>5、弹性布局（Flex布局）</h2><p>&emsp;&emsp;Flex 是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性,可以简便、完整、响应式地实现各种页面布局。具体布局方式在上一篇文章(CSS布局类型（Display、Flex、Grid）)已经介绍了，这里就不在赘述。请点击查看：<a href="/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/#emsp-emsp-1-Flex%E5%B8%83%E5%B1%80">Display Flex 传送门</a></p>
+<h2 id="6、网格布局（Grid布局）"><a href="#6、网格布局（Grid布局）" class="headerlink" title="6、网格布局（Grid布局）"></a>6、网格布局（Grid布局）</h2><p>&emsp;&emsp;Grid 布局是目前最强大的布局方案。Grid 布局与Flex布局有一定的相似性，都可以指定容器内部多个项目的位置。但是，它们也存在重大区别。Flex 布局是轴线布局，只能指定项目针对轴线(主轴、交叉轴)的位置，可以看作是一维布局。Grid 布局则是将容器划分成行与列，产生单元格，然后指定项目所在的单元格，可以看作是二维布局。Grid 布局远比 Flex 布局强大。具体布局方式在上一篇文章已经介绍了，这里就不在赘述。请点击查看：<a href="/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/#emsp-emsp-2-Grid%E5%B8%83%E5%B1%80">Display Grid 传送门</a></p>
+<p><em>[注] 在页面的实际设计中，为了使页面达到更合理的布局方式。我们往往会根据布局要求采用多种布局方式来达到我们的目的</em></p>
+<h2 id="题外话1-格式化上下文"><a href="#题外话1-格式化上下文" class="headerlink" title="题外话1 格式化上下文"></a>题外话1 格式化上下文</h2><p>&emsp;&emsp;格式化上下文(Block Formatting Context，BFC)是Web页面的可视CSS渲染的一部分，是块盒子的布局过程发生的区域，也是浮动元素与其他元素交互的区域<br>&emsp;&emsp;创建BFC的方式：<br>&emsp;&emsp;根元素（html）<br>&emsp;&emsp;浮动元素（元素的 float 不是 none）<br>&emsp;&emsp;绝对定位元素（元素的 position 为 absolute 或 fixed）<br>&emsp;&emsp;行内块元素（元素的 display 为 inline-block）<br>&emsp;&emsp;表格元素（元素的 display 为 table-cell、table-caption等，HTML表格单元格默认为该值）<br>&emsp;&emsp;overflow 值不为 visible 的块元素（一般这种方式用得最多：overflow: hidden/auto）<br>&emsp;&emsp;弹性元素（display 为 flex 或 inline-flex 元素的直接子元素）<br>&emsp;&emsp;网格元素（display 为 grid 或 inline-grid 元素的直接子元素）</p>
+<p>&emsp;&emsp;BFC布局规则：<br>&emsp;&emsp;① 内部的块级元素会在垂直方向，依次排列<br>&emsp;&emsp;② 外边距塌陷现象，属于同一个BFC的两个相邻元素的margin会发生重叠（在其中一个元素外面添加一个BFC区域来清除外边距塌陷）<br>&emsp;&emsp;③ 每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)，即使存在浮动也是如此<br>&emsp;&emsp;④ BFC的区域不会与浮动元素重叠，即浮动不会影响其它BFC中元素的布局<br>&emsp;&emsp;&emsp;&emsp;应用：<u>自适应两栏布局</u><br>&emsp;&emsp;⑤ BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素，反之亦然<br>&emsp;&emsp;⑥ 计算BFC的高度时，浮动元素也参与计算，即浮动元素不会超出BFC区域的边界<br>&emsp;&emsp;&emsp;&emsp;应用：<u>利用BFC特性来清除浮动</u>、<u>布局文本环绕图像样式</u>（也可以通过clearfix清除浮动来实现）</p>
+<h2 id="题外话2-clearfix清除浮动"><a href="#题外话2-clearfix清除浮动" class="headerlink" title="题外话2 clearfix清除浮动"></a>题外话2 clearfix清除浮动</h2><p>&emsp;&emsp;原理：clear <strong>属性定义了元素的哪边上不允许出现浮动元素。</strong> <u>如果声明为左边或右边清除(clear: both;)，会使父元素内部之前添加的伪元素的上外边框边界刚好在浮动元素的下外边距边界之下，使得父元素的高度能够超过浮动元素的高度，从而达到清除浮动的目的</u></p>
+<p>&emsp;&emsp;代码：</p>
+<pre><code>  .box:after &#123;
+    content: &#39;&#39;;
+    display: block;
+    clear: both;
+    *zoom: 1;
+    // visibility: hidden;
+    // height: 0;
+    // font-size: 0;
+  &#125;
+</code></pre>
+<h2 id="题外话3-CSS其他知识"><a href="#题外话3-CSS其他知识" class="headerlink" title="题外话3 CSS其他知识"></a>题外话3 CSS其他知识</h2><p>&emsp;&emsp;css模块化有css-in-js的概念，有BEM（block element modifier）命名规范，有less、sass预处理器等方面知识。</p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS modules模块化、按需引入</title>
+    <url>/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/</url>
+    <content><![CDATA[<p>一种将 JavaScript 程序拆分为可按需导入的单独模块的机制。<br>JavaScript模式的基本特征：<br>(1) 模块化，可重用<br>(2) 封装了变量和function，和全局的namaspace不接触，松耦合<br>(3) 只暴露可用公用(public)的方法，其它私有方法全部隐藏</p>
+<p>–待完善–</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS (异步)异常捕获与处理</title>
+    <url>/2021/07/01/javascript/JS%20(%E5%BC%82%E6%AD%A5)%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E4%B8%8E%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<p>异常处理，是编程语言或计算机硬件里的一种机制，用于处理软件或信息系统中出现的异常状况（即超出程序正常执行流程的某些特殊条件）。通过异常处理，我们可以对用户在程序中的非法输入或者程序内部逻辑问题进行控制和提示，以防程序崩溃</p>
+<h2 id="1、Error对象"><a href="#1、Error对象" class="headerlink" title="1、Error对象"></a>1、Error对象</h2><p>&emsp;&emsp;通过Error的构造器可以创建一个错误对象。当运行时错误产生时，Error的实例对象会被抛出。Error对象也可用于用户自定义的异常的基础对象</p>
+<p>&emsp;&emsp;语法：</p>
+<pre><code>  new Error([message[, fileName[,lineNumber]]])
+</code></pre>
+<p><em>&emsp;&emsp;[注] 当代码运行时的发生错误，会创建新的Error 对象，并将其抛出。当像函数一样使用 Error 时，它将返回一个 Error 对象。即仅仅调用 Error 产生的结果与通过new 关键字构造 Error 对象生成的结果相同</em></p>
+<h4 id="通用的Error构造函数"><a href="#通用的Error构造函数" class="headerlink" title="通用的Error构造函数"></a>通用的Error构造函数</h4><p>&emsp;&emsp;EvalError: 创建一个error实例，表示错误的原因与 eval() 有关<br>&emsp;&emsp;InternalError：创建一个代表Javascript引擎内部错误的异常抛出的实例，比如递归太深导致爆栈<br>&emsp;&emsp;RangeError：创建一个error实例，表示错误的原因为数值变量或参数超出其有效范围，比如数组越界<br>&emsp;&emsp;ReferenceError：创建一个error实例，表示错误的原因为无效引用，比如访问了未定义的变量<br>&emsp;&emsp;SyntaxError：创建一个error实例，表示错误的原因为在解析代码的过程中发生了语法错误<br>&emsp;&emsp;TypeError：创建一个error实例，表示错误的原因为变量或参数不属于有效类型<br>&emsp;&emsp;URIError：创建一个error实例，表示错误的原因为给 encodeURI()或 decodeURI()传递的参数无效</p>
+<p><em>&emsp;&emsp;[注] Error.prototype 允许添加属性到 Error 实例；全局 Error 对象自身不包含任何方法，但存在一些从原型链中继承的方法</em></p>
+<h2 id="2、异常捕获"><a href="#2、异常捕获" class="headerlink" title="2、异常捕获"></a>2、异常捕获</h2><p>&emsp;&emsp;通常用 throw 关键字来<u>抛出</u>创建的 Error 对象，使用 try…catch 结构来<u>捕获</u>异常。try…catch 语句标记一块待尝试的语句，并规定一个以上的响应应该有一个异常被抛出。如果我们抛出一个异常，try…catch语句就捕获它，如果try代码块没有抛出异常，catch代码块就会被跳过。finally 代码块总会紧跟在try和catch代码块之后执行，但会在try和catch代码块之后的其他代码之前执行</p>
+<pre><code>  try &#123;
+    throw new Error(&#39;哎呀，发送了一个未知错误~&#39;)
+  &#125; catch (e) &#123;
+    console.log(`$&#123;e.name&#125; : $&#123;e.message&#125;`)
+    console.log(&#39;代码执行到这里了~&#39;)
+  &#125;
+
+  // 输出：
+  // Error : 哎呀，发送了一个未知错误~
+  // 代码执行到这里了~
+</code></pre>
+<p>&emsp;&emsp;不过 try…catch 只能捕获同步异常，捕获不到异步异常！</p>
+<pre><code>  try &#123;
+    setTimeout(() =&gt; &#123;
+      throw new Error(&#39;哎呀，发送了一个未知错误~&#39;)
+    &#125;, 0)
+  &#125; catch (e) &#123;
+    console.log(`$&#123;e.name&#125; : $&#123;e.message&#125;`)
+    console.log(&#39;代码执行到这里了~&#39;)
+  &#125;
+
+  // 输出：这段代码没有输出
+  // 浏览器控制台打印错误：Uncaught Error: 哎呀，发送了一个未知错误~
+
+  // 结论：try...catch 未能捕获异步异常
+</code></pre>
+<h2 id="3、异步异常捕获"><a href="#3、异步异常捕获" class="headerlink" title="3、异步异常捕获"></a>3、异步异常捕获</h2><p>&emsp;&emsp;从 ECMAScript 6 开始，JavaScript 增加了对 Promise 对象的支持，它允许你对延时和异步操作流进行控制，也可以对异步异常进行捕获处理：<br>&emsp;&emsp;☞ pending：初始的状态，即正在执行，不处于 fulfilled 或 rejected 状态<br>&emsp;&emsp;☞ fulfilled：成功的完成了操作<br>&emsp;&emsp;☞ rejected：失败，没有完成操作<br>&emsp;&emsp;☞ settled：Promise 处于 fulfilled 或 rejected 二者中的任意一个状态, 不会是 pending，即处于已敲定的状态</p>
+<p><img src="/images/javascript/Promise%E6%B5%81%E7%A8%8B.png" alt="Promise流程"></p>
+<p>&emsp;&emsp;待定状态的 Promise 对象要么会通过一个值被兑现（fulfilled），要么会通过一个原因（错误）被拒绝（rejected）。当这些情况之一发生时，我们用 promise 的 then 方法排列起来的相关处理程序就会被调用</p>
+<p><em>&emsp;&emsp;[注] Promise.prototype.then 和  Promise.prototype.catch 方法返回的是 promise， 所以它们可以被链式调用。任何不是 throw 的终止都会创建一个”已决议”状态，resolve() 方法可能将 pending 状态转化为 fulfilled 或 rejected 状态；而以 throw 终止则会创建一个”已拒绝”状态，reject() 方法会将 pending 状态转化为  rejected 状态</em></p>
+<p>&emsp;&emsp;Promise捕获异常示例：</p>
+<pre><code>  new Promise((resolve, reject) =&gt; &#123;
+    setTimeout(() =&gt; &#123;
+      try &#123;
+        throw &#39;出错啦~&#39;
+        resolve(true)
+      &#125; catch (err) &#123;
+        reject(err)
+      &#125;
+    &#125;, 0)
+  &#125;).then(res =&gt; &#123;
+    console.log(`已兑现: $&#123;res&#125;`)
+  &#125;).catch(err =&gt; &#123;
+    console.log(`已拒绝: $&#123;err&#125;`) // 已拒绝: 出错啦~
+  &#125;).finally(() =&gt; &#123;
+    console.log(&#39;Promise执行已完成&#39;) // Promise执行已完成
+  &#125;)
+</code></pre>
+<p>&emsp;&emsp;try…catch语句不能捕获异步异常，但可以在Promise函数体的异步操作执行时，将异步操作的错误信息通过reject(err)函数抛出，此时Promise状态变为rejected状态，在Promise的catch分支中将reject()函数抛出的err错误信息捕获。项目中我们可以使用Promise封装ajax请求，来实现对请求失败的<u>统一处理</u>~</p>
+<h2 id="4、Vue项目中使用axios请求数据并统一处理异常"><a href="#4、Vue项目中使用axios请求数据并统一处理异常" class="headerlink" title="4、Vue项目中使用axios请求数据并统一处理异常"></a>4、Vue项目中使用axios请求数据并统一处理异常</h2><p>&emsp;&emsp;1) 对axios配置超时等属性，对请求与响应作统一拦截处理</p>
+<pre><code>  // src/api/axios.js
+
+  import axios from &#39;axios&#39;
+  import &#123; get &#125; from &#39;lodash&#39;
+  import qs from &#39;qs&#39;
+  import &#123; Message &#125; from &#39;element-ui&#39;
+  import Router from &#39;@/router&#39;
+  import store from &#39;../store&#39;
+
+  const instance = axios.create(&#123;
+    baseURL: &#39;/api&#39;,
+    timeout: 1000 * 30
+  &#125;)
+
+  instance.interceptors.request.use(config =&gt; &#123;
+    // 给header统一加上Token信息
+    config.headers.Token = localStorage.getItem(&#39;accessToken&#39;)
+    // 预处理get请求url上的数组信息
+    if (config.method === &#39;get&#39;) &#123;
+      config.paramsSerializer = params =&gt; &#123;
+        return qs.stringify(params, &#123; indices: false &#125;)
+      &#125;
+    &#125;
+    return config
+  &#125;)
+
+  instance.interceptors.response.use(
+    // 请求成功，返回服务端响应内容
+    response =&gt; response.data,
+    // 请求失败，统一处理错误信息
+    error =&gt; &#123;
+      if (error.response) &#123;
+        // 登录信息过期移除缓存的用户信息，跳转登录页
+        if (error.response.status === 401) &#123;
+          localStorage.removeItem(&#39;userInfo&#39;)
+          store.commit(&#39;clearUserInfo&#39;)
+          // Message.error(&#39;您的登录已过期，请重新登录&#39;)
+          Message.error(get(error, &#39;response.data.message&#39;, &#39;您的登录已过期，请重新登录&#39;))
+          Router.push(&#39;/login&#39;)
+          return Promise.resolve()
+        &#125; else &#123;
+          // 统一处理错误，并将错误抛出，具体请求也能拿到错误信息
+          Message.error(get(error, &#39;response.data.message&#39;, &#39;网络错误，请您稍后尝试&#39;))
+          return Promise.reject(error.response.data)
+        &#125;
+      &#125; else &#123;
+        Message.error(&#39;网络错误，请您稍后尝试&#39;)
+      &#125;
+    &#125;
+  )
+
+  export default instance
+</code></pre>
+<p>&emsp;&emsp;2) 针对功能模块编写API列表文件，对请求进行封装</p>
+<pre><code>  // src/api/menu.js
+
+  import axios from &#39;@/api/axios.js&#39;
+
+  export const fetchFrontMenuList = params =&gt; axios.get(&#39;/v1/menu-front&#39;, &#123; params &#125;)
+  export const fetchBannerList = menuId =&gt; axios.get(`/v1/menu-front/$&#123;menuId&#125;/banner`)
+</code></pre>
+<p>&emsp;&emsp;3) 页面中接口的简单使用</p>
+<pre><code>  // src/views/Index.vue
+
+  &lt;script&gt;
+    import &#123; Vue, Component, Watch &#125; from &#39;vue-property-decorator&#39;
+    import &#123; fetchFrontMenuList &#125; from &#39;@/api/menu&#39;
+
+    export default @Component(&#123;&#125;)
+    class Index extends Vue &#123;
+      menuList = []
+
+      async created () &#123;
+        const resp = await fetchFrontMenuList(&#123; status: 0 &#125;)
+        this.menuList = (resp.data || [])
+      &#125;
+    &#125;
+  &lt;/script&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS Proxy、Reflect与@Decorator</title>
+    <url>/2021/06/22/javascript/JS%20Proxy%E3%80%81Reflect%E4%B8%8E@Decorator/</url>
+    <content><![CDATA[<h2 id="1、Proxy关键字"><a href="#1、Proxy关键字" class="headerlink" title="1、Proxy关键字"></a>1、Proxy关键字</h2><p>&emsp;&emsp;Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等），即进行数据劫持</p>
+<p>&emsp;&emsp;使用语法：</p>
+<pre><code>  const p = new Proxy(target, handler)
+</code></pre>
+<p>&emsp;&emsp;其中的参数：</p>
+<p>&emsp;&emsp;target：指要使用 Proxy 包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）<br>&emsp;&emsp;handler：一个通常以函数作为属性的对象，各属性中的函数分别定义了在执行各种操作时代理 p 的行为</p>
+<h4 id="Proxy-handler"><a href="#Proxy-handler" class="headerlink" title="Proxy handler"></a>Proxy handler</h4><p>&emsp;&emsp;handler 对象是一个容纳一批特定属性的占位符对象。它包含有 Proxy 的各个捕获器（trap）。所有的捕捉器是可选的。如果没有定义某个捕捉器，那么就会保留源对象的默认行为。标准的捕捉器如下：<br>&emsp;&emsp;▪ getPrototypeOf()：Object.getPrototypeOf 方法的捕捉器（返回指定对象的原型，内部[[Prototype]]属性的值）<br>&emsp;&emsp;▪ setPrototypeOf()：Object.setPrototypeOf 方法的捕捉器（设置一个指定的对象的原型 到另一个对象或null）<br>&emsp;&emsp;▪ isExtensible()：Object.isExtensible 方法的捕捉器（判断对象是否是可拓展的）<br>&emsp;&emsp;▪ preventExtensions()：Object.preventExtensions 方法的捕捉器（让一个对象变为不可扩展，也就是永远不能再添加新的属性）<br>&emsp;&emsp;▪ getOwnPropertyDescriptor()：Object.getOwnPropertyDescriptor 方法的捕捉器（返回指定对象上一个自有属性对应的属性描述符）<br>&emsp;&emsp;▪ defineProperty()：Object.defineProperty 方法的捕捉器（在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象，也可进行数据劫持）<br>&emsp;&emsp;▪ has()：in 操作符的捕捉器<br>&emsp;&emsp;▪ get()：属性读取操作的捕捉器<br>&emsp;&emsp;▪ set()：属性设置操作的捕捉器<br>&emsp;&emsp;▪ deleteProperty()：delete 操作符的捕捉器<br>&emsp;&emsp;▪ ownKeys()：Object.getOwnPropertyNames 方法和 Object.getOwnPropertySymbols 方法的捕捉器<br>&emsp;&emsp;▪ apply()：函数调用操作的捕捉器<br>&emsp;&emsp;▪ construct()：new 操作符的捕捉器</p>
+<p>&emsp;&emsp;简单示例代码：</p>
+<p>&emsp;&emsp;① Proxy代理对象：</p>
+<pre><code>  const p = new Proxy(&#123; name: &#39;xg&#39;&#125;, &#123;
+    get (target, property, receiver) &#123;
+      console.log(`访问了$&#123;JSON.stringify(target)&#125;的$&#123;property&#125;属性，值为$&#123;target[property]&#125;`)
+      return target[property]
+    &#125;,
+    set (target, property, value, receiver) &#123;
+      target[property] = value
+      console.log(`设置了$&#123;JSON.stringify(target)&#125;的$&#123;property&#125;属性，赋值值为$&#123;value&#125;`)
+    &#125;,
+    has (target, property) &#123;
+      console.log(`使用in关键字判断了$&#123;JSON.stringify(target)&#125;对象是否存在$&#123;property&#125;属性，结果为$&#123;target[property] !== undefined&#125;`)
+      return target[property] !== undefined
+    &#125;,
+    deleteProperty (target, property) &#123;
+      delete target[property]
+      console.log(`删除了$&#123;JSON.stringify(target)&#125;的$&#123;property&#125;属性`)
+    &#125;
+  &#125;)
+
+  p.age = 24
+  console.log(&#39;age&#39; in p)
+  console.log(p)
+  console.log(p.name)
+  delete p.age
+  console.log(p)
+
+  // 输出：
+  // 设置了&#123;&quot;name&quot;:&quot;xg&quot;,&quot;age&quot;:24&#125;的age属性，赋值值为24
+  // 使用in关键字判断了&#123;&quot;name&quot;:&quot;xg&quot;,&quot;age&quot;:24&#125;对象是否存在age属性，结果为true
+  // true
+  // Proxy &#123;name: &quot;xg&quot;, age: 24&#125;
+  // 访问了&#123;&quot;name&quot;:&quot;xg&quot;,&quot;age&quot;:24&#125;的name属性，值为xg
+  // xg
+  // 删除了&#123;&quot;name&quot;:&quot;xg&quot;&#125;的age属性
+  // Proxy &#123;name: &quot;xg&quot;&#125;
+</code></pre>
+<p>&emsp;&emsp;② Proxy代理function函数：</p>
+<pre><code>  const A = new Proxy(function (list)  &#123;
+    [this.name, this.age] = list
+    this.sayHello = () =&gt; &#123;
+      console.log(`你好，我是$&#123;this.name&#125;，今年$&#123;this.age&#125;岁了`)
+    &#125;
+  &#125;, &#123;
+    construct (target, argumentsList) &#123;
+      console.log(&#39;对A使用了new关键字&#39;)
+      return new target(argumentsList)
+    &#125;
+  &#125;)
+
+  const a = new A(&#39;xg&#39;, 5)
+  console.log(a)
+  a.sayHello()
+
+  // 输出：
+  // 对A使用了new关键字
+  // Proxy.construct &#123;name: &quot;xg&quot;, age: 5, sayHello: ƒ&#125;
+  //你好，我是xg，今年5岁了
+</code></pre>
+<p>&emsp;&emsp;③ Proxy代理class类：</p>
+<pre><code>  const f = new Proxy(class Person&#123;
+    constructor(list) &#123;
+      [this.name, this.age, this.sex] = list
+    &#125;
+  &#125;, &#123;
+    construct (target, argumentsList) &#123;
+      console.log(&#39;对f使用了new关键字&#39;)
+      return new target(argumentsList)
+    &#125;
+  &#125;)
+
+  const f2 = new f(&#39;xionggang&#39; , &#39;24&#39;, &#39;男&#39;)
+  console.log(f2)
+
+  // 输出：
+  // 对f使用了new关键字
+  // Person &#123;name: &quot;xionggang&quot;, age: &quot;24&quot;, sex: &quot;男&quot;&#125;
+</code></pre>
+<p><em>&emsp;&emsp;[注] <u>Proxy与Object.defineProperty的区别</u>：</em><br><em>&emsp;&emsp;Proxy与Object.defineProperty都能实现数据劫持。Object.defineProperty 只能监听对象的属性,因此我们需要对每个对象的每个属性进行遍历（甚至深层遍历嵌套的对象），不能监听数组的变化，也不能对ES6新产生的 Map,Set 这些数据结构做出监听。Proxy可以直接监听整个对象而非属性，可以直接监听数组的变化，有更多的拦截方法，如ownKeys、deleteProperty、has等。</em></p>
+<h2 id="2、Reflect关键字"><a href="#2、Reflect关键字" class="headerlink" title="2、Reflect关键字"></a>2、Reflect关键字</h2><p>&emsp;&emsp;Reflect 是一个内置的对象，它提供拦截 JavaScript 操作的<u>静态方法</u>。<strong>这些方法与 <a href="/2021/06/22/javascript/JS%20Proxy%E3%80%81Reflect%E4%B8%8E@Decorator/#Proxy-handler">proxy handlers</a> 的方法相同</strong>。Reflect不是一个函数对象，因此它是不可构造的（不能通过new运算符对其进行调用）。<strong>Reflect的所有属性和方法都是<u>静态方法</u></strong>（就如Math对象一样）</p>
+<p><em>&emsp;&emsp;[注] 静态方法与非静态方法：</em><br><em>&emsp;&emsp;静态方法：使用 static 关键字修饰的方法，又叫类方法，属于类不属于对象。可以在实例化前直接通过类名进行调用（生命周期与类的生命周期相同）</em><br><em>&emsp;&emsp;非静态方法：不含有 static 关键字修饰的普通方法，又称为实例方法，成员方法。属于对象的，而不属于类，需要实例化后通过实例进行调用（生命周期与类实例的生命周期相同）</em></p>
+<h4 id="Reflect-静态方法"><a href="#Reflect-静态方法" class="headerlink" title="Reflect 静态方法"></a>Reflect 静态方法</h4><p>&emsp;&emsp;▪ apply(target, thisArgument, argumentsList)：<br>&emsp;&emsp;对一个函数进行调用操作，同时可以传入一个数组作为调用参数。和 Function.prototype.apply() 功能类似<br>&emsp;&emsp;▪ construct(target, argumentsList[, newTarget])：<br>&emsp;&emsp;对构造函数进行 new 操作，相当于执行 new target(…args)<br>&emsp;&emsp;▪ deleteProperty(target, propertyKey)：<br>&emsp;&emsp;作为函数的delete操作符，相当于执行 delete target[name]<br>&emsp;&emsp;▪ get(target, propertyKey[, receiver])：<br>&emsp;&emsp;获取对象身上某个属性的值，类似于 target[name]<br>&emsp;&emsp;▪ set(target, propertyKey, value[, receiver])：<br>&emsp;&emsp;将值分配给属性的函数。返回一个Boolean，如果更新成功，则返回true<br>&emsp;&emsp;▪ getPrototypeOf(target)：<br>&emsp;&emsp;类似于 Object.getPrototypeOf()<br>&emsp;&emsp;▪ has(target, propertyKey)：<br>&emsp;&emsp;判断一个对象是否存在某个属性，和 in 运算符 的功能完全相同<br>&emsp;&emsp;▪ isExtensible(target)：<br>&emsp;&emsp;类似于 Object.isExtensible()<br>&emsp;&emsp;▪ ownKeys(target)：<br>&emsp;&emsp;返回一个包含所有自身属性（不包含继承属性）的数组。(类似于 Object.keys(), 但不会受enumerable影响)<br>&emsp;&emsp;▪ setPrototypeOf(target, prototype)：<br>&emsp;&emsp;设置对象原型的函数. 返回一个 Boolean， 如果更新成功，则返回true</p>
+<p>&emsp;&emsp;简单示例代码：</p>
+<pre><code>  const classObj = &#123; school: &#39;华阳中学&#39; , className: &#39;高三7班&#39;, session: &#39;2019届&#39; &#125;
+  const studentA = Object.create(classObj)
+  console.log(studentA) // &#123; __proto__: &#123; className: &quot;高三7班&quot;, school: &quot;华阳中学&quot; , session: &quot;2019届&quot; &#125;&#125;
+  console.log(Reflect.has(studentA, &#39;school&#39;)) // true
+  Reflect.set(studentA, &#39;name&#39;, &#39;xionggang&#39;)
+  Reflect.set(studentA, &#39;age&#39;, &#39;24&#39;)
+  Reflect.set(studentA, &#39;sex&#39;, &#39;男&#39;)
+  console.log(studentA) // &#123; name: &quot;xionggang&quot;, age: &quot;24&quot;, sex: &quot;男&quot;, __proto__: &#123; className: &quot;高三7班&quot;, school: &quot;华阳中学&quot; , session: &quot;2019届&quot; &#125;&#125;
+  console.log(Reflect.ownKeys(studentA)) // [&quot;name&quot;, &quot;age&quot;, &quot;sex&quot;]
+  console.log(Reflect. getPrototypeOf(studentA)) // &#123;school: &quot;华阳中学&quot;, className: &quot;高三7班&quot;, session: &quot;2019届&quot;&#125;
+  Reflect.deleteProperty(studentA, &#39;age&#39;)
+  Reflect.deleteProperty(studentA, &#39;age&#39;)
+  console.log(studentA) // &#123; name: &quot;xionggang&quot;, sex: &quot;男&quot;, __proto__: &#123; className: &quot;高三7班&quot;, school: &quot;华阳中学&quot; , session: &quot;2019届&quot; &#125;&#125;
+</code></pre>
+<h2 id="3、-Decorator（ES7-装饰器语法糖）"><a href="#3、-Decorator（ES7-装饰器语法糖）" class="headerlink" title="3、@Decorator（ES7 装饰器语法糖）"></a>3、@Decorator（ES7 装饰器语法糖）</h2><p>&emsp;&emsp;装饰器是最新的 ECMA 中的一个<u>提案</u>，是一种与类、函数或对象相关的语法，用来注释或修改(增强)类和类方法等</p>
+<p>&emsp;&emsp;简单使用（给ClassA类添加日志装饰器）：</p>
+<pre><code>  @log
+  class ClassA&#123;&#125;
+  function log (target) &#123;
+    target.prototype.logger = () =&gt; `$&#123;target.name&#125;被调用了`
+  &#125;
+  const instance = new ClassA()
+  instance.logger() // classA被调用了
+</code></pre>
+<p><em>&emsp;&emsp;[注] 在使用ES7装饰器模块目前需要引入babel模块的 transform-decorators-legacy 库将代码转换为ES5或ES6运行。<u>ES7的装饰器 decorator 是依赖于 ES5 的 Object.defineProperty 方法</u></em></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS Map、Set关键字</title>
+    <url>/2021/06/10/javascript/JS%20Map%E3%80%81Set%E5%85%B3%E9%94%AE%E5%AD%97/</url>
+    <content><![CDATA[<p><u>JavaScript 中Map与Set都是ES6新的数据结构，分别存储数据映射关系与数据集合。</u>Map是类似Object的一种键值对集合，不同与Object，Map的键不仅限于是String或Symbol类型，其他各种类型的值包括对象都可以成为Map的键。Set是类似数组的一种数据结构，不同点在于Set中没有重复的值。</p>
+<h2 id="1、Map"><a href="#1、Map" class="headerlink" title="1、Map"></a>1、Map</h2><p>&emsp;&emsp;Map对象保存键值对，并且能够记住键的原始插入顺序。任何值(对象或者原始值) 都可以作为一个键或一个值。</p>
+<p>&emsp;&emsp;一个Map对象在迭代时会根据对象中元素的插入顺序来进行一个 for…of 循环在每次迭代后会返回一个形式为[key，value]的数组。</p>
+<p><em>&emsp;&emsp;[注] for in 与 for of 语句的区别：</em><br><em>&emsp;&emsp;① for…in语句以任意顺序遍历一个对象的除Symbol以外的可枚举属性，为遍历对象属性而构建的，不建议用于迭代一个关注索引顺序的数组，数组可以用 Array.prototype.forEach() 和 for … of</em><br><em>&emsp;&emsp;② for…of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments 对象等等）上创建一个迭代循环，调用自定义迭代钩子，并为每个不同属性的值迭代处理</em></p>
+<p><em>&emsp;&emsp;[注] Map中键 NaN 是与 NaN 相等的（虽然 NaN !== NaN），剩下所有其它的值是根据 === 运算符的结果判断是否相等。在目前的ECMAScript规范中，-0和+0被认为是相等的。</em></p>
+<h4 id="1-Objects-和-maps-的比较"><a href="#1-Objects-和-maps-的比较" class="headerlink" title="1) Objects 和 maps 的比较"></a>1) Objects 和 maps 的比较</h4><p>&emsp;&emsp;Objects 和 Maps 类似的是，它们都允许你按键存取一个值、删除键、检测一个键是否绑定了值。不过 Maps 和 Objects 有一些重要的区别，在下列情况里使用 Map 是更好的选择:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Map</th>
+<th>Object</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>意外的键</td>
+<td>Map 默认情况不包含任何键。只包含显式插入的键</td>
+<td>Object 原型链上的可能存在键名与设置的键名产生冲突 <em>(可通过Object.create(null)来创建一个没有原型的对象)</em></td>
+</tr>
+<tr>
+<td>键的类型</td>
+<td>Map 的键可以是任意值，包括函数、对象或任意基本类型</td>
+<td>Object 的键必须是一个 String 或是Symbol</td>
+</tr>
+<tr>
+<td>键的顺序</td>
+<td><u>Map 中的 key 是有序的，迭代时按插入的顺序返回键值</u></td>
+<td><u>Object 的键是无序的</u></td>
+</tr>
+<tr>
+<td>Size</td>
+<td>Map 的键值对个数可通过 size 属性获取</td>
+<td>Object 的键值对个数只能手动计算</td>
+</tr>
+<tr>
+<td>迭代</td>
+<td>Map 是 iterable 的，可直接被迭代</td>
+<td>Object需要以某种方式获取它的键然后才能迭代</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>在频繁增删键值对的场景下表现更好</td>
+<td>在频繁添加和删除键值对的场景下未作出优化</td>
+</tr>
+</tbody></table>
+<h4 id="2-Map构造函数"><a href="#2-Map构造函数" class="headerlink" title="2) Map构造函数"></a>2) Map构造函数</h4><p>&emsp;&emsp;Map()：创建 Map 对象(使用new关键字)</p>
+<h4 id="3-Map属性"><a href="#3-Map属性" class="headerlink" title="3) Map属性"></a>3) Map属性</h4><p>&emsp;&emsp;Map.length：<u>属性 length 的值为0，想要计算一个 Map 中的条目数量， 使用 Map.prototype.size</u><br>&emsp;&emsp;Map.prototype：表示 Map 构造器的原型。允许添加属性从而应用于所有的 Map 对象</p>
+<h4 id="4-Map实例"><a href="#4-Map实例" class="headerlink" title="4) Map实例"></a>4) Map实例</h4><p>&emsp;&emsp;所有的 Map 对象实例都会继承 Map.prototype</p>
+<p>&emsp;&emsp;(1) 实例属性<br>&emsp;&emsp;Map.prototype.constructor：返回一个函数，它创建了实例的原型。默认是Map函数<br>&emsp;&emsp;Map.prototype.size：返回Map对象的键/值对的数量</p>
+<p>&emsp;&emsp;(2) 实例方法（Map.prototype上的方法）<br>clear()：移除Map对象的所有键/值对<br>delete(key)：Map对象中存在该元素，则移除它并返回 true；否则返回false<br>entries()：返回一个新的 Iterator 对象，它按插入顺序包含了Map对象中每个元素的 [key, value] 数组<br>forEach(callbackFn[(value, key), thisArg])：按插入顺序，为Map对象里的每一键值对调用一次callbackFn函数。如果为forEach提供了thisArg，它将在每次回调中作为this值<br>get(key)：返回键对应的值，如果不存在，则返回undefined<br>has(key)：返回一个布尔值，表示Map实例是否包含键对应的值<br>keys()：返回一个新的 Iterator对象， 它按插入顺序包含了Map对象中每个元素的键<br><u>set(key, value)：设置Map对象中键的值。返回该Map对象</u><br>values()：返回一个新的Iterator对象，它按插入顺序包含了Map对象中每个元素的值 </p>
+<p>&emsp;&emsp;简单示例代码：</p>
+<pre><code>  const a = function a () &#123;&#125;
+  let maps = new Map()
+  // 为maps设置各个类型的键与值
+  maps.set(123, &#39;123aaa&#39;)
+  maps.set(a, &#39;aaa&#39;)
+  maps.set(true, &#39;真值&#39;)
+  maps.set(NaN, &#39;NaN&#39;)
+
+  // 打印maps或相关key对应的value值
+  console.log(maps) // Map(4) &#123;123 =&gt; &quot;123aaa&quot;, ƒ =&gt; &quot;aaa&quot;, true =&gt; &quot;真值&quot;, NaN =&gt; &quot;NaN&quot;&#125;
+  console.log(maps.get(a)) // aaa
+  console.log(maps.get(NaN)) // NaN
+  console.log(maps.get(888)) // undefined
+
+  // for of 遍历map对象
+  for(const m of maps) &#123;
+    console.log(m)
+  &#125;
+  // 输出：
+  // [123, &quot;123aaa&quot;]
+  // [ƒ, &quot;aaa&quot;]
+  // [true, &quot;真值&quot;]
+  // [NaN, &quot;NaN&quot;]
+
+  // forEach遍历map对象
+  maps.forEach((value, key) =&gt; &#123;
+    console.log(key, value)
+  &#125;)
+  // 输出：
+  // 123 &quot;123aaa&quot;
+  // ƒ a () &#123;&#125; &quot;aaa&quot;
+  // true &quot;真值&quot;
+  // NaN &quot;NaN&quot;
+
+  // 常规的Map构造函数可以将一个二维键值对数组转换成一个Map对象
+  const map2 = new Map([[123, &#39;aaaa&#39;],[false, &#39;假值&#39;], [undefined, &#39;undefined&#39;]])
+  console.log(map2) // &#123;123 =&gt; &quot;aaaa&quot;, false =&gt; &quot;假值&quot;, undefined =&gt; &quot;undefined&quot;&#125;
+
+  // 合并两个Map对象时，如果有重复的键值，则后面的会覆盖前面的
+  const map3 = new Map([...maps, ...map2])
+  console.log(map3) // &#123;123 =&gt; &quot;aaaa&quot;, ƒ =&gt; &quot;aaa&quot;, true =&gt; &quot;真值&quot;, NaN =&gt; &quot;NaN&quot;, false =&gt; &quot;假值&quot;, …&#125;
+
+  // 访问map对象的size属性
+  console.log(map3.size) // 6
+
+  // 删除maps对象中的键值对
+  console.log(maps.delete(123)) // true
+  console.log(maps) // &#123;ƒ =&gt; &quot;aaa&quot;, true =&gt; &quot;真值&quot;, NaN =&gt; &quot;NaN&quot;&#125;
+</code></pre>
+<p>&emsp;&emsp;<strong>利用Map对象，可根据存储的数据映射关系对相应key值进行快速查询操作</strong></p>
+<h2 id="2、Set"><a href="#2、Set" class="headerlink" title="2、Set"></a>2、Set</h2><p>&emsp;&emsp;Set对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。Set对象是值的集合，你可以按照插入的顺序迭代它的元素。 Set中的元素只会出现一次，即 Set 中的元素是唯一的</p>
+<h4 id="1-Set构造函数"><a href="#1-Set构造函数" class="headerlink" title="1) Set构造函数"></a>1) Set构造函数</h4><p>&emsp;&emsp;Set()：创建一个新的Set对象(使用new关键字)</p>
+<h4 id="2-Set属性"><a href="#2-Set属性" class="headerlink" title="2) Set属性"></a>2) Set属性</h4><p>&emsp;&emsp;Set.length：<u>属性 length 的值为0，想要计算一个 Set 中的条目数量， 使用 Set.prototype.size</u><br>&emsp;&emsp;Set.prototype：表示 Set 构造器的原型。允许添加属性从而应用于所有的 Set 对象</p>
+<h4 id="3-Set实例"><a href="#3-Set实例" class="headerlink" title="3) Set实例"></a>3) Set实例</h4><p>&emsp;&emsp;所有的 Set 对象实例都会继承 Set.prototype</p>
+<p>&emsp;&emsp;(1) 实例属性<br>&emsp;&emsp;Set.prototype.size：返回Set对象值的数量</p>
+<p>&emsp;&emsp;(2) 实例方法（Set.prototype上的方法）<br>&emsp;&emsp;add(value)：在Set对象尾部添加一个元素。返回该Set对象<br>&emsp;&emsp;clear()：移除Set对象内的所有元素<br>&emsp;&emsp;delete(value)：移除Set中与这个值相等的元素，返回Set.prototype.has(value)在这个操作前会返回的值。如果该元素存在，返回true，否则返回false<br>&emsp;&emsp;entries()：返回一个新的迭代器对象，该对象包含Set对象中的按插入顺序排列的所有元素的值的[value, value]数组。为了使这个方法和Map对象保持相似，每个值的键和值相等<br>&emsp;&emsp;forEach(callbackFn[, thisArg])：按照插入顺序，为Set对象中的每一个值调用一次callBackFn。如果提供了thisArg参数，回调中的this会是这个参数<br>&emsp;&emsp;has(value)：返回一个布尔值，表示该值在Set中存在与否<br>&emsp;&emsp;values()：返回一个新的迭代器对象，该对象包含Set对象中的按插入顺序排列的所有元素的值</p>
+<p>&emsp;&emsp;简单示例代码：</p>
+<pre><code>  const a = function a() &#123; &#125;
+  let sets = new Set()
+  // 为Set对象设置不同类型的值
+  sets.add(123)
+  sets.add(a)
+  sets.add(true)
+  sets.add(NaN)
+  console.log(sets) // &#123;123, ƒ, true, NaN&#125;
+
+  // 给Set对象添加相同的值(无效：Set对象中的元素是唯一的)
+  sets.add(123)
+  sets.add(a)
+  sets.add(true)
+  console.log(sets) // &#123;123, ƒ, true, NaN&#125;
+
+  // 移除Set中的元素
+  sets.delete(123)
+  console.log(sets) // &#123;ƒ, true, NaN&#125;
+
+  // 使用 for of 迭代Set对象
+  for (const item of sets) &#123;
+    console.log(item)
+  &#125;
+
+  // 使用 forEach 迭代Set对象
+  sets.forEach(item =&gt; &#123;
+    console.log(item)
+  &#125;)
+
+  // 数组与Set相互转换
+  const set2 = new Set([1, 2, 3, 4, 2, 4]) // 将数组转换为Set对象，由于Set对象值的唯一性，Set对象中已无重复的值
+  console.log(set2) // &#123;1, 2, 3, 4&#125;
+  console.log([...set2]) // [1, 2, 3, 4] // 可以通过Set进行数组去重~
+</code></pre>
+<p>&emsp;&emsp;<strong>利用Set对象，可实现基本集合操作，比如求交集、并集、差集等</strong></p>
+<h4 id="注-JavaScript-中的相等性判断"><a href="#注-JavaScript-中的相等性判断" class="headerlink" title="[注] JavaScript 中的相等性判断"></a>[注] JavaScript 中的相等性判断</h4><p>&emsp;&emsp;(1) ES2015中有四种相等算法：<br>&emsp;&emsp;① 抽象（非严格）相等比较(==)<br>&emsp;&emsp;② 严格相等比较(===)，用于  Array.prototype.indexOf, Array.prototype.lastIndexOf, 和 case-matching<br>&emsp;&emsp;③ 同值零，用于 %TypedArray% 和 ArrayBuffer 构造函数、以及Map和Set操作, 并将用于 ES2016/ES7 中的String.prototype.includes</p>
+<p><em>&emsp;&emsp;ES5 比较两个值是否相等,只有两个运算符：抽象相等运算符和严格相等运算符。它们都有缺点，前者会自动转换数据类型，后者的NaN不等于自身，以及-0 等于 +0。JavaScript缺乏一种运算,在所有环境中,使得只要两个值是一样的,它们就应该相等。ES6提出“Same-value equality”(同值相等)算法，用来解决这个问题。</em></p>
+<p>&emsp;&emsp;④ 同值，用于所有其他地方</p>
+<p>&emsp;&emsp;(2) JavaScript提供三种不同的值比较操作：<br>&emsp;&emsp;① 严格相等比较，使用 ===<br>&emsp;&emsp;② 抽象相等比较,使用 ==<br>&emsp;&emsp;③ Object.is （ECMAScript 2015/ ES6 新特性，有特殊用途）</p>
+<p>&emsp;&emsp;抽象相等比较将执行类型转换; 严格相等比较将进行相同的比较，而不进行类型转换 (如果类型不同, 只是总会返回 false ); 而Object.is的行为方式与三等号相同，但是对于NaN和-0和+0进行特殊处理不相同，Object.is（+0，-0）将为 false，而Object.is（NaN，NaN）将为 true。</p>
+<p>&emsp;&emsp;(3) 不同判等模型的判等结果：</p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>y</th>
+<th>==</th>
+<th>===</th>
+<th>Object.is</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>undefined</td>
+<td>undefined</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>null</td>
+<td>null</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>false</td>
+<td>false</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>“foo”</td>
+<td>“foo”</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>+0</td>
+<td>-0</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr>
+<td>0</td>
+<td>false</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>“”</td>
+<td>false</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>“”</td>
+<td>0</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>“0”</td>
+<td>0</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>“1”</td>
+<td>1</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>[1,2]</td>
+<td>“1,2”</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>new String(“foo”)</td>
+<td>“foo”</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>null</td>
+<td>undefined</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>null</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>undefined</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>{ foo: “bar” }</td>
+<td>{ foo: “bar” }</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>new String(“foo”)</td>
+<td>new String(“foo”)</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>0</td>
+<td>null</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>0</td>
+<td>NaN</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>“foo”</td>
+<td>NaN</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>NaN</td>
+<td>NaN</td>
+<td>false</td>
+<td>false</td>
+<td>true</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript概述</title>
+    <url>/2020/12/03/javascript/JavaScript%E6%A6%82%E8%BF%B0/</url>
+    <content><![CDATA[<p>JavaScript ( JS ) 是一种具有函数优先的轻量级，解释型或即时编译型，单线程的脚本语言，它可以在网页上实现复杂的功能，网页展现给你的不再是简单的静态页面信息，而是实时的内容更新，交互式的地图，2D/3D 动画，滚动播放的视频等更加丰富的内容，也能实现用户在网页界面上与服务器相关交互功能</p>
+<h2 id="1、语言特性"><a href="#1、语言特性" class="headerlink" title="1、语言特性"></a>1、语言特性</h2><p>&emsp;&emsp;JavaScript是一门动态的、弱类型、基于原型（prototype）的脚本语言。在JavaScript中“一切皆对象”，在这一方面，它比其他的面向对象的语言来得更为彻底。即使作为代码本身载体的函数（function），也是对象。</p>
+<h2 id="2、基本语法"><a href="#2、基本语法" class="headerlink" title="2、基本语法"></a>2、基本语法</h2><h4 id="1-向页面添加JavaScript"><a href="#1-向页面添加JavaScript" class="headerlink" title="1) 向页面添加JavaScript"></a>1) 向页面添加JavaScript</h4><p>&emsp;&emsp;在body标签结束前插入以下script标签引入JavaScript， <u>JavaScript 是区分大小写的</u></p>
+<pre><code>  // 方式1：内联JavaScript
+  &lt;script&gt;
+    ...在此编写JavaScript代码...
+  &lt;/script&gt;
+
+  // 方式2：外部引入JavaScript
+  &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p><em>&emsp;&emsp;[注] 在外部引入JS时，在必要的时候（防止加载阻塞页面渲染问题或对多个有依赖关系的脚本对加载顺序有要求），我们需要在&lt;script&gt;标签上加上async或defer修饰符（属性）（这是解决脚本阻塞问题的两种方式）。<u>浏览器遇到 async 脚本时不会阻塞页面渲染，而是直接下载然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。</u>当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async 是最理想的选择；<u>defer 属性的脚本将按照在页面中出现的顺序加载，可保证脚本的加载顺序</u></em></p>
+<h4 id="2-变量"><a href="#2-变量" class="headerlink" title="2) 变量"></a>2) 变量</h4><p>&emsp;&emsp;变量是用来存储数值的，那么有一个重要的概念需要区分。变量不是数值本身，它们仅仅是一个用于存储数值的容器，JS中使用var、let、const来定义变量</p>
+<p>&emsp;&emsp;<strong>构造变量名称（唯一标识符）的通用规则是：</strong><br>&emsp;&emsp;名称可包含字母、数字、下划线和美元符号<br>&emsp;&emsp;名称必须以字母、$或_开头<br>&emsp;&emsp;名称对大小写敏感<br>&emsp;&emsp;保留关键字不能作为变量名称</p>
+<pre><code>  var a;
+  let b;
+  onst C = 100; // 定义常量必须进行初始化，常量一般用大写英文命名
+</code></pre>
+<p>&emsp;&emsp;变量类型：<br>&emsp;&emsp;值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol<br>&emsp;&emsp;引用数据类型：对象(Object，JavaScript 对象是键值对的容器)、数组(Array)、函数(Function)，还有两个特殊的对象：正则（RegExp）和日期（Date）</p>
+<h4 id="3-语句与表达式"><a href="#3-语句与表达式" class="headerlink" title="3) 语句与表达式"></a>3) 语句与表达式</h4><p>&emsp;&emsp;<u>JavaScript区分表达式和语句</u><br>&emsp;&emsp;表达式是输出值的，并且可以写在任何需要一个值的地方，例如函数的参数等。一般来讲，表达式由变量、操作符和约束条件等以能求得有意义的数值（非undefined）为目的排列所得的组合<br>&emsp;&emsp;语句表示执行了一个动作，例如循环控制语句(for、while…)和分支判断语句(if)等。一个程序基本上就是一系列的语句的集合。在JavaScript中需要语句的地方，也可以写入一个表达式。但不能够在需要表达式的地方写入一个语句。我们常用分号分语句，使得可以在一行编写多条语句。<br>&emsp;&emsp;常用运算符：=、+、-、*、/、==、!=、&gt;、&lt;、&amp;&amp;、||、位运算符、……<br>&emsp;&emsp;常用语句：</p>
+<pre><code>  // 赋值语句    
+  let a = 5, b = 8;
+  
+  // if条件判断语句
+  if (condition1) &#123;
+    // 当条件 1 为 true 时执行的代码
+  &#125;
+  else if (condition2) &#123;
+    // 当条件 2 为 true 时执行的代码
+  &#125;
+  else &#123;
+    // 当条件 1 和 条件 2 都不为 true 时执行的代码
+  &#125;
+  
+  // switch分支语句
+  switch (n) &#123;
+    case 1:
+      // 执行代码块 1
+      break; // 阻止代码向下一个case执行，有时为了逻辑需要（如累加等），switch语句中不会使用此关键字
+    case 2:
+      // 执行代码块 2
+      break;
+    default:
+    // 与 case 1 和 case 2 不同时执行的代码
+  &#125;
+  
+  // for、while、do while循环语句（break 语句用于跳出循环，continue 用于跳过循环中的一个迭代）
+  for (语句 1; 语句 2; 语句 3)
+  &#123;
+    // 语句2为真执行的代码块
+  &#125;
+  while (条件) &#123;
+    // 条件为真执行的代码块
+  &#125;
+  do &#123;
+    // 代码块会在条件被测试前执行，代码块至少被执行一次
+  &#125; while (条件);
+</code></pre>
+<h4 id="4-字符串模板"><a href="#4-字符串模板" class="headerlink" title="4) 字符串模板"></a>4) 字符串模板</h4><p>&emsp;&emsp;模板字符串使用反引号<u>(` `)</u> 来代替普通字符串中的用双引号和单引号。模板字符串可以包含特定语法（${ expression } ）的占位符。占位符中的表达式和周围的文本会一起传递给一个默认函数，该函数负责将所有的部分连接起来。<u>特别的，如果一个模板字符串由表达式开头，则该字符串被称为带标签的模板字符串，该表达式通常是一个函数，它会在模板字符串处理后被调用，在输出最终结果前，你都可以通过该函数来对模板字符串进行操作处理。</u>注意，在模版字符串内使用反引号（`）时，需要在它前面加转义符（），<strong>字符串模板可以嵌套使用。</strong></p>
+<pre><code>  let a = 4;
+  function upgradePhone(str, a)&#123; // [注] 函数的第一个参数是数组（模板中各个原生字符串）。其余的参数为模板中的变量
+    return &#39;带标签的模板字符串，&#39; + str[0] + (a + 2) + str[1];
+  &#125;
+
+  console.log(`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 我有一个苹果6s，哈哈哈~
+  console.log(upgradePhone`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 带标签的模板字符串，我有一个苹果6s，哈哈哈~
+</code></pre>
+<h4 id="5-解构赋值"><a href="#5-解构赋值" class="headerlink" title="5) 解构赋值"></a>5) 解构赋值</h4><p>&emsp;&emsp;解构赋值语法是一种 Javascript 表达式。通过解构赋值, 可以将属性/值从对象/数组中取出,赋值给其他变量。使得对象和数组逐个对应表达式，或称对象字面量和数组字面量，提供了一种简单的定义一个特定的数据组的方法<br>&emsp;&emsp;特别的：<u>赋值语句周围的圆括号()在使用对象字面量无声明解构赋值时是必须的</u>，否则左边被认为是一个块而不是对象字面量。<u>并且()表达式之前需要有一个分号，否则它可能会被当成上一行中的函数执行</u></p>
+<pre><code>  let a, b, C;
+  [a, b = 0] = [10, 20, 30, 40, 50]; // a:10, b:20 [注] 为了防止取出一个值为undefined，可以在表达式左边预设默认值
+  [a, b, ...C] = [10, 20, 30, 40, 50]; // a:10，b:20, C: [30, 40, 50]
+  (&#123; a, b = 0&#125; = &#123; a: 10, b: 20 &#125;); // a: 10, b: 20
+  (&#123;a, b, ...C&#125; = &#123;a: 10, b: 20, c: 30, d: 40&#125;); // a: 10, b: 20, C: &#123;c: 30, d: 40&#125;
+</code></pre>
+<h4 id="6-函数"><a href="#6-函数" class="headerlink" title="6) 函数"></a>6) 函数</h4><p>&emsp;&emsp;函数就是包裹在花括号中的代码块，使用关键字function进行定义。当调用该函数时，会执行函数内的代码，在调用函数时，可以向其传递参数。这些参数可以在函数中使用，多个参数用逗号（,）分割。<u>变量和参数必须以一致的顺序出现。</u>第一个变量就是第一个被传递的参数的给定的值，以此类推。有时，我们会希望函数将值返回调用的地方。通过使用return语句就可以实现。在使用return语句时，函数会停止执行(无论后面是否还存在语句)，并返回指定的值。</p>
+<p><em>&emsp;&emsp;[注] <u>函数有作用域的概念，在函数内部定义的变量，只能在函数内部访问它（闭包情况除外），此时该变量的作用域是局部的。特别的，如果给未声明的变量赋值，该变量会被自动配置为全局变量（隐式全局变量，也为window对象的属性）。</u></em></p>
+<pre><code>  function functionName(var1, var2, ...) &#123;
+    // 代码
+    // return value;
+  &#125;
+</code></pre>
+<h2 id="3、可维护的JavaScript代码"><a href="#3、可维护的JavaScript代码" class="headerlink" title="3、可维护的JavaScript代码"></a>3、可维护的JavaScript代码</h2><p>&emsp;&emsp;(1) 尽量不使用全局变量，更不能使用隐式全局变量<br>&emsp;&emsp;(2) 尽量使用let、const语句声明多个变量，并以逗号分隔<br>&emsp;&emsp;(3) 循环存储长度，只检索了一次循环对象的长度值。（’i–’优于’i+=i,i=i+1’优于’i++’）<br>&emsp;&emsp;(4) 数组使用正常的for循环，对象使用for-in循环。（在for-in中，属性列表的顺序（序列）是不能保证的）（hasOwnProperty()方法，可以过滤掉原型链上的属性）<br>&emsp;&emsp;(5) 不扩展内置原型Prototypes<br>&emsp;&emsp;(6) switch语句增强可读性和健壮性，以default结束switch<br>&emsp;&emsp;(7) 避免隐式类型转换<br>&emsp;&emsp;(8) 避免eval()（eval()会干扰作用域链），实在用使用eval(),可以用new Function()代替<br>&emsp;&emsp;(9) 给setInterval(), setTimeout()和Function()构造函数传递字符串或匿名函数<br>&emsp;&emsp;(10) parseInt()传递基数参数，+，Number()优于parseInt()<br>&emsp;&emsp;(11) 缩进<br>&emsp;&emsp;(12) 使用花括号{}，建议并始终把左花括号与之前的语句放在同一行<br>&emsp;&emsp;(13) 空格<br>&emsp;&emsp;(14) <u>命名方式</u><br>&emsp;&emsp;(15) 注释</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
       </categories>
       <tags>
         <tag>WEB技术</tag>
@@ -3534,575 +3534,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JS原型（prototype）链与继承（Class）</title>
-    <url>/2020/12/23/javascript/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/</url>
-    <content><![CDATA[<p>在JavaScript中，每个实例对象（ object ）都有一个私有属性（称之为 __proto__ ）指向它的构造函数的原型对象（prototype ）。该原型对象也有一个自己的原型对象( __proto__ ) ，层层向上直到一个对象的原型对象为 null。根据定义，null没有原型，并作为这个原型链中的最后一个环节。几乎所有 JavaScript 中的对象都是位于原型链顶端的Object对象的实例。</p>
-<h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><p>&emsp;&emsp;对象：对象是一个包含相关数据和方法的集合，通常由一些变量和函数组成，我们称之为对象里面的属性和方法。对象成员的值可以是任意的，例如Number，String，Function，null， undefined等。</p>
-<p><em>&emsp;&emsp;[注1] 可以使用点表示法或者括号([ ])表示法访问对象的成员，对象做了字符串(key)到值(value)的映射，而数组做的是数字(索引)到值的映射。其中，括号表示法一个特别的地方是不仅可以动态的去设置对象成员的值，还可以动态的设置成员的名字(key)。</em><br><em>&emsp;&emsp;[注2] 可以用一个对象来做另一个对象成员的值，这样，实际上创建了一个子命名空间，可以链式的使用点表示法或括号表示法去访问其中的成员变量。</em></p>
-<p>&emsp;&emsp;<u>面向对象的JavaScript</u>（OOJS）：面向对象编程（OOP）的基本思想为，在程序里，我们通过使用对象去构建现实世界的模型，把原本很难（或不可）能被使用的功能，简单化并提供出来，以供访问。对象可以包含相关的数据和代码，去描述模型以及模型具有的行为和功能。对象包（命名空间）存储（封装）着对象的数据与方法，使数据的组织和访问变得更容易了；对象也常用作数据存储体，用于在网络上运输数据，十分便捷。</p>
-<p>&emsp;&emsp;<u>构造函数对象</u>：JavaScript 用一种称为构建函数的特殊函数(function)来定义对象和它们的特征。一个构建函数通常是大写字母开头，这样便于区分构建函数和普通函数。关键字 new 跟着一个含参构造函数，便能创建一个想要的对象（对象的原型指向构建函数）。其中，这个构建函数是 JavaScript 版本的类（<u>ES6已提供class关键字的语法糖定义构建函数</u>）。</p>
-<p><em>&emsp;&emsp;[注] 其他创建对象的方式：</em><br><em>&emsp;&emsp;① 字面量定义对象（对象的原型指向Object对象）</em><br><em>&emsp;&emsp;② Object()构造函数，即使用new Object()创建对象（对象的原型指向Object对象）</em><br><em>&emsp;&emsp;③ Object.create()方法，允许您基于现有对象创建新的对象。（对象的原型指向创建时指定的对象）</em></p>
-<h2 id="1、原型（链）"><a href="#1、原型（链）" class="headerlink" title="1、原型（链）"></a>1、原型（链）</h2><p>&emsp;&emsp;JavaScript 常被描述为一种基于原型的语言——每个对象拥有一个原型对象，对象以其原型为模板、从原型继承方法和属性。原型对象也可能拥有原型，并从中继承方法和属性，一层一层，以此类推。这种关系常被称为原型链，它解释了为何一个对象会拥有定义在其他(被继承)对象中的属性和方法。比如有些属性和方法定义在Object的构造器函数的prototype属性上，而非定义在当前对象实例本身。</p>
-<p><em>&emsp;&emsp;<strong>[注1] 与传统OOP的区别：在传统的 OOP 中，首先定义“类”，此后创建对象实例时，类中定义的所有属性和方法都被复制到例中。<u>在 JavaScript 中并不如此复制——而是在对象实例和它的构造器之间建立一个链接（它是 __proto__ 属性，是从构造函数的 prototype 属性派生的），</u>可通过其上溯原型链，在构造器中找到对应的属性和方法。</strong></em><br><em>&emsp;&emsp;[注2] 对象原型（可以通过Object.getPrototypeOf(obj)或者浏览器提供的__proto__属性获得）与构造函数的prototype属性是有区别的：前者是每个实例上都有的属性，后者是构造函数的属性。也就是说，Object.getPrototypeOf(new Bool())和Bool.prototype指向着同一个对象(Bool构造函数)。<u>特别的，没有官方的方法用于直接访问一个对象的原型——原型链中的“连接”被定义在一个内部属性中，</u>在 JavaScript 语言标准中用 [[prototype]] 表示，大多数现代浏览器还是提供了一个名为 __proto__ 属性，其包含了对象的原型。</em></p>
-<p>&emsp;&emsp;(1) prototype属性：继承成员被定义的地方<br>&emsp;&emsp;继承的属性和方法是定义在 prototype 属性之上的（可以称之为子命名空间），prototype 属性的值是一个对象，我们希望被原型链下游的对象继承的属性和方法，都被储存在其中。<br><em>&emsp;&emsp;[注] Object.create()可以指定一个对象作为原型对象来创建一个实例对象。</em></p>
-<p>&emsp;&emsp;(2) constructor属性：指向了用于构造此实例对象的构造函数<br>&emsp;&emsp;每个实例对象都从原型中继承了一个constructor属性，该属性指向了用于构造此实例对象的构造函数。<br>&emsp;&emsp;在某些情况下，没有原始构造器的引用，想要构造实例可以通过已有实例的constructor属性指向的构造函数来完成。即可以在 constructor 属性的末尾添加一对圆括号（括号中包含所需的参数），只需在前面添加 new 关键字（let person2 = new person1.constructor()），便能将此函数作为构造器使用，从而调用这个构造器创建另一个对象实例。</p>
-<p><em>&emsp;&emsp;[注] 构建函数前new关键字做了什么？</em><br><em>&emsp;&emsp;① 创建一个新对象</em><br><em>&emsp;&emsp;② 将新对象的__proto__属性指向了构建函数对象prototype对象</em><br><em>&emsp;&emsp;③ 将构建函数的this修正为指向新对象，执行构造函数中的代码，即为这个新对象添加对应属性</em><br><em>&emsp;&emsp;④ 返回新对象</em></p>
-<pre><code>  var obj = &#123;&#125;;
-  obj.__proto__ = Base.prototype;
-  Base.call(obj);
-</code></pre>
-<h2 id="2、继承"><a href="#2、继承" class="headerlink" title="2、继承"></a>2、继承</h2><h4 id="JavaScript基于原型链继承（prototypal-inheritance）"><a href="#JavaScript基于原型链继承（prototypal-inheritance）" class="headerlink" title="JavaScript基于原型链继承（prototypal inheritance）"></a>JavaScript基于原型链继承（prototypal inheritance）</h4><p>&emsp;&emsp;如何实现继承：（这里以Teacher构造函数继承于Person构造函数的例子来说明）<br>&emsp;&emsp;(1) 定义构造器（构造函数），这里定义构造函数Person。</p>
-<pre><code>  function Person(name, age, gender, interests) &#123;
-    this.name =name;
-    this.age = age;
-    this.gender = gender;
-    this.interests = interests;
-  &#125;;
-  Person.prototype.greeting = function() &#123;
-    console.log(`hello, I am $&#123;name&#125;!`)
-  &#125;;
-</code></pre>
-<p>&emsp;&emsp;(2) 创建继承于Person构造函数的Teacher构造函数，并为Teacher 构造函数添加特有的subject（所授学科科目）属性。</p>
-<pre><code>  function Teacher(name, age, gender, interests, subject) &#123;
-    // 创建一个新的对象实例时同时指派其继承的属性（修正this指向Teacher()函数）
-    Person.call(this, name, age, gender, interests);
-    this.subject = subject;
-    
-    // 利用Object.create()方法将Person.prototype作为Teacher.prototype的原型对象，从而继承其属性与方法
-    Teacher.prototype = Object.create(Person.prototype);
-    
-    // 修正Teacher构造器指向，使之与Teacher关联(修正前指向Person)
-    Teacher.prototype.constructor = Teacher;
-  &#125;
-</code></pre>
-<p><em>&emsp;&emsp;[注] 每一个函数对象（Function）都有一个 prototype 属性，并且只有函数对象有 prototype 属性，因为 prototype 本身就是定义在Function对象下的属性。其中Person()函数是Person.prototype的构造函数，即Person===Person.prototype.constructor。任何您想要被继承的方法都应该定义在构造函数的 prototype 对象里，并且永远使用父类的 prototype 来创造子类的 prototype，这样才不会打乱类继承结构。</em></p>
-<p>&emsp;&emsp;(3) Teacher构造函数添加新的greeting成员函数</p>
-<pre><code>  Teacher.prototype.greeting = function()&#123;
-    console.log(`hello, I am a teather, I teath $&#123;this.subject&#125;`)
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;(4) 生成对应的teacher实例</p>
-<pre><code>  let t = new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
-  t.greeting(); // hello, I am a teather, I teath englis
-</code></pre>
-<p>&emsp;&emsp;所有代码：</p>
-<pre><code>  function Person(name, age, gender, interests) &#123;    
-    this.name = name;
-    this.age = age;
-    this.gender = gender;
-    this.interests = interests;
-  &#125;;
-  Person.prototype.greeting = function () &#123;
-    console.log(`hello, I am $&#123;name&#125;!`);
-  &#125;;
-  function Teacher(name, age, gender, interests, subject) &#123;
-    // 创建一个新的对象实例时同时指派其继承的所有属性（修正this指向Teacher()函数）
-    Person.call(this, name, age, gender, interests);
-    this.subject = subject;
-    // Teacher.prototype现在会继承Person.prototype的所有属性和方法
-    Teacher.prototype = Object.create(Person.prototype);
-    // 修正Teacher()的prototype的constructor属性指向(修正前指向Person，不正确)
-    Teacher.prototype.constructor = Teacher;
-  &#125;
-  Teacher.prototype.greeting = function()&#123;
-    console.log(`hello, I am a teather, I teath $&#123;this.subject&#125;`)
-  &#125;
-  let t = new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
-  t.greeting(); // hello, I am a teather, I teath englis
-</code></pre>
-<h4 id="ES6-类（class）"><a href="#ES6-类（class）" class="headerlink" title="ES6 类（class）"></a>ES6 类（class）</h4><p>&emsp;&emsp;(1) 类的定义方式<br>&emsp;&emsp;ES6 提供了更接近传统语言的写法，引入了class关键字（仅是一个‘语法糖’），可以定义类。可以使编码时逻辑更加清晰明了。在JavaScript中，类是一种“特殊的函数”。类本身就指向构造函数。</p>
-<p><em>&emsp;&emsp;[注] 类都在严格模式下执行。类的内部所有定义的方法，都是不可枚举的（这点与 ES5 定义在 prototype 上的方法表现不一致）。定义类的实例必须使用new关键字（不能像 ES5 中的构造函数可直接调用）。</em></p>
-<p>&emsp;&emsp;定义类有两种方式：<br>&emsp;&emsp;类声明：class A {}，<strong>类声明不会提升，需要先声明，再访问</strong><br>&emsp;&emsp;类表达式: let B = class [B2] {}，类表达式的命名是可选的（比如这里命名为B2），名称称为局部名称，可使用类的name属性访问对应名称</p>
-<p><em>&emsp;&emsp;<strong>[注] 类中的this：</strong></em><br>&emsp;&emsp;① 在构造函数constructor()中基类与派生类this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象（指向实例），所有非静态方法会被添加到this的原型中。在派生类（子类）中的构造函数没有初始的this绑定（undefined），在构造函数中调用super()才能生成一个this绑定（返回一个指向当前派生类的this）。<br>&emsp;&emsp;② 静态方法不是this的属性，它们只是类自身的属性，不会被子类继承。派生类在super()前调用this会抛出异常，派生类不能在调用super()前返回，除非没有构造函数或者构造函数返回了对象。<br>&emsp;&emsp;③ 使用super对象时，super 调用父类的方法时，super 会绑定子类的 this。</p>
-<p>&emsp;&emsp;(2) constructor()构造函数<br>&emsp;&emsp;初始化一个由class创建的对象。一个类中只能有唯一的constructor()方法，若代码未显式的定义，会默认添加该方法。在使用new关键字创建实例时，会执行该方法，其中的this指向创建的实例。默认会返回this实例，不过也可以显式的返回一个对象。</p>
-<p>&emsp;&emsp;(3) super关键字<br>&emsp;&emsp;分为两种情况：<br>&emsp;&emsp;当做 super() 函数使用：这个函数会调用父类的构造函数，返回一个指向当前派生类的this，相当于A.prototype.constructor.call(this, props)<br>&emsp;&emsp;当做 super 对象使用：在普通方法中，super 指向父类的原型对象；在静态方法中，super 指向父类</p>
-<p><em>&emsp;&emsp;[注] 静态方法，static修饰，可以被子类继承，但不会添加到类的实例上，方法名称可与其他方法重名。静态方法可以通过super调用。</em></p>
-<p>&emsp;&emsp;(4) 取值函数（getter）和存值函数（setter）<br>&emsp;&emsp;在类中内部可以使用get和set关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为（ES5可以提供getter、setter函数）。</p>
-<p>&emsp;&emsp;(5) new.target属性<br>&emsp;&emsp;new命令的一个属性，只能在构造函数中使用。在类中使用时，返回当前类；在子类中使用时，返回当前子类。<u>用途：可以限制类只能通过new命令调用；或者编写只能继承而不能实例化的基类。</u></p>
-<p>&emsp;&emsp;通过ES6 Class关键字实现上面Teacher类与Person类的继承关系：</p>
-<pre><code>  class Person&#123;    
-    constructor(name, age, gender, interests)&#123;
-      this.name = name;
-      this.age = age;
-      this.gender = gender;
-      this.interests = interests;
-    &#125;
-    greeting()&#123;
-      console.log(&quot;hello, I am &quot; + this.name + &quot;!&quot;);
-    &#125;
-  &#125;
-  class Teather extends Person&#123;
-    constructor(name, age, gender, interests, subject)&#123;
-      super(name, age, gender, interests);
-      this.subject = subject;
-    &#125;
-    greeting()&#123;
-      console.log(&quot;hello, I am a teather, I teath &quot; + this.subject + &quot;!&quot;);
-    &#125;
-  &#125;
-  let t = new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
-  t.greeting() // hello, I am a teather, I teath english!
-</code></pre>
-<p>&emsp;&emsp;通过Babel.js将上面的ES6转换为ES5代码如下：</p>
-<pre><code>  &quot;use strict&quot;;
-
-  function _typeof(obj) &#123;
-    &quot;@babel/helpers - typeof&quot;;
-    if (typeof Symbol === &quot;function&quot; &amp;&amp; typeof Symbol.iterator === &quot;symbol&quot;) &#123; _typeof = function _typeof(obj) &#123; return typeof obj; &#125;; &#125;
-    else &#123;
-      _typeof = function _typeof(obj) &#123;
-        return obj &amp;&amp; typeof Symbol === &quot;function&quot; &amp;&amp; obj.constructor === Symbol &amp;&amp; obj !== Symbol.prototype ? &quot;symbol&quot; : typeof obj;
-      &#125;;
-    &#125;
-    return _typeof(obj);
-  &#125;
-  
-  function _inherits(subClass, superClass) &#123;
-    if (typeof superClass !== &quot;function&quot; &amp;&amp; superClass !== null) &#123;
-      throw new TypeError(&quot;Super expression must either be null or a function&quot;);
-    &#125;
-    subClass.prototype = Object.create(superClass &amp;&amp; superClass.prototype, &#123; constructor: &#123; value: subClass, writable: true, configurable: true &#125; &#125;);
-    if (superClass) _setPrototypeOf(subClass, superClass);
-  &#125;
-  
-  function _setPrototypeOf(o, p) &#123;
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) &#123;
-      o.__proto__ = p; return o;
-    &#125;;
-    return _setPrototypeOf(o, p);
-  &#125;
-  
-  function _createSuper(Derived) &#123;
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
-    return function _createSuperInternal() &#123;
-      var Super = _getPrototypeOf(Derived), result;
-      if (hasNativeReflectConstruct) &#123;
-        var NewTarget = _getPrototypeOf(this).constructor;
-        result = Reflect.construct(Super, arguments, NewTarget);
-      &#125; else &#123;
-        result = Super.apply(this, arguments);
-      &#125;
-      return _possibleConstructorReturn(this, result);
-    &#125;;
-  &#125;
-  
-  function _possibleConstructorReturn(self, call) &#123;
-    if (call &amp;&amp; (_typeof(call) === &quot;object&quot; || typeof call === &quot;function&quot;)) &#123;
-      return call;
-    &#125;
-    return _assertThisInitialized(self);
-  &#125;
-  
-  function _assertThisInitialized(self) &#123;
-    if (self === void 0) &#123;
-      throw new ReferenceError(&quot;this hasn&#39;t been initialised - super() hasn&#39;t been called&quot;);
-    &#125;
-    return self;
-  &#125;
-  
-  function _isNativeReflectConstruct() &#123;
-    if (typeof Reflect === &quot;undefined&quot; || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === &quot;function&quot;) return true;
-    try &#123;
-      Date.prototype.toString.call(Reflect.construct(Date, [], function () &#123; &#125;));
-      return true;
-    &#125; catch (e) &#123;
-      return false;
-    &#125;
-  &#125;
-  
-  function _getPrototypeOf(o) &#123;
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) &#123;
-      return o.__proto__ || Object.getPrototypeOf(o);
-    &#125;;
-    return _getPrototypeOf(o);
-  &#125;
-  
-  function _instanceof(left, right) &#123;
-    if (right != null &amp;&amp; typeof Symbol !== &quot;undefined&quot; &amp;&amp; right[Symbol.hasInstance]) &#123;
-      return !!right[Symbol.hasInstance](left);
-    &#125; else &#123;
-      return left instanceof right;
-    &#125;
-  &#125;
-  
-  function _classCallCheck(instance, Constructor) &#123;
-    if (!_instanceof(instance, Constructor)) &#123;
-      throw new TypeError(&quot;Cannot call a class as a function&quot;);
-    &#125;
-  &#125;
-  
-  function _defineProperties(target, props) &#123;
-    for (var i = 0; i &lt; props.length; i++) &#123;
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if (&quot;value&quot; in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    &#125;
-  &#125;
-  
-  function _createClass(Constructor, protoProps, staticProps) &#123;
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  &#125;
-  
-  var Person = /*#__PURE__*/function () &#123;
-    function Person(name, age, gender, interests) &#123;
-      _classCallCheck(this, Person);
-      this.name = name;
-      this.age = age;
-      this.gender = gender;
-      this.interests = interests;
-    &#125;
-    _createClass(Person, [&#123;
-      key: &quot;greeting&quot;,
-      value: function greeting() &#123;
-        console.log(&quot;hello, I am &quot;.concat(this.name, &quot;!&quot;));
-      &#125;
-    &#125;]);
-    return Person;
-  &#125;();
-  
-  var Teather = /*#__PURE__*/function (_Person) &#123;
-    _inherits(Teather, _Person);
-    var _super = _createSuper(Teather);
-    function Teather(name, age, gender, interests, subject) &#123;
-      var _this;
-      _classCallCheck(this, Teather);
-      _this = _super.call(this, name, age, gender, interests);
-      _this.subject = subject;
-      return _this;
-    &#125;
-    _createClass(Teather, [&#123;
-      key: &quot;greeting&quot;,
-      value: function greeting() &#123;
-        console.log(&quot;hello, I am a teather, I teath &quot;.concat(this.subject));
-      &#125;
-    &#125;]);
-    return Teather;
-  &#125;(Person);
-  
-  var t = new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
-  t.greeting(); // hello, I am a teather, I teath english!
-</code></pre>
-<p>&emsp;&emsp;ES6转换后的ES5代码与原来的ES5代码实现原理一致。我们来简单分析一下转换后的代码：<br>&emsp;&emsp;① 可以看到，定义Person和Teacher时，使用了立即执行函数，代码会立即执行，执行后返回Person构造函数以及继承于Person的Teacher构造函数。<br>&emsp;&emsp;② 在定义Person变量的立即执行函数中，定义了Person函数，函数中设置了相关属性。然后调用_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法给Person函数的原型prototype上添加上方法，(还可以给Person函数添加静态属性，这里示例代码未添加）。即_createClass()实现了Person函数方法与属性的添加，最后将Person函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;③ 在定义Teacher变量的立即执行函数中，将定义好的Person构造函数函数作为了参数，先调用_inherits()方法，将定义的Teacher函数（预编译会进行函数提升）与传入的Person构造函数作为参数，其中使用Object.create()方法以Person构造函数的原型prototype作为原型，设置了Teacher函数的原型，同时Teacher函数的原型也继承了Person构造函数原型链上的属性和方法，然后调用_setPrototypeOf()方法修正Teacher函数原型对象__proto__的指向，也就是_inherits()方法实现了继承关系。然后再调用了_createSuper(Teather)方法定义了_super变量，其值是一个函数，里面追溯了Teacher构造函数的原型链，定义了调用父构造函数Person时，使用了apply（this, arguments）方法绑定了子构造函数Teacher的this，实现了Teacher函数属性的设置（<u>返回的_super方法这里只是定义，还未执行，要在Teacher构造函数执行到_super.call()的时候才会执行</u>）。最后同理，调用了_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法在Teacher函数的原型prototype上重写了greeting()方法，将Teacher函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;④ 调用new Teacher()创建t实例，执行Teacher构造函数，调用_classCallCheck()防止构造函数被直接调用（即ES6中的类是不能被直接调用的）。然后再调用上面说到的定义了的_super()方法实现了实例属性的设置（在执行_super()函数时，会执行里面定义的父构造函数Person的方法来实现属性的继承与设置），再设置了Teacher构造函数实例特有的subject属性，此时获得的_this实例的原型指向Teacher构造函数，Teacherr构造函数又继承于Person构造函数。此时_this实例已经继承了原型链上的属性与方法，包括Teahcer构造函数重写的greeting()方法。返回_this。<br>&emsp;&emsp;⑤ 执行t.greeting()方法，可以看到方法被成功执行且为执行的重写后的方法。</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JS预解析、作用域、执行上下文、this</title>
-    <url>/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/</url>
-    <content><![CDATA[<p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻(在极短时间内完成)。会进行变量与函数声明（变量提升）、生成执行上下文（作用域）等工作。</p>
-<h2 id="1、作用域"><a href="#1、作用域" class="headerlink" title="1、作用域"></a>1、作用域</h2><p>&emsp;&emsp;JavaScript采用<u>词法作用域</u>，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
-<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。<u>全局作用域的变量是全局对象(window)的属性</u>，不论在什么函数中都可以直接访问，而不需要通过全局对象，<u>但加上全局对象，可以提供搜索效率。</u><br><em>&emsp;&emsp;[注] 隐式的声明变量，或在最外层函数外部声明的变量，以及给window对象添加的属性都是全局变量，<strong>隐式声明的变量不存在变量提升</strong></em></p>
-<pre><code>  function foo(a) &#123;
-  console.log(b) // Uncaught ReferenceError: b is not defined (异常，代码停止执行，变量b没有提升)
-    b = a
-  &#125;
-  foo(2)
-  console.log(b) // 未执行
-
-  function foo(a) &#123;
-    b = a
-  &#125;
-  foo(2)
-  console.log(b) // 2
-</code></pre>
-<p>&emsp;&emsp;② 在函数内部用var关键字声明的变量，函数的参数会存在于该函数的局部作用域中。<br><em>&emsp;&emsp;[注] 局部变量的优先级高于全局变量</em><br>&emsp;&emsp;③ 用let、const声明的变量会存在于块级作用域中。</p>
-<h2 id="2、预解析与执行上下文"><a href="#2、预解析与执行上下文" class="headerlink" title="2、预解析与执行上下文"></a>2、预解析与执行上下文</h2><p>&emsp;&emsp;JavaScript代码在执行前的瞬间会存在预解析的阶段，会对代码进行相应的处理，对声明的变量与函数进行变量提升，以及生成对应的执行上下文，执行上下文除了保存代码执行信息外，还会将当前作用域信息也保存在执行上下文中，他们有相应的存储关系。随着代码进行的进行，执行上下文会进行相应的改变，执行上下文是用于跟踪代码的运行情况。同一个作用域下，不同的调用会产生不同的执行上下文环境，继而产生不同的变量的值。</p>
-<p>&emsp;&emsp;预解析过程创建执行上下文的步骤：<br>&emsp;&emsp;① 隐式的创建GO（全局上下文）/AO（函数上下文）对象<br>&emsp;&emsp;② 找形参和变量声明，将变量和形参名作为GO/AO的属性名，值为undefined（这个过程也常称为变量提升）<br>&emsp;&emsp;③ 将实参值和形参统一<br>&emsp;&emsp;④ 在函数体里面找函数声明，作为GO/AO的属性，值赋予函数体（这个过程也常称为函数提升）<br><em>&emsp;&emsp;[注] 在全局预解析中，由于全局中没有参数的的概念，所以省去了第2步的找参数。第2步中的找变量声明与第3步实参形参相统一一同处理。GO全局上下文对象，它优于局部预解析AO局部上下文对象的创建与执行</em></p>
-<p>&emsp;&emsp;例如下面的代码：</p>
-<pre><code>  1  console.log(a) // undefined
-  2  console.log(b) // Uncaught ReferenceError: b is not defined
-  3  var a = 5
-  4  console.log(a) // 5
-  5  console.log(test) // undefined
-  6  console.log(fn) // function fn () &#123;&#125;
-  7  console.log(fn(3)) // 11
-  8  var test = function () &#123;
-  9     return 10
-  10 &#125;
-  11 function fn(x) &#123;
-  12  console.log(a) // undefined
-  13  var a = b = 8
-  14  var c = 6
-  15  return a + x
-  16 &#125;
-  17 console.log(a) // 5
-  18 console.log(b) // 8
-  19 console.log(c) // Uncaught ReferenceError: c is not defined
-  20 console.log(test()) // 10
-</code></pre>
-<p>&emsp;&emsp;<strong>上面的代码在执行前的瞬间，会先进行全局预解析。过程如下：（这里只列举了执行上下文中的部分信息）</strong></p>
-<p>&emsp;&emsp;(1) 进行全局预解析的第1步：创建全局上下文GO对象</p>
-<pre><code>  GO: &#123;
-  
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;(2) 进行全局预解析的第2步：找变量声明，将变量作为GO的属性名，值为undefined</p>
-<pre><code>  GO: &#123;
-    a: undefined,
-    test: undefined
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;(3) 进行全局预解析3步：在函数体里面找函数声明，作为GO的属性，值赋予函数体</p>
-<pre><code>  GO: &#123;
-    a: undefined,
-    test: undefined
-    fn: function fn () &#123;&#125;
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;<strong>全局预解析完成，代码开始执行，执行过程如下：</strong><br>&emsp;&emsp;执行第1行，输出a为undefined<br>&emsp;&emsp;执行第2行，因为全局上下文没有声明b变量，所以程序抛出异常：Uncaught ReferenceError: b is not defined<br>&emsp;&emsp;执行第3行，将全局上下文中a赋值为5</p>
-<pre><code>  GO:&#123;
-    a: 5,
-    test: undefined
-    fn: function fn () &#123;&#125;
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;执行第4行，输出a为5<br>&emsp;&emsp;执行第5行，输出test为undefined<br>&emsp;&emsp;执行第6行，输出fn为function fn () {}</p>
-<p>&emsp;&emsp;<strong>执行第7行，调用fn并传入参数3，在fn执行前瞬间，会进行局部预编译，过程如下：</strong></p>
-<p>&emsp;&emsp;(1) 进行局部预解析的第1步： 创建对应的函数上下文AO对象</p>
-<pre><code>  AO: &#123;
-    
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;(2) 进行局部预解析的第2步：找形参和变量声明，将变量和形参名作为AO的属性名，值为undefined</p>
-<pre><code>  AO: &#123;
-    x: undefined,
-    a: undefined,
-    c: undefined
-  &#125;
-</code></pre>
-<p><em>&emsp;&emsp;[注] <u>在第13行’var a = b = 8’，这里隐式的声明了全局变量b，此时应该将变量b添加到GO对象中，</u>此时的GO对象为：</em></p>
-<pre><code>  GO: &#123;
-    a: 5,
-    test: undefined,
-    fn: function fn () &#123;&#125;,
-    b: undefined
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;(3) 进行局部预解析第3步：将实参与形参统一</p>
-<pre><code>  AO:&#123;
-    x: 3,
-    a: undefined,
-    c: undefined
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;(4) 对于fn函数，进行预解析第4步：在函数体里面找函数声明，作为AO的属性，值赋予函数体<br>&emsp;&emsp;fn函数内无函数声明，AO对象不变</p>
-<p>&emsp;&emsp;<strong>fn函数执行前预解析完成，11-16行的<u>函数入栈执行！</u></strong><br>&emsp;&emsp;执行第12行，输出a为undefined（先在当前执行的函数上下文AO的作用域对象中查找变量a，若AO的作用域对象中没有，通过AO中的作用域链，再去全局上下文GO中去查找）<br>&emsp;&emsp;执行第13行，将变量b赋值为8，变量a赋值为8。其中变量b存在于全局上下文GO中，这里的a为当前执行的函数上下文AO中的a，此时的GO、AO对象为：</p>
-<pre><code>  GO:&#123;
-    a: 5,
-    test: undefined,
-    fn: function fn () &#123;&#125;,
-    b: 8
-  &#125;
-  AO:&#123;
-      x: 3,
-      a: 8,
-      c:undefined
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;执行第14行，将AO中的c变量赋值为6，此时的AO为：</p>
-<pre><code>  AO:&#123;
-    x: 3,
-    a: 8,
-    c: 6
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;<strong>执行第15行，计算a+x的值为11，并返回函数调用的地方。所以第7行输出函数fn(3)的执行结果11。<u>函数执行完成，函数出栈，当前执行上下文AO对象被销毁。 </u></strong><br>&emsp;&emsp;执行第8行，将GO中test赋值为function () { return 10 }，此时的GO对象为：</p>
-<pre><code>  GO: &#123;
-    a: 5,
-    test: undefined,
-    fn: function fn () &#123;&#125;,
-    b: 8
-  &#125;
-</code></pre>
-<p>&emsp;&emsp;执行第17行，输出a为5<br>&emsp;&emsp;执行第18行，输出b为8<br>&emsp;&emsp;执行第19行，因为全局上下文没有声明c变量，所以程序抛出异常：Uncaught ReferenceError: c is not defined<br>&emsp;&emsp;执行第20行，<u>这里调用test()函数与上面调用fn(3)函数类似，执行前也会进行相应的局部预解析，创建对应的AO对象。然后函数入栈执行，</u>这最后函数返回执行结果为10<br>&emsp;&emsp;代码执行完成！</p>
-<p><em>&emsp;&emsp;[注] 这里分析比较简单的一段代码的执行过程，这里在函数内部没有函数的声明，也没有异步处理。一般的，如果函数内部存在函数，在内部函数调用时也会进行对应的局部预处理以及入栈执行；如果代码内包含异步逻辑，会把异步逻辑放在异步队列里面进行相应的调度执行。</em><br><em>&emsp;&emsp;[注] 如果在某个作用域中使用了某变量，而该变量并未在对应的（静态）作用域中声明，而在其它作用域（父级）中声明，该变量称为<u>自由变量（即跨域了当前对应的作用域的变量叫做自由变量）。</u></em></p>
-<h2 id="3、闭包"><a href="#3、闭包" class="headerlink" title="3、闭包"></a>3、闭包</h2><p>&emsp;&emsp;一个函数和对其周围状态（词法环境）的引用捆绑在一起，这样的组合就是闭包（closure）。闭包让你可以在一个内层函数中访问到其外层函数的作用域（即能够读取其他函数内部变量的函数）。在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来。<strong>函数就会形成闭包。</strong><u>闭包是由函数以及声明该函数的词法环境组合而成的。</u>该环境包含了这个闭包创建时作用域内的任何局部变量。</p>
-<p>&emsp;&emsp;例如下面的代码：</p>
-<pre><code>  function add(x) &#123;
-    console.log(inner.__proto__)
-    function inner(y) &#123;
-        return x + y;
-    &#125;
-    return inner;
-  &#125;
-  console.log(add(3)(4))
-
-  // 输出
-  &#123;constructor: ƒ&#125;
-  constructor: ƒ inner(y)
-  arguments: null
-  caller: null
-  length: 1
-  name: &quot;inner&quot;
-  prototype: &#123;constructor: ƒ&#125;
-  __proto__: ƒ ()
-  [[FunctionLocation]]: scopes.html:14
-  [[Scopes]]: Scopes[2]
-  0: Closure (add) &#123;x: 3&#125;
-  1: Global &#123;window: Window, self: Window, document: document, name: &quot;&quot;, location: Location, …&#125;
-  __proto__: Object
-
-  7
-</code></pre>
-<p>&emsp;&emsp;上面的代码中：add函数内部定义了inner函数，inner函数可以访问词法环境外部add函数作用域中变量，如这里的形参x。从打印的inner.prototype对象可以看出，在inner函数的作用域链的栈底为Global全局作用域，栈顶为inner函数所在的add函数的作用域，这里形成了Closure闭包。add(3)函数调用后返回的inner(y){ return x + y; }函数(x=3)与inner函数的词法环境形成了闭包，<u>inner函数中保留了对add函数内部变量x的应用，且此时x=3</u>，所以在add(3)(4)继续调用inner函数时返回结果7。</p>
-<p><em>&emsp;&emsp;[注] 这里<u>是否形成闭包与内部的inner函数是否返回无关，函数便会形成闭包。</u></em></p>
-<h2 id="4、this关键字"><a href="#4、this关键字" class="headerlink" title="4、this关键字"></a>4、this关键字</h2><p>&emsp;&emsp;在绝大多数情况下，<u>函数的调用方式决定了 this 的值（<strong>运行时绑定</strong>）。this 不能在执行期间被赋值，并且在每次函数被调用时 this 的值也可能会不同（<strong>与调用方式有关</strong>）。</u>ES5 引入了 bind 方法来设置函数的 this 值，而不用考虑函数如何被调用的。ES2015 引入了箭头函数，箭头函数不提供自身的 this 绑定，此时this 的值将保持为当前闭合词法上下文的值。即函数中this的取值为当前执行上下文（global、function 或 eval）的一个属性，在非严格模式下，总是指向一个对象，在严格模式下可以是任意值。</p>
-<p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，在全局执行环境中（在任何函数体外部）this 都指向全局对象。</p>
-<pre><code>  console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
-
-  &quot;use strict&quot;;
-  console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
-</code></pre>
-<p>&emsp;&emsp;② 在函数上下文中，this指向取决于函数被调用的方式：在非严格模式下，this的值不由调用者设置，this指向window。在严格模式下，this指向调用者，若执行前没有设置this的值，也没有作为对象的属性或方法而是直接调用，this为undefined。<br><em>&emsp;&emsp;[注] 可以通过call、apply方法修改this指向的环境。</em></p>
-<pre><code>  (function () &#123;
-    console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
-  &#125;())
-
-  &quot;use strict&quot;;
-  (function () &#123;
-    console.log(this) // undefined
-  &#125;())
-  
-  &quot;use strict&quot;;
-  function test() &#123;
-    console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
-  &#125;
-  test.apply(window)
-</code></pre>
-<p>&emsp;&emsp;③ 类上下文中，基类与派生类构造函数constructor()中this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象，所有非静态方法会被添加到this的原型中。在派生类中的构造函数没有初始的this绑定，在构造函数中调用super()才能生成一个this绑定。<u>注意的是，使用super对象时，super 调用父类的方法时，super 会绑定当前子类的 this。</u><br><em>&emsp;&emsp;[注] 静态方法不是this的属性，它们只是类自身的属性。派生类（子类）在super()前调用this会抛出异常(ReferenceError)，派生类不能在调用super前返回，除非没有构造函数或者构造函数返回了对象。</em></p>
-<pre><code>  &quot;use strict&quot;;
-  class A &#123;
-    constructor () &#123;
-      console.log(this) // A &#123;&#125;
-    &#125;
-  &#125;
-  new A()
-
-  &quot;use strict&quot;;
-  class A &#123;
-    constructor () &#123;
-      console.log(this)
-    &#125;
-  &#125;
-  class B extends A &#123;
-    constructor () &#123;
-      console.log(this) // Uncaught ReferenceError: Must call super constructor in derived class before accessing &#39;this&#39; or returning from derived constructor
-    &#125;
-  &#125;
-  new B()
-
-  &quot;use strict&quot;;
-  class A &#123;
-    constructor () &#123;
-      console.log(this) // B &#123;&#125;
-    &#125;
-  &#125;
-  class B extends A &#123;
-    constructor () &#123;
-      super()
-      console.log(this) // B &#123;&#125;
-    &#125;
-  &#125;
-  new B()
-
-  // 特别的~
-  &quot;use strict&quot;;
-  class A &#123;
-    constructor () &#123;
-      console.log(this)
-    &#125;
-  &#125;
-  class B extends A &#123;
-    constructor () &#123;
-      return &#123; a: 1 &#125;
-    &#125;
-  &#125;
-  console.log(new B()) // &#123; a: 1 &#125;
-</code></pre>
-<h2 id="欺骗词法作用域"><a href="#欺骗词法作用域" class="headerlink" title="欺骗词法作用域"></a>欺骗词法作用域</h2><p>&emsp;&emsp;词法作用域完全由写代码期间所声明的位置决定，在JavaScript中有两种机制来实现在运行时“修改”（欺骗）所处的词法作用域。一般并不推荐使用，因为<u>欺骗词法作用域会导致性能下降</u>。</p>
-<p>&emsp;&emsp;1) 两种机制(<u>对应编码方式并不推荐使用</u>)：</p>
-<p>&emsp;&emsp;① eval<br>&emsp;&emsp;Javascript中的eval()函数可以接受一个字符串为参数，并将其中的内容视为好像在书写时代码就存在于程序这个位置，无论何种情况，eval()都可以在运行期修改所在的作用域。在执行eval()之后的代码时，引擎并不“知道”或“在意”前面的代码是以动态的形式插入进来，并已对词法作用域环境进行修改。引擎只会如往常地进行查找。</p>
-<p>&emsp;&emsp;滥用eval()动态执行代码可能造成一些问题(变量泄漏、污染全局作用域、性能损失)：</p>
-<pre><code>  function foo(str, a) &#123;
-    eval(str)
-    console.log(a, b) // 1 3
-  &#125;
-  let b = 2
-  foo(&#39;var b = 3&#39;, 1)
-</code></pre>
-<p>&emsp;&emsp;foo()函数中使用eval()函数动态插入’var b = 3’，这段代码实际上在foo()内部创建了一个变量b，并遮蔽了外部（全局）作用域中的同名变量。当console.log()被执行时，在foo()函数的作用域内同时找到了a和b，所以永远不会找到外部的b，因此输出1、3。</p>
-<p><em>&emsp;&emsp;[注] 在严格模式的程序中，eval()在运行时有其自己的词法作用域，意味着其中的声明无法修改所在的作用域。</em></p>
-<pre><code>  function foo(str) &#123;
-    &quot;use strict&quot;
-    eval(str)
-    console.log(a) // Uncaught ReferenceError: a is not defined
-  &#125;
-  foo(&#39;var a = 3&#39;)
-</code></pre>
-<p><em>&emsp;&emsp;[注] JavaScript中还有其他一些功能效果和eval()很相似。setTimeout()与setInterval()的第一个参数可以是字符串，字符串的内容可以被解释为一段动态生成的函数代码，这些功能已经过时且不被提倡，也会造成变量泄漏、污染全局作用域、性能损失。new Function()函数的行为也很类似，最后一个参数可以接受代码字符串，并将其转化为动态生成的函数（前面的参数是这个新生成函数的形参）。这种构建比eval()略微安全一些，但也要尽量避免使用。<u>在程序中动态生成代码的使用场景非常罕见，因为它所带来的好处无法抵消性能上的损失。</u></em></p>
-<p>&emsp;&emsp;② with<br>&emsp;&emsp;with通常被当做重复引用同一个对象中的多个属性的快捷方法，可以不需要重复引用对象本身。</p>
-<pre><code>  var obj = &#123; a: 1, b: 2, c: 3 &#125;
-  with(obj) &#123; a = 3,  b = 4, c = 5 &#125;
-  console.log(obj) // &#123;a: 3, b: 4, c: 5&#125;
-</code></pre>
-<p>&emsp;&emsp;滥用with也可能造成一些问题(变量泄漏、污染全局作用域、性能损失)：</p>
-<pre><code>  function foo(obj) &#123;
-    with (obj) &#123; a = 2 &#125;
-  &#125;
-
-  let o1 = &#123; a: 3 &#125;
-  let o2 = &#123; b: 3 &#125;
-
-  foo(o1)
-  console.log(o1.a) // 2
-  // console.log(a) // ReferenceError: a is not defined
-
-  foo(o2)
-  console.log(o2.a) // undefined
-  console.log(a) // 2
-</code></pre>
-<p><em>&emsp;&emsp;[注] with可以将一个对象处理为词法作用域。当传递o1给with时，with中所声明的作用域是o1，在o1作用域中执行‘a=2’时，查询到属性a并对a赋值为2。当后面with将o2作为作用域时，在o2的作用域、foo函数作用域、全局作用域都没有找到属性a,因此执行‘a=2’时，会隐式的创建一个全局变量a并赋值为2(当前代码运行在非严格模式下)</em></p>
-<p><em>&emsp;&emsp;[注] eval()与with性能问题：</em></p>
-<p><em>&emsp;&emsp;JavaScript引擎会在编译阶段进行数项性能优化。其中有些优化依赖于能够根据代码的词法进行静态分析，并预先确定所有变量和函数的定义位置，才能在执行过程中快速找到标识符。但是如果引擎在代码中发现了eval()与with，它只简单的假设关于标识符的位置判断搜索无效的，因为无法在词法分析阶段明确知道eval()会接收到什么代码，这些代码会对作用域进行怎样的修改，也无法知道传的给with用来创建新词法作用域的对象内容到底是什么。</em></p>
-<p><em>&emsp;&emsp;最悲观的情况是如果出现了eval()和with，所有的优化可能都是无意义的，因此最简单最谨慎的做法是<u>完全不做任何优化。</u>如果代码中大量使用eval()和with，那么运行起来会变得非常缓慢。无论引擎多聪明，试图将这些悲观的情况的副作用限制在最小范围内，也无法避免如果没有这些优化，代码会运行得更慢这个事实。</em></p>
-<p><em>&emsp;&emsp;[注] 在JavaScript中，作用域是由函数(function)和块级作用域(ES6 let、const定义块级作用域)划分的。不是由语句块划分的，在while、for、if语句中，隐式定义的变量都是全局变量，在 for 循环里使用了 var 关键字定义的变量也是全局变量，因为在while、for、if中的区域属于全局作用域。有时编码时把 == 或 === 误写成 = 便会出现意想不到的错误。</em></p>
-<pre><code>  while (a = 1) &#123; b = 2; break &#125;
-  console.log(a, b) // 1 2
-  for (var c = 2; c &lt; 3; c++) &#123; d = 4 &#125;
-  console.log(c, d) // 3 4
-  if (e = 5) &#123; f = 6 &#125;
-  console.log(e, f) // 5, 6
-</code></pre>
-<p><em>&emsp;&emsp;for语句条件部分使用 let 定义会形成多个块级作用域，定义的循环变量不会污染全局变量。但执行语句里的 var 关键字声明或隐式声明会污染全局变量。</em></p>
-<pre><code>  for (let c = 2; c &lt; 3; c++) &#123; var d = 4 &#125;
-  // console.log(c) // Uncaught ReferenceError: c is not defined
-  console.log(d) // 4
-</code></pre>
-<p><em>&emsp;&emsp;为了及时发现将 == 或 === 误写成 = 的错误，可进行如下编码(将常量放在 == 或 === 前面，变量名放后面)：</em></p>
-<pre><code>  while (1 == a) &#123; break &#125;
-  if (5 == e) &#123;  &#125;
-</code></pre>
-<p><em>&emsp;&emsp;如果将上面的代码中的判等符号误写成了 = 符号，代码也不会通过编译，会抛出 Uncaught SyntaxError: Invalid left-hand side in assignment 的错误，因为永远不可能将一个变量的值赋值给一个常量~</em></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>WEB技术</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JS常用API（字符串、数组、对象、正则、日期）</title>
     <url>/2021/01/16/javascript/JS%E5%B8%B8%E7%94%A8API%EF%BC%88%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E7%BB%84%E3%80%81%E5%AF%B9%E8%B1%A1%E3%80%81%E6%AD%A3%E5%88%99%E3%80%81%E6%97%A5%E6%9C%9F%EF%BC%89/</url>
     <content><![CDATA[<p>JS中常用的API有字符串、数组、对象、正则与日期对象等。</p>
@@ -4494,6 +3925,270 @@
       </tags>
   </entry>
   <entry>
+    <title>JS原型（prototype）链与继承（Class）</title>
+    <url>/2020/12/23/javascript/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/</url>
+    <content><![CDATA[<p>在JavaScript中，每个实例对象（ object ）都有一个私有属性（称之为 __proto__ ）指向它的构造函数的原型对象（prototype ）。该原型对象也有一个自己的原型对象( __proto__ ) ，层层向上直到一个对象的原型对象为 null。根据定义，null没有原型，并作为这个原型链中的最后一个环节。几乎所有 JavaScript 中的对象都是位于原型链顶端的Object对象的实例。</p>
+<h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><p>&emsp;&emsp;对象：对象是一个包含相关数据和方法的集合，通常由一些变量和函数组成，我们称之为对象里面的属性和方法。对象成员的值可以是任意的，例如Number，String，Function，null， undefined等。</p>
+<p><em>&emsp;&emsp;[注1] 可以使用点表示法或者括号([ ])表示法访问对象的成员，对象做了字符串(key)到值(value)的映射，而数组做的是数字(索引)到值的映射。其中，括号表示法一个特别的地方是不仅可以动态的去设置对象成员的值，还可以动态的设置成员的名字(key)。</em><br><em>&emsp;&emsp;[注2] 可以用一个对象来做另一个对象成员的值，这样，实际上创建了一个子命名空间，可以链式的使用点表示法或括号表示法去访问其中的成员变量。</em></p>
+<p>&emsp;&emsp;<u>面向对象的JavaScript</u>（OOJS）：面向对象编程（OOP）的基本思想为，在程序里，我们通过使用对象去构建现实世界的模型，把原本很难（或不可）能被使用的功能，简单化并提供出来，以供访问。对象可以包含相关的数据和代码，去描述模型以及模型具有的行为和功能。对象包（命名空间）存储（封装）着对象的数据与方法，使数据的组织和访问变得更容易了；对象也常用作数据存储体，用于在网络上运输数据，十分便捷。</p>
+<p>&emsp;&emsp;<u>构造函数对象</u>：JavaScript 用一种称为构建函数的特殊函数(function)来定义对象和它们的特征。一个构建函数通常是大写字母开头，这样便于区分构建函数和普通函数。关键字 new 跟着一个含参构造函数，便能创建一个想要的对象（对象的原型指向构建函数）。其中，这个构建函数是 JavaScript 版本的类（<u>ES6已提供class关键字的语法糖定义构建函数</u>）。</p>
+<p><em>&emsp;&emsp;[注] 其他创建对象的方式：</em><br><em>&emsp;&emsp;① 字面量定义对象（对象的原型指向Object对象）</em><br><em>&emsp;&emsp;② Object()构造函数，即使用new Object()创建对象（对象的原型指向Object对象）</em><br><em>&emsp;&emsp;③ Object.create()方法，允许您基于现有对象创建新的对象。（对象的原型指向创建时指定的对象）</em></p>
+<h2 id="1、原型（链）"><a href="#1、原型（链）" class="headerlink" title="1、原型（链）"></a>1、原型（链）</h2><p>&emsp;&emsp;JavaScript 常被描述为一种基于原型的语言——每个对象拥有一个原型对象，对象以其原型为模板、从原型继承方法和属性。原型对象也可能拥有原型，并从中继承方法和属性，一层一层，以此类推。这种关系常被称为原型链，它解释了为何一个对象会拥有定义在其他(被继承)对象中的属性和方法。比如有些属性和方法定义在Object的构造器函数的prototype属性上，而非定义在当前对象实例本身。</p>
+<p><em>&emsp;&emsp;<strong>[注1] 与传统OOP的区别：在传统的 OOP 中，首先定义“类”，此后创建对象实例时，类中定义的所有属性和方法都被复制到例中。<u>在 JavaScript 中并不如此复制——而是在对象实例和它的构造器之间建立一个链接（它是 __proto__ 属性，是从构造函数的 prototype 属性派生的），</u>可通过其上溯原型链，在构造器中找到对应的属性和方法。</strong></em><br><em>&emsp;&emsp;[注2] 对象原型（可以通过Object.getPrototypeOf(obj)或者浏览器提供的__proto__属性获得）与构造函数的prototype属性是有区别的：前者是每个实例上都有的属性，后者是构造函数的属性。也就是说，Object.getPrototypeOf(new Bool())和Bool.prototype指向着同一个对象(Bool构造函数)。<u>特别的，没有官方的方法用于直接访问一个对象的原型——原型链中的“连接”被定义在一个内部属性中，</u>在 JavaScript 语言标准中用 [[prototype]] 表示，大多数现代浏览器还是提供了一个名为 __proto__ 属性，其包含了对象的原型。</em></p>
+<p>&emsp;&emsp;(1) prototype属性：继承成员被定义的地方<br>&emsp;&emsp;继承的属性和方法是定义在 prototype 属性之上的（可以称之为子命名空间），prototype 属性的值是一个对象，我们希望被原型链下游的对象继承的属性和方法，都被储存在其中。<br><em>&emsp;&emsp;[注] Object.create()可以指定一个对象作为原型对象来创建一个实例对象。</em></p>
+<p>&emsp;&emsp;(2) constructor属性：指向了用于构造此实例对象的构造函数<br>&emsp;&emsp;每个实例对象都从原型中继承了一个constructor属性，该属性指向了用于构造此实例对象的构造函数。<br>&emsp;&emsp;在某些情况下，没有原始构造器的引用，想要构造实例可以通过已有实例的constructor属性指向的构造函数来完成。即可以在 constructor 属性的末尾添加一对圆括号（括号中包含所需的参数），只需在前面添加 new 关键字（let person2 = new person1.constructor()），便能将此函数作为构造器使用，从而调用这个构造器创建另一个对象实例。</p>
+<p><em>&emsp;&emsp;[注] 构建函数前new关键字做了什么？</em><br><em>&emsp;&emsp;① 创建一个新对象</em><br><em>&emsp;&emsp;② 将新对象的__proto__属性指向了构建函数对象prototype对象</em><br><em>&emsp;&emsp;③ 将构建函数的this修正为指向新对象，执行构造函数中的代码，即为这个新对象添加对应属性</em><br><em>&emsp;&emsp;④ 返回新对象</em></p>
+<pre><code>  var obj = &#123;&#125;;
+  obj.__proto__ = Base.prototype;
+  Base.call(obj);
+</code></pre>
+<h2 id="2、继承"><a href="#2、继承" class="headerlink" title="2、继承"></a>2、继承</h2><h4 id="JavaScript基于原型链继承（prototypal-inheritance）"><a href="#JavaScript基于原型链继承（prototypal-inheritance）" class="headerlink" title="JavaScript基于原型链继承（prototypal inheritance）"></a>JavaScript基于原型链继承（prototypal inheritance）</h4><p>&emsp;&emsp;如何实现继承：（这里以Teacher构造函数继承于Person构造函数的例子来说明）<br>&emsp;&emsp;(1) 定义构造器（构造函数），这里定义构造函数Person。</p>
+<pre><code>  function Person(name, age, gender, interests) &#123;
+    this.name =name;
+    this.age = age;
+    this.gender = gender;
+    this.interests = interests;
+  &#125;;
+  Person.prototype.greeting = function() &#123;
+    console.log(`hello, I am $&#123;name&#125;!`)
+  &#125;;
+</code></pre>
+<p>&emsp;&emsp;(2) 创建继承于Person构造函数的Teacher构造函数，并为Teacher 构造函数添加特有的subject（所授学科科目）属性。</p>
+<pre><code>  function Teacher(name, age, gender, interests, subject) &#123;
+    // 创建一个新的对象实例时同时指派其继承的属性（修正this指向Teacher()函数）
+    Person.call(this, name, age, gender, interests);
+    this.subject = subject;
+    
+    // 利用Object.create()方法将Person.prototype作为Teacher.prototype的原型对象，从而继承其属性与方法
+    Teacher.prototype = Object.create(Person.prototype);
+    
+    // 修正Teacher构造器指向，使之与Teacher关联(修正前指向Person)
+    Teacher.prototype.constructor = Teacher;
+  &#125;
+</code></pre>
+<p><em>&emsp;&emsp;[注] 每一个函数对象（Function）都有一个 prototype 属性，并且只有函数对象有 prototype 属性，因为 prototype 本身就是定义在Function对象下的属性。其中Person()函数是Person.prototype的构造函数，即Person===Person.prototype.constructor。任何您想要被继承的方法都应该定义在构造函数的 prototype 对象里，并且永远使用父类的 prototype 来创造子类的 prototype，这样才不会打乱类继承结构。</em></p>
+<p>&emsp;&emsp;(3) Teacher构造函数添加新的greeting成员函数</p>
+<pre><code>  Teacher.prototype.greeting = function()&#123;
+    console.log(`hello, I am a teather, I teath $&#123;this.subject&#125;`)
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(4) 生成对应的teacher实例</p>
+<pre><code>  let t = new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
+  t.greeting(); // hello, I am a teather, I teath englis
+</code></pre>
+<p>&emsp;&emsp;所有代码：</p>
+<pre><code>  function Person(name, age, gender, interests) &#123;    
+    this.name = name;
+    this.age = age;
+    this.gender = gender;
+    this.interests = interests;
+  &#125;;
+  Person.prototype.greeting = function () &#123;
+    console.log(`hello, I am $&#123;name&#125;!`);
+  &#125;;
+  function Teacher(name, age, gender, interests, subject) &#123;
+    // 创建一个新的对象实例时同时指派其继承的所有属性（修正this指向Teacher()函数）
+    Person.call(this, name, age, gender, interests);
+    this.subject = subject;
+    // Teacher.prototype现在会继承Person.prototype的所有属性和方法
+    Teacher.prototype = Object.create(Person.prototype);
+    // 修正Teacher()的prototype的constructor属性指向(修正前指向Person，不正确)
+    Teacher.prototype.constructor = Teacher;
+  &#125;
+  Teacher.prototype.greeting = function()&#123;
+    console.log(`hello, I am a teather, I teath $&#123;this.subject&#125;`)
+  &#125;
+  let t = new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
+  t.greeting(); // hello, I am a teather, I teath englis
+</code></pre>
+<h4 id="ES6-类（class）"><a href="#ES6-类（class）" class="headerlink" title="ES6 类（class）"></a>ES6 类（class）</h4><p>&emsp;&emsp;(1) 类的定义方式<br>&emsp;&emsp;ES6 提供了更接近传统语言的写法，引入了class关键字（仅是一个‘语法糖’），可以定义类。可以使编码时逻辑更加清晰明了。在JavaScript中，类是一种“特殊的函数”。类本身就指向构造函数。</p>
+<p><em>&emsp;&emsp;[注] 类都在严格模式下执行。类的内部所有定义的方法，都是不可枚举的（这点与 ES5 定义在 prototype 上的方法表现不一致）。定义类的实例必须使用new关键字（不能像 ES5 中的构造函数可直接调用）。</em></p>
+<p>&emsp;&emsp;定义类有两种方式：<br>&emsp;&emsp;类声明：class A {}，<strong>类声明不会提升，需要先声明，再访问</strong><br>&emsp;&emsp;类表达式: let B = class [B2] {}，类表达式的命名是可选的（比如这里命名为B2），名称称为局部名称，可使用类的name属性访问对应名称</p>
+<p><em>&emsp;&emsp;<strong>[注] 类中的this：</strong></em><br>&emsp;&emsp;① 在构造函数constructor()中基类与派生类this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象（指向实例），所有非静态方法会被添加到this的原型中。在派生类（子类）中的构造函数没有初始的this绑定（undefined），在构造函数中调用super()才能生成一个this绑定（返回一个指向当前派生类的this）。<br>&emsp;&emsp;② 静态方法不是this的属性，它们只是类自身的属性，不会被子类继承。派生类在super()前调用this会抛出异常，派生类不能在调用super()前返回，除非没有构造函数或者构造函数返回了对象。<br>&emsp;&emsp;③ 使用super对象时，super 调用父类的方法时，super 会绑定子类的 this。</p>
+<p>&emsp;&emsp;(2) constructor()构造函数<br>&emsp;&emsp;初始化一个由class创建的对象。一个类中只能有唯一的constructor()方法，若代码未显式的定义，会默认添加该方法。在使用new关键字创建实例时，会执行该方法，其中的this指向创建的实例。默认会返回this实例，不过也可以显式的返回一个对象。</p>
+<p>&emsp;&emsp;(3) super关键字<br>&emsp;&emsp;分为两种情况：<br>&emsp;&emsp;当做 super() 函数使用：这个函数会调用父类的构造函数，返回一个指向当前派生类的this，相当于A.prototype.constructor.call(this, props)<br>&emsp;&emsp;当做 super 对象使用：在普通方法中，super 指向父类的原型对象；在静态方法中，super 指向父类</p>
+<p><em>&emsp;&emsp;[注] 静态方法，static修饰，可以被子类继承，但不会添加到类的实例上，方法名称可与其他方法重名。静态方法可以通过super调用。</em></p>
+<p>&emsp;&emsp;(4) 取值函数（getter）和存值函数（setter）<br>&emsp;&emsp;在类中内部可以使用get和set关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为（ES5可以提供getter、setter函数）。</p>
+<p>&emsp;&emsp;(5) new.target属性<br>&emsp;&emsp;new命令的一个属性，只能在构造函数中使用。在类中使用时，返回当前类；在子类中使用时，返回当前子类。<u>用途：可以限制类只能通过new命令调用；或者编写只能继承而不能实例化的基类。</u></p>
+<p>&emsp;&emsp;通过ES6 Class关键字实现上面Teacher类与Person类的继承关系：</p>
+<pre><code>  class Person&#123;    
+    constructor(name, age, gender, interests)&#123;
+      this.name = name;
+      this.age = age;
+      this.gender = gender;
+      this.interests = interests;
+    &#125;
+    greeting()&#123;
+      console.log(&quot;hello, I am &quot; + this.name + &quot;!&quot;);
+    &#125;
+  &#125;
+  class Teather extends Person&#123;
+    constructor(name, age, gender, interests, subject)&#123;
+      super(name, age, gender, interests);
+      this.subject = subject;
+    &#125;
+    greeting()&#123;
+      console.log(&quot;hello, I am a teather, I teath &quot; + this.subject + &quot;!&quot;);
+    &#125;
+  &#125;
+  let t = new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
+  t.greeting() // hello, I am a teather, I teath english!
+</code></pre>
+<p>&emsp;&emsp;通过Babel.js将上面的ES6转换为ES5代码如下：</p>
+<pre><code>  &quot;use strict&quot;;
+
+  function _typeof(obj) &#123;
+    &quot;@babel/helpers - typeof&quot;;
+    if (typeof Symbol === &quot;function&quot; &amp;&amp; typeof Symbol.iterator === &quot;symbol&quot;) &#123; _typeof = function _typeof(obj) &#123; return typeof obj; &#125;; &#125;
+    else &#123;
+      _typeof = function _typeof(obj) &#123;
+        return obj &amp;&amp; typeof Symbol === &quot;function&quot; &amp;&amp; obj.constructor === Symbol &amp;&amp; obj !== Symbol.prototype ? &quot;symbol&quot; : typeof obj;
+      &#125;;
+    &#125;
+    return _typeof(obj);
+  &#125;
+  
+  function _inherits(subClass, superClass) &#123;
+    if (typeof superClass !== &quot;function&quot; &amp;&amp; superClass !== null) &#123;
+      throw new TypeError(&quot;Super expression must either be null or a function&quot;);
+    &#125;
+    subClass.prototype = Object.create(superClass &amp;&amp; superClass.prototype, &#123; constructor: &#123; value: subClass, writable: true, configurable: true &#125; &#125;);
+    if (superClass) _setPrototypeOf(subClass, superClass);
+  &#125;
+  
+  function _setPrototypeOf(o, p) &#123;
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) &#123;
+      o.__proto__ = p; return o;
+    &#125;;
+    return _setPrototypeOf(o, p);
+  &#125;
+  
+  function _createSuper(Derived) &#123;
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() &#123;
+      var Super = _getPrototypeOf(Derived), result;
+      if (hasNativeReflectConstruct) &#123;
+        var NewTarget = _getPrototypeOf(this).constructor;
+        result = Reflect.construct(Super, arguments, NewTarget);
+      &#125; else &#123;
+        result = Super.apply(this, arguments);
+      &#125;
+      return _possibleConstructorReturn(this, result);
+    &#125;;
+  &#125;
+  
+  function _possibleConstructorReturn(self, call) &#123;
+    if (call &amp;&amp; (_typeof(call) === &quot;object&quot; || typeof call === &quot;function&quot;)) &#123;
+      return call;
+    &#125;
+    return _assertThisInitialized(self);
+  &#125;
+  
+  function _assertThisInitialized(self) &#123;
+    if (self === void 0) &#123;
+      throw new ReferenceError(&quot;this hasn&#39;t been initialised - super() hasn&#39;t been called&quot;);
+    &#125;
+    return self;
+  &#125;
+  
+  function _isNativeReflectConstruct() &#123;
+    if (typeof Reflect === &quot;undefined&quot; || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === &quot;function&quot;) return true;
+    try &#123;
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () &#123; &#125;));
+      return true;
+    &#125; catch (e) &#123;
+      return false;
+    &#125;
+  &#125;
+  
+  function _getPrototypeOf(o) &#123;
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) &#123;
+      return o.__proto__ || Object.getPrototypeOf(o);
+    &#125;;
+    return _getPrototypeOf(o);
+  &#125;
+  
+  function _instanceof(left, right) &#123;
+    if (right != null &amp;&amp; typeof Symbol !== &quot;undefined&quot; &amp;&amp; right[Symbol.hasInstance]) &#123;
+      return !!right[Symbol.hasInstance](left);
+    &#125; else &#123;
+      return left instanceof right;
+    &#125;
+  &#125;
+  
+  function _classCallCheck(instance, Constructor) &#123;
+    if (!_instanceof(instance, Constructor)) &#123;
+      throw new TypeError(&quot;Cannot call a class as a function&quot;);
+    &#125;
+  &#125;
+  
+  function _defineProperties(target, props) &#123;
+    for (var i = 0; i &lt; props.length; i++) &#123;
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if (&quot;value&quot; in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    &#125;
+  &#125;
+  
+  function _createClass(Constructor, protoProps, staticProps) &#123;
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  &#125;
+  
+  var Person = /*#__PURE__*/function () &#123;
+    function Person(name, age, gender, interests) &#123;
+      _classCallCheck(this, Person);
+      this.name = name;
+      this.age = age;
+      this.gender = gender;
+      this.interests = interests;
+    &#125;
+    _createClass(Person, [&#123;
+      key: &quot;greeting&quot;,
+      value: function greeting() &#123;
+        console.log(&quot;hello, I am &quot;.concat(this.name, &quot;!&quot;));
+      &#125;
+    &#125;]);
+    return Person;
+  &#125;();
+  
+  var Teather = /*#__PURE__*/function (_Person) &#123;
+    _inherits(Teather, _Person);
+    var _super = _createSuper(Teather);
+    function Teather(name, age, gender, interests, subject) &#123;
+      var _this;
+      _classCallCheck(this, Teather);
+      _this = _super.call(this, name, age, gender, interests);
+      _this.subject = subject;
+      return _this;
+    &#125;
+    _createClass(Teather, [&#123;
+      key: &quot;greeting&quot;,
+      value: function greeting() &#123;
+        console.log(&quot;hello, I am a teather, I teath &quot;.concat(this.subject));
+      &#125;
+    &#125;]);
+    return Teather;
+  &#125;(Person);
+  
+  var t = new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
+  t.greeting(); // hello, I am a teather, I teath english!
+</code></pre>
+<p>&emsp;&emsp;ES6转换后的ES5代码与原来的ES5代码实现原理一致。我们来简单分析一下转换后的代码：<br>&emsp;&emsp;① 可以看到，定义Person和Teacher时，使用了立即执行函数，代码会立即执行，执行后返回Person构造函数以及继承于Person的Teacher构造函数。<br>&emsp;&emsp;② 在定义Person变量的立即执行函数中，定义了Person函数，函数中设置了相关属性。然后调用_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法给Person函数的原型prototype上添加上方法，(还可以给Person函数添加静态属性，这里示例代码未添加）。即_createClass()实现了Person函数方法与属性的添加，最后将Person函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;③ 在定义Teacher变量的立即执行函数中，将定义好的Person构造函数函数作为了参数，先调用_inherits()方法，将定义的Teacher函数（预编译会进行函数提升）与传入的Person构造函数作为参数，其中使用Object.create()方法以Person构造函数的原型prototype作为原型，设置了Teacher函数的原型，同时Teacher函数的原型也继承了Person构造函数原型链上的属性和方法，然后调用_setPrototypeOf()方法修正Teacher函数原型对象__proto__的指向，也就是_inherits()方法实现了继承关系。然后再调用了_createSuper(Teather)方法定义了_super变量，其值是一个函数，里面追溯了Teacher构造函数的原型链，定义了调用父构造函数Person时，使用了apply（this, arguments）方法绑定了子构造函数Teacher的this，实现了Teacher函数属性的设置（<u>返回的_super方法这里只是定义，还未执行，要在Teacher构造函数执行到_super.call()的时候才会执行</u>）。最后同理，调用了_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法在Teacher函数的原型prototype上重写了greeting()方法，将Teacher函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;④ 调用new Teacher()创建t实例，执行Teacher构造函数，调用_classCallCheck()防止构造函数被直接调用（即ES6中的类是不能被直接调用的）。然后再调用上面说到的定义了的_super()方法实现了实例属性的设置（在执行_super()函数时，会执行里面定义的父构造函数Person的方法来实现属性的继承与设置），再设置了Teacher构造函数实例特有的subject属性，此时获得的_this实例的原型指向Teacher构造函数，Teacherr构造函数又继承于Person构造函数。此时_this实例已经继承了原型链上的属性与方法，包括Teahcer构造函数重写的greeting()方法。返回_this。<br>&emsp;&emsp;⑤ 执行t.greeting()方法，可以看到方法被成功执行且为执行的重写后的方法。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>面试备注 (2021.09)</title>
     <url>/2021/09/28/note/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/</url>
     <content><![CDATA[<h5 id="1、ES常见数据类型："><a href="#1、ES常见数据类型：" class="headerlink" title="1、ES常见数据类型："></a>1、ES常见数据类型：</h5><p>&emsp;&emsp;基本类型：Number、String、Boolean、undefined、null<br>&emsp;&emsp;引用类型：Object</p>
@@ -4502,7 +4197,7 @@
   typeof Number(1) // number
   typeof new Number(1) // object
 </code></pre>
-<p>&emsp;&emsp;如上代码，像普通函数一样直接调用构造函数，会执行相应的类型转换返回原始数据类型。new关键字调用构造函数，返回实例化新创建的对象</p>
+<p>&emsp;&emsp;如上代码，像普通函数一样直接调用构造函数，会执行相应的<u>类型转换</u>返回原始数据类型。new关键字调用构造函数，返回实例化新创建的对象</p>
 <h5 id="3、JS预编译过程"><a href="#3、JS预编译过程" class="headerlink" title="3、JS预编译过程"></a>3、JS预编译过程</h5><p>&emsp;&emsp;全局预编译：<br>&emsp;&emsp;① 创建GO对象<br>&emsp;&emsp;② 找变量申明，将变量名作为GO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
 <p>&emsp;&emsp;函数预编译：<br>&emsp;&emsp;① 创建AO对象<br>&emsp;&emsp;② 找变量申明与函数形参，将变量与函数形参名作为AO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 将函数实参与形参统一<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
 <p><em>&emsp;&emsp;[注] 函数预编译发生在代码运行前的瞬间，具体过程见文章：<a href="/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/#2%E3%80%81%E9%A2%84%E8%A7%A3%E6%9E%90%E4%B8%8E%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87">《JS预解析、作用域、执行上下文、this》</a></em></p>
@@ -4529,39 +4224,61 @@
   &lt;/html&gt;
 </code></pre>
 <h5 id="5、JS事件捕获和事件冒泡的执行顺序"><a href="#5、JS事件捕获和事件冒泡的执行顺序" class="headerlink" title="5、JS事件捕获和事件冒泡的执行顺序"></a>5、JS事件捕获和事件冒泡的执行顺序</h5><p>&emsp;&emsp;JS事件处理机制是：先捕获，后冒泡。捕获从上到下，冒泡从下到上。(比喻：捕获像石头沉海底，冒泡则像触底的石头产生的气泡冒出水面)</p>
-<pre><code>  const box1 = document.getElementById(&#39;box1&#39;)
-  const box2 = document.getElementById(&#39;box2&#39;)
-  document.body.addEventListener(&#39;click&#39;, function () &#123;
-     console.log(1)
-  &#125;, true)
-  box1.onclick = function () &#123;
-     console.log(2)
-  &#125;
-  box1.addEventListener(&#39;click&#39;, function() &#123;
-     console.log(3)
-  &#125;, true)
-  box2.onclick = function (e) &#123;
-     console.log(4)
-  &#125;
-  box2.addEventListener(&#39;click&#39;, function(e) &#123;
-     // e.stopPropagation()
-     console.log(5)
-  &#125;)
+<pre><code>  &lt;!DOCTYPE html&gt;
+  &lt;html lang=&quot;en&quot;&gt;
+  &lt;body&gt;
+     &lt;div id=&quot;box1&quot;&gt;
+        &lt;div id=&quot;box2&quot; style=&quot;width: 100%; height: 100%;&quot;&gt;&lt;/div&gt;
+     &lt;/div&gt;
 
-  // 依次输出：1、3、4、5、2
-  // 若在box2的onclick或addEventListener事件回调里事件阻止冒泡，则依次输出：1、3、4、5
+     &lt;script&gt;
+        const box1 = document.getElementById(&#39;box1&#39;)
+        const box2 = document.getElementById(&#39;box2&#39;)
+        document.body.addEventListener(&#39;click&#39;, function () &#123;
+           console.log(1)
+        &#125;, true)
+        box1.onclick = function () &#123;
+           console.log(2)
+        &#125;
+        box1.addEventListener(&#39;click&#39;, function() &#123;
+           console.log(3)
+        &#125;, true)
+        box2.onclick = function (e) &#123;
+           console.log(4)
+        &#125;
+        box2.addEventListener(&#39;click&#39;, function(e) &#123;
+           // e.stopPropagation()
+           console.log(5)
+        &#125;)
+
+        // 依次输出：1、3、4、5、2
+        // 若在box2的onclick或addEventListener事件回调里事件阻止冒泡，则依次输出：1、3、4、5
+     &lt;/script&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;
 </code></pre>
 <p><em>&emsp;&emsp;[注] element.addEventListener(event, function, useCapture)中的useCapture为可选参数.true，表示回调函数在事件捕获阶段执行；false，默认值，表示回调函数在冒泡阶段执行</em></p>
 <h5 id="6、JS创建、删除、替换、插入节点"><a href="#6、JS创建、删除、替换、插入节点" class="headerlink" title="6、JS创建、删除、替换、插入节点"></a>6、JS创建、删除、替换、插入节点</h5><p>&emsp;&emsp;doument全局HTML文档对象对应方法分别为：createElement、removeChild、replaceChild、appendChild/insertBefore</p>
 <h5 id="7、网站性能优化"><a href="#7、网站性能优化" class="headerlink" title="7、网站性能优化"></a>7、网站性能优化</h5><p>&emsp;&emsp;① CDN<br>&emsp;&emsp;② 减少HTTP请求<br>&emsp;&emsp;③ 减少DOM请求<br>&emsp;&emsp;④ gzip (压缩网站静态资源)<br>&emsp;&emsp;⑤ 代码压缩<br>&emsp;&emsp;⑥ 代码级优化 (减少cookie传输、分批延迟进行HTTP请求、异步执行内嵌脚本)</p>
 <h5 id="8、跨域"><a href="#8、跨域" class="headerlink" title="8、跨域"></a>8、跨域</h5><p>&emsp;&emsp;浏览器同源策略规定的一种安全机制<br><em>&emsp;&emsp;[注] 当一个 url 的协议、域名与端口号三者任意一个与当前页面的 url 不同则为跨域</em></p>
 <p>&emsp;&emsp;非同源限制：<br>&emsp;&emsp;① 无法读取其cookie、localStorage、indexedDB等数据<br>&emsp;&emsp;② 无法获取其DOM<br>&emsp;&emsp;③ 无法向非同源地址发送Ajax请求</p>
-<p>&emsp;&emsp;<strong>跨域是在浏览器环境限制了Ajax请求响应，浏览器对HTTP请求无限制，如通过form表单发起HTTP请求时无跨域问题 ，代理服务器(脱离浏览器环境)与服务器之间是HTTP请求、以及浏览器地址栏访问URL也是HTTP请求，所以无跨域问题。 跨域时Ajax请求已被服务器接受并响应，只是响应被浏览器拦截了</strong></p>
-<p>&emsp;&emsp;解决方法：<br>&emsp;&emsp;jsonp、CORS跨域资源共享、代理(前端代理、nginx、代理插件whistle…)、Nodejs中间件…</p>
-<p>–待完善–</p>
+<p>&emsp;&emsp;<strong>跨域是在浏览器环境限制了Ajax请求响应，浏览器对HTTP请求无限制，如浏览器地址栏访问URL、通过form表单发起的请求都是HTTP请求，无跨域问题 。代理服务器与服务器之间是HTTP请求，无跨域问题。 <u>跨域时Ajax请求已被服务器接收并处理，只是服务器响应被浏览器拦截了</u></strong></p>
+<p>&emsp;&emsp;解决方法：<br>&emsp;&emsp;jsonp、CORS跨域资源共享、代理、Nodejs中间层…</p>
+<p>&emsp;&emsp;① jsonp严格来说并没有解决跨域，而是通过&lt;script&gt;来发送一个HTTP请求绕过了同源策略的限制。将&lt;script&gt;标签的src属性设置为请求地址，地址里包含当前请求在本地的回调函数名称，假设名称为showHandle。服务器处理完请求返回函数调用的形式，将处理结果data当做入返回，如showHandle(data)。此时&lt;script&gt;的src的结果为showHandle(data)，由于&lt;script&gt;会加载并执行脚本，所以本地的showHandle(data)函数被执行，入参即为接口返回的数据</p>
+<p><em>&emsp;&emsp; [注] 只能通过&lt;script&gt;发送GET请求、而且需要前端与后端项目共同做出相应配置。除&lt;script&gt;标签外，还有&lt;img&gt;、&lt;video&gt;等标签加载资源时发送的也是HTTP请求，没有跨域的问题</em></p>
+<p>&emsp;&emsp;② CORS跨域资源共享<br>服务端设置Access-Control-Allow-Origin来开启CORS。通过该属性设置哪些域名可以跨域访问资源</p>
+<p><em>&emsp;&emsp; [注] 需要后端项目做出相应配置（也需要浏览器支持，对于服务端允许访问的跨域请求，在响应时不会被浏览器拦截），无需前端项目作出任何更改。这种方式前端请求有简单请求和复杂请求的分别，复杂请求在正式通信之前，增加一次HTTP查询请求（预检请求，OPTION方法）来确认服务端是否允许跨域请求</em></p>
+<p>&emsp;&emsp;③ 代理<br>&emsp;&emsp;一般情况下，客户端（浏览器）可以直接与服务器进行交互。但有时由于浏览器的同源策略限制（发生跨域问题）、浏览器与服务器间存在防火墙等以及为了提高服务器性能（实现负载均衡或者缓存静态内容等功能），我们会使用代理服务器<br>&emsp;&emsp;代理按类型分为正向代理（解决跨域、防火墙问题、服务器对访问来源做了限制）与反向代理（提高服务器性能）。其中正向代理是使用服务器来代理客户端与真实的服务器进行交互；反向代理是使用服务器来代理真实的服务器与客户端进行交互</p>
+<p><img src="/images/note/proxy.jpg" alt="proxy"></p>
+<p>&emsp;&emsp;在解决跨域问题上，我们一般采用本地服务器来代理前端来与服务器进行交互（还可以使用其他代理工具进行反向代理，来实现跨域请求）<br>&emsp;&emsp;如在React/Vue框架中webpack里面都使用了 http-proxy-middleware 这个库，在项目里创建一个本地Nodejs服务器（本地服务器可以通过webpack对应配置文件proxy属性进行定义），前端与这个本地服务器是同源的，所以不存在跨域。本地服务器与后台服务器通过HTTP协议进行交互，他们之间也没有跨域问题</p>
+<p><img src="/images/note/local_proxy.jpg" alt="local_proxy"></p>
+<p><em>&emsp;&emsp; [注] 前端与后端项目均无需更改，但需要在前端添加 http-proxy-middleware 库对应的代理（proxy）配置</em></p>
+<p>&emsp;&emsp;④ Nodejs中间层<br>&emsp;&emsp;搭建线上Nodejs项目来转发与响应前端请求。同时在项目中实现负载均衡或者缓存静态内容等更高级的功能将Nodejs中间层打造成一个强大的中台系统</p>
+<p><img src="/images/note/node_proxy.jpg" alt="node_proxy"></p>
+<p><em>&emsp;&emsp; [注] 前端与后端项目均无需更改，但需要额外搭建Nodejs中间层项目，并配置CORS跨域策略，转发前端请求，并将服务器响应结果返回给前端项目</em></p>
 <h5 id="9、this"><a href="#9、this" class="headerlink" title="9、this"></a>9、this</h5><p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，this指向window或者调用对象<br>&emsp;&emsp;② 在函数上下文中，this指向取决于函数调用方式。在非严格模式下，this指向window；<u>在严格模式下，this指向调用对象，若无调用对象，即直接调用函数，this为undefined</u><br>&emsp;&emsp;③ 在类中，基类与派生类表现形式不同。在基类中，this是一个常规对象，所有非静态方法都会添加到this的原型上。在派生类中，构造函数constructor没有初始化this绑定，需要在构造函数中调用super()函数才能生成一个this，否则为undefined</p>
-<p><em>&emsp;&emsp;[注] 直接使用 super 对象调用父级方法时，super 会绑定当前子类的 this</em></p>
-<h5 id="10、异步任务的优先级："><a href="#10、异步任务的优先级：" class="headerlink" title="10、异步任务的优先级："></a>10、异步任务的优先级：</h5><p>&emsp;&emsp;process.nextTick(Nodejs) &gt; Promise(微任务) &gt; setImmediate(Nodejs) &gt; setTimeout/setInterval</p>
+<p><em>&emsp;&emsp;[注] 在Class类中，直接使用 super 对象调用父级方法时，super 会绑定当前子类的 this</em></p>
+<h5 id="10、异步任务的优先级"><a href="#10、异步任务的优先级" class="headerlink" title="10、异步任务的优先级"></a>10、异步任务的优先级</h5><p>&emsp;&emsp;process.nextTick(Nodejs) &gt; Promise(微任务) &gt; setImmediate(Nodejs) &gt; setTimeout/setInterval</p>
 <pre><code>  console.log(1)
   var p1 = new Promise(function(resolve, reject) &#123;
      console.log(2)
@@ -4581,7 +4298,7 @@
   //依次输出：1、2、6、3、4、5
 </code></pre>
 <p><em>&emsp;&emsp;[注] 异步线程与主线程通信依赖于事件循环 (Event Loop) 机制</em></p>
-<h5 id="11、深浅拷贝"><a href="#11、深浅拷贝" class="headerlink" title="11、深浅拷贝"></a>11、深浅拷贝</h5><p>深拷贝和浅拷贝主要是针对Object和Array这样的引用数据类型来说的。浅拷贝只复制指向某个对象的指针(不复制对象本身，仅仅复制了对象被存储的内存地址)，新旧对象数据还是共享同一块内存空间，状态会相互影响；深拷贝会复制对象数据本身，再存储到新的内存地址空间中，新旧对象被存储的内存地址不同，状态也不会相互影响</p>
+<h5 id="11、深浅拷贝"><a href="#11、深浅拷贝" class="headerlink" title="11、深浅拷贝"></a>11、深浅拷贝</h5><p>深浅拷贝主要是针对Object和Array这样的引用数据类型来说的。浅拷贝只复制指向某个对象的指针(不复制对象本身，仅仅复制了对象被存储的内存地址)，新旧对象数据还是共享同一块内存空间，状态会相互影响；深拷贝会复制对象数据本身，再存储到新的内存地址空间中，新旧对象被存储的内存地址不同，状态也不会相互影响</p>
 <p>&emsp;&emsp;一道笔试题：</p>
 <pre><code>  let user = &#123;age: 30&#125;
   function change(user) &#123;
@@ -4591,13 +4308,15 @@
   change(user)
   console.log(user)
 </code></pre>
-<p>&emsp;&emsp;对象参数是浅拷贝，形参user与实参user都指向前面let定义的{age: 30}对象。在函数内部，第(1)种情况使用形参user指针访问到存储空间的{age: 30}对象，并将修改age的值为40，由于形参user与实参user指向同一内存地址，状态会同步变化，所以输出{user: 40}。第二种情况，直接将形参user指向一个新对象{user: 50}对象。这并不会影响实参user的指向，所以输出先前定义的{age: 30}对象</p>
-<h5 id="12、Ajax-axios-fetch之间的区别"><a href="#12、Ajax-axios-fetch之间的区别" class="headerlink" title="12、Ajax,axios,fetch之间的区别"></a>12、Ajax,axios,fetch之间的区别</h5><p>&emsp;&emsp;三者都是与服务器交换数据的技术,也有一定的区别：<br>&emsp;&emsp;(1) 在原生JS中,Ajax是基于XMLHttpRequest对象，实现了网页的局部数据刷新<br>&emsp;&emsp;(2) axios利用Promise对原生Ajax进行封装，支持 Promise API，可以链式调用从而避免了原生Ajax回调地狱的问题，还提供了并发请求等功能<br>&emsp;&emsp;(3) fecth是在ES6中，Ajax的替代品，是原生JS技术，请求实现时不基于XMLHttpRequest对象</p>
-<h5 id="13、webpack的打包原理"><a href="#13、webpack的打包原理" class="headerlink" title="13、webpack的打包原理"></a>13、webpack的打包原理</h5><p>&emsp;&emsp;webpack是一个现代JavaScript应用程序的静态模块打包器。当webpack处理应用程序时,它会递归地构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将所有这些模块要经过Loader，Plugin一系列翻译处理流程后，打包成一个或多个bundle文件。</p>
+<p>&emsp;&emsp;函数中对象类型的参数在传递时使用浅拷贝。这里形参user与实参user都指向前面let定义的{age: 30}对象。在函数内部，第(1)种情况使用形参user指针访问到存储空间的{age: 30}对象，并将修改age的值为40，由于形参user与实参user指向同一内存地址，状态会同步变化，所以输出{user: 40}。第二种情况，直接将形参user指向一个新对象{user: 50}对象。这并不会影响实参user的指向，所以输出先前定义的{age: 30}对象</p>
+<h5 id="12、Ajax-axios-fetch之间的区别"><a href="#12、Ajax-axios-fetch之间的区别" class="headerlink" title="12、Ajax,axios,fetch之间的区别"></a>12、Ajax,axios,fetch之间的区别</h5><p>&emsp;&emsp;三者都是与服务器交换数据的技术，也有一定的区别：<br>&emsp;&emsp;(1) 在原生JS中，Ajax是基于XMLHttpRequest对象，实现了网页的局部刷新数据的技术<br>&emsp;&emsp;(2) axios利用Promise对原生Ajax进行封装，支持 Promise API，可以链式调用从而避免了原生Ajax回调地狱的问题，还封装了并发请求等功能<br>&emsp;&emsp;(3) fecth是在ES6中，Ajax的替代品，是原生JS技术，请求实现时不基于XMLHttpRequest对象。fetch请求返回了一个HTTP响应，还需要调用json()方法来获取服务端返回的JSON数据</p>
+<h5 id="13、webpack的打包原理"><a href="#13、webpack的打包原理" class="headerlink" title="13、webpack的打包原理"></a>13、webpack的打包原理</h5><p>&emsp;&emsp;webpack是一个现代JavaScript应用程序的静态模块打包器。当webpack处理应用程序时，它会递归地构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将所有这些模块要经过Loader，Plugin一系列翻译处理流程后，打包成一个或多个bundle文件。</p>
+<p>&emsp;&emsp;webpack打包区器有Entry、Output、Module、Chunk、Loader以及Plugin等核心概念，但最新的前端框架(React、Vue等)初始化项目时,都主动隐藏了webpack的相关配置文件。以此减少开发者的开发工作，使开发者只需关注对应项目核心逻辑</p>
+<p><em>&emsp;&emsp; [注] webpack官方文档地址：<a href="https://webpack.docschina.org/">https://webpack.docschina.org/</a></em></p>
 <h5 id="14、Vue-history模式发布注意什么？与hash模式的区别？"><a href="#14、Vue-history模式发布注意什么？与hash模式的区别？" class="headerlink" title="14、Vue history模式发布注意什么？与hash模式的区别？"></a>14、Vue history模式发布注意什么？与hash模式的区别？</h5><p>&emsp;&emsp;history与hash模式可以在不刷新页面的前提下，改变了页面的URL，从而Vue等框架监听到页面URL变化，通过一定规则，来实现页面中部分组件的移除或更新，从而达到局部更新页面的状态的目的</p>
 <p>&emsp;&emsp;history与hash模式的区别：</p>
-<p>&emsp;&emsp;(1) history模式是基于HTML5中新增的pushState()和replaceState()方法来完成改变URL<br>&emsp;&emsp;&emsp;&emsp;① URL(包含匹配路由的相关信息)与服务器请求时可能造成一些请求出现404的问题<br>&emsp;&emsp;&emsp;&emsp;② 可能需要服务器重定向逻辑的支持</p>
-<p>&emsp;&emsp;(2) hash模式路径中带有’#’(锚点)符号，没有history模式的问题<br>&emsp;&emsp;&emsp;&emsp;① 影响美观<br>&emsp;&emsp;&emsp;&emsp;② 不符合规范，一些第三方分享链接可能不支持URL中带有’#’号<br>&emsp;&emsp;&emsp;&emsp;③ 原有的锚点功能会失效<br>&emsp;&emsp;&emsp;&emsp;④ 传参基于URL，浏览器对长度有限制</p>
+<p>&emsp;&emsp;(1) history模式是基于HTML5中新增的pushState()和replaceState()方法来完成改变URL<br>&emsp;&emsp;&emsp;&emsp;① URL(包含匹配路由的相关信息)与服务器请求时可能造成一些请求出现404的问题<br>&emsp;&emsp;&emsp;&emsp;② 可能需要服务器重定向逻辑的支持，否则某些二级路由页面可以出现样式丢失等问题</p>
+<p>&emsp;&emsp;(2) hash模式路径中带有’#’(锚点)符号<br>&emsp;&emsp;&emsp;&emsp;① 影响美观<br>&emsp;&emsp;&emsp;&emsp;② 不符合规范，一些第三方分享链接可能不支持URL中带有’#’号<br>&emsp;&emsp;&emsp;&emsp;③ 原有的锚点功能会失效<br>&emsp;&emsp;&emsp;&emsp;④ 传参基于URL，浏览器对长度有限制</p>
 <p>&emsp;&emsp;所以，Vue history模式发布发布时，要确认在静态文件夹public目录下的index.html模板文件等文件中有没有采用<u>相对路径</u>引入样式、字体，JS脚本文件等，<strong>[ 需修改为绝对路径 ]</strong>。否则可能导致浏览器在某些二级路由页面刷新时，公用组件的组件的样式，JS脚本等文件加载失败(服务器返回404)，从而导致组件样式与功能出现问题</p>
 <h4 id="15、MVVM模式-Vue如何实现数据动态响应"><a href="#15、MVVM模式-Vue如何实现数据动态响应" class="headerlink" title="15、MVVM模式 Vue如何实现数据动态响应"></a>15、MVVM模式 Vue如何实现数据动态响应</h4><p>&emsp;&emsp;MVVM（Model View ViewModel）是MVC的升级版，采用ViewModel层将视图（View）与数据模型（Model）进行解耦。将视图DOM封装，利用观察者模式（发布订阅）实现视图与数据模型的动态响应与同步更新</p>
 <p><img src="/images/note/mvvm.webp" alt="avatar"></p>
@@ -4620,9 +4339,12 @@
 <p>&emsp;&emsp;① SQL注入很好理解，前端将含有SQL操作语句的信息给后端，后端没做过滤直接执行暴露了数据库信息，前端提交方式可以是表单输入以Ajax的方式被提交，或是直接更改一些带参的url导致SQL语句被提交的数据库<br>如一个url的地址site.com/list?id=1被改成site.com/list?id=1’ or ‘1’=’1，可能执行select * from table where id=’1’ or ‘1’=’1’，将会导致数据库table表的所有信息被返回。还有更高级的SQL注入，不局限与某个数据表，可直接获取数据库更多信息。XPath注入与SQL注入思路是相同的，只是采用xml的格式获取数据</p>
 <p>&emsp;&emsp;② XSS（cross-site scripting跨域脚本攻击），有两个特点；跨域，客户端执行<br>&emsp;&emsp;Reflected XSS（基于反射的XSS攻击），如利用&lt;script&gt;发送一些恶意代码给服务器，服务器返回相关信息（如用户cookie，token等信息），在客户端对这些信息进行收集<br>&emsp;&emsp;Stored XSS（基于存储的XSS攻击），将恶意代码存储在可访问文件内，文件在部署到服务器，访问这个文件的用户可能会被恶意收集一些信息<br>&emsp;&emsp;DOM-based or local XSS（基于DOM或本地的XSS攻击），通过&lt;script&gt;（植入脚本）在页面插入相关DOM节点，用户点击可以触发一些恶意事件处理函数，不需要经过服务器就能获取用户本地数据</p>
 <p>&emsp;&emsp;③ 利用HTTP协议的不安全特点，别有用心的人或网络爬虫会通过分析报文信息，将合法的访问者断开，伪装成合法用户让继续与服务器交换数据</p>
-<p>&emsp;&emsp;(3) CSRF攻击、钓鱼攻击和拒绝服务攻击<br>&emsp;&emsp;CSRF攻击与XSS非常相似，但XSS是利用用户对当前网站的信任来发起攻击，而CSRF是利用网站对用户的信任来发起攻击，利用img、script、iframe无跨域问题，如在页面或邮件放置这些标签，进行一些恶意访问操作。如在邮件中插入&lt;img src=’xxx.com/xxx’/&gt;发送然后发送给用户, 用户只要打开邮件，img立即就会请求xxx.com/xxx带上用户cookie完成一些恶意操作<br>&emsp;&emsp;钓鱼攻击就是伪造站点恶意收集用户信息<br>&emsp;&emsp;拒绝服务就是采用脚本疯狂向服务器发送请求，导致服务器超负荷并关闭</p>
+<p>&emsp;&emsp;(3) CSRF攻击、钓鱼攻击和拒绝服务攻击<br>&emsp;&emsp;CSRF攻击与XSS非常相似，但XSS是利用用户对当前网站的信任来发起攻击，而CSRF是利用网站对用户的信任来发起攻击，利用img、script、iframe无跨域问题，如在页面或邮件放置这些标签，进行一些恶意访问操作。如在邮件中插入&lt;img src=’xxx.com/xxx’/&gt;发送然后发送给用户，用户只要打开邮件，img立即就会请求xxx.com/xxx带上用户cookie完成一些恶意操作<br>&emsp;&emsp;钓鱼攻击就是伪造站点恶意收集用户信息<br>&emsp;&emsp;拒绝服务就是采用脚本疯狂向服务器发送请求，导致服务器超负荷并关闭</p>
 <p>&emsp;&emsp;<strong>安全问题解决方式：</strong><br>&emsp;&emsp;不要将重要备份文件放在公网上<br>&emsp;&emsp;服务器不要相信前端传递的任何信息，对用户输入也要谨慎返回<br>&emsp;&emsp;不要随意使用免费的WiFi网络<br>&emsp;&emsp;网站使用HTTPS协议<br>&emsp;&emsp;服务器要限制用户频繁请求，或采用一定的技术来解决网络延迟和阻塞问题</p>
-<h4 id="18、HTTP缓存策略"><a href="#18、HTTP缓存策略" class="headerlink" title="18、HTTP缓存策略"></a>18、HTTP缓存策略</h4><p>&emsp;&emsp;–待完善–</p>
+<h4 id="18、HTTP缓存策略"><a href="#18、HTTP缓存策略" class="headerlink" title="18、HTTP缓存策略"></a>18、HTTP缓存策略</h4><p>&emsp;&emsp;为了减少请求时冗余的数据传输，缓解了服务器的压力从而提高服务器的响应速度。我们一般会有意识使用HTTP缓存。一般说的HTTP缓存都是指缓存GET请求响应的资源。HTTP缓存可分为：强制缓存、协商缓存</p>
+<p>&emsp;&emsp;(1) 强缓存，服务器在第一次处理请求返回时，在Response Header设置Pragma、Cache-Control、Expires（优先级依次变低）响应的配置信息（如Cache-Control：max-age=30表示缓存30s）。第二次请求时，Request Header里会带上Pragma、Cache-Control、Expires等信息。浏览器判断这些请求参数，如果Cache-Control：max-age或者Expires未过期，会直接使用浏览器的缓存数据，不再向服务器发送当前请求。强制缓性能很高，生效时HTTP状态码为200。<u>但是在缓存配置失效前，浏览器无法获取到服务器更新后的资源</u>。</p>
+<p>&emsp;&emsp;(2) 协商缓存：服务器在第一次处理请求返回时，在Response Header中没有设置没有Pragma、Cache-Control、Expires或者将其对应属性设置为no-cache时(即不使用强缓存)。第二次请求时会与服务器进行协商，服务器端对比判断资源是否进行了修改更新。如果服务器端的资源没有修改，那么就会返回304状态（减少服务器传输压力）告诉浏览器可以使用缓存中的数据。如果数据有更新就会返回200状态码、最新资源、缓存信息（Etag、Last-Modified等信息）</p>
+<p><em>&emsp;&emsp;[注] 强缓存机制存在获取不到服务器最新资源的问题；协商缓存每次要与服务器进行交互，性能不高</u></em></p>
 <h4 id="19、Vue虚拟DOM-Diff算法"><a href="#19、Vue虚拟DOM-Diff算法" class="headerlink" title="19、Vue虚拟DOM Diff算法"></a>19、Vue虚拟DOM Diff算法</h4><p>&emsp;&emsp;在Vue与React等框架中，为了避免页面更新时频繁的进行页面重绘等操作，减少浏览器性能消耗，使用JS对象来描述页面真实的DOM。在页面数据更新时，会将更新后的虚拟DOM结构与之前的虚拟DOM结构采用Diff算法进行对比，最后将对比出来的差异的部分进行重新的真实DOM的渲染</p>
 <p><img src="/images/note/vNode.png" alt="vNode"></p>
 <p>&emsp;&emsp;在页面数据发生变化时，根据Vue相关响应式原理，会生成新的虚拟DOM结构，进行Diff算法（React Diff算法与Vue一致）来计算页面最小更新。匹配的最小单位是标签，只进行只进行同层级比较，忽略跨级操作。如上图中的&lt;ul&gt;结构不会与&lt;li&gt;结构进行比较。若&lt;ul&gt;结构一致，还有子元素时，会对里面的&lt;li&gt;进行一一比较，若&lt;ul&gt;已经不同，直接回新的&lt;ul&gt;更新页面上对应的真实DOM</p>
@@ -4643,6 +4365,311 @@
 ]]></content>
       <categories>
         <category>面试备注</category>
+      </categories>
+      <tags>
+        <tag>WEB技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS预解析、作用域、执行上下文、this</title>
+    <url>/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/</url>
+    <content><![CDATA[<p>这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻(在极短时间内完成)。会进行变量与函数声明（变量提升）、生成执行上下文（作用域）等工作。</p>
+<h2 id="1、作用域"><a href="#1、作用域" class="headerlink" title="1、作用域"></a>1、作用域</h2><p>&emsp;&emsp;JavaScript采用<u>词法作用域</u>，作用域在代码定义时就确定，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限，执行时并且不会改变（作用域访问的变量是编写代码的结构确定的）。当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法层面上的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文对象构成的链表就叫做作用域链。函数的原型（prototype）属性存在[[Scopes]]属性保存着当前函数的作用域链信息。</p>
+<p>&emsp;&emsp;作用域分为全局作用域、函数(局部)作用域、块级作用域（ES6引入）。<br>&emsp;&emsp;① 在代码中任何地方都能访问到的对象拥有全局作用域。<u>全局作用域的变量是全局对象(window)的属性</u>，不论在什么函数中都可以直接访问，而不需要通过全局对象，<u>但加上全局对象，可以提供搜索效率。</u><br><em>&emsp;&emsp;[注] 隐式的声明变量，或在最外层函数外部声明的变量，以及给window对象添加的属性都是全局变量，<strong>隐式声明的变量不存在变量提升</strong></em></p>
+<pre><code>  function foo(a) &#123;
+  console.log(b) // Uncaught ReferenceError: b is not defined (异常，代码停止执行，变量b没有提升)
+    b = a
+  &#125;
+  foo(2)
+  console.log(b) // 未执行
+
+  function foo(a) &#123;
+    b = a
+  &#125;
+  foo(2)
+  console.log(b) // 2
+</code></pre>
+<p>&emsp;&emsp;② 在函数内部用var关键字声明的变量，函数的参数会存在于该函数的局部作用域中。<br><em>&emsp;&emsp;[注] 局部变量的优先级高于全局变量</em><br>&emsp;&emsp;③ 用let、const声明的变量会存在于块级作用域中。</p>
+<h2 id="2、预解析与执行上下文"><a href="#2、预解析与执行上下文" class="headerlink" title="2、预解析与执行上下文"></a>2、预解析与执行上下文</h2><p>&emsp;&emsp;JavaScript代码在执行前的瞬间会存在预解析的阶段，会对代码进行相应的处理，对声明的变量与函数进行变量提升，以及生成对应的执行上下文，执行上下文除了保存代码执行信息外，还会将当前作用域信息也保存在执行上下文中，他们有相应的存储关系。随着代码进行的进行，执行上下文会进行相应的改变，执行上下文是用于跟踪代码的运行情况。同一个作用域下，不同的调用会产生不同的执行上下文环境，继而产生不同的变量的值。</p>
+<p>&emsp;&emsp;预解析过程创建执行上下文的步骤：<br>&emsp;&emsp;① 隐式的创建GO（全局上下文）/AO（函数上下文）对象<br>&emsp;&emsp;② 找形参和变量声明，将变量和形参名作为GO/AO的属性名，值为undefined（这个过程也常称为变量提升）<br>&emsp;&emsp;③ 将实参值和形参统一<br>&emsp;&emsp;④ 在函数体里面找函数声明，作为GO/AO的属性，值赋予函数体（这个过程也常称为函数提升）<br><em>&emsp;&emsp;[注] 在全局预解析中，由于全局中没有参数的的概念，所以省去了第2步的找参数。第2步中的找变量声明与第3步实参形参相统一一同处理。GO全局上下文对象，它优于局部预解析AO局部上下文对象的创建与执行</em></p>
+<p>&emsp;&emsp;例如下面的代码：</p>
+<pre><code>  1  console.log(a) // undefined
+  2  console.log(b) // Uncaught ReferenceError: b is not defined
+  3  var a = 5
+  4  console.log(a) // 5
+  5  console.log(test) // undefined
+  6  console.log(fn) // function fn () &#123;&#125;
+  7  console.log(fn(3)) // 11
+  8  var test = function () &#123;
+  9     return 10
+  10 &#125;
+  11 function fn(x) &#123;
+  12  console.log(a) // undefined
+  13  var a = b = 8
+  14  var c = 6
+  15  return a + x
+  16 &#125;
+  17 console.log(a) // 5
+  18 console.log(b) // 8
+  19 console.log(c) // Uncaught ReferenceError: c is not defined
+  20 console.log(test()) // 10
+</code></pre>
+<p>&emsp;&emsp;<strong>上面的代码在执行前的瞬间，会先进行全局预解析。过程如下：（这里只列举了执行上下文中的部分信息）</strong></p>
+<p>&emsp;&emsp;(1) 进行全局预解析的第1步：创建全局上下文GO对象</p>
+<pre><code>  GO: &#123;
+  
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(2) 进行全局预解析的第2步：找变量声明，将变量作为GO的属性名，值为undefined</p>
+<pre><code>  GO: &#123;
+    a: undefined,
+    test: undefined
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(3) 进行全局预解析3步：在函数体里面找函数声明，作为GO的属性，值赋予函数体</p>
+<pre><code>  GO: &#123;
+    a: undefined,
+    test: undefined
+    fn: function fn () &#123;&#125;
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;<strong>全局预解析完成，代码开始执行，执行过程如下：</strong><br>&emsp;&emsp;执行第1行，输出a为undefined<br>&emsp;&emsp;执行第2行，因为全局上下文没有声明b变量，所以程序抛出异常：Uncaught ReferenceError: b is not defined<br>&emsp;&emsp;执行第3行，将全局上下文中a赋值为5</p>
+<pre><code>  GO:&#123;
+    a: 5,
+    test: undefined
+    fn: function fn () &#123;&#125;
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;执行第4行，输出a为5<br>&emsp;&emsp;执行第5行，输出test为undefined<br>&emsp;&emsp;执行第6行，输出fn为function fn () {}</p>
+<p>&emsp;&emsp;<strong>执行第7行，调用fn并传入参数3，在fn执行前瞬间，会进行局部预编译，过程如下：</strong></p>
+<p>&emsp;&emsp;(1) 进行局部预解析的第1步： 创建对应的函数上下文AO对象</p>
+<pre><code>  AO: &#123;
+    
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(2) 进行局部预解析的第2步：找形参和变量声明，将变量和形参名作为AO的属性名，值为undefined</p>
+<pre><code>  AO: &#123;
+    x: undefined,
+    a: undefined,
+    c: undefined
+  &#125;
+</code></pre>
+<p><em>&emsp;&emsp;[注] <u>在第13行’var a = b = 8’，这里隐式的声明了全局变量b，此时应该将变量b添加到GO对象中，</u>此时的GO对象为：</em></p>
+<pre><code>  GO: &#123;
+    a: 5,
+    test: undefined,
+    fn: function fn () &#123;&#125;,
+    b: undefined
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(3) 进行局部预解析第3步：将实参与形参统一</p>
+<pre><code>  AO:&#123;
+    x: 3,
+    a: undefined,
+    c: undefined
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;(4) 对于fn函数，进行预解析第4步：在函数体里面找函数声明，作为AO的属性，值赋予函数体<br>&emsp;&emsp;fn函数内无函数声明，AO对象不变</p>
+<p>&emsp;&emsp;<strong>fn函数执行前预解析完成，11-16行的<u>函数入栈执行！</u></strong><br>&emsp;&emsp;执行第12行，输出a为undefined（先在当前执行的函数上下文AO的作用域对象中查找变量a，若AO的作用域对象中没有，通过AO中的作用域链，再去全局上下文GO中去查找）<br>&emsp;&emsp;执行第13行，将变量b赋值为8，变量a赋值为8。其中变量b存在于全局上下文GO中，这里的a为当前执行的函数上下文AO中的a，此时的GO、AO对象为：</p>
+<pre><code>  GO:&#123;
+    a: 5,
+    test: undefined,
+    fn: function fn () &#123;&#125;,
+    b: 8
+  &#125;
+  AO:&#123;
+      x: 3,
+      a: 8,
+      c:undefined
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;执行第14行，将AO中的c变量赋值为6，此时的AO为：</p>
+<pre><code>  AO:&#123;
+    x: 3,
+    a: 8,
+    c: 6
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;<strong>执行第15行，计算a+x的值为11，并返回函数调用的地方。所以第7行输出函数fn(3)的执行结果11。<u>函数执行完成，函数出栈，当前执行上下文AO对象被销毁。 </u></strong><br>&emsp;&emsp;执行第8行，将GO中test赋值为function () { return 10 }，此时的GO对象为：</p>
+<pre><code>  GO: &#123;
+    a: 5,
+    test: undefined,
+    fn: function fn () &#123;&#125;,
+    b: 8
+  &#125;
+</code></pre>
+<p>&emsp;&emsp;执行第17行，输出a为5<br>&emsp;&emsp;执行第18行，输出b为8<br>&emsp;&emsp;执行第19行，因为全局上下文没有声明c变量，所以程序抛出异常：Uncaught ReferenceError: c is not defined<br>&emsp;&emsp;执行第20行，<u>这里调用test()函数与上面调用fn(3)函数类似，执行前也会进行相应的局部预解析，创建对应的AO对象。然后函数入栈执行，</u>这最后函数返回执行结果为10<br>&emsp;&emsp;代码执行完成！</p>
+<p><em>&emsp;&emsp;[注] 这里分析比较简单的一段代码的执行过程，这里在函数内部没有函数的声明，也没有异步处理。一般的，如果函数内部存在函数，在内部函数调用时也会进行对应的局部预处理以及入栈执行；如果代码内包含异步逻辑，会把异步逻辑放在异步队列里面进行相应的调度执行。</em><br><em>&emsp;&emsp;[注] 如果在某个作用域中使用了某变量，而该变量并未在对应的（静态）作用域中声明，而在其它作用域（父级）中声明，该变量称为<u>自由变量（即跨域了当前对应的作用域的变量叫做自由变量）。</u></em></p>
+<h2 id="3、闭包"><a href="#3、闭包" class="headerlink" title="3、闭包"></a>3、闭包</h2><p>&emsp;&emsp;一个函数和对其周围状态（词法环境）的引用捆绑在一起，这样的组合就是闭包（closure）。闭包让你可以在一个内层函数中访问到其外层函数的作用域（即能够读取其他函数内部变量的函数）。在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来。<strong>函数就会形成闭包。</strong><u>闭包是由函数以及声明该函数的词法环境组合而成的。</u>该环境包含了这个闭包创建时作用域内的任何局部变量。</p>
+<p>&emsp;&emsp;例如下面的代码：</p>
+<pre><code>  function add(x) &#123;
+    console.log(inner.__proto__)
+    function inner(y) &#123;
+        return x + y;
+    &#125;
+    return inner;
+  &#125;
+  console.log(add(3)(4))
+
+  // 输出
+  &#123;constructor: ƒ&#125;
+  constructor: ƒ inner(y)
+  arguments: null
+  caller: null
+  length: 1
+  name: &quot;inner&quot;
+  prototype: &#123;constructor: ƒ&#125;
+  __proto__: ƒ ()
+  [[FunctionLocation]]: scopes.html:14
+  [[Scopes]]: Scopes[2]
+  0: Closure (add) &#123;x: 3&#125;
+  1: Global &#123;window: Window, self: Window, document: document, name: &quot;&quot;, location: Location, …&#125;
+  __proto__: Object
+
+  7
+</code></pre>
+<p>&emsp;&emsp;上面的代码中：add函数内部定义了inner函数，inner函数可以访问词法环境外部add函数作用域中变量，如这里的形参x。从打印的inner.prototype对象可以看出，在inner函数的作用域链的栈底为Global全局作用域，栈顶为inner函数所在的add函数的作用域，这里形成了Closure闭包。add(3)函数调用后返回的inner(y){ return x + y; }函数(x=3)与inner函数的词法环境形成了闭包，<u>inner函数中保留了对add函数内部变量x的应用，且此时x=3</u>，所以在add(3)(4)继续调用inner函数时返回结果7。</p>
+<p><em>&emsp;&emsp;[注] 这里<u>是否形成闭包与内部的inner函数是否返回无关，函数便会形成闭包。</u></em></p>
+<h2 id="4、this关键字"><a href="#4、this关键字" class="headerlink" title="4、this关键字"></a>4、this关键字</h2><p>&emsp;&emsp;在绝大多数情况下，<u>函数的调用方式决定了 this 的值（<strong>运行时绑定</strong>）。this 不能在执行期间被赋值，并且在每次函数被调用时 this 的值也可能会不同（<strong>与调用方式有关</strong>）。</u>ES5 引入了 bind 方法来设置函数的 this 值，而不用考虑函数如何被调用的。ES2015 引入了箭头函数，箭头函数不提供自身的 this 绑定，此时this 的值将保持为当前闭合词法上下文的值。即函数中this的取值为当前执行上下文（global、function 或 eval）的一个属性，在非严格模式下，总是指向一个对象，在严格模式下可以是任意值。</p>
+<p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，在全局执行环境中（在任何函数体外部）this 都指向全局对象。</p>
+<pre><code>  console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+
+  &quot;use strict&quot;;
+  console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+</code></pre>
+<p>&emsp;&emsp;② 在函数上下文中，this指向取决于函数被调用的方式：在非严格模式下，this的值不由调用者设置，this指向window。在严格模式下，this指向调用者，若执行前没有设置this的值，也没有作为对象的属性或方法而是直接调用，this为undefined。<br><em>&emsp;&emsp;[注] 可以通过call、apply方法修改this指向的环境。</em></p>
+<pre><code>  (function () &#123;
+    console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+  &#125;())
+
+  &quot;use strict&quot;;
+  (function () &#123;
+    console.log(this) // undefined
+  &#125;())
+  
+  &quot;use strict&quot;;
+  function test() &#123;
+    console.log(this) // Window &#123;window: Window, self: Window, document: document, name: &quot;&quot;, …&#125;
+  &#125;
+  test.apply(window)
+</code></pre>
+<p>&emsp;&emsp;③ 类上下文中，基类与派生类构造函数constructor()中this表现形式不同：在基类（类的构造函数constructor中），this是一个常规对象，所有非静态方法会被添加到this的原型中。在派生类中的构造函数没有初始的this绑定，在构造函数中调用super()才能生成一个this绑定。<u>注意的是，使用super对象时，super 调用父类的方法时，super 会绑定当前子类的 this。</u><br><em>&emsp;&emsp;[注] 静态方法不是this的属性，它们只是类自身的属性。派生类（子类）在super()前调用this会抛出异常(ReferenceError)，派生类不能在调用super前返回，除非没有构造函数或者构造函数返回了对象。</em></p>
+<pre><code>  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this) // A &#123;&#125;
+    &#125;
+  &#125;
+  new A()
+
+  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this)
+    &#125;
+  &#125;
+  class B extends A &#123;
+    constructor () &#123;
+      console.log(this) // Uncaught ReferenceError: Must call super constructor in derived class before accessing &#39;this&#39; or returning from derived constructor
+    &#125;
+  &#125;
+  new B()
+
+  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this) // B &#123;&#125;
+    &#125;
+  &#125;
+  class B extends A &#123;
+    constructor () &#123;
+      super()
+      console.log(this) // B &#123;&#125;
+    &#125;
+  &#125;
+  new B()
+
+  // 特别的~
+  &quot;use strict&quot;;
+  class A &#123;
+    constructor () &#123;
+      console.log(this)
+    &#125;
+  &#125;
+  class B extends A &#123;
+    constructor () &#123;
+      return &#123; a: 1 &#125;
+    &#125;
+  &#125;
+  console.log(new B()) // &#123; a: 1 &#125;
+</code></pre>
+<h2 id="欺骗词法作用域"><a href="#欺骗词法作用域" class="headerlink" title="欺骗词法作用域"></a>欺骗词法作用域</h2><p>&emsp;&emsp;词法作用域完全由写代码期间所声明的位置决定，在JavaScript中有两种机制来实现在运行时“修改”（欺骗）所处的词法作用域。一般并不推荐使用，因为<u>欺骗词法作用域会导致性能下降</u>。</p>
+<p>&emsp;&emsp;1) 两种机制(<u>对应编码方式并不推荐使用</u>)：</p>
+<p>&emsp;&emsp;① eval<br>&emsp;&emsp;Javascript中的eval()函数可以接受一个字符串为参数，并将其中的内容视为好像在书写时代码就存在于程序这个位置，无论何种情况，eval()都可以在运行期修改所在的作用域。在执行eval()之后的代码时，引擎并不“知道”或“在意”前面的代码是以动态的形式插入进来，并已对词法作用域环境进行修改。引擎只会如往常地进行查找。</p>
+<p>&emsp;&emsp;滥用eval()动态执行代码可能造成一些问题(变量泄漏、污染全局作用域、性能损失)：</p>
+<pre><code>  function foo(str, a) &#123;
+    eval(str)
+    console.log(a, b) // 1 3
+  &#125;
+  let b = 2
+  foo(&#39;var b = 3&#39;, 1)
+</code></pre>
+<p>&emsp;&emsp;foo()函数中使用eval()函数动态插入’var b = 3’，这段代码实际上在foo()内部创建了一个变量b，并遮蔽了外部（全局）作用域中的同名变量。当console.log()被执行时，在foo()函数的作用域内同时找到了a和b，所以永远不会找到外部的b，因此输出1、3。</p>
+<p><em>&emsp;&emsp;[注] 在严格模式的程序中，eval()在运行时有其自己的词法作用域，意味着其中的声明无法修改所在的作用域。</em></p>
+<pre><code>  function foo(str) &#123;
+    &quot;use strict&quot;
+    eval(str)
+    console.log(a) // Uncaught ReferenceError: a is not defined
+  &#125;
+  foo(&#39;var a = 3&#39;)
+</code></pre>
+<p><em>&emsp;&emsp;[注] JavaScript中还有其他一些功能效果和eval()很相似。setTimeout()与setInterval()的第一个参数可以是字符串，字符串的内容可以被解释为一段动态生成的函数代码，这些功能已经过时且不被提倡，也会造成变量泄漏、污染全局作用域、性能损失。new Function()函数的行为也很类似，最后一个参数可以接受代码字符串，并将其转化为动态生成的函数（前面的参数是这个新生成函数的形参）。这种构建比eval()略微安全一些，但也要尽量避免使用。<u>在程序中动态生成代码的使用场景非常罕见，因为它所带来的好处无法抵消性能上的损失。</u></em></p>
+<p>&emsp;&emsp;② with<br>&emsp;&emsp;with通常被当做重复引用同一个对象中的多个属性的快捷方法，可以不需要重复引用对象本身。</p>
+<pre><code>  var obj = &#123; a: 1, b: 2, c: 3 &#125;
+  with(obj) &#123; a = 3,  b = 4, c = 5 &#125;
+  console.log(obj) // &#123;a: 3, b: 4, c: 5&#125;
+</code></pre>
+<p>&emsp;&emsp;滥用with也可能造成一些问题(变量泄漏、污染全局作用域、性能损失)：</p>
+<pre><code>  function foo(obj) &#123;
+    with (obj) &#123; a = 2 &#125;
+  &#125;
+
+  let o1 = &#123; a: 3 &#125;
+  let o2 = &#123; b: 3 &#125;
+
+  foo(o1)
+  console.log(o1.a) // 2
+  // console.log(a) // ReferenceError: a is not defined
+
+  foo(o2)
+  console.log(o2.a) // undefined
+  console.log(a) // 2
+</code></pre>
+<p><em>&emsp;&emsp;[注] with可以将一个对象处理为词法作用域。当传递o1给with时，with中所声明的作用域是o1，在o1作用域中执行‘a=2’时，查询到属性a并对a赋值为2。当后面with将o2作为作用域时，在o2的作用域、foo函数作用域、全局作用域都没有找到属性a,因此执行‘a=2’时，会隐式的创建一个全局变量a并赋值为2(当前代码运行在非严格模式下)</em></p>
+<p><em>&emsp;&emsp;[注] eval()与with性能问题：</em></p>
+<p><em>&emsp;&emsp;JavaScript引擎会在编译阶段进行数项性能优化。其中有些优化依赖于能够根据代码的词法进行静态分析，并预先确定所有变量和函数的定义位置，才能在执行过程中快速找到标识符。但是如果引擎在代码中发现了eval()与with，它只简单的假设关于标识符的位置判断搜索无效的，因为无法在词法分析阶段明确知道eval()会接收到什么代码，这些代码会对作用域进行怎样的修改，也无法知道传的给with用来创建新词法作用域的对象内容到底是什么。</em></p>
+<p><em>&emsp;&emsp;最悲观的情况是如果出现了eval()和with，所有的优化可能都是无意义的，因此最简单最谨慎的做法是<u>完全不做任何优化。</u>如果代码中大量使用eval()和with，那么运行起来会变得非常缓慢。无论引擎多聪明，试图将这些悲观的情况的副作用限制在最小范围内，也无法避免如果没有这些优化，代码会运行得更慢这个事实。</em></p>
+<p><em>&emsp;&emsp;[注] 在JavaScript中，作用域是由函数(function)和块级作用域(ES6 let、const定义块级作用域)划分的。不是由语句块划分的，在while、for、if语句中，隐式定义的变量都是全局变量，在 for 循环里使用了 var 关键字定义的变量也是全局变量，因为在while、for、if中的区域属于全局作用域。有时编码时把 == 或 === 误写成 = 便会出现意想不到的错误。</em></p>
+<pre><code>  while (a = 1) &#123; b = 2; break &#125;
+  console.log(a, b) // 1 2
+  for (var c = 2; c &lt; 3; c++) &#123; d = 4 &#125;
+  console.log(c, d) // 3 4
+  if (e = 5) &#123; f = 6 &#125;
+  console.log(e, f) // 5, 6
+</code></pre>
+<p><em>&emsp;&emsp;for语句条件部分使用 let 定义会形成多个块级作用域，定义的循环变量不会污染全局变量。但执行语句里的 var 关键字声明或隐式声明会污染全局变量。</em></p>
+<pre><code>  for (let c = 2; c &lt; 3; c++) &#123; var d = 4 &#125;
+  // console.log(c) // Uncaught ReferenceError: c is not defined
+  console.log(d) // 4
+</code></pre>
+<p><em>&emsp;&emsp;为了及时发现将 == 或 === 误写成 = 的错误，可进行如下编码(将常量放在 == 或 === 前面，变量名放后面)：</em></p>
+<pre><code>  while (1 == a) &#123; break &#125;
+  if (5 == e) &#123;  &#125;
+</code></pre>
+<p><em>&emsp;&emsp;如果将上面的代码中的判等符号误写成了 = 符号，代码也不会通过编译，会抛出 Uncaught SyntaxError: Invalid left-hand side in assignment 的错误，因为永远不可能将一个变量的值赋值给一个常量~</em></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
       </categories>
       <tags>
         <tag>WEB技术</tag>

@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">5.4k</span>
+            <span class="post-count">7k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">21 分钟</span>
+            <span class="post-count">27 分钟</span>
         </span>
     </span>
 </div>
@@ -116,7 +116,7 @@
   typeof Number(1) // number
   typeof new Number(1) // object
 </code></pre>
-<p>&emsp;&emsp;如上代码，像普通函数一样直接调用构造函数，会执行相应的类型转换返回原始数据类型。new关键字调用构造函数，返回实例化新创建的对象</p>
+<p>&emsp;&emsp;如上代码，像普通函数一样直接调用构造函数，会执行相应的<u>类型转换</u>返回原始数据类型。new关键字调用构造函数，返回实例化新创建的对象</p>
 <h5 id="3、JS预编译过程"><a href="#3、JS预编译过程" class="headerlink" title="3、JS预编译过程"></a>3、JS预编译过程</h5><p>&emsp;&emsp;全局预编译：<br>&emsp;&emsp;① 创建GO对象<br>&emsp;&emsp;② 找变量申明，将变量名作为GO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
 <p>&emsp;&emsp;函数预编译：<br>&emsp;&emsp;① 创建AO对象<br>&emsp;&emsp;② 找变量申明与函数形参，将变量与函数形参名作为AO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 将函数实参与形参统一<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
 <p><em>&emsp;&emsp;[注] 函数预编译发生在代码运行前的瞬间，具体过程见文章：<a href="/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/#2%E3%80%81%E9%A2%84%E8%A7%A3%E6%9E%90%E4%B8%8E%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87">《JS预解析、作用域、执行上下文、this》</a></em></p>
@@ -143,39 +143,61 @@
   &lt;/html&gt;
 </code></pre>
 <h5 id="5、JS事件捕获和事件冒泡的执行顺序"><a href="#5、JS事件捕获和事件冒泡的执行顺序" class="headerlink" title="5、JS事件捕获和事件冒泡的执行顺序"></a>5、JS事件捕获和事件冒泡的执行顺序</h5><p>&emsp;&emsp;JS事件处理机制是：先捕获，后冒泡。捕获从上到下，冒泡从下到上。(比喻：捕获像石头沉海底，冒泡则像触底的石头产生的气泡冒出水面)</p>
-<pre><code>  const box1 = document.getElementById(&#39;box1&#39;)
-  const box2 = document.getElementById(&#39;box2&#39;)
-  document.body.addEventListener(&#39;click&#39;, function () &#123;
-     console.log(1)
-  &#125;, true)
-  box1.onclick = function () &#123;
-     console.log(2)
-  &#125;
-  box1.addEventListener(&#39;click&#39;, function() &#123;
-     console.log(3)
-  &#125;, true)
-  box2.onclick = function (e) &#123;
-     console.log(4)
-  &#125;
-  box2.addEventListener(&#39;click&#39;, function(e) &#123;
-     // e.stopPropagation()
-     console.log(5)
-  &#125;)
+<pre><code>  &lt;!DOCTYPE html&gt;
+  &lt;html lang=&quot;en&quot;&gt;
+  &lt;body&gt;
+     &lt;div id=&quot;box1&quot;&gt;
+        &lt;div id=&quot;box2&quot; style=&quot;width: 100%; height: 100%;&quot;&gt;&lt;/div&gt;
+     &lt;/div&gt;
 
-  // 依次输出：1、3、4、5、2
-  // 若在box2的onclick或addEventListener事件回调里事件阻止冒泡，则依次输出：1、3、4、5
+     &lt;script&gt;
+        const box1 = document.getElementById(&#39;box1&#39;)
+        const box2 = document.getElementById(&#39;box2&#39;)
+        document.body.addEventListener(&#39;click&#39;, function () &#123;
+           console.log(1)
+        &#125;, true)
+        box1.onclick = function () &#123;
+           console.log(2)
+        &#125;
+        box1.addEventListener(&#39;click&#39;, function() &#123;
+           console.log(3)
+        &#125;, true)
+        box2.onclick = function (e) &#123;
+           console.log(4)
+        &#125;
+        box2.addEventListener(&#39;click&#39;, function(e) &#123;
+           // e.stopPropagation()
+           console.log(5)
+        &#125;)
+
+        // 依次输出：1、3、4、5、2
+        // 若在box2的onclick或addEventListener事件回调里事件阻止冒泡，则依次输出：1、3、4、5
+     &lt;/script&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;
 </code></pre>
 <p><em>&emsp;&emsp;[注] element.addEventListener(event, function, useCapture)中的useCapture为可选参数.true，表示回调函数在事件捕获阶段执行；false，默认值，表示回调函数在冒泡阶段执行</em></p>
 <h5 id="6、JS创建、删除、替换、插入节点"><a href="#6、JS创建、删除、替换、插入节点" class="headerlink" title="6、JS创建、删除、替换、插入节点"></a>6、JS创建、删除、替换、插入节点</h5><p>&emsp;&emsp;doument全局HTML文档对象对应方法分别为：createElement、removeChild、replaceChild、appendChild/insertBefore</p>
 <h5 id="7、网站性能优化"><a href="#7、网站性能优化" class="headerlink" title="7、网站性能优化"></a>7、网站性能优化</h5><p>&emsp;&emsp;① CDN<br>&emsp;&emsp;② 减少HTTP请求<br>&emsp;&emsp;③ 减少DOM请求<br>&emsp;&emsp;④ gzip (压缩网站静态资源)<br>&emsp;&emsp;⑤ 代码压缩<br>&emsp;&emsp;⑥ 代码级优化 (减少cookie传输、分批延迟进行HTTP请求、异步执行内嵌脚本)</p>
 <h5 id="8、跨域"><a href="#8、跨域" class="headerlink" title="8、跨域"></a>8、跨域</h5><p>&emsp;&emsp;浏览器同源策略规定的一种安全机制<br><em>&emsp;&emsp;[注] 当一个 url 的协议、域名与端口号三者任意一个与当前页面的 url 不同则为跨域</em></p>
 <p>&emsp;&emsp;非同源限制：<br>&emsp;&emsp;① 无法读取其cookie、localStorage、indexedDB等数据<br>&emsp;&emsp;② 无法获取其DOM<br>&emsp;&emsp;③ 无法向非同源地址发送Ajax请求</p>
-<p>&emsp;&emsp;<strong>跨域是在浏览器环境限制了Ajax请求响应，浏览器对HTTP请求无限制，如通过form表单发起HTTP请求时无跨域问题 ，代理服务器(脱离浏览器环境)与服务器之间是HTTP请求、以及浏览器地址栏访问URL也是HTTP请求，所以无跨域问题。 跨域时Ajax请求已被服务器接受并响应，只是响应被浏览器拦截了</strong></p>
-<p>&emsp;&emsp;解决方法：<br>&emsp;&emsp;jsonp、CORS跨域资源共享、代理(前端代理、nginx、代理插件whistle…)、Nodejs中间件…</p>
-<p>–待完善–</p>
+<p>&emsp;&emsp;<strong>跨域是在浏览器环境限制了Ajax请求响应，浏览器对HTTP请求无限制，如浏览器地址栏访问URL、通过form表单发起的请求都是HTTP请求，无跨域问题 。代理服务器与服务器之间是HTTP请求，无跨域问题。 <u>跨域时Ajax请求已被服务器接收并处理，只是服务器响应被浏览器拦截了</u></strong></p>
+<p>&emsp;&emsp;解决方法：<br>&emsp;&emsp;jsonp、CORS跨域资源共享、代理、Nodejs中间层…</p>
+<p>&emsp;&emsp;① jsonp严格来说并没有解决跨域，而是通过&lt;script&gt;来发送一个HTTP请求绕过了同源策略的限制。将&lt;script&gt;标签的src属性设置为请求地址，地址里包含当前请求在本地的回调函数名称，假设名称为showHandle。服务器处理完请求返回函数调用的形式，将处理结果data当做入返回，如showHandle(data)。此时&lt;script&gt;的src的结果为showHandle(data)，由于&lt;script&gt;会加载并执行脚本，所以本地的showHandle(data)函数被执行，入参即为接口返回的数据</p>
+<p><em>&emsp;&emsp; [注] 只能通过&lt;script&gt;发送GET请求、而且需要前端与后端项目共同做出相应配置。除&lt;script&gt;标签外，还有&lt;img&gt;、&lt;video&gt;等标签加载资源时发送的也是HTTP请求，没有跨域的问题</em></p>
+<p>&emsp;&emsp;② CORS跨域资源共享<br>服务端设置Access-Control-Allow-Origin来开启CORS。通过该属性设置哪些域名可以跨域访问资源</p>
+<p><em>&emsp;&emsp; [注] 需要后端项目做出相应配置（也需要浏览器支持，对于服务端允许访问的跨域请求，在响应时不会被浏览器拦截），无需前端项目作出任何更改。这种方式前端请求有简单请求和复杂请求的分别，复杂请求在正式通信之前，增加一次HTTP查询请求（预检请求，OPTION方法）来确认服务端是否允许跨域请求</em></p>
+<p>&emsp;&emsp;③ 代理<br>&emsp;&emsp;一般情况下，客户端（浏览器）可以直接与服务器进行交互。但有时由于浏览器的同源策略限制（发生跨域问题）、浏览器与服务器间存在防火墙等以及为了提高服务器性能（实现负载均衡或者缓存静态内容等功能），我们会使用代理服务器<br>&emsp;&emsp;代理按类型分为正向代理（解决跨域、防火墙问题、服务器对访问来源做了限制）与反向代理（提高服务器性能）。其中正向代理是使用服务器来代理客户端与真实的服务器进行交互；反向代理是使用服务器来代理真实的服务器与客户端进行交互</p>
+<p><img src="/images/note/proxy.jpg" alt="proxy"></p>
+<p>&emsp;&emsp;在解决跨域问题上，我们一般采用本地服务器来代理前端来与服务器进行交互（还可以使用其他代理工具进行反向代理，来实现跨域请求）<br>&emsp;&emsp;如在React/Vue框架中webpack里面都使用了 http-proxy-middleware 这个库，在项目里创建一个本地Nodejs服务器（本地服务器可以通过webpack对应配置文件proxy属性进行定义），前端与这个本地服务器是同源的，所以不存在跨域。本地服务器与后台服务器通过HTTP协议进行交互，他们之间也没有跨域问题</p>
+<p><img src="/images/note/local_proxy.jpg" alt="local_proxy"></p>
+<p><em>&emsp;&emsp; [注] 前端与后端项目均无需更改，但需要在前端添加 http-proxy-middleware 库对应的代理（proxy）配置</em></p>
+<p>&emsp;&emsp;④ Nodejs中间层<br>&emsp;&emsp;搭建线上Nodejs项目来转发与响应前端请求。同时在项目中实现负载均衡或者缓存静态内容等更高级的功能将Nodejs中间层打造成一个强大的中台系统</p>
+<p><img src="/images/note/node_proxy.jpg" alt="node_proxy"></p>
+<p><em>&emsp;&emsp; [注] 前端与后端项目均无需更改，但需要额外搭建Nodejs中间层项目，并配置CORS跨域策略，转发前端请求，并将服务器响应结果返回给前端项目</em></p>
 <h5 id="9、this"><a href="#9、this" class="headerlink" title="9、this"></a>9、this</h5><p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，this指向window或者调用对象<br>&emsp;&emsp;② 在函数上下文中，this指向取决于函数调用方式。在非严格模式下，this指向window；<u>在严格模式下，this指向调用对象，若无调用对象，即直接调用函数，this为undefined</u><br>&emsp;&emsp;③ 在类中，基类与派生类表现形式不同。在基类中，this是一个常规对象，所有非静态方法都会添加到this的原型上。在派生类中，构造函数constructor没有初始化this绑定，需要在构造函数中调用super()函数才能生成一个this，否则为undefined</p>
-<p><em>&emsp;&emsp;[注] 直接使用 super 对象调用父级方法时，super 会绑定当前子类的 this</em></p>
-<h5 id="10、异步任务的优先级："><a href="#10、异步任务的优先级：" class="headerlink" title="10、异步任务的优先级："></a>10、异步任务的优先级：</h5><p>&emsp;&emsp;process.nextTick(Nodejs) &gt; Promise(微任务) &gt; setImmediate(Nodejs) &gt; setTimeout/setInterval</p>
+<p><em>&emsp;&emsp;[注] 在Class类中，直接使用 super 对象调用父级方法时，super 会绑定当前子类的 this</em></p>
+<h5 id="10、异步任务的优先级"><a href="#10、异步任务的优先级" class="headerlink" title="10、异步任务的优先级"></a>10、异步任务的优先级</h5><p>&emsp;&emsp;process.nextTick(Nodejs) &gt; Promise(微任务) &gt; setImmediate(Nodejs) &gt; setTimeout/setInterval</p>
 <pre><code>  console.log(1)
   var p1 = new Promise(function(resolve, reject) &#123;
      console.log(2)
@@ -195,7 +217,7 @@
   //依次输出：1、2、6、3、4、5
 </code></pre>
 <p><em>&emsp;&emsp;[注] 异步线程与主线程通信依赖于事件循环 (Event Loop) 机制</em></p>
-<h5 id="11、深浅拷贝"><a href="#11、深浅拷贝" class="headerlink" title="11、深浅拷贝"></a>11、深浅拷贝</h5><p>深拷贝和浅拷贝主要是针对Object和Array这样的引用数据类型来说的。浅拷贝只复制指向某个对象的指针(不复制对象本身，仅仅复制了对象被存储的内存地址)，新旧对象数据还是共享同一块内存空间，状态会相互影响；深拷贝会复制对象数据本身，再存储到新的内存地址空间中，新旧对象被存储的内存地址不同，状态也不会相互影响</p>
+<h5 id="11、深浅拷贝"><a href="#11、深浅拷贝" class="headerlink" title="11、深浅拷贝"></a>11、深浅拷贝</h5><p>深浅拷贝主要是针对Object和Array这样的引用数据类型来说的。浅拷贝只复制指向某个对象的指针(不复制对象本身，仅仅复制了对象被存储的内存地址)，新旧对象数据还是共享同一块内存空间，状态会相互影响；深拷贝会复制对象数据本身，再存储到新的内存地址空间中，新旧对象被存储的内存地址不同，状态也不会相互影响</p>
 <p>&emsp;&emsp;一道笔试题：</p>
 <pre><code>  let user = &#123;age: 30&#125;
   function change(user) &#123;
@@ -205,13 +227,15 @@
   change(user)
   console.log(user)
 </code></pre>
-<p>&emsp;&emsp;对象参数是浅拷贝，形参user与实参user都指向前面let定义的{age: 30}对象。在函数内部，第(1)种情况使用形参user指针访问到存储空间的{age: 30}对象，并将修改age的值为40，由于形参user与实参user指向同一内存地址，状态会同步变化，所以输出{user: 40}。第二种情况，直接将形参user指向一个新对象{user: 50}对象。这并不会影响实参user的指向，所以输出先前定义的{age: 30}对象</p>
-<h5 id="12、Ajax-axios-fetch之间的区别"><a href="#12、Ajax-axios-fetch之间的区别" class="headerlink" title="12、Ajax,axios,fetch之间的区别"></a>12、Ajax,axios,fetch之间的区别</h5><p>&emsp;&emsp;三者都是与服务器交换数据的技术,也有一定的区别：<br>&emsp;&emsp;(1) 在原生JS中,Ajax是基于XMLHttpRequest对象，实现了网页的局部数据刷新<br>&emsp;&emsp;(2) axios利用Promise对原生Ajax进行封装，支持 Promise API，可以链式调用从而避免了原生Ajax回调地狱的问题，还提供了并发请求等功能<br>&emsp;&emsp;(3) fecth是在ES6中，Ajax的替代品，是原生JS技术，请求实现时不基于XMLHttpRequest对象</p>
-<h5 id="13、webpack的打包原理"><a href="#13、webpack的打包原理" class="headerlink" title="13、webpack的打包原理"></a>13、webpack的打包原理</h5><p>&emsp;&emsp;webpack是一个现代JavaScript应用程序的静态模块打包器。当webpack处理应用程序时,它会递归地构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将所有这些模块要经过Loader，Plugin一系列翻译处理流程后，打包成一个或多个bundle文件。</p>
+<p>&emsp;&emsp;函数中对象类型的参数在传递时使用浅拷贝。这里形参user与实参user都指向前面let定义的{age: 30}对象。在函数内部，第(1)种情况使用形参user指针访问到存储空间的{age: 30}对象，并将修改age的值为40，由于形参user与实参user指向同一内存地址，状态会同步变化，所以输出{user: 40}。第二种情况，直接将形参user指向一个新对象{user: 50}对象。这并不会影响实参user的指向，所以输出先前定义的{age: 30}对象</p>
+<h5 id="12、Ajax-axios-fetch之间的区别"><a href="#12、Ajax-axios-fetch之间的区别" class="headerlink" title="12、Ajax,axios,fetch之间的区别"></a>12、Ajax,axios,fetch之间的区别</h5><p>&emsp;&emsp;三者都是与服务器交换数据的技术，也有一定的区别：<br>&emsp;&emsp;(1) 在原生JS中，Ajax是基于XMLHttpRequest对象，实现了网页的局部刷新数据的技术<br>&emsp;&emsp;(2) axios利用Promise对原生Ajax进行封装，支持 Promise API，可以链式调用从而避免了原生Ajax回调地狱的问题，还封装了并发请求等功能<br>&emsp;&emsp;(3) fecth是在ES6中，Ajax的替代品，是原生JS技术，请求实现时不基于XMLHttpRequest对象。fetch请求返回了一个HTTP响应，还需要调用json()方法来获取服务端返回的JSON数据</p>
+<h5 id="13、webpack的打包原理"><a href="#13、webpack的打包原理" class="headerlink" title="13、webpack的打包原理"></a>13、webpack的打包原理</h5><p>&emsp;&emsp;webpack是一个现代JavaScript应用程序的静态模块打包器。当webpack处理应用程序时，它会递归地构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将所有这些模块要经过Loader，Plugin一系列翻译处理流程后，打包成一个或多个bundle文件。</p>
+<p>&emsp;&emsp;webpack打包区器有Entry、Output、Module、Chunk、Loader以及Plugin等核心概念，但最新的前端框架(React、Vue等)初始化项目时,都主动隐藏了webpack的相关配置文件。以此减少开发者的开发工作，使开发者只需关注对应项目核心逻辑</p>
+<p><em>&emsp;&emsp; [注] webpack官方文档地址：<a target="_blank" rel="noopener" href="https://webpack.docschina.org/">https://webpack.docschina.org/</a></em></p>
 <h5 id="14、Vue-history模式发布注意什么？与hash模式的区别？"><a href="#14、Vue-history模式发布注意什么？与hash模式的区别？" class="headerlink" title="14、Vue history模式发布注意什么？与hash模式的区别？"></a>14、Vue history模式发布注意什么？与hash模式的区别？</h5><p>&emsp;&emsp;history与hash模式可以在不刷新页面的前提下，改变了页面的URL，从而Vue等框架监听到页面URL变化，通过一定规则，来实现页面中部分组件的移除或更新，从而达到局部更新页面的状态的目的</p>
 <p>&emsp;&emsp;history与hash模式的区别：</p>
-<p>&emsp;&emsp;(1) history模式是基于HTML5中新增的pushState()和replaceState()方法来完成改变URL<br>&emsp;&emsp;&emsp;&emsp;① URL(包含匹配路由的相关信息)与服务器请求时可能造成一些请求出现404的问题<br>&emsp;&emsp;&emsp;&emsp;② 可能需要服务器重定向逻辑的支持</p>
-<p>&emsp;&emsp;(2) hash模式路径中带有’#’(锚点)符号，没有history模式的问题<br>&emsp;&emsp;&emsp;&emsp;① 影响美观<br>&emsp;&emsp;&emsp;&emsp;② 不符合规范，一些第三方分享链接可能不支持URL中带有’#’号<br>&emsp;&emsp;&emsp;&emsp;③ 原有的锚点功能会失效<br>&emsp;&emsp;&emsp;&emsp;④ 传参基于URL，浏览器对长度有限制</p>
+<p>&emsp;&emsp;(1) history模式是基于HTML5中新增的pushState()和replaceState()方法来完成改变URL<br>&emsp;&emsp;&emsp;&emsp;① URL(包含匹配路由的相关信息)与服务器请求时可能造成一些请求出现404的问题<br>&emsp;&emsp;&emsp;&emsp;② 可能需要服务器重定向逻辑的支持，否则某些二级路由页面可以出现样式丢失等问题</p>
+<p>&emsp;&emsp;(2) hash模式路径中带有’#’(锚点)符号<br>&emsp;&emsp;&emsp;&emsp;① 影响美观<br>&emsp;&emsp;&emsp;&emsp;② 不符合规范，一些第三方分享链接可能不支持URL中带有’#’号<br>&emsp;&emsp;&emsp;&emsp;③ 原有的锚点功能会失效<br>&emsp;&emsp;&emsp;&emsp;④ 传参基于URL，浏览器对长度有限制</p>
 <p>&emsp;&emsp;所以，Vue history模式发布发布时，要确认在静态文件夹public目录下的index.html模板文件等文件中有没有采用<u>相对路径</u>引入样式、字体，JS脚本文件等，<strong>[ 需修改为绝对路径 ]</strong>。否则可能导致浏览器在某些二级路由页面刷新时，公用组件的组件的样式，JS脚本等文件加载失败(服务器返回404)，从而导致组件样式与功能出现问题</p>
 <h4 id="15、MVVM模式-Vue如何实现数据动态响应"><a href="#15、MVVM模式-Vue如何实现数据动态响应" class="headerlink" title="15、MVVM模式 Vue如何实现数据动态响应"></a>15、MVVM模式 Vue如何实现数据动态响应</h4><p>&emsp;&emsp;MVVM（Model View ViewModel）是MVC的升级版，采用ViewModel层将视图（View）与数据模型（Model）进行解耦。将视图DOM封装，利用观察者模式（发布订阅）实现视图与数据模型的动态响应与同步更新</p>
 <p><img src="/images/note/mvvm.webp" alt="avatar"></p>
@@ -234,9 +258,12 @@
 <p>&emsp;&emsp;① SQL注入很好理解，前端将含有SQL操作语句的信息给后端，后端没做过滤直接执行暴露了数据库信息，前端提交方式可以是表单输入以Ajax的方式被提交，或是直接更改一些带参的url导致SQL语句被提交的数据库<br>如一个url的地址site.com/list?id=1被改成site.com/list?id=1’ or ‘1’=’1，可能执行select * from table where id=’1’ or ‘1’=’1’，将会导致数据库table表的所有信息被返回。还有更高级的SQL注入，不局限与某个数据表，可直接获取数据库更多信息。XPath注入与SQL注入思路是相同的，只是采用xml的格式获取数据</p>
 <p>&emsp;&emsp;② XSS（cross-site scripting跨域脚本攻击），有两个特点；跨域，客户端执行<br>&emsp;&emsp;Reflected XSS（基于反射的XSS攻击），如利用&lt;script&gt;发送一些恶意代码给服务器，服务器返回相关信息（如用户cookie，token等信息），在客户端对这些信息进行收集<br>&emsp;&emsp;Stored XSS（基于存储的XSS攻击），将恶意代码存储在可访问文件内，文件在部署到服务器，访问这个文件的用户可能会被恶意收集一些信息<br>&emsp;&emsp;DOM-based or local XSS（基于DOM或本地的XSS攻击），通过&lt;script&gt;（植入脚本）在页面插入相关DOM节点，用户点击可以触发一些恶意事件处理函数，不需要经过服务器就能获取用户本地数据</p>
 <p>&emsp;&emsp;③ 利用HTTP协议的不安全特点，别有用心的人或网络爬虫会通过分析报文信息，将合法的访问者断开，伪装成合法用户让继续与服务器交换数据</p>
-<p>&emsp;&emsp;(3) CSRF攻击、钓鱼攻击和拒绝服务攻击<br>&emsp;&emsp;CSRF攻击与XSS非常相似，但XSS是利用用户对当前网站的信任来发起攻击，而CSRF是利用网站对用户的信任来发起攻击，利用img、script、iframe无跨域问题，如在页面或邮件放置这些标签，进行一些恶意访问操作。如在邮件中插入&lt;img src=’xxx.com/xxx’/&gt;发送然后发送给用户, 用户只要打开邮件，img立即就会请求xxx.com/xxx带上用户cookie完成一些恶意操作<br>&emsp;&emsp;钓鱼攻击就是伪造站点恶意收集用户信息<br>&emsp;&emsp;拒绝服务就是采用脚本疯狂向服务器发送请求，导致服务器超负荷并关闭</p>
+<p>&emsp;&emsp;(3) CSRF攻击、钓鱼攻击和拒绝服务攻击<br>&emsp;&emsp;CSRF攻击与XSS非常相似，但XSS是利用用户对当前网站的信任来发起攻击，而CSRF是利用网站对用户的信任来发起攻击，利用img、script、iframe无跨域问题，如在页面或邮件放置这些标签，进行一些恶意访问操作。如在邮件中插入&lt;img src=’xxx.com/xxx’/&gt;发送然后发送给用户，用户只要打开邮件，img立即就会请求xxx.com/xxx带上用户cookie完成一些恶意操作<br>&emsp;&emsp;钓鱼攻击就是伪造站点恶意收集用户信息<br>&emsp;&emsp;拒绝服务就是采用脚本疯狂向服务器发送请求，导致服务器超负荷并关闭</p>
 <p>&emsp;&emsp;<strong>安全问题解决方式：</strong><br>&emsp;&emsp;不要将重要备份文件放在公网上<br>&emsp;&emsp;服务器不要相信前端传递的任何信息，对用户输入也要谨慎返回<br>&emsp;&emsp;不要随意使用免费的WiFi网络<br>&emsp;&emsp;网站使用HTTPS协议<br>&emsp;&emsp;服务器要限制用户频繁请求，或采用一定的技术来解决网络延迟和阻塞问题</p>
-<h4 id="18、HTTP缓存策略"><a href="#18、HTTP缓存策略" class="headerlink" title="18、HTTP缓存策略"></a>18、HTTP缓存策略</h4><p>&emsp;&emsp;–待完善–</p>
+<h4 id="18、HTTP缓存策略"><a href="#18、HTTP缓存策略" class="headerlink" title="18、HTTP缓存策略"></a>18、HTTP缓存策略</h4><p>&emsp;&emsp;为了减少请求时冗余的数据传输，缓解了服务器的压力从而提高服务器的响应速度。我们一般会有意识使用HTTP缓存。一般说的HTTP缓存都是指缓存GET请求响应的资源。HTTP缓存可分为：强制缓存、协商缓存</p>
+<p>&emsp;&emsp;(1) 强缓存，服务器在第一次处理请求返回时，在Response Header设置Pragma、Cache-Control、Expires（优先级依次变低）响应的配置信息（如Cache-Control：max-age=30表示缓存30s）。第二次请求时，Request Header里会带上Pragma、Cache-Control、Expires等信息。浏览器判断这些请求参数，如果Cache-Control：max-age或者Expires未过期，会直接使用浏览器的缓存数据，不再向服务器发送当前请求。强制缓性能很高，生效时HTTP状态码为200。<u>但是在缓存配置失效前，浏览器无法获取到服务器更新后的资源</u>。</p>
+<p>&emsp;&emsp;(2) 协商缓存：服务器在第一次处理请求返回时，在Response Header中没有设置没有Pragma、Cache-Control、Expires或者将其对应属性设置为no-cache时(即不使用强缓存)。第二次请求时会与服务器进行协商，服务器端对比判断资源是否进行了修改更新。如果服务器端的资源没有修改，那么就会返回304状态（减少服务器传输压力）告诉浏览器可以使用缓存中的数据。如果数据有更新就会返回200状态码、最新资源、缓存信息（Etag、Last-Modified等信息）</p>
+<p><em>&emsp;&emsp;[注] 强缓存机制存在获取不到服务器最新资源的问题；协商缓存每次要与服务器进行交互，性能不高</u></em></p>
 <h4 id="19、Vue虚拟DOM-Diff算法"><a href="#19、Vue虚拟DOM-Diff算法" class="headerlink" title="19、Vue虚拟DOM Diff算法"></a>19、Vue虚拟DOM Diff算法</h4><p>&emsp;&emsp;在Vue与React等框架中，为了避免页面更新时频繁的进行页面重绘等操作，减少浏览器性能消耗，使用JS对象来描述页面真实的DOM。在页面数据更新时，会将更新后的虚拟DOM结构与之前的虚拟DOM结构采用Diff算法进行对比，最后将对比出来的差异的部分进行重新的真实DOM的渲染</p>
 <p><img src="/images/note/vNode.png" alt="vNode"></p>
 <p>&emsp;&emsp;在页面数据发生变化时，根据Vue相关响应式原理，会生成新的虚拟DOM结构，进行Diff算法（React Diff算法与Vue一致）来计算页面最小更新。匹配的最小单位是标签，只进行只进行同层级比较，忽略跨级操作。如上图中的&lt;ul&gt;结构不会与&lt;li&gt;结构进行比较。若&lt;ul&gt;结构一致，还有子元素时，会对里面的&lt;li&gt;进行一一比较，若&lt;ul&gt;已经不同，直接回新的&lt;ul&gt;更新页面上对应的真实DOM</p>
