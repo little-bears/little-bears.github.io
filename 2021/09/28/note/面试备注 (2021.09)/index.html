@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">7k</span>
+            <span class="post-count">7.1k</span>
         </span>
     </span>
 
@@ -112,70 +112,18 @@
        
   <h5 id="1、ES常见数据类型："><a href="#1、ES常见数据类型：" class="headerlink" title="1、ES常见数据类型："></a>1、ES常见数据类型：</h5><p>&emsp;&emsp;基本类型：Number、String、Boolean、undefined、null<br>&emsp;&emsp;引用类型：Object</p>
 <p><em>&emsp;&emsp;[注] 判断变量数据类型：typeof、instanceof、constructor、Object.prototype.toString.call()</em></p>
-<h5 id="2、使用数据构造函数与new-数据类型构造的区别"><a href="#2、使用数据构造函数与new-数据类型构造的区别" class="headerlink" title="2、使用数据构造函数与new 数据类型构造的区别"></a>2、使用数据构造函数与new 数据类型构造的区别</h5><pre><code>  Number(1) === new Number(1) // false
-  typeof Number(1) // number
-  typeof new Number(1) // object
-</code></pre>
+<h5 id="2、使用数据构造函数与new-数据类型构造的区别"><a href="#2、使用数据构造函数与new-数据类型构造的区别" class="headerlink" title="2、使用数据构造函数与new 数据类型构造的区别"></a>2、使用数据构造函数与new 数据类型构造的区别</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Number(1) &#x3D;&#x3D;&#x3D; new Number(1) &#x2F;&#x2F; false</span><br><span class="line">typeof Number(1) &#x2F;&#x2F; number</span><br><span class="line">typeof new Number(1) &#x2F;&#x2F; object</span><br></pre></td></tr></table></figure>
+
 <p>&emsp;&emsp;如上代码，像普通函数一样直接调用构造函数，会执行相应的<u>类型转换</u>返回原始数据类型。new关键字调用构造函数，返回实例化新创建的对象</p>
 <h5 id="3、JS预编译过程"><a href="#3、JS预编译过程" class="headerlink" title="3、JS预编译过程"></a>3、JS预编译过程</h5><p>&emsp;&emsp;全局预编译：<br>&emsp;&emsp;① 创建GO对象<br>&emsp;&emsp;② 找变量申明，将变量名作为GO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
 <p>&emsp;&emsp;函数预编译：<br>&emsp;&emsp;① 创建AO对象<br>&emsp;&emsp;② 找变量申明与函数形参，将变量与函数形参名作为AO对象的属性名，赋值undefined<br>&emsp;&emsp;③ 将函数实参与形参统一<br>&emsp;&emsp;③ 在函数体里面找函数申明，将函数名作为GO对象的属性名，赋值对应函数体</p>
 <p><em>&emsp;&emsp;[注] 函数预编译发生在代码运行前的瞬间，具体过程见文章：<a href="/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/#2%E3%80%81%E9%A2%84%E8%A7%A3%E6%9E%90%E4%B8%8E%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87">《JS预解析、作用域、执行上下文、this》</a></em></p>
 <h5 id="4、CSS选择器优先级顺序"><a href="#4、CSS选择器优先级顺序" class="headerlink" title="4、CSS选择器优先级顺序"></a>4、CSS选择器优先级顺序</h5><p>&emsp;&emsp;!important &gt; 行内样式 &gt; id选择器 &gt; class选择器 &gt; 标签(伪元素)选择器 &gt; *(通配符) &gt; 继承样式 &gt; 默认样式</p>
-<pre><code>  &lt;!DOCTYPE html&gt;
-  &lt;html lang=&quot;en&quot;&gt;
-  &lt;head&gt;
-  &lt;style&gt;
-  div &#123; width: 100px; height: 100px &#125;
-  .parnel &#123; background-color: black; &#125;
-  .container .parnel &#123; background-color: blue; &#125;
-  #frist-box &#123; background-color: green; &#125;
-  .container #ce-box &#123; background-color: red; &#125;
-  .container div#ce-box &#123; background-color: yellow; &#125;
-  &lt;/style&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-  &lt;div class=&quot;container&quot;&gt;
-  &lt;div class=&quot;parnel&quot; id=&quot;frist-box&quot;&gt;&lt;/div&gt; // green (绿色)
-  &lt;div class=&quot;parnel&quot; id=&quot;ce-box&quot;&gt;&lt;/div&gt; // yellow (黄色)
-  &lt;div class=&quot;parnel&quot; style=&quot;background: blue;&quot;&gt;&lt;/div&gt; // blue (蓝色)
-  &lt;/div&gt;
-  &lt;/body&gt;
-  &lt;/html&gt;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">   div &#123; width: 100px; height: 100px &#125;</span><br><span class="line">   .parnel &#123; background-color: black; &#125;</span><br><span class="line">   .container .parnel &#123; background-color: blue; &#125;</span><br><span class="line">   #frist-box &#123; background-color: green; &#125;</span><br><span class="line">   .container #ce-box &#123; background-color: red; &#125;</span><br><span class="line">   .container div#ce-box &#123; background-color: yellow; &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">   &lt;div class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">      &lt;div class&#x3D;&quot;parnel&quot; id&#x3D;&quot;frist-box&quot;&gt;&lt;&#x2F;div&gt; &#x2F;&#x2F; green (绿色)</span><br><span class="line">      &lt;div class&#x3D;&quot;parnel&quot; id&#x3D;&quot;ce-box&quot;&gt;&lt;&#x2F;div&gt; &#x2F;&#x2F; yellow (黄色)</span><br><span class="line">      &lt;div class&#x3D;&quot;parnel&quot; style&#x3D;&quot;background: blue;&quot;&gt;&lt;&#x2F;div&gt; &#x2F;&#x2F; blue (蓝色)</span><br><span class="line">   &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
 <h5 id="5、JS事件捕获和事件冒泡的执行顺序"><a href="#5、JS事件捕获和事件冒泡的执行顺序" class="headerlink" title="5、JS事件捕获和事件冒泡的执行顺序"></a>5、JS事件捕获和事件冒泡的执行顺序</h5><p>&emsp;&emsp;JS事件处理机制是：先捕获，后冒泡。捕获从上到下，冒泡从下到上。(比喻：捕获像石头沉海底，冒泡则像触底的石头产生的气泡冒出水面)</p>
-<pre><code>  &lt;!DOCTYPE html&gt;
-  &lt;html lang=&quot;en&quot;&gt;
-  &lt;body&gt;
-     &lt;div id=&quot;box1&quot;&gt;
-        &lt;div id=&quot;box2&quot; style=&quot;width: 100%; height: 100%;&quot;&gt;&lt;/div&gt;
-     &lt;/div&gt;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">   &lt;div id&#x3D;&quot;box1&quot;&gt;</span><br><span class="line">      &lt;div id&#x3D;&quot;box2&quot; style&#x3D;&quot;width: 100%; height: 100%;&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">   &lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">   &lt;script&gt;</span><br><span class="line">      const box1 &#x3D; document.getElementById(&#39;box1&#39;)</span><br><span class="line">      const box2 &#x3D; document.getElementById(&#39;box2&#39;)</span><br><span class="line">      document.body.addEventListener(&#39;click&#39;, function () &#123;</span><br><span class="line">         console.log(1)</span><br><span class="line">      &#125;, true)</span><br><span class="line">      box1.onclick &#x3D; function () &#123;</span><br><span class="line">         console.log(2)</span><br><span class="line">      &#125;</span><br><span class="line">      box1.addEventListener(&#39;click&#39;, function() &#123;</span><br><span class="line">         console.log(3)</span><br><span class="line">      &#125;, true)</span><br><span class="line">      box2.onclick &#x3D; function (e) &#123;</span><br><span class="line">         console.log(4)</span><br><span class="line">      &#125;</span><br><span class="line">      box2.addEventListener(&#39;click&#39;, function(e) &#123;</span><br><span class="line">         &#x2F;&#x2F; e.stopPropagation()</span><br><span class="line">         console.log(5)</span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; 依次输出：1、3、4、5、2</span><br><span class="line">      &#x2F;&#x2F; 若在box2的onclick或addEventListener事件回调里事件阻止冒泡，则依次输出：1、3、4、5</span><br><span class="line">   &lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
 
-     &lt;script&gt;
-        const box1 = document.getElementById(&#39;box1&#39;)
-        const box2 = document.getElementById(&#39;box2&#39;)
-        document.body.addEventListener(&#39;click&#39;, function () &#123;
-           console.log(1)
-        &#125;, true)
-        box1.onclick = function () &#123;
-           console.log(2)
-        &#125;
-        box1.addEventListener(&#39;click&#39;, function() &#123;
-           console.log(3)
-        &#125;, true)
-        box2.onclick = function (e) &#123;
-           console.log(4)
-        &#125;
-        box2.addEventListener(&#39;click&#39;, function(e) &#123;
-           // e.stopPropagation()
-           console.log(5)
-        &#125;)
-
-        // 依次输出：1、3、4、5、2
-        // 若在box2的onclick或addEventListener事件回调里事件阻止冒泡，则依次输出：1、3、4、5
-     &lt;/script&gt;
-  &lt;/body&gt;
-  &lt;/html&gt;
-</code></pre>
 <p><em>&emsp;&emsp;[注] element.addEventListener(event, function, useCapture)中的useCapture为可选参数.true，表示回调函数在事件捕获阶段执行；false，默认值，表示回调函数在冒泡阶段执行</em></p>
 <h5 id="6、JS创建、删除、替换、插入节点"><a href="#6、JS创建、删除、替换、插入节点" class="headerlink" title="6、JS创建、删除、替换、插入节点"></a>6、JS创建、删除、替换、插入节点</h5><p>&emsp;&emsp;doument全局HTML文档对象对应方法分别为：createElement、removeChild、replaceChild、appendChild/insertBefore</p>
 <h5 id="7、网站性能优化"><a href="#7、网站性能优化" class="headerlink" title="7、网站性能优化"></a>7、网站性能优化</h5><p>&emsp;&emsp;① CDN<br>&emsp;&emsp;② 减少HTTP请求<br>&emsp;&emsp;③ 减少DOM请求<br>&emsp;&emsp;④ gzip (压缩网站静态资源)<br>&emsp;&emsp;⑤ 代码压缩<br>&emsp;&emsp;⑥ 代码级优化 (减少cookie传输、分批延迟进行HTTP请求、异步执行内嵌脚本)</p>
@@ -198,35 +146,13 @@
 <h5 id="9、this"><a href="#9、this" class="headerlink" title="9、this"></a>9、this</h5><p>&emsp;&emsp;① 在全局上下文中，无论是否在严格模式下，this指向window或者调用对象<br>&emsp;&emsp;② 在函数上下文中，this指向取决于函数调用方式。在非严格模式下，this指向window；<u>在严格模式下，this指向调用对象，若无调用对象，即直接调用函数，this为undefined</u><br>&emsp;&emsp;③ 在类中，基类与派生类表现形式不同。在基类中，this是一个常规对象，所有非静态方法都会添加到this的原型上。在派生类中，构造函数constructor没有初始化this绑定，需要在构造函数中调用super()函数才能生成一个this，否则为undefined</p>
 <p><em>&emsp;&emsp;[注] 在Class类中，直接使用 super 对象调用父级方法时，super 会绑定当前子类的 this</em></p>
 <h5 id="10、异步任务的优先级"><a href="#10、异步任务的优先级" class="headerlink" title="10、异步任务的优先级"></a>10、异步任务的优先级</h5><p>&emsp;&emsp;process.nextTick(Nodejs) &gt; Promise(微任务) &gt; setImmediate(Nodejs) &gt; setTimeout/setInterval</p>
-<pre><code>  console.log(1)
-  var p1 = new Promise(function(resolve, reject) &#123;
-     console.log(2)
-     resolve()
-  &#125;)
-  p1.then(function()&#123;
-     console.log(3)
-  &#125;)
-  setTimeout(()=&gt;&#123;
-     console.log(4)
-  &#125;, 0)
-  setTimeout(()=&gt;&#123;
-     console.log(5)
-  &#125;,0)
-  console.log(6)
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">console.log(1)</span><br><span class="line">var p1 &#x3D; new Promise(function(resolve, reject) &#123;</span><br><span class="line">   console.log(2)</span><br><span class="line">   resolve()</span><br><span class="line">&#125;)</span><br><span class="line">p1.then(function()&#123;</span><br><span class="line">   console.log(3)</span><br><span class="line">&#125;)</span><br><span class="line">setTimeout(()&#x3D;&gt;&#123;</span><br><span class="line">   console.log(4)</span><br><span class="line">&#125;, 0)</span><br><span class="line">setTimeout(()&#x3D;&gt;&#123;</span><br><span class="line">   console.log(5)</span><br><span class="line">&#125;,0)</span><br><span class="line">console.log(6)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;依次输出：1、2、6、3、4、5</span><br></pre></td></tr></table></figure>
 
-  //依次输出：1、2、6、3、4、5
-</code></pre>
 <p><em>&emsp;&emsp;[注] 异步线程与主线程通信依赖于事件循环 (Event Loop) 机制</em></p>
 <h5 id="11、深浅拷贝"><a href="#11、深浅拷贝" class="headerlink" title="11、深浅拷贝"></a>11、深浅拷贝</h5><p>深浅拷贝主要是针对Object和Array这样的引用数据类型来说的。浅拷贝只复制指向某个对象的指针(不复制对象本身，仅仅复制了对象被存储的内存地址)，新旧对象数据还是共享同一块内存空间，状态会相互影响；深拷贝会复制对象数据本身，再存储到新的内存地址空间中，新旧对象被存储的内存地址不同，状态也不会相互影响</p>
 <p>&emsp;&emsp;一道笔试题：</p>
-<pre><code>  let user = &#123;age: 30&#125;
-  function change(user) &#123;
-     // user.age = 40 //(1) &#123;age: 40&#125;
-     user = &#123;age: 50&#125; //(2) &#123;age: 30&#125;
-  &#125;
-  change(user)
-  console.log(user)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let user &#x3D; &#123;age: 30&#125;</span><br><span class="line">function change(user) &#123;</span><br><span class="line">   &#x2F;&#x2F; user.age &#x3D; 40 &#x2F;&#x2F;(1) &#123;age: 40&#125;</span><br><span class="line">   user &#x3D; &#123;age: 50&#125; &#x2F;&#x2F;(2) &#123;age: 30&#125;</span><br><span class="line">&#125;</span><br><span class="line">change(user)</span><br><span class="line">console.log(user)</span><br></pre></td></tr></table></figure>
+
 <p>&emsp;&emsp;函数中对象类型的参数在传递时使用浅拷贝。这里形参user与实参user都指向前面let定义的{age: 30}对象。在函数内部，第(1)种情况使用形参user指针访问到存储空间的{age: 30}对象，并将修改age的值为40，由于形参user与实参user指向同一内存地址，状态会同步变化，所以输出{user: 40}。第二种情况，直接将形参user指向一个新对象{user: 50}对象。这并不会影响实参user的指向，所以输出先前定义的{age: 30}对象</p>
 <h5 id="12、Ajax-axios-fetch之间的区别"><a href="#12、Ajax-axios-fetch之间的区别" class="headerlink" title="12、Ajax,axios,fetch之间的区别"></a>12、Ajax,axios,fetch之间的区别</h5><p>&emsp;&emsp;三者都是与服务器交换数据的技术，也有一定的区别：<br>&emsp;&emsp;(1) 在原生JS中，Ajax是基于XMLHttpRequest对象，实现了网页的局部刷新数据的技术<br>&emsp;&emsp;(2) axios利用Promise对原生Ajax进行封装，支持 Promise API，可以链式调用从而避免了原生Ajax回调地狱的问题，还封装了并发请求等功能<br>&emsp;&emsp;(3) fecth是在ES6中，Ajax的替代品，是原生JS技术，请求实现时不基于XMLHttpRequest对象。fetch请求返回了一个HTTP响应，还需要调用json()方法来获取服务端返回的JSON数据</p>
 <h5 id="13、webpack的打包原理"><a href="#13、webpack的打包原理" class="headerlink" title="13、webpack的打包原理"></a>13、webpack的打包原理</h5><p>&emsp;&emsp;webpack是一个现代JavaScript应用程序的静态模块打包器。当webpack处理应用程序时，它会递归地构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将所有这些模块要经过Loader，Plugin一系列翻译处理流程后，打包成一个或多个bundle文件。</p>

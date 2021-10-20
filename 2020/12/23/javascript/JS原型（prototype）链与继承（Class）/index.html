@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">4.6k</span>
+            <span class="post-count">4.7k</span>
         </span>
     </span>
 
@@ -121,69 +121,18 @@
 <p>&emsp;&emsp;(1) prototype属性：继承成员被定义的地方<br>&emsp;&emsp;继承的属性和方法是定义在 prototype 属性之上的（可以称之为子命名空间），prototype 属性的值是一个对象，我们希望被原型链下游的对象继承的属性和方法，都被储存在其中。<br><em>&emsp;&emsp;[注] Object.create()可以指定一个对象作为原型对象来创建一个实例对象。</em></p>
 <p>&emsp;&emsp;(2) constructor属性：指向了用于构造此实例对象的构造函数<br>&emsp;&emsp;每个实例对象都从原型中继承了一个constructor属性，该属性指向了用于构造此实例对象的构造函数。<br>&emsp;&emsp;在某些情况下，没有原始构造器的引用，想要构造实例可以通过已有实例的constructor属性指向的构造函数来完成。即可以在 constructor 属性的末尾添加一对圆括号（括号中包含所需的参数），只需在前面添加 new 关键字（let person2 = new person1.constructor()），便能将此函数作为构造器使用，从而调用这个构造器创建另一个对象实例。</p>
 <p><em>&emsp;&emsp;[注] 构建函数前new关键字做了什么？</em><br><em>&emsp;&emsp;① 创建一个新对象</em><br><em>&emsp;&emsp;② 将新对象的__proto__属性指向了构建函数对象prototype对象</em><br><em>&emsp;&emsp;③ 将构建函数的this修正为指向新对象，执行构造函数中的代码，即为这个新对象添加对应属性</em><br><em>&emsp;&emsp;④ 返回新对象</em></p>
-<pre><code>  var obj = &#123;&#125;;
-  obj.__proto__ = Base.prototype;
-  Base.call(obj);
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var obj &#x3D; &#123;&#125;;</span><br><span class="line">obj.__proto__ &#x3D; Base.prototype;</span><br><span class="line">Base.call(obj);</span><br></pre></td></tr></table></figure>
 <h2 id="2、继承"><a href="#2、继承" class="headerlink" title="2、继承"></a>2、继承</h2><h4 id="JavaScript基于原型链继承（prototypal-inheritance）"><a href="#JavaScript基于原型链继承（prototypal-inheritance）" class="headerlink" title="JavaScript基于原型链继承（prototypal inheritance）"></a>JavaScript基于原型链继承（prototypal inheritance）</h4><p>&emsp;&emsp;如何实现继承：（这里以Teacher构造函数继承于Person构造函数的例子来说明）<br>&emsp;&emsp;(1) 定义构造器（构造函数），这里定义构造函数Person。</p>
-<pre><code>  function Person(name, age, gender, interests) &#123;
-    this.name =name;
-    this.age = age;
-    this.gender = gender;
-    this.interests = interests;
-  &#125;;
-  Person.prototype.greeting = function() &#123;
-    console.log(`hello, I am $&#123;name&#125;!`)
-  &#125;;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function Person(name, age, gender, interests) &#123;</span><br><span class="line">  this.name &#x3D;name;</span><br><span class="line">  this.age &#x3D; age;</span><br><span class="line">  this.gender &#x3D; gender;</span><br><span class="line">  this.interests &#x3D; interests;</span><br><span class="line">&#125;;</span><br><span class="line">Person.prototype.greeting &#x3D; function() &#123;</span><br><span class="line">  console.log(&#96;hello, I am $&#123;name&#125;!&#96;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;(2) 创建继承于Person构造函数的Teacher构造函数，并为Teacher 构造函数添加特有的subject（所授学科科目）属性。</p>
-<pre><code>  function Teacher(name, age, gender, interests, subject) &#123;
-    // 创建一个新的对象实例时同时指派其继承的属性（修正this指向Teacher()函数）
-    Person.call(this, name, age, gender, interests);
-    this.subject = subject;
-    
-    // 利用Object.create()方法将Person.prototype作为Teacher.prototype的原型对象，从而继承其属性与方法
-    Teacher.prototype = Object.create(Person.prototype);
-    
-    // 修正Teacher构造器指向，使之与Teacher关联(修正前指向Person)
-    Teacher.prototype.constructor = Teacher;
-  &#125;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Teacher(name, age, gender, interests, subject) &#123;</span><br><span class="line">  &#x2F;&#x2F; 创建一个新的对象实例时同时指派其继承的属性（修正this指向Teacher()函数）</span><br><span class="line">  Person.call(this, name, age, gender, interests);</span><br><span class="line">  this.subject &#x3D; subject;</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F; 利用Object.create()方法将Person.prototype作为Teacher.prototype的原型对象，从而继承其属性与方法</span><br><span class="line">  Teacher.prototype &#x3D; Object.create(Person.prototype);</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F; 修正Teacher构造器指向，使之与Teacher关联(修正前指向Person)</span><br><span class="line">  Teacher.prototype.constructor &#x3D; Teacher;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><em>&emsp;&emsp;[注] 每一个函数对象（Function）都有一个 prototype 属性，并且只有函数对象有 prototype 属性，因为 prototype 本身就是定义在Function对象下的属性。其中Person()函数是Person.prototype的构造函数，即Person===Person.prototype.constructor。任何您想要被继承的方法都应该定义在构造函数的 prototype 对象里，并且永远使用父类的 prototype 来创造子类的 prototype，这样才不会打乱类继承结构。</em></p>
 <p>&emsp;&emsp;(3) Teacher构造函数添加新的greeting成员函数</p>
-<pre><code>  Teacher.prototype.greeting = function()&#123;
-    console.log(`hello, I am a teather, I teath $&#123;this.subject&#125;`)
-  &#125;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Teacher.prototype.greeting &#x3D; function()&#123;</span><br><span class="line">  console.log(&#96;hello, I am a teather, I teath $&#123;this.subject&#125;&#96;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;(4) 生成对应的teacher实例</p>
-<pre><code>  let t = new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
-  t.greeting(); // hello, I am a teather, I teath englis
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let t &#x3D; new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);</span><br><span class="line">t.greeting(); &#x2F;&#x2F; hello, I am a teather, I teath englis</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;所有代码：</p>
-<pre><code>  function Person(name, age, gender, interests) &#123;    
-    this.name = name;
-    this.age = age;
-    this.gender = gender;
-    this.interests = interests;
-  &#125;;
-  Person.prototype.greeting = function () &#123;
-    console.log(`hello, I am $&#123;name&#125;!`);
-  &#125;;
-  function Teacher(name, age, gender, interests, subject) &#123;
-    // 创建一个新的对象实例时同时指派其继承的所有属性（修正this指向Teacher()函数）
-    Person.call(this, name, age, gender, interests);
-    this.subject = subject;
-    // Teacher.prototype现在会继承Person.prototype的所有属性和方法
-    Teacher.prototype = Object.create(Person.prototype);
-    // 修正Teacher()的prototype的constructor属性指向(修正前指向Person，不正确)
-    Teacher.prototype.constructor = Teacher;
-  &#125;
-  Teacher.prototype.greeting = function()&#123;
-    console.log(`hello, I am a teather, I teath $&#123;this.subject&#125;`)
-  &#125;
-  let t = new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
-  t.greeting(); // hello, I am a teather, I teath englis
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function Person(name, age, gender, interests) &#123;    </span><br><span class="line">  this.name &#x3D; name;</span><br><span class="line">  this.age &#x3D; age;</span><br><span class="line">  this.gender &#x3D; gender;</span><br><span class="line">  this.interests &#x3D; interests;</span><br><span class="line">&#125;;</span><br><span class="line">Person.prototype.greeting &#x3D; function () &#123;</span><br><span class="line">  console.log(&#96;hello, I am $&#123;name&#125;!&#96;);</span><br><span class="line">&#125;;</span><br><span class="line">function Teacher(name, age, gender, interests, subject) &#123;</span><br><span class="line">  &#x2F;&#x2F; 创建一个新的对象实例时同时指派其继承的所有属性（修正this指向Teacher()函数）</span><br><span class="line">  Person.call(this, name, age, gender, interests);</span><br><span class="line">  this.subject &#x3D; subject;</span><br><span class="line">  &#x2F;&#x2F; Teacher.prototype现在会继承Person.prototype的所有属性和方法</span><br><span class="line">  Teacher.prototype &#x3D; Object.create(Person.prototype);</span><br><span class="line">  &#x2F;&#x2F; 修正Teacher()的prototype的constructor属性指向(修正前指向Person，不正确)</span><br><span class="line">  Teacher.prototype.constructor &#x3D; Teacher;</span><br><span class="line">&#125;</span><br><span class="line">Teacher.prototype.greeting &#x3D; function()&#123;</span><br><span class="line">  console.log(&#96;hello, I am a teather, I teath $&#123;this.subject&#125;&#96;)</span><br><span class="line">&#125;</span><br><span class="line">let t &#x3D; new Teacher(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);</span><br><span class="line">t.greeting(); &#x2F;&#x2F; hello, I am a teather, I teath englis</span><br></pre></td></tr></table></figure>
 <h4 id="ES6-类（class）"><a href="#ES6-类（class）" class="headerlink" title="ES6 类（class）"></a>ES6 类（class）</h4><p>&emsp;&emsp;(1) 类的定义方式<br>&emsp;&emsp;ES6 提供了更接近传统语言的写法，引入了class关键字（仅是一个‘语法糖’），可以定义类。可以使编码时逻辑更加清晰明了。在JavaScript中，类是一种“特殊的函数”。类本身就指向构造函数。</p>
 <p><em>&emsp;&emsp;[注] 类都在严格模式下执行。类的内部所有定义的方法，都是不可枚举的（这点与 ES5 定义在 prototype 上的方法表现不一致）。定义类的实例必须使用new关键字（不能像 ES5 中的构造函数可直接调用）。</em></p>
 <p>&emsp;&emsp;定义类有两种方式：<br>&emsp;&emsp;类声明：class A {}，<strong>类声明不会提升，需要先声明，再访问</strong><br>&emsp;&emsp;类表达式: let B = class [B2] {}，类表达式的命名是可选的（比如这里命名为B2），名称称为局部名称，可使用类的name属性访问对应名称</p>
@@ -194,174 +143,9 @@
 <p>&emsp;&emsp;(4) 取值函数（getter）和存值函数（setter）<br>&emsp;&emsp;在类中内部可以使用get和set关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为（ES5可以提供getter、setter函数）。</p>
 <p>&emsp;&emsp;(5) new.target属性<br>&emsp;&emsp;new命令的一个属性，只能在构造函数中使用。在类中使用时，返回当前类；在子类中使用时，返回当前子类。<u>用途：可以限制类只能通过new命令调用；或者编写只能继承而不能实例化的基类。</u></p>
 <p>&emsp;&emsp;通过ES6 Class关键字实现上面Teacher类与Person类的继承关系：</p>
-<pre><code>  class Person&#123;    
-    constructor(name, age, gender, interests)&#123;
-      this.name = name;
-      this.age = age;
-      this.gender = gender;
-      this.interests = interests;
-    &#125;
-    greeting()&#123;
-      console.log(&quot;hello, I am &quot; + this.name + &quot;!&quot;);
-    &#125;
-  &#125;
-  class Teather extends Person&#123;
-    constructor(name, age, gender, interests, subject)&#123;
-      super(name, age, gender, interests);
-      this.subject = subject;
-    &#125;
-    greeting()&#123;
-      console.log(&quot;hello, I am a teather, I teath &quot; + this.subject + &quot;!&quot;);
-    &#125;
-  &#125;
-  let t = new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
-  t.greeting() // hello, I am a teather, I teath english!
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;    </span><br><span class="line">  constructor(name, age, gender, interests)&#123;</span><br><span class="line">    this.name &#x3D; name;</span><br><span class="line">    this.age &#x3D; age;</span><br><span class="line">    this.gender &#x3D; gender;</span><br><span class="line">    this.interests &#x3D; interests;</span><br><span class="line">  &#125;</span><br><span class="line">  greeting()&#123;</span><br><span class="line">    console.log(&quot;hello, I am &quot; + this.name + &quot;!&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Teather extends Person&#123;</span><br><span class="line">  constructor(name, age, gender, interests, subject)&#123;</span><br><span class="line">    super(name, age, gender, interests);</span><br><span class="line">    this.subject &#x3D; subject;</span><br><span class="line">  &#125;</span><br><span class="line">  greeting()&#123;</span><br><span class="line">    console.log(&quot;hello, I am a teather, I teath &quot; + this.subject + &quot;!&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">let t &#x3D; new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);</span><br><span class="line">t.greeting() &#x2F;&#x2F; hello, I am a teather, I teath english!</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;通过Babel.js将上面的ES6转换为ES5代码如下：</p>
-<pre><code>  &quot;use strict&quot;;
-
-  function _typeof(obj) &#123;
-    &quot;@babel/helpers - typeof&quot;;
-    if (typeof Symbol === &quot;function&quot; &amp;&amp; typeof Symbol.iterator === &quot;symbol&quot;) &#123; _typeof = function _typeof(obj) &#123; return typeof obj; &#125;; &#125;
-    else &#123;
-      _typeof = function _typeof(obj) &#123;
-        return obj &amp;&amp; typeof Symbol === &quot;function&quot; &amp;&amp; obj.constructor === Symbol &amp;&amp; obj !== Symbol.prototype ? &quot;symbol&quot; : typeof obj;
-      &#125;;
-    &#125;
-    return _typeof(obj);
-  &#125;
-  
-  function _inherits(subClass, superClass) &#123;
-    if (typeof superClass !== &quot;function&quot; &amp;&amp; superClass !== null) &#123;
-      throw new TypeError(&quot;Super expression must either be null or a function&quot;);
-    &#125;
-    subClass.prototype = Object.create(superClass &amp;&amp; superClass.prototype, &#123; constructor: &#123; value: subClass, writable: true, configurable: true &#125; &#125;);
-    if (superClass) _setPrototypeOf(subClass, superClass);
-  &#125;
-  
-  function _setPrototypeOf(o, p) &#123;
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) &#123;
-      o.__proto__ = p; return o;
-    &#125;;
-    return _setPrototypeOf(o, p);
-  &#125;
-  
-  function _createSuper(Derived) &#123;
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
-    return function _createSuperInternal() &#123;
-      var Super = _getPrototypeOf(Derived), result;
-      if (hasNativeReflectConstruct) &#123;
-        var NewTarget = _getPrototypeOf(this).constructor;
-        result = Reflect.construct(Super, arguments, NewTarget);
-      &#125; else &#123;
-        result = Super.apply(this, arguments);
-      &#125;
-      return _possibleConstructorReturn(this, result);
-    &#125;;
-  &#125;
-  
-  function _possibleConstructorReturn(self, call) &#123;
-    if (call &amp;&amp; (_typeof(call) === &quot;object&quot; || typeof call === &quot;function&quot;)) &#123;
-      return call;
-    &#125;
-    return _assertThisInitialized(self);
-  &#125;
-  
-  function _assertThisInitialized(self) &#123;
-    if (self === void 0) &#123;
-      throw new ReferenceError(&quot;this hasn&#39;t been initialised - super() hasn&#39;t been called&quot;);
-    &#125;
-    return self;
-  &#125;
-  
-  function _isNativeReflectConstruct() &#123;
-    if (typeof Reflect === &quot;undefined&quot; || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === &quot;function&quot;) return true;
-    try &#123;
-      Date.prototype.toString.call(Reflect.construct(Date, [], function () &#123; &#125;));
-      return true;
-    &#125; catch (e) &#123;
-      return false;
-    &#125;
-  &#125;
-  
-  function _getPrototypeOf(o) &#123;
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) &#123;
-      return o.__proto__ || Object.getPrototypeOf(o);
-    &#125;;
-    return _getPrototypeOf(o);
-  &#125;
-  
-  function _instanceof(left, right) &#123;
-    if (right != null &amp;&amp; typeof Symbol !== &quot;undefined&quot; &amp;&amp; right[Symbol.hasInstance]) &#123;
-      return !!right[Symbol.hasInstance](left);
-    &#125; else &#123;
-      return left instanceof right;
-    &#125;
-  &#125;
-  
-  function _classCallCheck(instance, Constructor) &#123;
-    if (!_instanceof(instance, Constructor)) &#123;
-      throw new TypeError(&quot;Cannot call a class as a function&quot;);
-    &#125;
-  &#125;
-  
-  function _defineProperties(target, props) &#123;
-    for (var i = 0; i &lt; props.length; i++) &#123;
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if (&quot;value&quot; in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    &#125;
-  &#125;
-  
-  function _createClass(Constructor, protoProps, staticProps) &#123;
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  &#125;
-  
-  var Person = /*#__PURE__*/function () &#123;
-    function Person(name, age, gender, interests) &#123;
-      _classCallCheck(this, Person);
-      this.name = name;
-      this.age = age;
-      this.gender = gender;
-      this.interests = interests;
-    &#125;
-    _createClass(Person, [&#123;
-      key: &quot;greeting&quot;,
-      value: function greeting() &#123;
-        console.log(&quot;hello, I am &quot;.concat(this.name, &quot;!&quot;));
-      &#125;
-    &#125;]);
-    return Person;
-  &#125;();
-  
-  var Teather = /*#__PURE__*/function (_Person) &#123;
-    _inherits(Teather, _Person);
-    var _super = _createSuper(Teather);
-    function Teather(name, age, gender, interests, subject) &#123;
-      var _this;
-      _classCallCheck(this, Teather);
-      _this = _super.call(this, name, age, gender, interests);
-      _this.subject = subject;
-      return _this;
-    &#125;
-    _createClass(Teather, [&#123;
-      key: &quot;greeting&quot;,
-      value: function greeting() &#123;
-        console.log(&quot;hello, I am a teather, I teath &quot;.concat(this.subject));
-      &#125;
-    &#125;]);
-    return Teather;
-  &#125;(Person);
-  
-  var t = new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);
-  t.greeting(); // hello, I am a teather, I teath english!
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line">&quot;use strict&quot;;</span><br><span class="line"></span><br><span class="line">function _typeof(obj) &#123;</span><br><span class="line">  &quot;@babel&#x2F;helpers - typeof&quot;;</span><br><span class="line">  if (typeof Symbol &#x3D;&#x3D;&#x3D; &quot;function&quot; &amp;&amp; typeof Symbol.iterator &#x3D;&#x3D;&#x3D; &quot;symbol&quot;) &#123; _typeof &#x3D; function _typeof(obj) &#123; return typeof obj; &#125;; &#125;</span><br><span class="line">  else &#123;</span><br><span class="line">    _typeof &#x3D; function _typeof(obj) &#123;</span><br><span class="line">      return obj &amp;&amp; typeof Symbol &#x3D;&#x3D;&#x3D; &quot;function&quot; &amp;&amp; obj.constructor &#x3D;&#x3D;&#x3D; Symbol &amp;&amp; obj !&#x3D;&#x3D; Symbol.prototype ? &quot;symbol&quot; : typeof obj;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  return _typeof(obj);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _inherits(subClass, superClass) &#123;</span><br><span class="line">  if (typeof superClass !&#x3D;&#x3D; &quot;function&quot; &amp;&amp; superClass !&#x3D;&#x3D; null) &#123;</span><br><span class="line">    throw new TypeError(&quot;Super expression must either be null or a function&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  subClass.prototype &#x3D; Object.create(superClass &amp;&amp; superClass.prototype, &#123; constructor: &#123; value: subClass, writable: true, configurable: true &#125; &#125;);</span><br><span class="line">  if (superClass) _setPrototypeOf(subClass, superClass);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _setPrototypeOf(o, p) &#123;</span><br><span class="line">  _setPrototypeOf &#x3D; Object.setPrototypeOf || function _setPrototypeOf(o, p) &#123;</span><br><span class="line">    o.__proto__ &#x3D; p; return o;</span><br><span class="line">  &#125;;</span><br><span class="line">  return _setPrototypeOf(o, p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _createSuper(Derived) &#123;</span><br><span class="line">  var hasNativeReflectConstruct &#x3D; _isNativeReflectConstruct();</span><br><span class="line">  return function _createSuperInternal() &#123;</span><br><span class="line">    var Super &#x3D; _getPrototypeOf(Derived), result;</span><br><span class="line">    if (hasNativeReflectConstruct) &#123;</span><br><span class="line">      var NewTarget &#x3D; _getPrototypeOf(this).constructor;</span><br><span class="line">      result &#x3D; Reflect.construct(Super, arguments, NewTarget);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      result &#x3D; Super.apply(this, arguments);</span><br><span class="line">    &#125;</span><br><span class="line">    return _possibleConstructorReturn(this, result);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _possibleConstructorReturn(self, call) &#123;</span><br><span class="line">  if (call &amp;&amp; (_typeof(call) &#x3D;&#x3D;&#x3D; &quot;object&quot; || typeof call &#x3D;&#x3D;&#x3D; &quot;function&quot;)) &#123;</span><br><span class="line">    return call;</span><br><span class="line">  &#125;</span><br><span class="line">  return _assertThisInitialized(self);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _assertThisInitialized(self) &#123;</span><br><span class="line">  if (self &#x3D;&#x3D;&#x3D; void 0) &#123;</span><br><span class="line">    throw new ReferenceError(&quot;this hasn&#39;t been initialised - super() hasn&#39;t been called&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _isNativeReflectConstruct() &#123;</span><br><span class="line">  if (typeof Reflect &#x3D;&#x3D;&#x3D; &quot;undefined&quot; || !Reflect.construct) return false;</span><br><span class="line">  if (Reflect.construct.sham) return false;</span><br><span class="line">  if (typeof Proxy &#x3D;&#x3D;&#x3D; &quot;function&quot;) return true;</span><br><span class="line">  try &#123;</span><br><span class="line">    Date.prototype.toString.call(Reflect.construct(Date, [], function () &#123; &#125;));</span><br><span class="line">    return true;</span><br><span class="line">  &#125; catch (e) &#123;</span><br><span class="line">    return false;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _getPrototypeOf(o) &#123;</span><br><span class="line">  _getPrototypeOf &#x3D; Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) &#123;</span><br><span class="line">    return o.__proto__ || Object.getPrototypeOf(o);</span><br><span class="line">  &#125;;</span><br><span class="line">  return _getPrototypeOf(o);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _instanceof(left, right) &#123;</span><br><span class="line">  if (right !&#x3D; null &amp;&amp; typeof Symbol !&#x3D;&#x3D; &quot;undefined&quot; &amp;&amp; right[Symbol.hasInstance]) &#123;</span><br><span class="line">    return !!right[Symbol.hasInstance](left);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return left instanceof right;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _classCallCheck(instance, Constructor) &#123;</span><br><span class="line">  if (!_instanceof(instance, Constructor)) &#123;</span><br><span class="line">    throw new TypeError(&quot;Cannot call a class as a function&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _defineProperties(target, props) &#123;</span><br><span class="line">  for (var i &#x3D; 0; i &lt; props.length; i++) &#123;</span><br><span class="line">    var descriptor &#x3D; props[i];</span><br><span class="line">    descriptor.enumerable &#x3D; descriptor.enumerable || false;</span><br><span class="line">    descriptor.configurable &#x3D; true;</span><br><span class="line">    if (&quot;value&quot; in descriptor) descriptor.writable &#x3D; true;</span><br><span class="line">    Object.defineProperty(target, descriptor.key, descriptor);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function _createClass(Constructor, protoProps, staticProps) &#123;</span><br><span class="line">  if (protoProps) _defineProperties(Constructor.prototype, protoProps);</span><br><span class="line">  if (staticProps) _defineProperties(Constructor, staticProps);</span><br><span class="line">  return Constructor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var Person &#x3D; &#x2F;*#__PURE__*&#x2F;function () &#123;</span><br><span class="line">  function Person(name, age, gender, interests) &#123;</span><br><span class="line">    _classCallCheck(this, Person);</span><br><span class="line">    this.name &#x3D; name;</span><br><span class="line">    this.age &#x3D; age;</span><br><span class="line">    this.gender &#x3D; gender;</span><br><span class="line">    this.interests &#x3D; interests;</span><br><span class="line">  &#125;</span><br><span class="line">  _createClass(Person, [&#123;</span><br><span class="line">    key: &quot;greeting&quot;,</span><br><span class="line">    value: function greeting() &#123;</span><br><span class="line">      console.log(&quot;hello, I am &quot;.concat(this.name, &quot;!&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;]);</span><br><span class="line">  return Person;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line">var Teather &#x3D; &#x2F;*#__PURE__*&#x2F;function (_Person) &#123;</span><br><span class="line">  _inherits(Teather, _Person);</span><br><span class="line">  var _super &#x3D; _createSuper(Teather);</span><br><span class="line">  function Teather(name, age, gender, interests, subject) &#123;</span><br><span class="line">    var _this;</span><br><span class="line">    _classCallCheck(this, Teather);</span><br><span class="line">    _this &#x3D; _super.call(this, name, age, gender, interests);</span><br><span class="line">    _this.subject &#x3D; subject;</span><br><span class="line">    return _this;</span><br><span class="line">  &#125;</span><br><span class="line">  _createClass(Teather, [&#123;</span><br><span class="line">    key: &quot;greeting&quot;,</span><br><span class="line">    value: function greeting() &#123;</span><br><span class="line">      console.log(&quot;hello, I am a teather, I teath &quot;.concat(this.subject));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;]);</span><br><span class="line">  return Teather;</span><br><span class="line">&#125;(Person);</span><br><span class="line"></span><br><span class="line">var t &#x3D; new Teather(&#39;wang&#39;, 28, &#39;m&#39;, [&#39;sing&#39;, &#39;running&#39;], &#39;english&#39;);</span><br><span class="line">t.greeting(); &#x2F;&#x2F; hello, I am a teather, I teath english!</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;ES6转换后的ES5代码与原来的ES5代码实现原理一致。我们来简单分析一下转换后的代码：<br>&emsp;&emsp;① 可以看到，定义Person和Teacher时，使用了立即执行函数，代码会立即执行，执行后返回Person构造函数以及继承于Person的Teacher构造函数。<br>&emsp;&emsp;② 在定义Person变量的立即执行函数中，定义了Person函数，函数中设置了相关属性。然后调用_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法给Person函数的原型prototype上添加上方法，(还可以给Person函数添加静态属性，这里示例代码未添加）。即_createClass()实现了Person函数方法与属性的添加，最后将Person函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;③ 在定义Teacher变量的立即执行函数中，将定义好的Person构造函数函数作为了参数，先调用_inherits()方法，将定义的Teacher函数（预编译会进行函数提升）与传入的Person构造函数作为参数，其中使用Object.create()方法以Person构造函数的原型prototype作为原型，设置了Teacher函数的原型，同时Teacher函数的原型也继承了Person构造函数原型链上的属性和方法，然后调用_setPrototypeOf()方法修正Teacher函数原型对象__proto__的指向，也就是_inherits()方法实现了继承关系。然后再调用了_createSuper(Teather)方法定义了_super变量，其值是一个函数，里面追溯了Teacher构造函数的原型链，定义了调用父构造函数Person时，使用了apply（this, arguments）方法绑定了子构造函数Teacher的this，实现了Teacher函数属性的设置（<u>返回的_super方法这里只是定义，还未执行，要在Teacher构造函数执行到_super.call()的时候才会执行</u>）。最后同理，调用了_createClass()方法，里面调用了_defineProperties()方法，其中使用了Object.defineProperty()方法在Teacher函数的原型prototype上重写了greeting()方法，将Teacher函数作为构造函数返回（<u>此时构造函数内部代码未执行</u>）。<br>&emsp;&emsp;④ 调用new Teacher()创建t实例，执行Teacher构造函数，调用_classCallCheck()防止构造函数被直接调用（即ES6中的类是不能被直接调用的）。然后再调用上面说到的定义了的_super()方法实现了实例属性的设置（在执行_super()函数时，会执行里面定义的父构造函数Person的方法来实现属性的继承与设置），再设置了Teacher构造函数实例特有的subject属性，此时获得的_this实例的原型指向Teacher构造函数，Teacherr构造函数又继承于Person构造函数。此时_this实例已经继承了原型链上的属性与方法，包括Teahcer构造函数重写的greeting()方法。返回_this。<br>&emsp;&emsp;⑤ 执行t.greeting()方法，可以看到方法被成功执行且为执行的重写后的方法。</p>
  
       <!-- reward -->

@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.8k</span>
+            <span class="post-count">1.9k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">7 分钟</span>
+            <span class="post-count">8 分钟</span>
         </span>
     </span>
 </div>
@@ -113,141 +113,28 @@
   <p>异常处理，是编程语言或计算机硬件里的一种机制，用于处理软件或信息系统中出现的异常状况（即超出程序正常执行流程的某些特殊条件）。通过异常处理，我们可以对用户在程序中的非法输入或者程序内部逻辑问题进行控制和提示，以防程序崩溃</p>
 <h2 id="1、Error对象"><a href="#1、Error对象" class="headerlink" title="1、Error对象"></a>1、Error对象</h2><p>&emsp;&emsp;通过Error的构造器可以创建一个错误对象。当运行时错误产生时，Error的实例对象会被抛出。Error对象也可用于用户自定义的异常的基础对象</p>
 <p>&emsp;&emsp;语法：</p>
-<pre><code>  new Error([message[, fileName[,lineNumber]]])
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Error([message[, fileName[,lineNumber]]])</span><br></pre></td></tr></table></figure>
 <p><em>&emsp;&emsp;[注] 当代码运行时的发生错误，会创建新的Error 对象，并将其抛出。当像函数一样使用 Error 时，它将返回一个 Error 对象。即仅仅调用 Error 产生的结果与通过new 关键字构造 Error 对象生成的结果相同</em></p>
 <h4 id="通用的Error构造函数"><a href="#通用的Error构造函数" class="headerlink" title="通用的Error构造函数"></a>通用的Error构造函数</h4><p>&emsp;&emsp;EvalError: 创建一个error实例，表示错误的原因与 eval() 有关<br>&emsp;&emsp;InternalError：创建一个代表Javascript引擎内部错误的异常抛出的实例，比如递归太深导致爆栈<br>&emsp;&emsp;RangeError：创建一个error实例，表示错误的原因为数值变量或参数超出其有效范围，比如数组越界<br>&emsp;&emsp;ReferenceError：创建一个error实例，表示错误的原因为无效引用，比如访问了未定义的变量<br>&emsp;&emsp;SyntaxError：创建一个error实例，表示错误的原因为在解析代码的过程中发生了语法错误<br>&emsp;&emsp;TypeError：创建一个error实例，表示错误的原因为变量或参数不属于有效类型<br>&emsp;&emsp;URIError：创建一个error实例，表示错误的原因为给 encodeURI()或 decodeURI()传递的参数无效</p>
 <p><em>&emsp;&emsp;[注] Error.prototype 允许添加属性到 Error 实例；全局 Error 对象自身不包含任何方法，但存在一些从原型链中继承的方法</em></p>
 <h2 id="2、异常捕获"><a href="#2、异常捕获" class="headerlink" title="2、异常捕获"></a>2、异常捕获</h2><p>&emsp;&emsp;通常用 throw 关键字来<u>抛出</u>创建的 Error 对象，使用 try…catch 结构来<u>捕获</u>异常。try…catch 语句标记一块待尝试的语句，并规定一个以上的响应应该有一个异常被抛出。如果我们抛出一个异常，try…catch语句就捕获它，如果try代码块没有抛出异常，catch代码块就会被跳过。finally 代码块总会紧跟在try和catch代码块之后执行，但会在try和catch代码块之后的其他代码之前执行</p>
-<pre><code>  try &#123;
-    throw new Error(&#39;哎呀，发送了一个未知错误~&#39;)
-  &#125; catch (e) &#123;
-    console.log(`$&#123;e.name&#125; : $&#123;e.message&#125;`)
-    console.log(&#39;代码执行到这里了~&#39;)
-  &#125;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">  throw new Error(&#39;哎呀，发送了一个未知错误~&#39;)</span><br><span class="line">&#125; catch (e) &#123;</span><br><span class="line">  console.log(&#96;$&#123;e.name&#125; : $&#123;e.message&#125;&#96;)</span><br><span class="line">  console.log(&#39;代码执行到这里了~&#39;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 输出：</span><br><span class="line">&#x2F;&#x2F; Error : 哎呀，发送了一个未知错误~</span><br><span class="line">&#x2F;&#x2F; 代码执行到这里了~</span><br></pre></td></tr></table></figure>
 
-  // 输出：
-  // Error : 哎呀，发送了一个未知错误~
-  // 代码执行到这里了~
-</code></pre>
 <p>&emsp;&emsp;不过 try…catch 只能捕获同步异常，捕获不到异步异常！</p>
-<pre><code>  try &#123;
-    setTimeout(() =&gt; &#123;
-      throw new Error(&#39;哎呀，发送了一个未知错误~&#39;)
-    &#125;, 0)
-  &#125; catch (e) &#123;
-    console.log(`$&#123;e.name&#125; : $&#123;e.message&#125;`)
-    console.log(&#39;代码执行到这里了~&#39;)
-  &#125;
-
-  // 输出：这段代码没有输出
-  // 浏览器控制台打印错误：Uncaught Error: 哎呀，发送了一个未知错误~
-
-  // 结论：try...catch 未能捕获异步异常
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">  setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">    throw new Error(&#39;哎呀，发送了一个未知错误~&#39;)</span><br><span class="line">  &#125;, 0)</span><br><span class="line">&#125; catch (e) &#123;</span><br><span class="line">  console.log(&#96;$&#123;e.name&#125; : $&#123;e.message&#125;&#96;)</span><br><span class="line">  console.log(&#39;代码执行到这里了~&#39;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 输出：这段代码没有输出</span><br><span class="line">&#x2F;&#x2F; 浏览器控制台打印错误：Uncaught Error: 哎呀，发送了一个未知错误~</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 结论：try...catch 未能捕获异步异常</span><br></pre></td></tr></table></figure>
 <h2 id="3、异步异常捕获"><a href="#3、异步异常捕获" class="headerlink" title="3、异步异常捕获"></a>3、异步异常捕获</h2><p>&emsp;&emsp;从 ECMAScript 6 开始，JavaScript 增加了对 Promise 对象的支持，它允许你对延时和异步操作流进行控制，也可以对异步异常进行捕获处理：<br>&emsp;&emsp;☞ pending：初始的状态，即正在执行，不处于 fulfilled 或 rejected 状态<br>&emsp;&emsp;☞ fulfilled：成功的完成了操作<br>&emsp;&emsp;☞ rejected：失败，没有完成操作<br>&emsp;&emsp;☞ settled：Promise 处于 fulfilled 或 rejected 二者中的任意一个状态, 不会是 pending，即处于已敲定的状态</p>
 <p><img src="/images/javascript/Promise%E6%B5%81%E7%A8%8B.png" alt="Promise流程"></p>
 <p>&emsp;&emsp;待定状态的 Promise 对象要么会通过一个值被兑现（fulfilled），要么会通过一个原因（错误）被拒绝（rejected）。当这些情况之一发生时，我们用 promise 的 then 方法排列起来的相关处理程序就会被调用</p>
 <p><em>&emsp;&emsp;[注] Promise.prototype.then 和  Promise.prototype.catch 方法返回的是 promise， 所以它们可以被链式调用。任何不是 throw 的终止都会创建一个”已决议”状态，resolve() 方法可能将 pending 状态转化为 fulfilled 或 rejected 状态；而以 throw 终止则会创建一个”已拒绝”状态，reject() 方法会将 pending 状态转化为  rejected 状态</em></p>
 <p>&emsp;&emsp;Promise捕获异常示例：</p>
-<pre><code>  new Promise((resolve, reject) =&gt; &#123;
-    setTimeout(() =&gt; &#123;
-      try &#123;
-        throw &#39;出错啦~&#39;
-        resolve(true)
-      &#125; catch (err) &#123;
-        reject(err)
-      &#125;
-    &#125;, 0)
-  &#125;).then(res =&gt; &#123;
-    console.log(`已兑现: $&#123;res&#125;`)
-  &#125;).catch(err =&gt; &#123;
-    console.log(`已拒绝: $&#123;err&#125;`) // 已拒绝: 出错啦~
-  &#125;).finally(() =&gt; &#123;
-    console.log(&#39;Promise执行已完成&#39;) // Promise执行已完成
-  &#125;)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">  setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">      throw &#39;出错啦~&#39;</span><br><span class="line">      resolve(true)</span><br><span class="line">    &#125; catch (err) &#123;</span><br><span class="line">      reject(err)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, 0)</span><br><span class="line">&#125;).then(res &#x3D;&gt; &#123;</span><br><span class="line">  console.log(&#96;已兑现: $&#123;res&#125;&#96;)</span><br><span class="line">&#125;).catch(err &#x3D;&gt; &#123;</span><br><span class="line">  console.log(&#96;已拒绝: $&#123;err&#125;&#96;) &#x2F;&#x2F; 已拒绝: 出错啦~</span><br><span class="line">&#125;).finally(() &#x3D;&gt; &#123;</span><br><span class="line">  console.log(&#39;Promise执行已完成&#39;) &#x2F;&#x2F; Promise执行已完成</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;try…catch语句不能捕获异步异常，但可以在Promise函数体的异步操作执行时，将异步操作的错误信息通过reject(err)函数抛出，此时Promise状态变为rejected状态，在Promise的catch分支中将reject()函数抛出的err错误信息捕获。项目中我们可以使用Promise封装ajax请求，来实现对请求失败的<u>统一处理</u>~</p>
 <h2 id="4、Vue项目中使用axios请求数据并统一处理异常"><a href="#4、Vue项目中使用axios请求数据并统一处理异常" class="headerlink" title="4、Vue项目中使用axios请求数据并统一处理异常"></a>4、Vue项目中使用axios请求数据并统一处理异常</h2><p>&emsp;&emsp;1) 对axios配置超时等属性，对请求与响应作统一拦截处理</p>
-<pre><code>  // src/api/axios.js
-
-  import axios from &#39;axios&#39;
-  import &#123; get &#125; from &#39;lodash&#39;
-  import qs from &#39;qs&#39;
-  import &#123; Message &#125; from &#39;element-ui&#39;
-  import Router from &#39;@/router&#39;
-  import store from &#39;../store&#39;
-
-  const instance = axios.create(&#123;
-    baseURL: &#39;/api&#39;,
-    timeout: 1000 * 30
-  &#125;)
-
-  instance.interceptors.request.use(config =&gt; &#123;
-    // 给header统一加上Token信息
-    config.headers.Token = localStorage.getItem(&#39;accessToken&#39;)
-    // 预处理get请求url上的数组信息
-    if (config.method === &#39;get&#39;) &#123;
-      config.paramsSerializer = params =&gt; &#123;
-        return qs.stringify(params, &#123; indices: false &#125;)
-      &#125;
-    &#125;
-    return config
-  &#125;)
-
-  instance.interceptors.response.use(
-    // 请求成功，返回服务端响应内容
-    response =&gt; response.data,
-    // 请求失败，统一处理错误信息
-    error =&gt; &#123;
-      if (error.response) &#123;
-        // 登录信息过期移除缓存的用户信息，跳转登录页
-        if (error.response.status === 401) &#123;
-          localStorage.removeItem(&#39;userInfo&#39;)
-          store.commit(&#39;clearUserInfo&#39;)
-          // Message.error(&#39;您的登录已过期，请重新登录&#39;)
-          Message.error(get(error, &#39;response.data.message&#39;, &#39;您的登录已过期，请重新登录&#39;))
-          Router.push(&#39;/login&#39;)
-          return Promise.resolve()
-        &#125; else &#123;
-          // 统一处理错误，并将错误抛出，具体请求也能拿到错误信息
-          Message.error(get(error, &#39;response.data.message&#39;, &#39;网络错误，请您稍后尝试&#39;))
-          return Promise.reject(error.response.data)
-        &#125;
-      &#125; else &#123;
-        Message.error(&#39;网络错误，请您稍后尝试&#39;)
-      &#125;
-    &#125;
-  )
-
-  export default instance
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; src&#x2F;api&#x2F;axios.js</span><br><span class="line"></span><br><span class="line">import axios from &#39;axios&#39;</span><br><span class="line">import &#123; get &#125; from &#39;lodash&#39;</span><br><span class="line">import qs from &#39;qs&#39;</span><br><span class="line">import &#123; Message &#125; from &#39;element-ui&#39;</span><br><span class="line">import Router from &#39;@&#x2F;router&#39;</span><br><span class="line">import store from &#39;..&#x2F;store&#39;</span><br><span class="line"></span><br><span class="line">const instance &#x3D; axios.create(&#123;</span><br><span class="line">  baseURL: &#39;&#x2F;api&#39;,</span><br><span class="line">  timeout: 1000 * 30</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">instance.interceptors.request.use(config &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 给header统一加上Token信息</span><br><span class="line">  config.headers.Token &#x3D; localStorage.getItem(&#39;accessToken&#39;)</span><br><span class="line">  &#x2F;&#x2F; 预处理get请求url上的数组信息</span><br><span class="line">  if (config.method &#x3D;&#x3D;&#x3D; &#39;get&#39;) &#123;</span><br><span class="line">    config.paramsSerializer &#x3D; params &#x3D;&gt; &#123;</span><br><span class="line">      return qs.stringify(params, &#123; indices: false &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return config</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">instance.interceptors.response.use(</span><br><span class="line">  &#x2F;&#x2F; 请求成功，返回服务端响应内容</span><br><span class="line">  response &#x3D;&gt; response.data,</span><br><span class="line">  &#x2F;&#x2F; 请求失败，统一处理错误信息</span><br><span class="line">  error &#x3D;&gt; &#123;</span><br><span class="line">    if (error.response) &#123;</span><br><span class="line">      &#x2F;&#x2F; 登录信息过期移除缓存的用户信息，跳转登录页</span><br><span class="line">      if (error.response.status &#x3D;&#x3D;&#x3D; 401) &#123;</span><br><span class="line">        localStorage.removeItem(&#39;userInfo&#39;)</span><br><span class="line">        store.commit(&#39;clearUserInfo&#39;)</span><br><span class="line">        &#x2F;&#x2F; Message.error(&#39;您的登录已过期，请重新登录&#39;)</span><br><span class="line">        Message.error(get(error, &#39;response.data.message&#39;, &#39;您的登录已过期，请重新登录&#39;))</span><br><span class="line">        Router.push(&#39;&#x2F;login&#39;)</span><br><span class="line">        return Promise.resolve()</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        &#x2F;&#x2F; 统一处理错误，并将错误抛出，具体请求也能拿到错误信息</span><br><span class="line">        Message.error(get(error, &#39;response.data.message&#39;, &#39;网络错误，请您稍后尝试&#39;))</span><br><span class="line">        return Promise.reject(error.response.data)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      Message.error(&#39;网络错误，请您稍后尝试&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">export default instance</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;2) 针对功能模块编写API列表文件，对请求进行封装</p>
-<pre><code>  // src/api/menu.js
-
-  import axios from &#39;@/api/axios.js&#39;
-
-  export const fetchFrontMenuList = params =&gt; axios.get(&#39;/v1/menu-front&#39;, &#123; params &#125;)
-  export const fetchBannerList = menuId =&gt; axios.get(`/v1/menu-front/$&#123;menuId&#125;/banner`)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; src&#x2F;api&#x2F;menu.js</span><br><span class="line"></span><br><span class="line">import axios from &#39;@&#x2F;api&#x2F;axios.js&#39;</span><br><span class="line"></span><br><span class="line">export const fetchFrontMenuList &#x3D; params &#x3D;&gt; axios.get(&#39;&#x2F;v1&#x2F;menu-front&#39;, &#123; params &#125;)</span><br><span class="line">export const fetchBannerList &#x3D; menuId &#x3D;&gt; axios.get(&#96;&#x2F;v1&#x2F;menu-front&#x2F;$&#123;menuId&#125;&#x2F;banner&#96;)</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;3) 页面中接口的简单使用</p>
-<pre><code>  // src/views/Index.vue
-
-  &lt;script&gt;
-    import &#123; Vue, Component, Watch &#125; from &#39;vue-property-decorator&#39;
-    import &#123; fetchFrontMenuList &#125; from &#39;@/api/menu&#39;
-
-    export default @Component(&#123;&#125;)
-    class Index extends Vue &#123;
-      menuList = []
-
-      async created () &#123;
-        const resp = await fetchFrontMenuList(&#123; status: 0 &#125;)
-        this.menuList = (resp.data || [])
-      &#125;
-    &#125;
-  &lt;/script&gt;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; src&#x2F;views&#x2F;Index.vue</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import &#123; Vue, Component, Watch &#125; from &#39;vue-property-decorator&#39;</span><br><span class="line">  import &#123; fetchFrontMenuList &#125; from &#39;@&#x2F;api&#x2F;menu&#39;</span><br><span class="line"></span><br><span class="line">  export default @Component(&#123;&#125;)</span><br><span class="line">  class Index extends Vue &#123;</span><br><span class="line">    menuList &#x3D; []</span><br><span class="line"></span><br><span class="line">    async created () &#123;</span><br><span class="line">      const resp &#x3D; await fetchFrontMenuList(&#123; status: 0 &#125;)</span><br><span class="line">      this.menuList &#x3D; (resp.data || [])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
  
       <!-- reward -->
       

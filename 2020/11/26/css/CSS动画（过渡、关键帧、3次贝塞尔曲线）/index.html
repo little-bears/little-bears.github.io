@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.8k</span>
+            <span class="post-count">2.9k</span>
         </span>
     </span>
 
@@ -177,22 +177,7 @@
 </tbody></table>
 <p>&emsp;&emsp;动画 （<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
 <p>&emsp;&emsp;动画是使元素从一种样式逐渐变化为另一种样式的效果。<br>&emsp;&emsp;您可以改变任意多的样式任意多的次数。<br>&emsp;&emsp;使用百分比来规定变化发生的时间，或用关键词 “from” 和 “to”，等同于 0% 和 100%（推荐使用百分比），0% 是动画的开始，100% 是动画的完成。<br>&emsp;&emsp;当在 @keyframes 创建动画，把它绑定到一个选择器，否则动画不会被使用，也不会有任何效果。使用animation属对选择器设置对应动画，必须定义动画的名称和动画的持续时间。如果省略的持续时间，动画将无法运行，因为默认值是0。</p>
-<pre><code>  @keyframes name
-  &#123;
-    0%   &#123; // 状态1 &#125;
-    ...
-    xx%  &#123; // 状态x &#125;
-    ...
-    100% &#123; // 状态n &#125;
-  &#125;
-  // 自定义动画的使用
-  animation: name duration timing-function delay iteration-count direction;
-
-  // timing-function的取值: linear、ease、ease-in、ease-out、ease-in-out、cubic-bezier(n,n,n,n)
-  // iteration-count的取值: n(次数)、infinite
-  // animation-direction的取值: normal、alternate
-</code></pre>
-<br/>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@keyframes name</span><br><span class="line">&#123;</span><br><span class="line">  0%   &#123; &#x2F;&#x2F; 状态1 &#125;</span><br><span class="line">  ...</span><br><span class="line">  xx%  &#123; &#x2F;&#x2F; 状态x &#125;</span><br><span class="line">  ...</span><br><span class="line">  100% &#123; &#x2F;&#x2F; 状态n &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 自定义动画的使用</span><br><span class="line">animation: name duration timing-function delay iteration-count direction;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; timing-function的取值: linear、ease、ease-in、ease-out、ease-in-out、cubic-bezier(n,n,n,n)</span><br><span class="line">&#x2F;&#x2F; iteration-count的取值: n(次数)、infinite</span><br><span class="line">&#x2F;&#x2F; animation-direction的取值: normal、alternate</span><br></pre></td></tr></table></figure>
 
 <table>
 <thead>
@@ -248,139 +233,26 @@
 <p><em>[注] 以上图片制作于<a target="_blank" rel="noopener" href="https://cubic-bezier.com/">https://cubic-bezier.com/</a>，这是一个贝尔塞曲线在线设置与查看的网站，其中紫色的点表示（x1, y1）,蓝色的点表示（x2, y2）。</em></p>
 <p>&emsp;&emsp;<strong>其中横轴（x轴）表示时间，纵轴（y轴）表示随着时间推移动画完成情况，曲线的斜率表现为为动画完成的快慢（比如移动速度等）。浏览器会根据时序函数对动画完成情况进行对应的更新（即由时序函数来确定此刻动画中各元素的状态）。</strong>根据图片，可以看到：linear随着时间推移，同一时间间隔动画的完成进度一致，即匀速的完成动画；ease-in先慢后快，ease-out先快后慢；ease-in-out则开始和结束较慢，中间动画完成的进度较快。<br>&emsp;&emsp;特别的，我们也可以使用cubic-bezier自定义时序函数，例如cubic-bezier(.92 ,-0.44, .04, 1.44)，可以看到随着时间的推移，完成情况最先是反向的且完成情况小于0，先快后慢；到最慢时然后完成情况变为正向，呈现先慢后快再慢（类似于ease-in-out），到最慢时此时动画的完成情况是大于1的（也就是多完成了一部分），此时完成情况的方向又变为反向的，先慢后快直到动画完成。</p>
 <p>&emsp;&emsp;将cubic-bezier(.92 ,-0.44, .04, 1.44)时序用到transition属性中（时序函数一般要求写在过渡时间的后面）：</p>
-<pre><code>  &lt;style&gt;
-    .box &#123;
-      width: 300px;
-      border: 1px solid #666;
-      cursor: pointer;
-    &#125;
-    .ball &#123;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: chocolate;
-      margin-left: 0;
-      transition: all 3s cubic-bezier(.92, -0.44, .04, 1.44);
-    &#125;
-    .box:hover .ball &#123;
-      margin-left: calc(100% - 50px);
-    &#125;
-  &lt;/style&gt;
-  &lt;div class=&quot;box&quot;&gt;
-    &lt;div class=&quot;ball&quot;&gt;&lt;/div&gt;
-  &lt;/div&gt;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">  .box &#123;</span><br><span class="line">    width: 300px;</span><br><span class="line">    border: 1px solid #666;</span><br><span class="line">    cursor: pointer;</span><br><span class="line">  &#125;</span><br><span class="line">  .ball &#123;</span><br><span class="line">    width: 50px;</span><br><span class="line">    height: 50px;</span><br><span class="line">    border-radius: 50%;</span><br><span class="line">    background: chocolate;</span><br><span class="line">    margin-left: 0;</span><br><span class="line">    transition: all 3s cubic-bezier(.92, -0.44, .04, 1.44);</span><br><span class="line">  &#125;</span><br><span class="line">  .box:hover .ball &#123;</span><br><span class="line">    margin-left: calc(100% - 50px);</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;box&quot;&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;ball&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;具体动画的效果：</p>
 <p><img src="/images/css3/%E8%BF%90%E5%8A%A8%E7%9A%84%E5%B0%8F%E7%90%83.gif" alt="运动的小球"></p>
 <p>&emsp;&emsp;如代码所示，外层class为box的div宽300px，里面放置一个直径为50px的小球，初始位置为外层div里的最左侧。设置外层div变为hover状态时，小球向右移动到外层div里的最右侧的过渡，过渡时间3s，过渡的时序函数用我们自定义贝塞尔曲线。可以看到小球先向左（反方向）由快到慢的移动，移出了外层div左侧一部分；在向右由慢到快再到慢的移动，特别是中间移动速度极快，停下来时也已移出了外层div最右侧一部分；然后在向左（反方向）由慢到快直至小球停到外层div里的最右侧。外层div失去焦点时小球的移动方式与获得焦点相反。可以看到小球移动的状态与设置时序函数的贝塞尔曲线的状态一致。</p>
 <p>&emsp;&emsp;在这里再做一些dome实例的补充：</p>
-<h4 id="1）旋转的筛子"><a href="#1）旋转的筛子" class="headerlink" title="1）旋转的筛子"></a>1）旋转的筛子</h4><p>&emsp;&emsp;先看动画效果：</p>
+<h2 id="1、旋转的筛子"><a href="#1、旋转的筛子" class="headerlink" title="1、旋转的筛子"></a>1、旋转的筛子</h2><p>&emsp;&emsp;先看动画效果：</p>
 <p><img src="/images/css3/%E6%97%8B%E8%BD%AC%E7%9A%84%E7%AD%9B%E5%AD%90.gif" alt="旋转的筛子"></p>
 <p>&emsp;&emsp;代码实现：</p>
-<pre><code>  &lt;style&gt;
-    .cube &#123;
-      width: 100px;
-      height: 100px;
-      perspective: 500px;
-      margin: 100px;
-      transform-style: preserve-3d;
-      animation: rotate 20s infinite;
-      animation-timing-function: linear;
-    &#125;
-    .cube div &#123;
-      position: absolute;
-      transition: all .4s;
-      width: 100px;
-      height: 100px;
-      opacity: 0.9;
-    &#125;
-    .cube div img &#123;
-      width: 100%;
-      height: 100%;
-    &#125;
-    .front &#123;
-      transform: translateZ(50px);
-    &#125;
-    .back &#123;
-      transform: translateZ(-50px);
-    &#125;
-    .left &#123;
-      transform: rotateY(90deg) translateZ(50px);
-    &#125;
-    .right &#123;
-      transform: rotateY(-90deg) translateZ(50px);
-    &#125;
-    .top &#123;
-      transform: rotateX(90deg) translateZ(50px);
-    &#125;
-    .bottom &#123;
-      transform: rotateX(-90deg) translateZ(50px);
-    &#125;
-    @keyframes rotate &#123;
-      from &#123;
-        transform: rotateX(0deg) rotateY(0deg);
-      &#125;
-      to &#123;
-        transform: rotateX(360deg) rotateY(360deg);
-      &#125;
-    &#125;
-  &lt;/style&gt;
-  &lt;div class=&quot;cube&quot;&gt;
-    &lt;div class=&quot;front&quot;&gt;&lt;img src=&quot;img/3.jpg&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;back&quot;&gt;&lt;img src=&quot;img/5.jpg&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;left&quot;&gt;&lt;img src=&quot;img/2.jpg&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;right&quot;&gt;&lt;img src=&quot;img/4.jpg&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;top&quot;&gt;&lt;img src=&quot;img/1.jpg&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;bottom&quot;&gt;&lt;img src=&quot;img/6.jpg&quot;&gt;&lt;/div&gt;
-  &lt;/div&gt;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">  .cube &#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    perspective: 500px;</span><br><span class="line">    margin: 100px;</span><br><span class="line">    transform-style: preserve-3d;</span><br><span class="line">    animation: rotate 20s infinite;</span><br><span class="line">    animation-timing-function: linear;</span><br><span class="line">  &#125;</span><br><span class="line">  .cube div &#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    transition: all .4s;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    opacity: 0.9;</span><br><span class="line">  &#125;</span><br><span class="line">  .cube div img &#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 100%;</span><br><span class="line">  &#125;</span><br><span class="line">  .front &#123;</span><br><span class="line">    transform: translateZ(50px);</span><br><span class="line">  &#125;</span><br><span class="line">  .back &#123;</span><br><span class="line">    transform: translateZ(-50px);</span><br><span class="line">  &#125;</span><br><span class="line">  .left &#123;</span><br><span class="line">    transform: rotateY(90deg) translateZ(50px);</span><br><span class="line">  &#125;</span><br><span class="line">  .right &#123;</span><br><span class="line">    transform: rotateY(-90deg) translateZ(50px);</span><br><span class="line">  &#125;</span><br><span class="line">  .top &#123;</span><br><span class="line">    transform: rotateX(90deg) translateZ(50px);</span><br><span class="line">  &#125;</span><br><span class="line">  .bottom &#123;</span><br><span class="line">    transform: rotateX(-90deg) translateZ(50px);</span><br><span class="line">  &#125;</span><br><span class="line">  @keyframes rotate &#123;</span><br><span class="line">    from &#123;</span><br><span class="line">      transform: rotateX(0deg) rotateY(0deg);</span><br><span class="line">    &#125;</span><br><span class="line">    to &#123;</span><br><span class="line">      transform: rotateX(360deg) rotateY(360deg);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;cube&quot;&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;front&quot;&gt;&lt;img src&#x3D;&quot;img&#x2F;3.jpg&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;back&quot;&gt;&lt;img src&#x3D;&quot;img&#x2F;5.jpg&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;left&quot;&gt;&lt;img src&#x3D;&quot;img&#x2F;2.jpg&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;right&quot;&gt;&lt;img src&#x3D;&quot;img&#x2F;4.jpg&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;top&quot;&gt;&lt;img src&#x3D;&quot;img&#x2F;1.jpg&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;bottom&quot;&gt;&lt;img src&#x3D;&quot;img&#x2F;6.jpg&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;简单说明：先在外层class为box的div上设置了观测视角。再对class为cube的div元素设置了transform-style: preserve-3d，使其可以进行3D变换。再对其内部的6个面（实现方式不止代码所示的一种，变换过程中旋转与平移先后顺序不同代码就会不同。这里用图片简单表示骰子的1-6，通过Flex或是Grid布局实现骰子6个面的布局也比较容易）进行相应的3D平移与旋转，布局成为一个立方体。再对class为cube的div元素添加了自定义的关键帧rotate旋转动画。</p>
-<h4 id="2）边框滚动动画"><a href="#2）边框滚动动画" class="headerlink" title="2）边框滚动动画"></a>2）边框滚动动画</h4><p>&emsp;&emsp;先看动画效果：</p>
+<h2 id="2、边框滚动动画"><a href="#2、边框滚动动画" class="headerlink" title="2、边框滚动动画"></a>2、边框滚动动画</h2><p>&emsp;&emsp;先看动画效果：</p>
 <p><img src="/images/css3/%E8%BE%B9%E6%A1%86%E6%BB%9A%E5%8A%A8%E5%8A%A8%E7%94%BB.gif" alt="边框滚动动画"></p>
 <p>&emsp;&emsp;代码实现：</p>
-<pre><code>  &lt;style&gt;
-    .outer-box &#123;
-      width: 300px; height: 100px; box-sizing: border-box; padding: 2px;
-      background: repeating-linear-gradient(45deg, #000, #000 3px, transparent, #000 8px);
-      animation: line 1s infinite linear;
-    &#125;
-    .inner-box &#123;
-      width: 100%; height: 100%;
-      background-color: #fff;
-      display: flex; justify-content: center; align-items: center;
-    &#125;
-    @keyframes line &#123;
-      0% &#123; background-position: 1px -1px; &#125;
-      100% &#123; background-position: 12px -12px; &#125;
-    &#125;
-  &lt;/style&gt;
-  &lt;div class=&quot;outer-box&quot;&gt;
-    &lt;div class=&quot;inner-box&quot;&gt;- (^_^) -&lt;/div&gt;
-  &lt;/div&gt;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">  .outer-box &#123;</span><br><span class="line">    width: 300px; height: 100px; box-sizing: border-box; padding: 2px;</span><br><span class="line">    background: repeating-linear-gradient(45deg, #000, #000 3px, transparent, #000 8px);</span><br><span class="line">    animation: line 1s infinite linear;</span><br><span class="line">  &#125;</span><br><span class="line">  .inner-box &#123;</span><br><span class="line">    width: 100%; height: 100%;</span><br><span class="line">    background-color: #fff;</span><br><span class="line">    display: flex; justify-content: center; align-items: center;</span><br><span class="line">  &#125;</span><br><span class="line">  @keyframes line &#123;</span><br><span class="line">    0% &#123; background-position: 1px -1px; &#125;</span><br><span class="line">    100% &#123; background-position: 12px -12px; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;outer-box&quot;&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner-box&quot;&gt;- (^_^) -&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;简单说明：这里将外层div设置为渐变的背景图片，2px内间距。内部div宽高100%，背景为白色，此时只见外层div出现类似于虚线边框的样式。加入自定义动画line，线性向右上方移动背景图片，便出现了边框滚动的效果。</p>
-<h4 id="3）元素沿着不规则路径运动"><a href="#3）元素沿着不规则路径运动" class="headerlink" title="3）元素沿着不规则路径运动"></a>3）元素沿着不规则路径运动</h4><p>&emsp;&emsp;这里我们会用到offset-path等相关属性来实现，这个属性相对较新（要注意浏览器兼容），先介绍常用的属性：<br>&emsp;&emsp;<strong>offset-path：指定元素要遵循的运动路径以及元素位置。</strong>取值为：<br>&emsp;&emsp;&emsp;&emsp;ray() ：定义的一条路径<br>&emsp;&emsp;&emsp;&emsp;url()：引用SVG图片的URL<br>&emsp;&emsp;&emsp;&emsp;形状：circle()、 ellipse()、inset()、polygon()等<br>&emsp;&emsp;&emsp;&emsp;path()：用SVG坐标语法定义的路径字符串<br>&emsp;&emsp;<strong>offset-distance：指定要放置的元素沿路径偏移的位置（px，%）。</strong><br>&emsp;&emsp;<strong>offset-rotate：元素运动的角度（deg），默认auto，表示沿当前路径的切线方向前进。</strong></p>
+<h2 id="3、元素沿着不规则路径运动"><a href="#3、元素沿着不规则路径运动" class="headerlink" title="3、元素沿着不规则路径运动"></a>3、元素沿着不规则路径运动</h2><p>&emsp;&emsp;这里我们会用到offset-path等相关属性来实现，这个属性相对较新（要注意浏览器兼容），先介绍常用的属性：<br>&emsp;&emsp;<strong>offset-path：指定元素要遵循的运动路径以及元素位置。</strong>取值为：<br>&emsp;&emsp;&emsp;&emsp;ray() ：定义的一条路径<br>&emsp;&emsp;&emsp;&emsp;url()：引用SVG图片的URL<br>&emsp;&emsp;&emsp;&emsp;形状：circle()、 ellipse()、inset()、polygon()等<br>&emsp;&emsp;&emsp;&emsp;path()：用SVG坐标语法定义的路径字符串<br>&emsp;&emsp;<strong>offset-distance：指定要放置的元素沿路径偏移的位置（px，%）。</strong><br>&emsp;&emsp;<strong>offset-rotate：元素运动的角度（deg），默认auto，表示沿当前路径的切线方向前进。</strong></p>
 <p>&emsp;&emsp;先看动画效果：</p>
 <p><img src="/images/css3/%E4%B8%8D%E8%A7%84%E5%88%99%E8%BF%90%E5%8A%A8.gif" alt="不规则运动"></p>
 <p>&emsp;&emsp;代码实现：</p>
-<pre><code>  &lt;style&gt;
-    .box &#123; position: relative; &#125;
-    .car &#123;
-      offset-path: path(&quot;M10 80 Q 52.5 10, 135 80 T 280 80&quot;);
-      animation: move 3s linear infinite;
-      position: absolute; width: 50px; height: auto;
-    &#125;
-    @keyframes move &#123;
-      100% &#123; offset-distance: 100%; &#125;
-    &#125;
-  &lt;/style&gt;
-  &lt;div class=&quot;box&quot;&gt;
-    &lt;img src=&quot;img/car.png&quot; width=&quot;40&quot; height=&quot;43&quot; class=&quot;car&quot;&gt;
-    &lt;svg width=&quot;290px&quot; height=&quot;160px&quot; version=&quot;1.1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
-      &lt;path d=&quot;M10 80 Q 52.5 10, 135 80 T 280 80&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot; /&gt;
-    &lt;/svg&gt;
-  &lt;/div&gt;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">  .box &#123; position: relative; &#125;</span><br><span class="line">  .car &#123;</span><br><span class="line">    offset-path: path(&quot;M10 80 Q 52.5 10, 135 80 T 280 80&quot;);</span><br><span class="line">    animation: move 3s linear infinite;</span><br><span class="line">    position: absolute; width: 50px; height: auto;</span><br><span class="line">  &#125;</span><br><span class="line">  @keyframes move &#123;</span><br><span class="line">    100% &#123; offset-distance: 100%; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;box&quot;&gt;</span><br><span class="line">  &lt;img src&#x3D;&quot;img&#x2F;car.png&quot; width&#x3D;&quot;40&quot; height&#x3D;&quot;43&quot; class&#x3D;&quot;car&quot;&gt;</span><br><span class="line">  &lt;svg width&#x3D;&quot;290px&quot; height&#x3D;&quot;160px&quot; version&#x3D;&quot;1.1&quot; xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot;&gt;</span><br><span class="line">    &lt;path d&#x3D;&quot;M10 80 Q 52.5 10, 135 80 T 280 80&quot; stroke&#x3D;&quot;black&quot; fill&#x3D;&quot;transparent&quot; &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;svg&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;简单说明：这里路径使用SVG图片，设置汽车的图片offset-path偏移路径为SVG中path字符串一致。自定义动画move使汽车每3s沿SVG路径进行偏移直至100%，便出现了汽车元素沿不规则路径移动的效果。</p>
  
       <!-- reward -->

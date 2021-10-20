@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-10-18T15:52:02.830Z</updated>
+  <updated>2021-10-20T12:39:04.053Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://example.com/2021/09/28/note/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/"/>
     <id>http://example.com/2021/09/28/note/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/</id>
     <published>2021-09-28T06:10:25.000Z</published>
-    <updated>2021-10-18T15:52:02.830Z</updated>
+    <updated>2021-10-20T12:39:04.053Z</updated>
     
     
       
@@ -46,14 +46,14 @@
     <link href="http://example.com/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/"/>
     <id>http://example.com/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/</id>
     <published>2021-07-29T07:25:37.000Z</published>
-    <updated>2021-10-16T04:36:01.605Z</updated>
+    <updated>2021-10-20T12:17:56.086Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;一种将 JavaScript 程序拆分为可按需导入的单独模块的机制。&lt;br&gt;JavaScript模式的基本特征：&lt;br&gt;(1) 模块化，可重用&lt;br&gt;(2) 封装了变量和function，和全局的namaspace不接触，松耦合&lt;br&gt;(3)</summary>
+    <summary type="html">&lt;p&gt;一种将 JavaScript 程序拆分为可按需导入的单独模块的机制。&lt;br&gt;ES6 Module 的基本特征：&lt;br&gt;(1) 模块化，可重用&lt;br&gt;(2) 封装了变量和function，和全局的namaspace不接触，松耦合&lt;br&gt;(3)</summary>
         
       
     
@@ -71,7 +71,7 @@
     <link href="http://example.com/2021/07/01/javascript/JS%20(%E5%BC%82%E6%AD%A5)%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E4%B8%8E%E5%A4%84%E7%90%86/"/>
     <id>http://example.com/2021/07/01/javascript/JS%20(%E5%BC%82%E6%AD%A5)%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E4%B8%8E%E5%A4%84%E7%90%86/</id>
     <published>2021-07-01T15:39:31.000Z</published>
-    <updated>2021-07-29T07:21:53.567Z</updated>
+    <updated>2021-10-20T12:52:57.523Z</updated>
     
     
       
@@ -97,7 +97,7 @@
     <link href="http://example.com/2021/06/22/javascript/JS%20Proxy%E3%80%81Reflect%E4%B8%8E@Decorator/"/>
     <id>http://example.com/2021/06/22/javascript/JS%20Proxy%E3%80%81Reflect%E4%B8%8E@Decorator/</id>
     <published>2021-06-22T09:06:36.000Z</published>
-    <updated>2021-10-16T04:32:13.813Z</updated>
+    <updated>2021-10-20T12:55:40.721Z</updated>
     
     
       
@@ -122,7 +122,7 @@
     <link href="http://example.com/2021/06/10/javascript/JS%20Map%E3%80%81Set%E5%85%B3%E9%94%AE%E5%AD%97/"/>
     <id>http://example.com/2021/06/10/javascript/JS%20Map%E3%80%81Set%E5%85%B3%E9%94%AE%E5%AD%97/</id>
     <published>2021-06-10T06:04:36.000Z</published>
-    <updated>2021-06-30T15:43:38.677Z</updated>
+    <updated>2021-10-20T12:53:57.212Z</updated>
     
     
       
@@ -147,7 +147,7 @@
     <link href="http://example.com/2021/01/16/javascript/JS%E5%B8%B8%E7%94%A8API%EF%BC%88%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E7%BB%84%E3%80%81%E5%AF%B9%E8%B1%A1%E3%80%81%E6%AD%A3%E5%88%99%E3%80%81%E6%97%A5%E6%9C%9F%EF%BC%89/"/>
     <id>http://example.com/2021/01/16/javascript/JS%E5%B8%B8%E7%94%A8API%EF%BC%88%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E7%BB%84%E3%80%81%E5%AF%B9%E8%B1%A1%E3%80%81%E6%AD%A3%E5%88%99%E3%80%81%E6%97%A5%E6%9C%9F%EF%BC%89/</id>
     <published>2021-01-16T06:14:53.000Z</published>
-    <updated>2021-06-23T08:59:06.040Z</updated>
+    <updated>2021-10-20T12:57:04.594Z</updated>
     
     
       
@@ -173,7 +173,7 @@
     <link href="http://example.com/2021/01/02/javascript/JS%E5%8A%A8%E7%94%BB%EF%BC%88%E6%97%B6%E5%BA%8F%E5%87%BD%E6%95%B0%E3%80%81%E7%BC%93%E5%8A%A8%E5%87%BD%E6%95%B0%E3%80%81canvas%E7%B2%92%E5%AD%90%E5%8A%A8%E7%94%BB%EF%BC%89/"/>
     <id>http://example.com/2021/01/02/javascript/JS%E5%8A%A8%E7%94%BB%EF%BC%88%E6%97%B6%E5%BA%8F%E5%87%BD%E6%95%B0%E3%80%81%E7%BC%93%E5%8A%A8%E5%87%BD%E6%95%B0%E3%80%81canvas%E7%B2%92%E5%AD%90%E5%8A%A8%E7%94%BB%EF%BC%89/</id>
     <published>2021-01-02T13:01:58.000Z</published>
-    <updated>2021-05-30T09:50:05.615Z</updated>
+    <updated>2021-10-20T12:59:23.858Z</updated>
     
     
       
@@ -198,7 +198,7 @@
     <link href="http://example.com/2020/12/25/javascript/JS%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C%E4%BB%A5%E5%8F%8A%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%B2%E8%A1%8C%E3%80%81%E5%B9%B6%E8%A1%8C%EF%BC%89/"/>
     <id>http://example.com/2020/12/25/javascript/JS%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C%E4%BB%A5%E5%8F%8A%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%B2%E8%A1%8C%E3%80%81%E5%B9%B6%E8%A1%8C%EF%BC%89/</id>
     <published>2020-12-25T07:59:04.000Z</published>
-    <updated>2021-05-30T09:32:15.427Z</updated>
+    <updated>2021-10-20T13:12:40.186Z</updated>
     
     
       
@@ -223,7 +223,7 @@
     <link href="http://example.com/2020/12/23/javascript/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/"/>
     <id>http://example.com/2020/12/23/javascript/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/</id>
     <published>2020-12-23T10:00:00.000Z</published>
-    <updated>2021-05-30T09:32:15.408Z</updated>
+    <updated>2021-10-20T13:26:13.888Z</updated>
     
     
       
@@ -248,7 +248,7 @@
     <link href="http://example.com/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/"/>
     <id>http://example.com/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/</id>
     <published>2020-12-05T03:28:36.000Z</published>
-    <updated>2021-06-09T08:39:53.541Z</updated>
+    <updated>2021-10-20T13:21:38.183Z</updated>
     
     
       
@@ -273,7 +273,7 @@
     <link href="http://example.com/2020/12/03/javascript/JavaScript%E6%A6%82%E8%BF%B0/"/>
     <id>http://example.com/2020/12/03/javascript/JavaScript%E6%A6%82%E8%BF%B0/</id>
     <published>2020-12-03T07:53:39.000Z</published>
-    <updated>2021-10-14T16:47:48.113Z</updated>
+    <updated>2021-10-20T12:51:26.405Z</updated>
     
     
       
@@ -298,7 +298,7 @@
     <link href="http://example.com/2020/11/26/css/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/"/>
     <id>http://example.com/2020/11/26/css/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/</id>
     <published>2020-11-26T03:03:30.000Z</published>
-    <updated>2021-05-30T09:48:37.171Z</updated>
+    <updated>2021-10-20T12:48:36.883Z</updated>
     
     
       
@@ -324,7 +324,7 @@
     <link href="http://example.com/2020/11/02/css/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/"/>
     <id>http://example.com/2020/11/02/css/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/</id>
     <published>2020-11-02T06:22:39.000Z</published>
-    <updated>2021-05-30T09:46:49.418Z</updated>
+    <updated>2021-10-20T12:44:11.702Z</updated>
     
     
       
@@ -349,7 +349,7 @@
     <link href="http://example.com/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/"/>
     <id>http://example.com/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/</id>
     <published>2020-09-27T07:12:22.000Z</published>
-    <updated>2021-05-30T09:32:15.423Z</updated>
+    <updated>2021-10-20T12:47:20.129Z</updated>
     
     
       
@@ -400,7 +400,7 @@
     <link href="http://example.com/2020/09/24/css/CSS-3-%E6%A6%82%E8%BF%B0/"/>
     <id>http://example.com/2020/09/24/css/CSS-3-%E6%A6%82%E8%BF%B0/</id>
     <published>2020-09-24T01:10:16.000Z</published>
-    <updated>2021-05-31T14:36:51.718Z</updated>
+    <updated>2021-10-20T12:43:23.248Z</updated>
     
     
       
@@ -425,7 +425,7 @@
     <link href="http://example.com/2020/09/15/html/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/"/>
     <id>http://example.com/2020/09/15/html/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/</id>
     <published>2020-09-15T03:48:20.000Z</published>
-    <updated>2021-05-30T09:35:43.851Z</updated>
+    <updated>2021-10-20T12:36:20.864Z</updated>
     
     
       
@@ -451,7 +451,7 @@
     <link href="http://example.com/2020/09/14/html/HTML-5-%E6%A6%82%E8%BF%B0/"/>
     <id>http://example.com/2020/09/14/html/HTML-5-%E6%A6%82%E8%BF%B0/</id>
     <published>2020-09-14T06:10:54.000Z</published>
-    <updated>2021-05-31T14:36:51.718Z</updated>
+    <updated>2021-10-20T12:30:03.898Z</updated>
     
     
       

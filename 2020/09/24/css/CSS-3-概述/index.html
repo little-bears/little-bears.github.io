@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">6.1k</span>
+            <span class="post-count">6.2k</span>
         </span>
     </span>
 
@@ -743,15 +743,11 @@
 <p>&emsp;&emsp;4) 渐变</p>
 <p>&emsp;&emsp;CSS3 渐变（gradients）可以让你在两个或多个指定的颜色之间显示平稳的过渡。（相关属性background-image）<br>&emsp;&emsp;CSS3 定义了两种类型的渐变（gradients）：</p>
 <p>&emsp;&emsp;① 线性渐变（Linear Gradients）- 向下/向上/向左/向右/对角方向</p>
-<pre><code>  background-image: linear-gradient(direction, color-stop1, color-stop2, ...);
-  background-image: linear-gradient(angle, color-stop1, color-stop2)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">background-image: linear-gradient(direction, color-stop1, color-stop2, ...);</span><br><span class="line">background-image: linear-gradient(angle, color-stop1, color-stop2)</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;② 径向渐变（Radial Gradients）- 由它们的中心定义</p>
-<pre><code>  background-image: radial-gradient(shape size at position, start-color, ..., last-color)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background-image: radial-gradient(shape size at position, start-color, ..., last-color)</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;<u>利用repeating-linear-gradient函数可以实现线形重复渐变效果定义：</u></p>
-<pre><code>  repeating-linear-gradient([ &lt;angle&gt; | to &lt;side-or-corner&gt; ,] ? &lt;color-stop&gt; [, &lt;color-stop&gt;]+)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repeating-linear-gradient([ &lt;angle&gt; | to &lt;side-or-corner&gt; ,] ? &lt;color-stop&gt; [, &lt;color-stop&gt;]+)</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;5) 文本效果（文本字体可使用css3 @font-face属性自定义）</p>
 <table>
 <thead>
@@ -782,22 +778,10 @@
 </tr>
 </tbody></table>
 <p>&emsp;&emsp;<em>[注1] 单行文本超出隐藏</em></p>
-<pre><code>  .box &#123; // 有一定宽度的包含元素
-    white-space: nowrap; // 如何处理包含元素内的空白：文本不会换行，文本会在在同一行上继续，直到遇到&lt;br&gt;标签为止
-    text-overflow: ellipsis; // 文本溢出包含元素发生事情：显示省略符号来代表被修剪的文本
-    overflow: hidden; // 内容溢出包含元素发生的事情：内容修剪且不可见
-  &#125;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.box &#123; &#x2F;&#x2F; 有一定宽度的包含元素</span><br><span class="line">  white-space: nowrap; &#x2F;&#x2F; 如何处理包含元素内的空白：文本不会换行，文本会在在同一行上继续，直到遇到&lt;br&gt;标签为止</span><br><span class="line">  text-overflow: ellipsis; &#x2F;&#x2F; 文本溢出包含元素发生事情：显示省略符号来代表被修剪的文本</span><br><span class="line">  overflow: hidden; &#x2F;&#x2F; 内容溢出包含元素发生的事情：内容修剪且不可见</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;<em>[注2]  多行文本超出隐藏（适用于WebKit浏览器及移动端，不同浏览器要添加对应修饰符）</em></p>
 <p>&emsp;&emsp;<em>原理：利用了css弹性盒子模型flex-box，可以理解为flex弹性盒子旧的规则，有兼容性问题。在不同的浏览器中声明：display: -moz-box / -webkit-box / box。有box-orient（子元素的排列方向，有horizontal、vertical等取值）, box-direction（子元素的排列顺序，取值有normal、reverse、inherit）, box-align（垂直方向上的空间利用，即对齐方式，有start、end、center等取值）, box-pack（水平方向上的空间利用，即对齐方式，有start、end、center等取值）, box-lines（子元素是可以换行显示，取值有single、multiple）属性来设置子元素的排列方式。再结合-webkit-line-clamp属性（块元素显示的文本的行数，不规范属性，未在css规范草案中）等属性来实现多行显示省略号</em></p>
-<pre><code>  .box &#123; 
-    display: -webkit-box; // 布局方式：flex-box弹性盒子
-    -webkit-box-orient: vertical; // 盒子内子元素排列方向：子元素纵向排列
-    -webkit-line-clamp: 3; // css不规范属性-webkit-line-clamp：块元素显示的文本的行数为3 （有兼容问题）
-    text-overflow: ellipsis; // 文本溢出包含元素发生事情：显示省略符号来代表被修剪的文本
-    overflow: hidden; // 内容溢出包含元素发生的事情：内容修剪且不可见
-  &#125;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.box &#123; </span><br><span class="line">  display: -webkit-box; &#x2F;&#x2F; 布局方式：flex-box弹性盒子</span><br><span class="line">  -webkit-box-orient: vertical; &#x2F;&#x2F; 盒子内子元素排列方向：子元素纵向排列</span><br><span class="line">  -webkit-line-clamp: 3; &#x2F;&#x2F; css不规范属性-webkit-line-clamp：块元素显示的文本的行数为3 （有兼容问题）</span><br><span class="line">  text-overflow: ellipsis; &#x2F;&#x2F; 文本溢出包含元素发生事情：显示省略符号来代表被修剪的文本</span><br><span class="line">  overflow: hidden; &#x2F;&#x2F; 内容溢出包含元素发生的事情：内容修剪且不可见</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;<em>[注3] 多行文本超出隐藏（跨浏览器兼容方案）</em></p>
 <p>&emsp;&emsp;<em>父元素使用相对高度，高度是文本行高的相应倍数来显示相应行数的文本，使用对位来放置 ‘…’ 的位置来达到超出隐藏的要求</em></p>
 <p>&emsp;&emsp;6) 2D/3D转换（移动、缩放、转动、拉长或拉伸）（<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
@@ -865,22 +849,8 @@
 </tbody></table>
 <p>&emsp;&emsp;8) 动画 （<u>注意浏览器兼容!!!</u> -webkit-, -ms- 或 -moz- ）</p>
 <p>&emsp;&emsp;动画是使元素从一种样式逐渐变化为另一种样式的效果，您可以改变任意多的样式任意多的次数。可以实现相对复杂的动画。<br>&emsp;&emsp;使用百分比来规定变化发生的时间，或用关键词 “from” 和 “to”，等同于 0% 和 100%（推荐使用百分比），0% 是动画的开始，100% 是动画的完成。<br>&emsp;&emsp;当在 @keyframes 创建动画，把它绑定到一个选择器，否则动画不会被使用，也不会有任何效果。使用animation属对选择器设置对应动画，必须定义动画的名称和动画的持续时间。如果省略的持续时间，动画将无法运行，因为默认值是0。</p>
-<pre><code>  @keyframes name
-  &#123;
-    0%   &#123; // 状态1 &#125;
-    ...
-    xx%  &#123; // 状态x &#125;
-    ...
-    100% &#123; // 状态n &#125;
-  &#125;
-  // 自定义动画的使用
-  animation: name duration timing-function delay iteration-count direction;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@keyframes name</span><br><span class="line">&#123;</span><br><span class="line">  0%   &#123; &#x2F;&#x2F; 状态1 &#125;</span><br><span class="line">  ...</span><br><span class="line">  xx%  &#123; &#x2F;&#x2F; 状态x &#125;</span><br><span class="line">  ...</span><br><span class="line">  100% &#123; &#x2F;&#x2F; 状态n &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 自定义动画的使用</span><br><span class="line">animation: name duration timing-function delay iteration-count direction;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; timing-function的取值: linear、ease、ease-in、ease-out、ease-in-out、cubic-bezier(n,n,n,n)</span><br><span class="line">&#x2F;&#x2F; iteration-count的取值: n(次数)、infinite</span><br><span class="line">&#x2F;&#x2F; animation-direction的取值: normal、alternate</span><br></pre></td></tr></table></figure>
 
-  // timing-function的取值: linear、ease、ease-in、ease-out、ease-in-out、cubic-bezier(n,n,n,n)
-  // iteration-count的取值: n(次数)、infinite
-  // animation-direction的取值: normal、alternate
-</code></pre>
-<br/>
 
 <table>
 <thead>
@@ -983,11 +953,7 @@
 <p>&emsp;&emsp;每条媒体查询语句都由一个可选的媒体类型和任意数量的媒体特性表达式构成。可以使用多种逻辑操作符合并多条媒体查询语句。媒体查询语句不区分大小写。<br>&emsp;&emsp;当媒体类型（如果指定）与在其上显示文档的设备匹配并且所有媒体功能表达式都计算为true时，媒体查询将计算为true。 涉及未知媒体类型的查询始终为false。</p>
 <p><em>&emsp;&emsp;[注] <u>即使媒体查询返回false，带有媒体查询附加到其&lt;link&gt;标记的样式表仍将下载</u>，但只有媒体查询为true的对应样式文件才被使用</em></p>
 <p>&emsp;&emsp;<u>逻辑操作符 not, and, 和 only 可用于联合构造复杂的媒体查询，可用逗号(,)分隔多个媒体查询，将它们组合为一个规则。</u></p>
-<pre><code>  // 用户设备的宽度介于 300px 到 500px 的设备
-  @media (min-width: 300px) and (max-width: 500px) &#123; ... &#125;
-  // 用户设备的最小高度为680px或为纵向模式的屏幕设备
-  @media (min-height: 680px), screen and (orientation: portrait) &#123; ... &#125;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 用户设备的宽度介于 300px 到 500px 的设备</span><br><span class="line">@media (min-width: 300px) and (max-width: 500px) &#123; ... &#125;</span><br><span class="line">&#x2F;&#x2F; 用户设备的最小高度为680px或为纵向模式的屏幕设备</span><br><span class="line">@media (min-height: 680px), screen and (orientation: portrait) &#123; ... &#125;</span><br></pre></td></tr></table></figure>
 <h2 id="6、其他CSS属性"><a href="#6、其他CSS属性" class="headerlink" title="6、其他CSS属性"></a>6、其他CSS属性</h2><p>&emsp;&emsp;(1) <u>mask</u>（通过遮罩或者裁切特定区域的图片的方式来隐藏一个元素的部分或者全部可见区域）<br>&emsp;&emsp;(2) <u>clip-path</u>（使用裁剪方式创建元素的可显示区域，结合transform、transition能作出惊艳的动画效果）<br>&emsp;&emsp;(3) <u>offset</u> （CSS快速定义元素沿相关路径运动）</p>
  
       <!-- reward -->

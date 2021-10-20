@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.4k</span>
+            <span class="post-count">2.5k</span>
         </span>
     </span>
 
@@ -113,84 +113,22 @@
   <p>JavaScript ( JS ) 是一种具有函数优先的轻量级，解释型或即时编译型，单线程的脚本语言，它可以在网页上实现复杂的功能，网页展现给你的不再是简单的静态页面信息，而是实时的内容更新，交互式的地图，2D/3D 动画，滚动播放的视频等更加丰富的内容，也能实现用户在网页界面上与服务器相关交互功能</p>
 <h2 id="1、语言特性"><a href="#1、语言特性" class="headerlink" title="1、语言特性"></a>1、语言特性</h2><p>&emsp;&emsp;JavaScript是一门动态的、弱类型、基于原型（prototype）的脚本语言。在JavaScript中“一切皆对象”，在这一方面，它比其他的面向对象的语言来得更为彻底。即使作为代码本身载体的函数（function），也是对象。</p>
 <h2 id="2、基本语法"><a href="#2、基本语法" class="headerlink" title="2、基本语法"></a>2、基本语法</h2><h4 id="1-向页面添加JavaScript"><a href="#1-向页面添加JavaScript" class="headerlink" title="1) 向页面添加JavaScript"></a>1) 向页面添加JavaScript</h4><p>&emsp;&emsp;在body标签结束前插入以下script标签引入JavaScript， <u>JavaScript 是区分大小写的</u></p>
-<pre><code>  // 方式1：内联JavaScript
-  &lt;script&gt;
-    ...在此编写JavaScript代码...
-  &lt;/script&gt;
-
-  // 方式2：外部引入JavaScript
-  &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 方式1：内联JavaScript</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  ...在此编写JavaScript代码...</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 方式2：外部引入JavaScript</span><br><span class="line">&lt;script src&#x3D;&quot;script.js&quot;&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
 <p><em>&emsp;&emsp;[注] 在外部引入JS时，在必要的时候（防止加载阻塞页面渲染问题或对多个有依赖关系的脚本对加载顺序有要求），我们需要在&lt;script&gt;标签上加上async或defer修饰符（属性）（这是解决脚本阻塞问题的两种方式）。<u>浏览器遇到 async 脚本时不会阻塞页面渲染，而是直接下载然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。</u>当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async 是最理想的选择；<u>defer 属性的脚本将按照在页面中出现的顺序加载，可保证脚本的加载顺序</u></em></p>
 <h4 id="2-变量"><a href="#2-变量" class="headerlink" title="2) 变量"></a>2) 变量</h4><p>&emsp;&emsp;变量是用来存储数值的，那么有一个重要的概念需要区分。变量不是数值本身，它们仅仅是一个用于存储数值的容器，JS中使用var、let、const来定义变量</p>
 <p>&emsp;&emsp;<strong>构造变量名称（唯一标识符）的通用规则是：</strong><br>&emsp;&emsp;名称可包含字母、数字、下划线和美元符号<br>&emsp;&emsp;名称必须以字母、$或_开头<br>&emsp;&emsp;名称对大小写敏感<br>&emsp;&emsp;保留关键字不能作为变量名称</p>
-<pre><code>  var a;
-  let b;
-  onst C = 100; // 定义常量必须进行初始化，常量一般用大写英文命名
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a;</span><br><span class="line">let b;</span><br><span class="line">onst C &#x3D; 100; &#x2F;&#x2F; 定义常量必须进行初始化，常量一般用大写英文命名</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;变量类型：<br>&emsp;&emsp;值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol<br>&emsp;&emsp;引用数据类型：对象(Object，JavaScript 对象是键值对的容器)、数组(Array)、函数(Function)，还有两个特殊的对象：正则（RegExp）和日期（Date）</p>
 <h4 id="3-语句与表达式"><a href="#3-语句与表达式" class="headerlink" title="3) 语句与表达式"></a>3) 语句与表达式</h4><p>&emsp;&emsp;<u>JavaScript区分表达式和语句</u><br>&emsp;&emsp;表达式是输出值的，并且可以写在任何需要一个值的地方，例如函数的参数等。一般来讲，表达式由变量、操作符和约束条件等以能求得有意义的数值（非undefined）为目的排列所得的组合<br>&emsp;&emsp;语句表示执行了一个动作，例如循环控制语句(for、while…)和分支判断语句(if)等。一个程序基本上就是一系列的语句的集合。在JavaScript中需要语句的地方，也可以写入一个表达式。但不能够在需要表达式的地方写入一个语句。我们常用分号分语句，使得可以在一行编写多条语句。<br>&emsp;&emsp;常用运算符：=、+、-、*、/、==、!=、&gt;、&lt;、&amp;&amp;、||、位运算符、……<br>&emsp;&emsp;常用语句：</p>
-<pre><code>  // 赋值语句    
-  let a = 5, b = 8;
-  
-  // if条件判断语句
-  if (condition1) &#123;
-    // 当条件 1 为 true 时执行的代码
-  &#125;
-  else if (condition2) &#123;
-    // 当条件 2 为 true 时执行的代码
-  &#125;
-  else &#123;
-    // 当条件 1 和 条件 2 都不为 true 时执行的代码
-  &#125;
-  
-  // switch分支语句
-  switch (n) &#123;
-    case 1:
-      // 执行代码块 1
-      break; // 阻止代码向下一个case执行，有时为了逻辑需要（如累加等），switch语句中不会使用此关键字
-    case 2:
-      // 执行代码块 2
-      break;
-    default:
-    // 与 case 1 和 case 2 不同时执行的代码
-  &#125;
-  
-  // for、while、do while循环语句（break 语句用于跳出循环，continue 用于跳过循环中的一个迭代）
-  for (语句 1; 语句 2; 语句 3)
-  &#123;
-    // 语句2为真执行的代码块
-  &#125;
-  while (条件) &#123;
-    // 条件为真执行的代码块
-  &#125;
-  do &#123;
-    // 代码块会在条件被测试前执行，代码块至少被执行一次
-  &#125; while (条件);
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 赋值语句    </span><br><span class="line">let a &#x3D; 5, b &#x3D; 8;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; if条件判断语句</span><br><span class="line">if (condition1) &#123;</span><br><span class="line">  &#x2F;&#x2F; 当条件 1 为 true 时执行的代码</span><br><span class="line">&#125;</span><br><span class="line">else if (condition2) &#123;</span><br><span class="line">  &#x2F;&#x2F; 当条件 2 为 true 时执行的代码</span><br><span class="line">&#125;</span><br><span class="line">else &#123;</span><br><span class="line">  &#x2F;&#x2F; 当条件 1 和 条件 2 都不为 true 时执行的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; switch分支语句</span><br><span class="line">switch (n) &#123;</span><br><span class="line">  case 1:</span><br><span class="line">    &#x2F;&#x2F; 执行代码块 1</span><br><span class="line">    break; &#x2F;&#x2F; 阻止代码向下一个case执行，有时为了逻辑需要（如累加等），switch语句中不会使用此关键字</span><br><span class="line">  case 2:</span><br><span class="line">    &#x2F;&#x2F; 执行代码块 2</span><br><span class="line">    break;</span><br><span class="line">  default:</span><br><span class="line">  &#x2F;&#x2F; 与 case 1 和 case 2 不同时执行的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; for、while、do while循环语句（break 语句用于跳出循环，continue 用于跳过循环中的一个迭代）</span><br><span class="line">for (语句 1; 语句 2; 语句 3)</span><br><span class="line">&#123;</span><br><span class="line">  &#x2F;&#x2F; 语句2为真执行的代码块</span><br><span class="line">&#125;</span><br><span class="line">while (条件) &#123;</span><br><span class="line">  &#x2F;&#x2F; 条件为真执行的代码块</span><br><span class="line">&#125;</span><br><span class="line">do &#123;</span><br><span class="line">  &#x2F;&#x2F; 代码块会在条件被测试前执行，代码块至少被执行一次</span><br><span class="line">&#125; while (条件);</span><br></pre></td></tr></table></figure>
 <h4 id="4-字符串模板"><a href="#4-字符串模板" class="headerlink" title="4) 字符串模板"></a>4) 字符串模板</h4><p>&emsp;&emsp;模板字符串使用反引号<u>(` `)</u> 来代替普通字符串中的用双引号和单引号。模板字符串可以包含特定语法（${ expression } ）的占位符。占位符中的表达式和周围的文本会一起传递给一个默认函数，该函数负责将所有的部分连接起来。<u>特别的，如果一个模板字符串由表达式开头，则该字符串被称为带标签的模板字符串，该表达式通常是一个函数，它会在模板字符串处理后被调用，在输出最终结果前，你都可以通过该函数来对模板字符串进行操作处理。</u>注意，在模版字符串内使用反引号（`）时，需要在它前面加转义符（），<strong>字符串模板可以嵌套使用。</strong></p>
-<pre><code>  let a = 4;
-  function upgradePhone(str, a)&#123; // [注] 函数的第一个参数是数组（模板中各个原生字符串）。其余的参数为模板中的变量
-    return &#39;带标签的模板字符串，&#39; + str[0] + (a + 2) + str[1];
-  &#125;
-
-  console.log(`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 我有一个苹果6s，哈哈哈~
-  console.log(upgradePhone`我有一个苹果$&#123;a&#125;s，哈哈哈~`) // 带标签的模板字符串，我有一个苹果6s，哈哈哈~
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; 4;</span><br><span class="line">function upgradePhone(str, a)&#123; &#x2F;&#x2F; [注] 函数的第一个参数是数组（模板中各个原生字符串）。其余的参数为模板中的变量</span><br><span class="line">  return &#39;带标签的模板字符串，&#39; + str[0] + (a + 2) + str[1];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(&#96;我有一个苹果$&#123;a&#125;s，哈哈哈~&#96;) &#x2F;&#x2F; 我有一个苹果6s，哈哈哈~</span><br><span class="line">console.log(upgradePhone&#96;我有一个苹果$&#123;a&#125;s，哈哈哈~&#96;) &#x2F;&#x2F; 带标签的模板字符串，我有一个苹果6s，哈哈哈~</span><br></pre></td></tr></table></figure>
 <h4 id="5-解构赋值"><a href="#5-解构赋值" class="headerlink" title="5) 解构赋值"></a>5) 解构赋值</h4><p>&emsp;&emsp;解构赋值语法是一种 Javascript 表达式。通过解构赋值, 可以将属性/值从对象/数组中取出,赋值给其他变量。使得对象和数组逐个对应表达式，或称对象字面量和数组字面量，提供了一种简单的定义一个特定的数据组的方法<br>&emsp;&emsp;特别的：<u>赋值语句周围的圆括号()在使用对象字面量无声明解构赋值时是必须的</u>，否则左边被认为是一个块而不是对象字面量。<u>并且()表达式之前需要有一个分号，否则它可能会被当成上一行中的函数执行</u></p>
-<pre><code>  let a, b, C;
-  [a, b = 0] = [10, 20, 30, 40, 50]; // a:10, b:20 [注] 为了防止取出一个值为undefined，可以在表达式左边预设默认值
-  [a, b, ...C] = [10, 20, 30, 40, 50]; // a:10，b:20, C: [30, 40, 50]
-  (&#123; a, b = 0&#125; = &#123; a: 10, b: 20 &#125;); // a: 10, b: 20
-  (&#123;a, b, ...C&#125; = &#123;a: 10, b: 20, c: 30, d: 40&#125;); // a: 10, b: 20, C: &#123;c: 30, d: 40&#125;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a, b, C;</span><br><span class="line">[a, b &#x3D; 0] &#x3D; [10, 20, 30, 40, 50]; &#x2F;&#x2F; a:10, b:20 [注] 为了防止取出一个值为undefined，可以在表达式左边预设默认值</span><br><span class="line">[a, b, ...C] &#x3D; [10, 20, 30, 40, 50]; &#x2F;&#x2F; a:10，b:20, C: [30, 40, 50]</span><br><span class="line">(&#123; a, b &#x3D; 0&#125; &#x3D; &#123; a: 10, b: 20 &#125;); &#x2F;&#x2F; a: 10, b: 20</span><br><span class="line">(&#123;a, b, ...C&#125; &#x3D; &#123;a: 10, b: 20, c: 30, d: 40&#125;); &#x2F;&#x2F; a: 10, b: 20, C: &#123;c: 30, d: 40&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="6-函数"><a href="#6-函数" class="headerlink" title="6) 函数"></a>6) 函数</h4><p>&emsp;&emsp;函数就是包裹在花括号中的代码块，使用关键字function进行定义。当调用该函数时，会执行函数内的代码，在调用函数时，可以向其传递参数。这些参数可以在函数中使用，多个参数用逗号（,）分割。<u>变量和参数必须以一致的顺序出现。</u>第一个变量就是第一个被传递的参数的给定的值，以此类推。有时，我们会希望函数将值返回调用的地方。通过使用return语句就可以实现。在使用return语句时，函数会停止执行(无论后面是否还存在语句)，并返回指定的值。</p>
 <p><em>&emsp;&emsp;[注] <u>函数有作用域的概念，在函数内部定义的变量，只能在函数内部访问它（闭包情况除外），此时该变量的作用域是局部的。特别的，如果给未声明的变量赋值，该变量会被自动配置为全局变量（隐式全局变量，也为window对象的属性）。</u></em></p>
-<pre><code>  function functionName(var1, var2, ...) &#123;
-    // 代码
-    // return value;
-  &#125;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function functionName(var1, var2, ...) &#123;</span><br><span class="line">  &#x2F;&#x2F; 代码</span><br><span class="line">  &#x2F;&#x2F; return value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="3、可维护的JavaScript代码"><a href="#3、可维护的JavaScript代码" class="headerlink" title="3、可维护的JavaScript代码"></a>3、可维护的JavaScript代码</h2><p>&emsp;&emsp;(1) 尽量不使用全局变量，更不能使用隐式全局变量<br>&emsp;&emsp;(2) 尽量使用let、const语句声明多个变量，并以逗号分隔<br>&emsp;&emsp;(3) 循环存储长度，只检索了一次循环对象的长度值。（’i–’优于’i+=i,i=i+1’优于’i++’）<br>&emsp;&emsp;(4) 数组使用正常的for循环，对象使用for-in循环。（在for-in中，属性列表的顺序（序列）是不能保证的）（hasOwnProperty()方法，可以过滤掉原型链上的属性）<br>&emsp;&emsp;(5) 不扩展内置原型Prototypes<br>&emsp;&emsp;(6) switch语句增强可读性和健壮性，以default结束switch<br>&emsp;&emsp;(7) 避免隐式类型转换<br>&emsp;&emsp;(8) 避免eval()（eval()会干扰作用域链），实在用使用eval(),可以用new Function()代替<br>&emsp;&emsp;(9) 给setInterval(), setTimeout()和Function()构造函数传递字符串或匿名函数<br>&emsp;&emsp;(10) parseInt()传递基数参数，+，Number()优于parseInt()<br>&emsp;&emsp;(11) 缩进<br>&emsp;&emsp;(12) 使用花括号{}，建议并始终把左花括号与之前的语句放在同一行<br>&emsp;&emsp;(13) 空格<br>&emsp;&emsp;(14) <u>命名方式</u><br>&emsp;&emsp;(15) 注释</p>
  
       <!-- reward -->
