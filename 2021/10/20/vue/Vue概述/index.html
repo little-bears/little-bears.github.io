@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Vue概述 |  码农日志</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link rel="alternate" href="/atom.xml" title="码农日志" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-vue/Vue概述"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Vue概述
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/10/20/vue/Vue%E6%A6%82%E8%BF%B0/" class="article-date">
+  <time datetime="2021-10-20T05:20:59.000Z" itemprop="datePublished">2021-10-20</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">9 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>Vue是一个由<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%B0%A4%E9%9B%A8%E6%BA%AA">尤雨溪</a>以及团队开发与维护的轻量级、响应式的JavaScript开发库，能够更高效的构建单页面的WEB应用。一般采用声明式编程（Vue3也提供了函数式编程编码风格的API），采用了MVVM模式，实现数据与视图UI同步变化的数据驱动方式，是开发者能更好地组织与简化WEB项目开发</p>
+<h2 id="1、单页面应用-SPA"><a href="#1、单页面应用-SPA" class="headerlink" title="1、单页面应用(SPA)"></a>1、单页面应用(SPA)</h2><p>&emsp;&emsp;为了提高传统WEB应用的性能与用户体验（页面跳转时公共资源被多次重复请求、页面频繁跳转用户体验不好），在前后端分离的前提下，采用了可以局部动态更新当前页面组件的方式来与用户交互，而不需要重新加载整个页面，是一种网站应用模型，能让WEB应用使用更加流畅  </p>
+<p>&emsp;&emsp;相对于传统多页面WEB应用，单页面应用还需要处理路由（路由前端化）问题，根据路由规则去移除，添加或更新页面组件。不需要服务器返回整个页面，服务器只负责处理数据并提供接口</p>
+<p>&emsp;&emsp;前端路由有history与hash两种模式，都可以在<u>不刷新页面</u>的前提下改变了页面的URL，从而Vue库监听到页面URL变化，通过相应路由规则，来实现页面中部分组件的移除或更新，从而达到局部更新页面的状态的目的</p>
+<p>&emsp;&emsp;history与hash模式的区别：<br>&emsp;&emsp;(1) history模式是基于HTML5 window.history中新增的pushState()和replaceState()方法来完成不刷新改变URL<br>&emsp;&emsp;(2) hash模式基于window.location中的hash，采用hash模式是URL中的’#’(锚点)功能来完成不刷新改变URL  </p>
+<p>&emsp;&emsp;SPA的优缺点：<br>&emsp;&emsp;优点：<br>&emsp;&emsp;① 无页面刷新，应用更加流畅<br>&emsp;&emsp;② 服务器压力更小，后端逻辑可复用<br>&emsp;&emsp;缺点：<br>&emsp;&emsp;① SEO不友好（可通过服务端渲染解决）<br>&emsp;&emsp;② 页面首次(首屏)加载时间长<br>&emsp;&emsp;③ 浏览器前进后退功能无效<br>&emsp;&emsp;④ 若采用hash模式，页面原有的锚点功能会失效  </p>
+<h2 id="2、声明式编程-渲染"><a href="#2、声明式编程-渲染" class="headerlink" title="2、声明式编程(渲染)"></a>2、声明式编程(渲染)</h2><p>&emsp;&emsp;先来说说命令式编程、声明式编程与函数式编程，这些都是<u>编程范式，与具体语言没有太大的关系</u>。同一功能可以用同一语言使用不同的编程范式来实现，例如将一个嵌套的数组各项值乘2：<br>命令式编程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let list &#x3D; [1, [2, 3], 4]</span><br><span class="line">for (let i &#x3D; 0, cnt &#x3D; list.length; i &lt; cnt; i++) &#123;</span><br><span class="line">    if (typeof list[i] &#x3D;&#x3D;&#x3D; &quot;number&quot;) &#123;</span><br><span class="line">        list[i] &#x3D; list[i] * 2</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        for (let j &#x3D; 0, len &#x3D; list[i].length; j &lt; len; j++) &#123;</span><br><span class="line">            list[i][j] &#x3D; list[i][j] * 2</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(list) &#x2F;&#x2F; [2, [4, 6], 8]</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;命令式编程是关注代码执行过程，是对执行过程进行模拟，执行完成才知道结果</p>
+<p>声明式编程:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let list &#x3D; [1, [2, 3], 4]</span><br><span class="line">list &#x3D; list.map(item &#x3D;&gt; &#123;</span><br><span class="line">    if(typeof item &#x3D;&#x3D;&#x3D; &quot;number&quot; ) return item * 2</span><br><span class="line">    else return item.map(value &#x3D;&gt; value * 2)</span><br><span class="line">&#125;)</span><br><span class="line">console.log(list) &#x2F;&#x2F; [2, [4, 6], 8]</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;声明式编程值关注执行的结果，不关心具体执行过程，所以一般不包含for、while等循环控制语句</p>
+<p>函数式编程:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let list &#x3D; [1, [2, 3], 4]</span><br><span class="line">function fn(list) &#123;</span><br><span class="line">    if(typeof list &#x3D;&#x3D;&#x3D; &quot;number&quot; ) return list * 2</span><br><span class="line">    else return list.map(value &#x3D;&gt; fn(value))</span><br><span class="line">&#125;</span><br><span class="line">list &#x3D; fn(list)</span><br><span class="line">console.log(list) &#x2F;&#x2F; [2, [4, 6], 8]</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;函数式编程和声明式编程思想是一致的，关注执行结果。函数式编程把运算过程尽量写成一系列嵌套函数的调用的形式（递归）来提高代码的通用性，例如将上面list数组在定义时赋值为更复杂的[1, [2, [3, 4]], [5, [6, 7, [8]]], 9, 10]，只有函数式编程的递归代码不做任何修改也能输出想要的结果正确结果</p>
+<p>&emsp;&emsp;一般来说Vue是采用声明式编程的，虽然我们也在&lt;template&gt;模板里使用v-for等指令来控制流程。在组件实例化是定义props、data、methods、filter等内容时，我们只需声明对应的参数、数据、方法、过滤器等，在&lt;template&gt;模板里通过mustache语法（&#123;&#123;&#125;&#125;）直接绑定并使用。当数据发生改变，对应数据的视图也会自动更新，开发者真正开发中无需额外实现双向数据绑定的功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;hello&quot;&gt;</span><br><span class="line">        &lt;h1&gt;&#123;&#123;msg&#125;&#125;&lt;&#x2F;h1&gt;</span><br><span class="line">        &lt;p&gt;&#123;&#123;title&#125;&#125;&lt;&#x2F;p&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">name: &#39;Test&#39;,</span><br><span class="line">props: &#123;</span><br><span class="line">    msg: String</span><br><span class="line">&#125;,</span><br><span class="line">data()&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        title: &#39;测试~&#39;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">h3 &#123;</span><br><span class="line">    margin: 40px 0 0;</span><br><span class="line">&#125;</span><br><span class="line">ul &#123;</span><br><span class="line">    list-style-type: none;</span><br><span class="line">    padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">li &#123;</span><br><span class="line">    display: inline-block;</span><br><span class="line">    margin: 0 10px;</span><br><span class="line">&#125;</span><br><span class="line">a &#123;</span><br><span class="line">    color: #42b983;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Vue通过声明式编程，使得视图、数据结构相互分离，开发者只需要关注核心逻辑的开发，数据展示由Vue库来完成，使编码更加简单高效<br>&emsp;&emsp;特别的，平时我们编写HTML(&lt;template&gt;)以及css代码时，都是关注布局与样式结果，不需要实现html代码展示在浏览器屏幕上的功能。及编码html、css的方式是声明式的</p>
+<h2 id="3、模板编译与虚拟DOM"><a href="#3、模板编译与虚拟DOM" class="headerlink" title="3、模板编译与虚拟DOM"></a>3、模板编译与虚拟DOM</h2><p>&emsp;&emsp;vue文件是不能直接运行在浏览器上的，需要结合Webpack使用vue-loader等处理模块（函数）将vue文件编译打包成js文件。期间会经过模板编译、实现watcher等核心渲染监听逻辑、生成虚拟DOM以及Diff算法对比虚拟DOM的更新等过程，最终再更新渲染在浏览器页面上<br>&emsp;&emsp;在Vue库中，为了避免页面更新时频繁的进行页面重绘等操作，减少浏览器性能消耗，使用JS对象来描述页面真实的DOM。在页面数据更新时，会将更新后的虚拟DOM结构与之前的虚拟DOM结构采用Diff算法进行对比，最后将对比出来的差异的部分进行重新的真实DOM的渲染</p>
+<p><img src="/images/note/vNode.png" alt="vNode"></p>
+<p>&emsp;&emsp;在页面数据发生变化时，根据Vue相关响应式原理，会生成新的虚拟DOM结构，进行Diff算法（React Diff算法与Vue一致）来计算页面最小更新。<strong>匹配的最小单位是标签，只进行只进行同层级比较，忽略跨级操作</strong>。如上图中的&lt;ul&gt;结构不会与&lt;li&gt;结构进行比较。若&lt;ul&gt;结构一致，还有子元素时，会对里面的&lt;li&gt;进行一一比较，若&lt;ul&gt;已经不同，直接回新的&lt;ul&gt;更新页面上对应的真实DOM</p>
+<p>&emsp;&emsp;为了提高效率，框架一般要求在循环出来的最外层元素添加唯一的key标识，便于Diff算法比较时具有更高效率</p>
+<p><em>&emsp;&emsp;[注] 一般不使用 index 作为 key 的值，因为在对数据进行逆序添加、逆序删除等破坏顺序操作时：①会造成没必要的真实DOM的更新 ② DOM 结构中包含输入类元素，会导致元素绑定的值出现错误，因为Diff 算法无法知道输出类元素绑定的值是什么。如果不存在对数据的逆序添加、逆序删除等破坏顺序操作，仅用于渲染列表用于展示，使用 index 作为 key 是没有问题的</em></p>
+<h2 id="4、MVVM模式与数据响应式"><a href="#4、MVVM模式与数据响应式" class="headerlink" title="4、MVVM模式与数据响应式"></a>4、MVVM模式与数据响应式</h2><p>&emsp;&emsp;MVVM（Model View ViewModel）是MVC的升级版，采用ViewModel层将视图（View）与数据模型（Model）进行解耦。将视图DOM封装，利用观察者模式（发布订阅）实现视图与数据模型的动态响应与同步更新</p>
+<p><img src="/images/note/mvvm.webp" alt="avatar"></p>
+<p>&emsp;&emsp;(1) 数据模型层数据同步更新到视图<br>&emsp;&emsp;① 实现数据劫持，Vue2.x中采用Object.defineProperty()实现；Vue3.x中采用新的API Proxy()来实现检测数据变化<br>&emsp;&emsp;② 实现发布订阅者模式，视图层订阅数据模型层数据更新的消息。当数据模型层数据更新时，会将更新函数发布到对应的全部的订阅者<br>&emsp;&emsp;③ 结合数据劫持和发布订阅模式，解析HTML( &lt;template&gt;)结构中绑定的变量（订阅者），当数据模型中对应数据更新后，对应变量会通过数据模型层发布的更新函数进行更新，从而达到更新视图层的目的</p>
+<p>&emsp;&emsp;(2) 视图层输入（数据模型层某些数据的数据源）更新到数据模型层<br>&emsp;&emsp;视图层通过事件绑定监听数据变化，从而在对应的事件回调函数里更新数据模型层的数据</p>
+<p>&emsp;&emsp;通过发布订阅模式与事件响应机制，Vue实现了数据双向绑定，使得日常开发只需要关注数据，不需要操作DOM结构，使用数据驱动页面更新</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/10/20/vue/Vue%E6%A6%82%E8%BF%B0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/10/21/vue/Vue%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Vue基本语法
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/09/28/note/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">面试备注 (2021.09)</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Xiong Gang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="码农日志"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay-payment-code.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat-payment-code.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+</body>
+
+</html>
