@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Vue组件语法 |  码农日志</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link rel="alternate" href="/atom.xml" title="码农日志" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-vue/Vue组件语法"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Vue组件语法
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/10/22/vue/Vue%E7%BB%84%E4%BB%B6%E8%AF%AD%E6%B3%95/" class="article-date">
+  <time datetime="2021-10-22T09:54:19.000Z" itemprop="datePublished">2021-10-22</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">4.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">19 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这部分主要讲创建Vue实例时的配置选项、Vue实例的属性、Vue实例的方法等内容</p>
+<h2 id="1、配置选项"><a href="#1、配置选项" class="headerlink" title="1、配置选项"></a>1、配置选项</h2><h3 id="1-数据类选项"><a href="#1-数据类选项" class="headerlink" title="1) 数据类选项"></a>1) 数据类选项</h3><p>&emsp;&emsp;组件的 data 选项是一个函数。Vue 在创建新组件实例的过程中调用此函数，它应该返回一个对象。然后 Vue 会通过响应性系统将其包裹起来，并以 $data 的形式存储在组件实例中，数据类选项就是定义于维护组件数据的相关操作规范</p>
+<p>&emsp;&emsp;(1) data(Function)<br>&emsp;&emsp;一般写成函数形式，将组件内部变量进行私有化，data()函数返回组件实例的data对象。如上面的例子，在JS中可以使用this.name来访问，在&lt;template&gt;中直接使用&#123;&#123;name&#125;&#125;来展示</p>
+<p>&emsp;&emsp;(2) props(Array&lt;string&gt; | Object)<br>&emsp;&emsp;从父组件接受参数，其值可以是简单的对应参数名称组成的数组或参数以参数名称作为键，带类型检测与数据校验等内容的对象作为值的对象类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 简单数组形式</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;App&#39;,</span><br><span class="line">  props: [&#39;name&#39;, &#39;age&#39;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 对象形式</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;App&#39;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    name:&#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default: &#39;用户A&#39;,</span><br><span class="line">      required: true</span><br><span class="line">    &#125;,</span><br><span class="line">    age: &#123;</span><br><span class="line">      type: Number,</span><br><span class="line">      validator: (value) &#x3D;&gt; value &gt; 18</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;若父组件没有传递name，控制台会发出警告：[Vue warn]: Missing required prop: “name” at &lt;App&gt;。若age没有通过校验，也会发出类似警告</p>
+<p>&emsp;&emsp;(3) computed({[key: string]: Function | { get: Function, set: Function }})<br>&emsp;&emsp;计算属性，通过已有的data对象的状态（属性）来派生新的状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;只有get时的简写形式</span><br><span class="line">computed: &#123;</span><br><span class="line">  isAdult() &#123;</span><br><span class="line">    return this.age &gt;&#x3D; 18</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 举一个同时有get、set的例子</span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &quot;Test&quot;,</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        list: []</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    computed: &#123;</span><br><span class="line">      length: &#123;</span><br><span class="line">        get() &#123;</span><br><span class="line">          return this.list.length</span><br><span class="line">        &#125;,</span><br><span class="line">        set(len) &#123;</span><br><span class="line">          if (len &lt; this.list.length) &#123;</span><br><span class="line">            this.list &#x3D; this.list.slice(0, len)</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">            for (let i &#x3D; this.list.length; i &lt; len; i++) &#123;</span><br><span class="line">              this.list[i] &#x3D; 0</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    created() &#123;</span><br><span class="line">      console.log(this.length, JSON.parse(JSON.stringify(this.list))) &#x2F;&#x2F; 0, []</span><br><span class="line">      this.list.push(1, 2, 3)</span><br><span class="line">      console.log(this.length, JSON.parse(JSON.stringify(this.list))) &#x2F;&#x2F; 3, [1, 2, 3]</span><br><span class="line">      this.length &#x3D; 2</span><br><span class="line">      console.log(this.length, JSON.parse(JSON.stringify(this.list))) &#x2F;&#x2F; 2 [1, 2]</span><br><span class="line">      this.length &#x3D; 4</span><br><span class="line">      console.log(this.length, JSON.parse(JSON.stringify(this.list))) &#x2F;&#x2F; 4 [1, 2, 0, 0]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;上面代码中定义了一个list，定义了一个计算属性length，功能是维护length始终于list长度相等。若给length赋的值小于了list的长度，便截取list；若length赋的值大于list长度，则给list尾部追加相应个数的0<br>&emsp;&emsp;list输出时使用了JSON.parse(JSON.stringify())，原因是在Vue3中getter输出的值被Proxy对象包裹</p>
+<p><em>&emsp;&emsp;[注] 如果你为一个计算属性使用了箭头函数，则 this 不会指向这个组件的实例，但可以通过该函数的第一个参数重新获取this</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  isAdult: (that) &#x3D;&gt; &#123; &#x2F;&#x2F; 计算属性箭头函数this为undefined，但可以在回调函数里接收this</span><br><span class="line">    return that.age &gt;&#x3D; 18</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;(4) methods({[key: string]: Function })<br>&emsp;&emsp;methods可以定义一些方法，这些方法的this会被绑定为组件实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">  add () &#123;</span><br><span class="line">    this.count++</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;定义一个add()函数，使得页面点击一个按钮时触发计数器加1</p>
+<p><em>&emsp;&emsp;[注] 特别的，<strong>不应该</strong>在 methods 方法里使用箭头函数，箭头函数绑定了父级作用域的上下文，不会指向这个组件的实例，<u>也不能</u>通过计算属性那样通过回调函数的第一个参数重新获取this</em></p>
+<p>&emsp;&emsp;(5) watch({[key: string]: string | Function | Object | Array})<br>&emsp;&emsp;一个对象，键是要侦听的响应式属性——包含了 data 或 computed 的属性，而值是对应的回调函数、方法名、对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      count: 0</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  created() &#123;</span><br><span class="line">    setTimeout(()&#x3D;&gt; &#123;</span><br><span class="line">      this.count++</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;</span><br><span class="line">    &#39;count&#39;: function(newValue, oldValue) &#123; &#x2F;&#x2F; 一般在watch里使用实例的$emit方法，触发父组件更新数据的回调函数</span><br><span class="line">      console.log(newValue, oldValue)</span><br><span class="line">      &#x2F;&#x2F; this.$emit(&#123;string&#125; eventName, [...args])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 输出：</span><br><span class="line">&#x2F;&#x2F; 1 0</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] 特别的，不应该使用箭头函数来定义 watcher 函数 ，箭头函数绑定了父级作用域的上下文，所以 this 将不会指向组件实例</em></p>
+<p>&emsp;&emsp;(6) emits(Array&lt;string&gt; | Object)<br>&emsp;&emsp;emits可以是数组活对虾，当为对象时，以 $emit 事件名为 key 对应的值为一个验证函数，函数将接收传递给 $emit 调用的其他参数验证函数应返回布尔值，以表示事件参数是否有效。<u>但无论是否有效，父组件对应的回调函数好像都被触发了</u>~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;input type&#x3D;&quot;text&quot; v-model&#x3D;&quot;formData.email&quot; placeholder&#x3D;&quot;请输入邮箱&quot; &#x2F;&gt;</span><br><span class="line">  &lt;input type&#x3D;&quot;password&quot; v-model&#x3D;&quot;formData.password&quot; placeholder&#x3D;&quot;请输入密码&quot; &#x2F;&gt;</span><br><span class="line">  &lt;button @click&#x3D;&quot;submitHandle&quot;&gt;提交&lt;&#x2F;button&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        formData: &#123;</span><br><span class="line">          email: &#39;&#39;,</span><br><span class="line">          password: &#39;&#39;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    emits: &#123;</span><br><span class="line">      submit: (payload) &#x3D;&gt; &#123;</span><br><span class="line">        if (payload.email &amp;&amp; payload.password) &#123;</span><br><span class="line">          return true</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          console.log(&#39;请将邮箱、密码信息填写完整&#39;); &#x2F;&#x2F; 邮箱或密码为空时将输出：请将邮箱、密码信息填写完整</span><br><span class="line">          return false</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      submitHandle() &#123;</span><br><span class="line">        this.$emit(&#39;submit&#39;, this.formData)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">  .form-box &#123; width: 300px; height: 100px; display: flex; flex-direction: column; </span><br><span class="line">    justify-content: space-between; align-items: center; padding: 20px 0;</span><br><span class="line">    border-radius: 4px; border: 1px solid gainsboro;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;(7) expose (Array&lt;string&gt;)<br>&emsp;&emsp;定义哪些属性(方法)将暴露在公共组件实例上供其他组件访问，默认暴露所以属性(方法)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; test.vue</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      count: 0</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;&#x2F; expose: [],</span><br><span class="line">  methods: &#123;</span><br><span class="line">    add() &#123;</span><br><span class="line">      this.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; App.vue</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;test ref&#x3D;&quot;test&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import Test from &#39;.&#x2F;components&#x2F;test.vue&#39;</span><br><span class="line"></span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &#39;App&#39;,</span><br><span class="line">    components: &#123;</span><br><span class="line">      Test</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      console.log(this.$refs.test.count)</span><br><span class="line">      console.log(this.$refs.test.add)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 输出:</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ① 当test.vue没有expose选项时，App.vue输出：</span><br><span class="line">&#x2F;&#x2F;   0</span><br><span class="line">&#x2F;&#x2F;   ƒ add() &#123; this.count++; &#125; </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ② 当test.vue存在expose选项时且为空数组时(即不暴露当前组件任何属性供外部访问)，App.vue输出：</span><br><span class="line">&#x2F;&#x2F;   undefined</span><br><span class="line">&#x2F;&#x2F;   undefined</span><br></pre></td></tr></table></figure>
+
+<p><em>&emsp;&emsp;[注] 默认情况下，通过 $refs、$parent 或 $root 访问到的公共实例与模板使用的组件内部实例是一样的</em></p>
+<p><em>&emsp;&emsp;[注] <strong>Vue3中 filters 已经被删除，不再支持过滤器，建议使用计算属性（computed）代替</strong></em></p>
+<h3 id="2-DOM选项"><a href="#2-DOM选项" class="headerlink" title="2) DOM选项"></a>2) DOM选项</h3><p>&emsp;&emsp;(1) template(string)<br>&emsp;&emsp;字符串模板，用作组件实例的标记。模板将会<strong>替换</strong>所挂载元素的innerHTML。挂载元素的任何现有标记都将被忽略，除非模板中存在通过插槽（slot）分发的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; test.vue</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;p&gt;Hello Vue3~&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &#39;Test&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;<strong>[补充] template模板语法</strong></p>
+<p>&emsp;&emsp;数据绑定：&#123;&#123;&#125;&#125;，&#123;&#123;&#125;&#125;中也可使用表达式</p>
+<p>&emsp;&emsp;<strong>指令</strong>：<br>&emsp;&emsp;v-text: 相当于&#123;&#123;&#125;&#125;<br>&emsp;&emsp;v-html: 插入HTML代码，不会作为 Vue 模板进行编译<br>&emsp;&emsp;v-show: 根据表达式的真假值，切换元素的css display 属性值<br>&emsp;&emsp;v-if、v-else-if、v-else： 根据表达式的真假值来有条件地渲染元素。在切换时元素及它的数据绑定 / 组件被销毁并重建<br>&emsp;&emsp;v-for：基于源数据多次渲染元素或模板块，一般需要给每个元素一个唯一的key属性提高页面渲染效率（key存在时，Vue 虚拟DOM diffing 算法效率更高）<br>&emsp;&emsp;v-on：缩写@，绑定事件监听器<br>&emsp;&emsp;&emsp;&emsp;修饰符：<br>&emsp;&emsp;&emsp;&emsp;.stop - 调用 event.stopPropagation()。<br>&emsp;&emsp;&emsp;&emsp;.prevent - 调用 event.preventDefault()。<br>&emsp;&emsp;&emsp;&emsp;.capture - 添加事件侦听器时使用 capture 模式。<br>&emsp;&emsp;&emsp;&emsp;.self - 只当事件是从侦听器绑定的元素本身触发时才触发回调。<br>&emsp;&emsp;&emsp;&emsp;.{keyAlias} - 仅当事件是从特定键触发时才触发回调。<br>&emsp;&emsp;&emsp;&emsp;.once - 只触发一次回调。<br>&emsp;&emsp;&emsp;&emsp;.left - 只当点击鼠标左键时触发。<br>&emsp;&emsp;&emsp;&emsp;.right - 只当点击鼠标右键时触发。<br>&emsp;&emsp;&emsp;&emsp;.middle - 只当点击鼠标中键时触发。<br>&emsp;&emsp;&emsp;&emsp;.passive - { passive: true } 模式添加侦听器<br>&emsp;&emsp;v-bind：动态地绑定一个或多个 attribute，或一个组件 prop 到表达式<br>&emsp;&emsp;v-model：在表单控件或者组件上创建双向绑定<br>&emsp;&emsp;&emsp;&emsp;修饰符：<br>&emsp;&emsp;&emsp;&emsp;.lazy - 监听 change 而不是 input 事件<br>&emsp;&emsp;&emsp;&emsp;.number - 输入字符串转为有效的数字<br>&emsp;&emsp;&emsp;&emsp;.trim - 输入首尾空格过滤<br>&emsp;&emsp;&emsp;&emsp;v-slot：提供具名插槽或需要接收 prop 的插槽<br>&emsp;&emsp;v-pre：跳过这个元素和它的子元素的编译过程。可以用来显示原始 Mustache 标签。跳过大量没有指令的节点会加快编译<br>&emsp;&emsp;v-cloak：可以隐藏未编译的 Mustache 标签直到组件实例准备完毕<br>&emsp;&emsp;v-once：只渲染元素和组件<u>一次</u><br>&emsp;&emsp;v-memo：记住一个模板的子树</p>
+<p>&emsp;&emsp;<strong>Vue特殊属性</strong>：<br>&emsp;&emsp;key：用做 Vue 的虚拟 DOM 算法的提示，以在比对新旧节点组时辨识 VNodes<br>&emsp;&emsp;ref：给元素或子组件注册引用信息。引用信息将会被注册在父组件的 $refs 对象上，在普通的 DOM 元素上使用，引用指向的就是那个 DOM 元素；如果用在子组件上，引用就指向组件实例<br>&emsp;&emsp;is：使用动态组件需要用到的一个属性</p>
+<p>&emsp;&emsp;<strong>Vue内置组件</strong>：<br>&emsp;&emsp;<u>内置组件可以直接在模板中使用，不需要注册</u><br>&emsp;&emsp;&lt;component&gt;：渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染<br>&emsp;&emsp;&lt;transition&gt;：作为<strong>单个</strong>元素/组件的过渡效果。&lt;transition&gt; 只会把过渡效果应用到其包裹的内容上，而不会额外渲染 DOM 元素，也不会出现在可被检查的组件层级中<br>&emsp;&emsp;&lt;transition-group&gt;:提供了作为<strong>多个</strong>元素/组件的过渡效果<br>&emsp;&emsp;&lt;keep-alive&gt;：包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们.它自身不会渲染一个 DOM 元素，也不会出现在组件的父组件链中<br>&emsp;&emsp;&lt;slot&gt;：组件模板之中的内容分发插槽<br>&emsp;&emsp;&lt;teleport&gt;：提供了一种干净的方法，允许我们控制在 DOM 中哪个父节点下渲染了 HTML</p>
+<p>&emsp;&emsp;(2) render(Function)<br>&emsp;&emsp;字符串模板之外的另一种选择，允许你充分利用 JavaScript 的编程功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; test.vue</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import &#123; h &#125; from &#39;vue&#39;</span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &#39;Test&#39;,</span><br><span class="line">    render() &#123;</span><br><span class="line">      return h(&#39;p&#39;, &#123;&#125;, &#39;Vue3, Hello~&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;(2)中的代码与(1)中的代码效果一样，当 template 与 render 函数同时存在时，<u>render 函数的优先级高于根据 template 选项</u></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;p&gt;Hello Vue3~&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import &#123; h &#125; from &#39;vue&#39;</span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &#39;Test&#39;,</span><br><span class="line">    render() &#123;</span><br><span class="line">      return h(&#39;p&#39;, &#123;&#125;, &#39;Vue3, Hello~&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;上面的代码在页面上显示：Vue3, Hello~</p>
+<h3 id="3-生命周期钩子-函数"><a href="#3-生命周期钩子-函数" class="headerlink" title="3) 生命周期钩子(函数)"></a>3) 生命周期钩子(函数)</h3><p>&emsp;&emsp;生命周期钩子是一些回调函数，在Vue项目运行对应阶段被执行，在这些生命周期回调函数内编写逻辑来实现在一些相应的功能，生命周期函数被执行时机如下：<br><img src="/images/vue/vue_lifecycle.svg" alt="vue_lifecycle"><br><em>&emsp;&emsp;[注] 所有生命周期钩子的 this 上下文将自动绑定实例，因此可以通过 this 访问 data、computed 和 methods，<strong>不应该</strong>使用箭头函数来定义一个生命周期方法</em></p>
+<p>&emsp;&emsp;(1) beforeCreate<br>&emsp;&emsp;在实例初始化之后、进行数据侦听和事件/侦听器的配置之前同步调用  </p>
+<p>&emsp;&emsp;(2) created<br>&emsp;&emsp;在实例创建完成后被立即同步调用。在这一步中，实例已完成对选项（数据侦听、计算属性、方法、事件/侦听器的回调函数的绑定）的处理，但实例挂载阶段还没开始。一般在这个生命周期内执行数据请求等逻辑  </p>
+<p>&emsp;&emsp;(3) beforeMount<br>&emsp;&emsp;在挂载开始之前被调用，相关的 render 函数首次被调用<br><em>&emsp;&emsp;[注] 该钩子在服务器端渲染期间不被调用</em></p>
+<p>&emsp;&emsp;(4) mounted<br>&emsp;&emsp;在实例挂载完成后被调用，mounted 不会保证所有的子组件也都被挂载完成。如果希望等待整个视图都渲染完毕，可以在 mounted 内部使用 vm.$nextTick</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mounted() &#123;</span><br><span class="line">  this.$nextTick(function () &#123;</span><br><span class="line">    &#x2F;&#x2F; 仅在整个视图都被渲染之后才会运行的代码</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] 该钩子在服务器端渲染期间不被调用</em></p>
+<p>&emsp;&emsp;(5) beforeUpdate<br>&emsp;&emsp;在数据发生改变后，DOM 被更新之前被调用，一般在这个回调里执行移除手动添加的事件监听器等逻辑<br><em>&emsp;&emsp;[注] 该钩子在服务器端渲染期间不被调用，因为只有初次渲染会在服务器端进行</em></p>
+<p>&emsp;&emsp;(6) updated<br>&emsp;&emsp;在数据更改导致的虚拟 DOM 重新渲染和更新完毕之后被调用，updated 不会保证所有的子组件也都被重新渲染完毕。如果希望等待整个视图都渲染完毕，可以在 updated 内部使用 vm.$nextTick</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">updated() &#123;</span><br><span class="line">  this.$nextTick(function () &#123;</span><br><span class="line">    &#x2F;&#x2F; 仅在整个视图都被重新渲染完毕之后才会运行的代码</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] 该钩子在服务器端渲染期间不被调用</em></p>
+<p>&emsp;&emsp;(7) beforeUnmount<br>&emsp;&emsp;在卸载组件实例之前调用<br><em>&emsp;&emsp;[注] 该钩子在服务器端渲染期间不被调用</em></p>
+<p>&emsp;&emsp;(8) unmounted<br>&emsp;&emsp;卸载组件实例后调用。调用此钩子时，组件实例的所有指令都被解除绑定，所有事件侦听器都被移除，所有子组件实例被卸载。一般还在这个回调里清除计算器等逻辑<br><em>&emsp;&emsp;[注] 该钩子在服务器端渲染期间不被调用</em></p>
+<p>&emsp;&emsp;其他钩子函数：<br>&emsp;&emsp;activated/deactivated：被 keep-alive 缓存的组件激活/失活时调用 （该钩子在服务器端渲染期间不被调用）<br>&emsp;&emsp;errorCaptured：捕获一个来自后代组件的错误时被调用<br>&emsp;&emsp;renderTracked：跟踪虚拟 DOM 重新渲染时调用，跟踪了组件以及该操作的目标对象和键<br>&emsp;&emsp;renderTriggered：当虚拟 DOM 重新渲染被触发时调用，通过这个钩子能知道操作触发了重新渲染，以及该操作的目标对象和键</p>
+<h3 id="4-自定义指令与组件"><a href="#4-自定义指令与组件" class="headerlink" title="4) 自定义指令与组件"></a>4) 自定义指令与组件</h3><p>&emsp;&emsp;(1) directives(Object)<br>&emsp;&emsp;声明一组可用于组件实例中的指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;input  v-model&#x3D;&quot;phoneNumber&quot; v-status&#x3D;&quot;phoneNumber&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &#39;Test&#39;,</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        phoneNumber: &#39;&#39;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    directives: &#123;</span><br><span class="line">      status: &#123;</span><br><span class="line">        updated(el, binding) &#123;</span><br><span class="line">          el.style.color &#x3D; &#39;#ffffff&#39;</span><br><span class="line">          if(&#x2F;^[1][3,4,5,7,8][0-9]&#123;9&#125;$&#x2F;.test(binding.value)) &#123;</span><br><span class="line">            el.style.backgroundColor &#x3D; &#39;rgb(108, 179, 3)&#39;</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">            el.style.backgroundColor &#x3D; &#39;rgb(231, 85, 85)&#39;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">  input &#123;  margin: 0 10px; &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+<p>如上代码，自定义了一个status指令，根据input输入框内的值（电话号码），对input设置不同的数据校验状态，效果如下：<br><img src="/images/vue/v_status.gif" alt="v-status"></p>
+<p>&emsp;&emsp;(2) components(Object)<br>&emsp;&emsp;声明一组可用于组件实例中的组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const Foo &#x3D; &#123;</span><br><span class="line">  template: &#96;&lt;div&gt;Foo&lt;&#x2F;div&gt;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const app &#x3D; createApp(&#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    Foo</span><br><span class="line">  &#125;,</span><br><span class="line">  template: &#96;&lt;Foo &#x2F;&gt;&#96;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如上代码声明了一个自定义的&lt;Foo&gt;并在&lt;template&gt;中使用，组件定义相关详情请浏览<a href="">《Vue自定义指令与组件》</a></p>
+<h3 id="5-更强大的组合功能"><a href="#5-更强大的组合功能" class="headerlink" title="5) 更强大的组合功能"></a>5) 更强大的组合功能</h3><p>&emsp;&emsp;(1) mixins(Array&lt;Object&gt;)<br>&emsp;&emsp;mixins 选项接收一个 mixin 对象的数组。这些 mixin 对象可以像正常的实例对象一样包含实例选项，这些选项将会被合并到最终的选项中，使用特定的选项合并逻辑<br>&emsp;&emsp;每个 mixin 可以拥有自己的 data 函数。每个 data 函数都会被调用，并将返回结果合并。在数据发生冲突时，会以组件自身的数据为优先。同名钩子函数将合并为一个数组，因此都将被调用，并在调用组件自身的钩子之前被调用<br>&emsp;&emsp;值为对象的选项，如 methods、components 和 directives，将被合并为同一个对象。两个对象键名冲突时，取组件自身的键值对<br>&emsp;&emsp;避免重复应用 mixin，建议将mixin作为<trong>插件</strong>发布</p>
+<p><em>&emsp;&emsp;[注] Vue 3 继续支持 mixin 的同时，组合式 API 是<u>更推荐</u>的在组件之间共享代码的方式。mixin很容易命名冲突，也不能给mixin传递参数来完成更灵活的功能</em></p>
+<p>&emsp;&emsp;(2) extends(Object)<br>&emsp;&emsp;允许一个组件扩展到另一个组件，且继承该组件选项，和 mixins 类似，任何选项都会通过对应的合并策略被合并</p>
+<p>&emsp;&emsp;(3) provide/inject<br>&emsp;&emsp;这对选项需要一起使用，以允许一个祖先组件向其所有子孙后代注入一个依赖，不论组件层次有多深，并在起上下游关系成立的时间里始终生效<br><em>&emsp;&emsp;[]注 默认情况下，provide/inject 绑定并不是响应式的。我们可以通过传递一个 ref property 或 reactive 对象给 provide 来改变这种行为</em>  </p>
+<p>&emsp;&emsp;(4) setup</p>
+<p>&emsp;&emsp;-待完善-</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/10/22/vue/Vue%E7%BB%84%E4%BB%B6%E8%AF%AD%E6%B3%95/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2021/10/21/vue/Vue%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Vue全局配置</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Xiong Gang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="码农日志"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay-payment-code.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat-payment-code.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+</body>
+
+</html>

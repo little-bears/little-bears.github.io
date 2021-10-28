@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-10-24T02:04:55.217Z</updated>
+  <updated>2021-10-28T15:38:28.488Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,19 +17,45 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Vue基本语法</title>
-    <link href="http://example.com/2021/10/21/vue/Vue%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/"/>
-    <id>http://example.com/2021/10/21/vue/Vue%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</id>
+    <title>Vue组件语法</title>
+    <link href="http://example.com/2021/10/22/vue/Vue%E7%BB%84%E4%BB%B6%E8%AF%AD%E6%B3%95/"/>
+    <id>http://example.com/2021/10/22/vue/Vue%E7%BB%84%E4%BB%B6%E8%AF%AD%E6%B3%95/</id>
+    <published>2021-10-22T09:54:19.000Z</published>
+    <updated>2021-10-28T15:38:28.488Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这部分主要讲创建Vue实例时的配置选项、Vue实例的属性、Vue实例的方法等内容&lt;/p&gt;
+&lt;h2 id=&quot;1、配置选项&quot;&gt;&lt;a href=&quot;#1、配置选项&quot; class=&quot;headerlink&quot; title=&quot;1、配置选项&quot;&gt;&lt;/a&gt;1、配置选项&lt;/h2&gt;&lt;h3</summary>
+        
+      
+    
+    
+    
+    <category term="Vue" scheme="http://example.com/categories/Vue/"/>
+    
+    
+    <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue全局配置</title>
+    <link href="http://example.com/2021/10/21/vue/Vue%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE/"/>
+    <id>http://example.com/2021/10/21/vue/Vue%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE/</id>
     <published>2021-10-21T13:39:43.000Z</published>
-    <updated>2021-10-24T02:04:55.217Z</updated>
+    <updated>2021-10-28T15:29:27.501Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;&amp;emsp;&amp;emsp;在使用vue-cli初始化vue项目（基于vue3.x）后，我们可以看到再入口文件main.js中使用了createApp()函数，将组件选项对象App作为参数，创建了Vue实例并挂载到根节点上&lt;/p&gt;
-&lt;figure</summary>
+    <summary type="html">&lt;p&gt;这部分主要讲Vue项目的全局配置，Vue根实例属性与方法，以及Vue的全局方法&lt;/p&gt;
+&lt;h2 id=&quot;初始化Vue3项目&quot;&gt;&lt;a href=&quot;#初始化Vue3项目&quot; class=&quot;headerlink&quot;</summary>
         
       
     
@@ -47,7 +73,7 @@
     <link href="http://example.com/2021/10/20/vue/Vue%E6%A6%82%E8%BF%B0/"/>
     <id>http://example.com/2021/10/20/vue/Vue%E6%A6%82%E8%BF%B0/</id>
     <published>2021-10-20T05:20:59.000Z</published>
-    <updated>2021-10-21T14:52:25.987Z</updated>
+    <updated>2021-10-28T15:38:48.848Z</updated>
     
     
       
@@ -476,7 +502,7 @@
     <link href="http://example.com/2020/09/15/html/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/"/>
     <id>http://example.com/2020/09/15/html/HTML%20Canvas%EF%BC%882D%E6%97%B6%E5%BA%8F%E5%8A%A8%E7%94%BB%EF%BC%89/</id>
     <published>2020-09-15T03:48:20.000Z</published>
-    <updated>2021-10-21T13:52:11.257Z</updated>
+    <updated>2021-10-28T15:41:10.977Z</updated>
     
     
       
@@ -485,32 +511,6 @@
         
     <summary type="html">&lt;p&gt;HTML5 &amp;lt;canvas&amp;gt; 标签用于绘制图像，但元素本身并没有绘制能力（它仅仅是图形的容器），您必须使用JavaScript脚本（相关API）来完成实际的绘图任务。&lt;/p&gt;
 &lt;h2 id=&quot;1、坐标系&quot;&gt;&lt;a href=&quot;#1、坐标系&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="HTML" scheme="http://example.com/categories/HTML/"/>
-    
-    
-    <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HTML(5)概述</title>
-    <link href="http://example.com/2020/09/14/html/HTML-5-%E6%A6%82%E8%BF%B0/"/>
-    <id>http://example.com/2020/09/14/html/HTML-5-%E6%A6%82%E8%BF%B0/</id>
-    <published>2020-09-14T06:10:54.000Z</published>
-    <updated>2021-10-21T13:52:11.283Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;HTML称为超文本标记语言（Hyper Text Markup Language），用来描述网页文档内容的含义和结构。&lt;/p&gt;
-&lt;h2 id=&quot;1、标记语言和编程语言&quot;&gt;&lt;a href=&quot;#1、标记语言和编程语言&quot; class=&quot;headerlink&quot;</summary>
         
       
     

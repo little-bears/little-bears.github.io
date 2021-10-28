@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Vue全局配置 |  码农日志</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link rel="alternate" href="/atom.xml" title="码农日志" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-vue/Vue全局配置"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Vue全局配置
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/10/21/vue/Vue%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2021-10-21T13:39:43.000Z" itemprop="datePublished">2021-10-21</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">13 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这部分主要讲Vue项目的全局配置，Vue根实例属性与方法，以及Vue的全局方法</p>
+<h2 id="初始化Vue3项目"><a href="#初始化Vue3项目" class="headerlink" title="初始化Vue3项目"></a>初始化Vue3项目</h2><p>&emsp;&emsp;使用vue-cli初始化vue项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vue create test</span><br><span class="line">  &#x2F;&#x2F; - 选择 Default (Vue 3) ([Vue 3] babel, eslint)</span><br><span class="line">cd test</span><br><span class="line">npm run serve</span><br><span class="line">  &#x2F;&#x2F; App running at:</span><br><span class="line">  &#x2F;&#x2F; - Local:   http:&#x2F;&#x2F;localhost:8080&#x2F;</span><br><span class="line">  &#x2F;&#x2F; - Network: http:&#x2F;&#x2F;172.17.4.18:8080&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/vue/vue_init_page.jpg" alt="vue_init_page"></p>
+<p>&emsp;&emsp;入口文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; main.js</span><br><span class="line"></span><br><span class="line">import &#123; createApp &#125; from &#39;vue&#39;</span><br><span class="line">import App from &#39;.&#x2F;App.vue&#39; &#x2F;&#x2F; 引入根组件</span><br><span class="line"></span><br><span class="line">const app &#x3D; createApp(App) &#x2F;&#x2F; 创建 Vue 根组件实例 app</span><br><span class="line">app.mount(&#39;#app&#39;) &#x2F;&#x2F; 将根组件实例 app 挂载到 根节点 (public&#x2F;index.html：&lt;div id&#x3D;&quot;app&quot;&gt;&lt;&#x2F;div&gt;)</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] Vue3允许&lt;template&gt;模板存在多标签</em></p>
+<h2 id="Vue打包生成的dist项目本地运行"><a href="#Vue打包生成的dist项目本地运行" class="headerlink" title="Vue打包生成的dist项目本地运行"></a>Vue打包生成的dist项目本地运行</h2><p>&emsp;&emsp;进入Vue项目根目录，运行入npm run build(在package.json的scripts配置)。经过打包工具编译打包，项目打包后在根目录下将会生成dist项目文件夹。但不能直接打开dist目录下的index.html在浏览器进行预览，因为index.html文件中引用使用的是绝对路径，直接运行时绝对路径’/‘指向磁盘根目录，index.html没成功加载打包后的js、css等文件，页面白屏。解决方法：让dist项目运行在服务器环境下即可</p>
+<p>① 修改打包工具对应配置，将打包时引用绝对路径方式改为相对路径</p>
+<p>② 使用http-server</p>
+<p>&emsp;&emsp;可全局安装http-server，在dist目录下运行http-server服务使dist处于服务器环境中</p>
+<p><img src="/images/vue/http-server.png" alt="http-server"></p>
+<h2 id="1、应用全局配置"><a href="#1、应用全局配置" class="headerlink" title="1、应用全局配置"></a>1、应用全局配置</h2><p>&emsp;&emsp;每个 Vue 应用（实例）都会暴露一个 config 对象，在挂载应用到根节点前，可对该应用进行相应配置<br>&emsp;&emsp;(1) globalProperties([key: string]: any)<br>&emsp;&emsp;添加一个可以在应用的任何组件实例中访问的全局 property（封装全局变量或函数）。组件的 property 在命名冲突具有优先权</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; main.js</span><br><span class="line">app.config.globalProperties.$http &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  console.log(&#39;可以在这里封装请求哦~&#39;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; App.vue</span><br><span class="line">created() &#123;</span><br><span class="line">  this.$http() &#x2F;&#x2F; 可以在这里封装请求哦~</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;(2) compilerOptions，配置运行时编译器的选项。可在组件上定义该选项覆盖全局应用配置</p>
+<p><em>&emsp;&emsp;[注] compilerOptions配置仅在完整的构建版本中生效，还需要进行相应配置</em></p>
+<p>&emsp;&emsp;① isCustomElement((tag: string) =&gt; boolean)<br>&emsp;&emsp;指定一个方法来识别 Vue 以外 (Web Components API) 定义的自定义元素。匹配了这个条件，组件不会再要求本地或全局注册</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 任何带有 &#39;-&#39; 的元素都会被识别为自定义元素</span><br><span class="line">app.config.compilerOptions.isCustomElement &#x3D; tag &#x3D;&gt; tag.includes(&#39;-&#39;)</span><br></pre></td></tr></table></figure>
+
+<p><em>&emsp;&emsp;[注] Web Components API是谷歌推行的自定义浏览器元素的技术</em><br><em>&emsp;&emsp;&emsp;&emsp;原生自定义元素指南：<a target="_blank" rel="noopener" href="https://www.robinwieruch.de/web-components-tutorial">Web Components Tutorial for Beginners [2019]</a></em></p>
+<p>&emsp;&emsp;一个使用原生 Web Components API 定义&lt;user-card&gt;元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; card.html</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">  &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;</span><br><span class="line">  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">  &lt;title&gt;Document&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;!-- 定义组件模板 --&gt;</span><br><span class="line">  &lt;template id&#x3D;&quot;userCardTemplate&quot;&gt;</span><br><span class="line">    &lt;!-- 给自定义元素添加样式 --&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">      :host &#123;</span><br><span class="line">        display: flex; align-items: center; width: 400px; height: 180px;</span><br><span class="line">        border: 1px solid #d5d5d5; box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);</span><br><span class="line">        border-radius: 4px; display: flex; justify-content: center; align-items: center;</span><br><span class="line">      &#125;</span><br><span class="line">      .image &#123; width: 120px; height: 120px; border-radius: 50%; font-size: 0; &#125;</span><br><span class="line">      .container &#123; width: 200px; display: flex; flex-direction: column; align-items: center; &#125;</span><br><span class="line">      .container &gt; p &#123; font-size: 12px; color: #666; margin: 5px 0; &#125;</span><br><span class="line">      .container &gt; .name &#123; font-size: 20px; font-weight: 600; &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">    &lt;img class&#x3D;&quot;image&quot;&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">      &lt;p class&#x3D;&quot;name&quot;&gt;&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;p class&#x3D;&quot;wechat&quot;&gt;&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;p class&#x3D;&quot;email&quot;&gt;&lt;&#x2F;p&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">  &lt;!-- 使用组件定义好的元素并传入参数 --&gt;</span><br><span class="line">  &lt;user-card </span><br><span class="line">    image&#x3D;&quot;https:&#x2F;&#x2F;gimg2.baidu.com&#x2F;image_search&#x2F;src&#x3D;http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202005%2F12%2F20200512164443_xudmd.thumb.400_0.png&amp;refer&#x3D;http%3A%2F%2Fc-ssl.duitang.com&amp;app&#x3D;2002&amp;size&#x3D;f9999,10000&amp;q&#x3D;a80&amp;n&#x3D;0&amp;g&#x3D;0n&amp;fmt&#x3D;jpeg?sec&#x3D;1637913324&amp;t&#x3D;b6dbd9cdeedcf605dd56aa1426283d9e&quot;</span><br><span class="line">    name&#x3D;&quot;熊小刚&quot;</span><br><span class="line">    wechat&#x3D;&quot;littlefish_and_bears&quot;</span><br><span class="line">    email&#x3D;&quot;xionggang1024@gmail.com&quot;&gt;</span><br><span class="line">  &lt;&#x2F;user-card&gt;</span><br><span class="line">  &lt;script&gt;</span><br><span class="line">    &#x2F;&#x2F; 定义UserCard类，UserCard继承于HTMLElement类</span><br><span class="line">    class UserCard extends HTMLElement &#123;</span><br><span class="line">      constructor() &#123;</span><br><span class="line">        super();</span><br><span class="line">        const shadow &#x3D; this.attachShadow( &#123; mode: &#39;closed&#39; &#125; );</span><br><span class="line">        const templateElem &#x3D; document.getElementById(&#39;userCardTemplate&#39;);</span><br><span class="line">        const content &#x3D; templateElem.content.cloneNode(true);</span><br><span class="line">        &#x2F;&#x2F; 给自定义元素添加参数</span><br><span class="line">        content.querySelector(&#39;img&#39;).setAttribute(&#39;src&#39;, this.getAttribute(&#39;image&#39;));</span><br><span class="line">        content.querySelector(&#39;.container&gt;.name&#39;).innerText &#x3D; this.getAttribute(&#39;name&#39;);</span><br><span class="line">        content.querySelector(&#39;.container&gt;.wechat&#39;).innerText &#x3D; this.getAttribute(&#39;wechat&#39;);</span><br><span class="line">        content.querySelector(&#39;.container&gt;.email&#39;).innerText &#x3D; this.getAttribute(&#39;email&#39;);</span><br><span class="line">        shadow.appendChild(content);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 定义根据UserCard类定义user-card元素</span><br><span class="line">    window.customElements.define(&#39;user-card&#39;, UserCard);</span><br><span class="line">  &lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;效果：</p>
+<p><img src="/images/vue/user_card.png" alt="user_card"></p>
+<p>特别的，可以用脚本把&lt;template&gt;注入网页。这样的话，JavaScript 脚本跟&lt;template&gt;就能封装成一个 JS 文件，成为独立的组件文件。网页只要加载这个脚本，就能使用&lt;user-card&gt;组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; user-card.js</span><br><span class="line"></span><br><span class="line">const template &#x3D; document.createElement(&#39;template&#39;);</span><br><span class="line">template.innerHTML &#x3D; &#96;</span><br><span class="line">  &lt;style&gt;</span><br><span class="line">  :host &#123;</span><br><span class="line">    display: flex; align-items: center; width: 400px; height: 180px;</span><br><span class="line">    border: 1px solid #d5d5d5; box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);</span><br><span class="line">    border-radius: 4px; display: flex; justify-content: center; align-items: center;</span><br><span class="line">  &#125;</span><br><span class="line">  .image &#123; width: 120px; height: 120px; border-radius: 50%; font-size: 0; &#125;</span><br><span class="line">  .container &#123; width: 200px; display: flex; flex-direction: column; align-items: center; &#125;</span><br><span class="line">  .container &gt; p &#123; font-size: 12px; color: #666; margin: 5px 0; &#125;</span><br><span class="line">  .container &gt; .name &#123; font-size: 20px; font-weight: 600; &#125;</span><br><span class="line">  &lt;&#x2F;style&gt;</span><br><span class="line">  &lt;img class&#x3D;&quot;image&quot;&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">  &lt;p class&#x3D;&quot;name&quot;&gt;&lt;&#x2F;p&gt;</span><br><span class="line">  &lt;p class&#x3D;&quot;wechat&quot;&gt;&lt;&#x2F;p&gt;</span><br><span class="line">  &lt;p class&#x3D;&quot;email&quot;&gt;&lt;&#x2F;p&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#96;;</span><br><span class="line"></span><br><span class="line">class UserCard extends HTMLElement &#123;</span><br><span class="line">  constructor() &#123;</span><br><span class="line">    super();</span><br><span class="line">    const shadow &#x3D; this.attachShadow( &#123; mode: &#39;closed&#39; &#125; );</span><br><span class="line">    const content &#x3D; template.content.cloneNode(true);</span><br><span class="line">    content.querySelector(&#39;img&#39;).setAttribute(&#39;src&#39;, this.getAttribute(&#39;image&#39;));</span><br><span class="line">    content.querySelector(&#39;.container&gt;.name&#39;).innerText &#x3D; this.getAttribute(&#39;name&#39;);</span><br><span class="line">    content.querySelector(&#39;.container&gt;.wechat&#39;).innerText &#x3D; this.getAttribute(&#39;wechat&#39;);</span><br><span class="line">    content.querySelector(&#39;.container&gt;.email&#39;).innerText &#x3D; this.getAttribute(&#39;email&#39;);</span><br><span class="line">    shadow.appendChild(content);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">window.customElements.define(&#39;user-card&#39;, UserCard);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; card.html</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;&#x2F;title&gt;</span><br><span class="line">  &lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;user-card </span><br><span class="line">      image&#x3D;&quot;https:&#x2F;&#x2F;gimg2.baidu.com&#x2F;image_search&#x2F;src&#x3D;http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202005%2F12%2F20200512164443_xudmd.thumb.400_0.png&amp;refer&#x3D;http%3A%2F%2Fc-ssl.duitang.com&amp;app&#x3D;2002&amp;size&#x3D;f9999,10000&amp;q&#x3D;a80&amp;n&#x3D;0&amp;g&#x3D;0n&amp;fmt&#x3D;jpeg?sec&#x3D;1637913324&amp;t&#x3D;b6dbd9cdeedcf605dd56aa1426283d9e&quot;</span><br><span class="line">      name&#x3D;&quot;熊小刚&quot;</span><br><span class="line">      wechat&#x3D;&quot;littlefish_and_bears&quot;</span><br><span class="line">      email&#x3D;&quot;xionggang1024@gmail.com&quot;&gt;</span><br><span class="line">    &lt;&#x2F;user-card&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;.&#x2F;user-card.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">  &lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;&emsp;&emsp;Vue3官方提供的封装原生Web Components API的文档地址：<a target="_blank" rel="noopener" href="https://v3.cn.vuejs.org/guide/web-components.html#%E8%B7%B3%E8%BF%87%E7%BB%84%E4%BB%B6%E7%9A%84%E8%A7%A3%E6%9E%90">Vue 与 Web Components</a></em></p>
+<p>&emsp;&emsp;② whitespace(‘condense’ | ‘preserve’)<br>&emsp;&amp;emsp设置 Vue 编译时的压缩标准，默认(condense)会移除/压缩模板元素之间的空格以产生更高效的编译结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.config.compilerOptions.whitespace &#x3D; &#39;preserve&#39;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;③ delimiters(Array&lt;string&gt;)<br>&emsp;&emsp;设置用在模板内的文本插值的边界符，默认值：[‘&#123;&#123;’, ‘&#125;&#125;’]，这个选项一般会用于避免和同样使用大括号语法的服务端框架发生冲突</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 将边界符改变为 ES6 模板字符串风格</span><br><span class="line">app.config.compilerOptions.delimiters &#x3D; [&#39;$&#123;&#39;, &#39;&#125;&#39;]  </span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;④ comments(boolean)<br>&emsp;&emsp;默认情况（false）下，Vue 会在生产环境下移除模板内的 HTML 注释。这个选项一般与依赖 HTML 注释的其它库和 Vue 配合使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.config.compilerOptions.comments &#x3D; true</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;应用配置处理globalProperties、compilerOptions，还有其他的errorHandler、warnHandler、performance等配置，用得相对较少，感兴趣的朋友可自行研究</p>
+<h2 id="2、Vue根实例-属性-方法"><a href="#2、Vue根实例-属性-方法" class="headerlink" title="2、Vue根实例(属性)方法"></a>2、Vue根实例(属性)方法</h2><p>&emsp;&emsp;在 Vue 3 中，改变全局 Vue 行为的 API 以及属性现在被移动到了由新的 createApp 方法所创建的应用实例上<br>&emsp;&emsp;(1) component({string} name, {Function | Object} [definition])<br>&emsp;&emsp;注册或检索全局组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 注册</span><br><span class="line">app.component(&#39;my-component&#39;, &#123;&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 检索</span><br><span class="line">const MyComponent &#x3D; app.component(&#39;my-component&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;(2) config<br>&emsp;&emsp;应用配置，详见本文章前面的<a href="/2021/10/21/vue/Vue%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE/#1%E3%80%81%E5%BA%94%E7%94%A8%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE">《1、应用全局配置》</a></p>
+<p>&emsp;&emsp;(3) directive({string} name, {Function | Object} [definition])<br>&emsp;&emsp;注册或检索全局指令，用法与component API相似</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 注册</span><br><span class="line">app.directive(&#39;my-directive&#39;, &#123;</span><br><span class="line">  created() &#123;&#125;,</span><br><span class="line">  beforeMount() &#123;&#125;,</span><br><span class="line">  mounted() &#123;&#125;,</span><br><span class="line">  beforeUpdate() &#123;&#125;,</span><br><span class="line">  updated() &#123;&#125;,</span><br><span class="line">  beforeUnmount() &#123;&#125;,</span><br><span class="line">  unmounted() &#123;&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 注册 (功能指令)</span><br><span class="line">app.directive(&#39;my-directive&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 这将被作为 mounted 和 updated 调用</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">const myDirective &#x3D; app.directive(&#39;my-directive&#39;)</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;(4) mixin(Object)<br>&emsp;&emsp;将一个 mixin 应用在整个应用范围内</p>
+<p>&emsp;&emsp;(5) mount({Element | string} rootContainer, {boolean} isHydrate)<br>&emsp;&emsp;提供 DOM 元素的 innerHTML 将被替换为应用根组件的模板渲染结果，可将Vue根组件挂载到根节点上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123; createApp &#125; from &#39;vue&#39;</span><br><span class="line">createApp(&#123;&#125;).mount(&#39;#app&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;(6) provide/inject<br>解决深度嵌套的组件 props 沿着组件链逐级传递的麻烦问题，这个选项在写插件时尤其有用，是 globalProperties 的替代选择</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 祖先组件</span><br><span class="line">export default &#123;</span><br><span class="line">  provide() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      msg: &#39;Welcome to Your Vue.js App&#39;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 后代组件</span><br><span class="line">export default &#123;</span><br><span class="line">  inject: [&#39;msg&#39;],</span><br><span class="line">  created() &#123;</span><br><span class="line">    console.log(this.msg) &#x2F;&#x2F; Welcome to Your Vue.js App</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>&emsp;&emsp;[]注 默认情况下，provide/inject 绑定并不是响应式的。我们可以通过传递一个 ref property 或 reactive 对象给 provide 来改变这种行为</em></p>
+<p>&emsp;&emsp;(7) unmount<br>&emsp;&emsp;卸载应用实例的根组件</p>
+<p>&emsp;&emsp;(8) use({Object | Function} plugin, …options (可选))<br>&emsp;&emsp;安装 Vue.js 插件。如果插件是一个对象，它必须暴露一个 install 方法。如果它本身是一个函数，函数将被视为安装方法，当在同一个插件上多次调用此方法时，该插件将仅安装一次</p>
+<p>&emsp;&emsp;(9) version<br>&emsp;&emsp;以字符串形式提供已安装的 Vue 的版本号</p>
+<h2 id="3、Vue的全局方法"><a href="#3、Vue的全局方法" class="headerlink" title="3、Vue的全局方法"></a>3、Vue的全局方法</h2><p>&emsp;&emsp;-待完善-</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/10/21/vue/Vue%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/10/22/vue/Vue%E7%BB%84%E4%BB%B6%E8%AF%AD%E6%B3%95/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Vue组件语法
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/10/20/vue/Vue%E6%A6%82%E8%BF%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Vue概述</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Xiong Gang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="码农日志"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay-payment-code.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat-payment-code.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+</body>
+
+</html>

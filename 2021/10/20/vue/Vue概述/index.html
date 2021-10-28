@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.4k</span>
+            <span class="post-count">2.3k</span>
         </span>
     </span>
 
@@ -110,13 +110,13 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>Vue是一个由<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%B0%A4%E9%9B%A8%E6%BA%AA">尤雨溪</a>以及团队开发与维护的轻量级、响应式的JavaScript开发库，能够更高效的构建单页面的WEB应用。一般采用声明式编程（Vue3也提供了函数式编程编码风格的API），采用了MVVM模式，实现数据与视图UI同步变化的数据驱动方式，是开发者能更好地组织与简化WEB项目开发</p>
-<h2 id="1、单页面应用-SPA"><a href="#1、单页面应用-SPA" class="headerlink" title="1、单页面应用(SPA)"></a>1、单页面应用(SPA)</h2><p>&emsp;&emsp;为了提高传统WEB应用的性能与用户体验（页面跳转时公共资源被多次重复请求、页面频繁跳转用户体验不好），在前后端分离的前提下，采用了可以局部动态更新当前页面组件的方式来与用户交互，而不需要重新加载整个页面，是一种网站应用模型，能让WEB应用使用更加流畅  </p>
-<p>&emsp;&emsp;相对于传统多页面WEB应用，单页面应用还需要处理路由（路由前端化）问题，根据路由规则去移除，添加或更新页面组件。不需要服务器返回整个页面，服务器只负责处理数据并提供接口</p>
-<p>&emsp;&emsp;前端路由有history与hash两种模式，都可以在<u>不刷新页面</u>的前提下改变了页面的URL，从而Vue库监听到页面URL变化，通过相应路由规则，来实现页面中部分组件的移除或更新，从而达到局部更新页面的状态的目的</p>
-<p>&emsp;&emsp;history与hash模式的区别：<br>&emsp;&emsp;(1) history模式是基于HTML5 window.history中新增的pushState()和replaceState()方法来完成不刷新改变URL<br>&emsp;&emsp;(2) hash模式基于window.location中的hash，采用hash模式是URL中的’#’(锚点)功能来完成不刷新改变URL  </p>
+  <p>Vue是一个由<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%B0%A4%E9%9B%A8%E6%BA%AA">尤雨溪</a>以及团队开发与维护的轻量级、响应式的JavaScript开发库，能够更高效的构建单页面的WEB应用。一般采用声明式渲染、MVVM模式实现数据与视图UI同步变化的数据驱动方式，是开发者能更好地组织与简化WEB项目开发</p>
+<h2 id="1、单页面应用-SPA"><a href="#1、单页面应用-SPA" class="headerlink" title="1、单页面应用(SPA)"></a>1、单页面应用(SPA)</h2><p>&emsp;&emsp;为了提高传统WEB应用的性能与用户体验（页面跳转时公共资源被多次重复请求、页面频繁跳转用户体验不好），在前后端分离的前提下，采用了可以局部动态更新当前页面组件的方式来与用户交互，而不需要重新加载整个页面，是一种<u>网站应用模型</u>，能让WEB应用使用更加流畅</p>
+<p>&emsp;&emsp;相对于传统多页面WEB应用，单页面应用还需要处理路由（路由前端化）问题，根据路由规则去移除，添加或更新页面组件。不需要刷新页面进行重新服务器让其返回页面，服务器只负责处理数据并提供接口</p>
+<p>&emsp;&emsp;前端路由有history与hash两种模式，都可以在<u>不刷新页面</u>的前提下改变了页面的URL，从而Vue监听到页面URL变化，通过定义好的路由规则，来实现页面中组件的移除或更新，从而达到局部更新页面的状态的目的</p>
+<p>&emsp;&emsp;history与hash模式的区别：<br>&emsp;&emsp;(1) history模式是基于HTML5 window.history中新增的pushState()和replaceState()方法来完成不刷新改变URL<br>&emsp;&emsp;(2) hash模式基于window.location中的hash，采用hash模式是URL中的’#’(锚点)功能来完成不刷新改变URL</p>
 <p>&emsp;&emsp;SPA的优缺点：<br>&emsp;&emsp;优点：<br>&emsp;&emsp;① 无页面刷新，应用更加流畅<br>&emsp;&emsp;② 服务器压力更小，后端逻辑可复用<br>&emsp;&emsp;缺点：<br>&emsp;&emsp;① SEO不友好（可通过服务端渲染解决）<br>&emsp;&emsp;② 页面首次(首屏)加载时间长<br>&emsp;&emsp;③ 浏览器前进后退功能无效<br>&emsp;&emsp;④ 若采用hash模式，页面原有的锚点功能会失效  </p>
-<h2 id="2、声明式编程-渲染"><a href="#2、声明式编程-渲染" class="headerlink" title="2、声明式编程(渲染)"></a>2、声明式编程(渲染)</h2><p>&emsp;&emsp;先来说说命令式编程、声明式编程与函数式编程，这些都是<u>编程范式，与具体语言没有太大的关系</u>。同一功能可以用同一语言使用不同的编程范式来实现，例如将一个嵌套的数组各项值乘2：<br>命令式编程：</p>
+<h2 id="2、声明式编程-渲染"><a href="#2、声明式编程-渲染" class="headerlink" title="2、声明式编程(渲染)"></a>2、声明式编程(渲染)</h2><p>&emsp;&emsp;先来说说命令式编程、声明式编程与函数式编程，这些都是<u>编程范式，与具体语言没有太大的关系</u>。同一功能可以用同一语言使用不同的编程范式来实现，例如将一个嵌套的数组各项值乘2<br>命令式编程：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let list &#x3D; [1, [2, 3], 4]</span><br><span class="line">for (let i &#x3D; 0, cnt &#x3D; list.length; i &lt; cnt; i++) &#123;</span><br><span class="line">    if (typeof list[i] &#x3D;&#x3D;&#x3D; &quot;number&quot;) &#123;</span><br><span class="line">        list[i] &#x3D; list[i] * 2</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        for (let j &#x3D; 0, len &#x3D; list[i].length; j &lt; len; j++) &#123;</span><br><span class="line">            list[i][j] &#x3D; list[i][j] * 2</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(list) &#x2F;&#x2F; [2, [4, 6], 8]</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;命令式编程是关注代码执行过程，是对执行过程进行模拟，执行完成才知道结果</p>
 <p>声明式编程:</p>
@@ -125,10 +125,10 @@
 <p>函数式编程:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let list &#x3D; [1, [2, 3], 4]</span><br><span class="line">function fn(list) &#123;</span><br><span class="line">    if(typeof list &#x3D;&#x3D;&#x3D; &quot;number&quot; ) return list * 2</span><br><span class="line">    else return list.map(value &#x3D;&gt; fn(value))</span><br><span class="line">&#125;</span><br><span class="line">list &#x3D; fn(list)</span><br><span class="line">console.log(list) &#x2F;&#x2F; [2, [4, 6], 8]</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;函数式编程和声明式编程思想是一致的，关注执行结果。函数式编程把运算过程尽量写成一系列嵌套函数的调用的形式（递归）来提高代码的通用性，例如将上面list数组在定义时赋值为更复杂的[1, [2, [3, 4]], [5, [6, 7, [8]]], 9, 10]，只有函数式编程的递归代码不做任何修改也能输出想要的结果正确结果</p>
-<p>&emsp;&emsp;一般来说Vue是采用声明式编程的，虽然我们也在&lt;template&gt;模板里使用v-for等指令来控制流程。在组件实例化是定义props、data、methods、filter等内容时，我们只需声明对应的参数、数据、方法、过滤器等，在&lt;template&gt;模板里通过mustache语法（&#123;&#123;&#125;&#125;）直接绑定并使用。当数据发生改变，对应数据的视图也会自动更新，开发者真正开发中无需额外实现双向数据绑定的功能</p>
+<p>&emsp;&emsp;一般来说Vue是采用声明式编程的。在组件实例化是定义props、data、methods、computed等内容时，我们只需声明对应的参数、数据、方法等，在&lt;template&gt;模板里通过mustache语法（&#123;&#123;&#125;&#125;）直接绑定并使用。当数据发生改变，对应数据的视图也会自动更新，开发者真正开发中无需额外实现双向数据绑定的功能</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;hello&quot;&gt;</span><br><span class="line">        &lt;h1&gt;&#123;&#123;msg&#125;&#125;&lt;&#x2F;h1&gt;</span><br><span class="line">        &lt;p&gt;&#123;&#123;title&#125;&#125;&lt;&#x2F;p&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">name: &#39;Test&#39;,</span><br><span class="line">props: &#123;</span><br><span class="line">    msg: String</span><br><span class="line">&#125;,</span><br><span class="line">data()&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        title: &#39;测试~&#39;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">h3 &#123;</span><br><span class="line">    margin: 40px 0 0;</span><br><span class="line">&#125;</span><br><span class="line">ul &#123;</span><br><span class="line">    list-style-type: none;</span><br><span class="line">    padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">li &#123;</span><br><span class="line">    display: inline-block;</span><br><span class="line">    margin: 0 10px;</span><br><span class="line">&#125;</span><br><span class="line">a &#123;</span><br><span class="line">    color: #42b983;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;Vue通过声明式编程，使得视图、数据结构相互分离，开发者只需要关注核心逻辑的开发，数据展示由Vue库来完成，使编码更加简单高效<br>&emsp;&emsp;特别的，平时我们编写HTML(&lt;template&gt;)以及css代码时，都是关注布局与样式结果，不需要实现html代码展示在浏览器屏幕上的功能。及编码html、css的方式是声明式的</p>
-<h2 id="3、模板编译与虚拟DOM"><a href="#3、模板编译与虚拟DOM" class="headerlink" title="3、模板编译与虚拟DOM"></a>3、模板编译与虚拟DOM</h2><p>&emsp;&emsp;vue文件是不能直接运行在浏览器上的，需要结合Webpack使用vue-loader等处理模块（函数）将vue文件编译打包成js文件。期间会经过模板编译、实现watcher等核心渲染监听逻辑、生成虚拟DOM以及Diff算法对比虚拟DOM的更新等过程，最终再更新渲染在浏览器页面上<br>&emsp;&emsp;在Vue库中，为了避免页面更新时频繁的进行页面重绘等操作，减少浏览器性能消耗，使用JS对象来描述页面真实的DOM。在页面数据更新时，会将更新后的虚拟DOM结构与之前的虚拟DOM结构采用Diff算法进行对比，最后将对比出来的差异的部分进行重新的真实DOM的渲染</p>
+<h2 id="3、模板编译与虚拟DOM"><a href="#3、模板编译与虚拟DOM" class="headerlink" title="3、模板编译与虚拟DOM"></a>3、模板编译与虚拟DOM</h2><p>&emsp;&emsp;vue文件是不能直接运行在浏览器上的，需要结合Webpack使用vue-loader等处理模块（函数）将vue文件编译打包成js文件。期间会经过模板编译、实现watcher等核心渲染监听逻辑、生成虚拟DOM以及Diff算法对比虚拟DOM的更新等过程，最终再更新渲染在浏览器页面上<br>&emsp;&emsp;在Vue中，为了避免页面更新时频繁的进行页面重绘等操作，减少浏览器性能消耗，使用JS对象来描述页面真实的DOM。在页面数据更新时，会将更新后的虚拟DOM结构与之前的虚拟DOM结构采用Diff算法进行对比，最后只是将对比出来的差异的部分进行真实DOM的更新渲染</p>
 <p><img src="/images/note/vNode.png" alt="vNode"></p>
 <p>&emsp;&emsp;在页面数据发生变化时，根据Vue相关响应式原理，会生成新的虚拟DOM结构，进行Diff算法（React Diff算法与Vue一致）来计算页面最小更新。<strong>匹配的最小单位是标签，只进行只进行同层级比较，忽略跨级操作</strong>。如上图中的&lt;ul&gt;结构不会与&lt;li&gt;结构进行比较。若&lt;ul&gt;结构一致，还有子元素时，会对里面的&lt;li&gt;进行一一比较，若&lt;ul&gt;已经不同，直接回新的&lt;ul&gt;更新页面上对应的真实DOM</p>
 <p>&emsp;&emsp;为了提高效率，框架一般要求在循环出来的最外层元素添加唯一的key标识，便于Diff算法比较时具有更高效率</p>
@@ -221,11 +221,11 @@
    
   <nav class="article-nav">
     
-      <a href="/2021/10/21/vue/Vue%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" class="article-nav-link">
+      <a href="/2021/10/21/vue/Vue%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            Vue基本语法
+            Vue全局配置
           
         </div>
       </a>
