@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3.2k</span>
+            <span class="post-count">3.7k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">15 分钟</span>
+            <span class="post-count">17 分钟</span>
         </span>
     </span>
 </div>
@@ -170,16 +170,25 @@
 <h2 id="3、Vue全局API"><a href="#3、Vue全局API" class="headerlink" title="3、Vue全局API"></a>3、Vue全局API</h2><p>&emsp;&emsp;(1) createApp<br>&emsp;&emsp;返回一个提供应用上下文的应用实例。应用实例挂载的整个组件树共享同一个上下文，可以在 createApp 之后链式调用其它应用API的方法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; main.js</span><br><span class="line"></span><br><span class="line">import &#123; createApp, h &#125; from &#39;vue&#39;</span><br><span class="line">import router from &#39;.&#x2F;router&#39;</span><br><span class="line">import store from &#39;.&#x2F;store&#39;</span><br><span class="line">import App from &#39;.&#x2F;App.vue&#39;</span><br><span class="line"></span><br><span class="line">createApp(App).use(router).use(store).mount(&#39;#app&#39;)</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;(2) h<br>&emsp;&emsp;返回一个”虚拟节点“，通常缩写为 VNode：一个普通对象，其中包含向 Vue 描述它应在页面上渲染哪种节点的信息，包括所有子节点的描述。它的目的是用于手动编写的渲染函数。接收三个参数：type，props 和 children</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 待完善</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; code</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;&emsp;(3) defineComponent<br>&emsp;&emsp;结合Suspense定义并使用异步组件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; AsyncComponent.vue</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;h3 class&#x3D;&quot;text&quot;&gt;&#123;&#123;msg&#125;&#125;&lt;&#x2F;h3&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import &#123; defineComponent &#125; from &#39;vue&#39;</span><br><span class="line"></span><br><span class="line">  export default defineComponent(&#123;</span><br><span class="line">    setup() &#123;</span><br><span class="line">      return new Promise(resolve &#x3D;&gt; &#123;</span><br><span class="line">        setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">          return resolve(&#123; msg: &quot;Async Text&quot; &#125;)</span><br><span class="line">        &#125;, 1200)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;suspense&gt;</span><br><span class="line">    &lt;template #default&gt;</span><br><span class="line">      &lt;async-component &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;template&gt;</span><br><span class="line">    &lt;template #fallback&gt;</span><br><span class="line">      &lt;h3&gt;加载中...&lt;&#x2F;h3&gt;</span><br><span class="line">    &lt;&#x2F;template&gt;</span><br><span class="line">  &lt;&#x2F;suspense&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import AsyncComponent from &#39;@&#x2F;components&#x2F;AsyncComponent.vue&#39;</span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &#39;App&#39;,</span><br><span class="line">    components: &#123;</span><br><span class="line">      AsyncComponent</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
 <p>效果如下：<br><img src="/images/vue/async_component.gif" alt="async-component"></p>
 <p>&emsp;&emsp;(4) defineAsyncComponent<br>&emsp;&emsp;创建一个只有在需要时才会加载的异步组件</p>
-<p>&emsp;&emsp;(5) defineCustomElement<br>&emsp;&emsp;方法接受和 defineComponent 相同的参数，但是返回一个原生的自定义元素，然后通过customElements.define(‘element’, Element)方法进行注册使用。该元素可以用于任意框架或不基于框架使用</p>
-<p>&emsp;&emsp;(6) resolveComponent<br>&emsp;&emsp;(7) resolveDynamicComponent<br>&emsp;&emsp;(8) resolveDirective<br>&emsp;&emsp;(9) withDirectives<br>&emsp;&emsp;(10) createRenderer<br>&emsp;&emsp;(11) nextTick<br>&emsp;&emsp;(12) mergeProps<br>&emsp;&emsp;(13) useCssModule<br>&emsp;&emsp;(14) version</p>
-<p>&emsp;&emsp;–待完善–</p>
+<p>&emsp;&emsp;(5) defineCustomElement<br>&emsp;&emsp;方法接受和 defineComponent 相同的参数，但是返回一个原生的自定义元素，然后通过customElements.define(‘element’, Element)方法进行注册使用。该元素（浏览器原生组件）可以用于任意框架或不基于框架使用</p>
+<p>&emsp;&emsp;(6) resolveComponent<br>&emsp;&emsp;允许按名称解析组件，返回一个Component。如果没有找到，则返回接收的参数名称<br><em>&emsp;&emsp;[注] resolveComponent 只能在 render 或 setup 函数中使用</em></p>
+<p>&emsp;&emsp;(7) resolveDynamicComponent<br>&emsp;&emsp;允许使用与 &lt;component :is=””&gt; 相同的机制来解析一个 component。返回已解析的 Component 或新创建的 VNode，其中组件名称作为节点标签。如果找不到 Component，将发出警告<br><em>&emsp;&emsp;[注] resolveDynamicComponent 只能在 render 或 setup 函数中使用</em></p>
+<p>&emsp;&emsp;(8) resolveDirective<br>&emsp;&emsp;允许通过其名称解析一个 directive。返回一个 Directive。如果没有找到，则返回 undefined<br><em>&emsp;&emsp;[注] resolveDirective 只能在 render 或 setup 函数中使用</em></p>
+<p>&emsp;&emsp;(9) withDirectives(vnode, directives)<br>&emsp;&emsp;允许将指令应用于 VNode。返回一个包含应用指令的 VNode<br><em>&emsp;&emsp;[注] withDirectives 只能在 render 或 setup 函数中使用</em></p>
+<p>&emsp;&emsp;(10) createRenderer<br>&emsp;&emsp;自定义渲染器，将元素渲染到其他平台等</p>
+<p>&emsp;&emsp;(11) nextTick<br>&emsp;&emsp;将回调推迟到下一个 DOM 更新周期之后执行</p>
+<p>&emsp;&emsp;(12) mergeProps<br>&emsp;&emsp;将包含 VNode 属性的多个对象合并为一个单独的对象。其返回的是一个新创建的对象，可以传递不限数量的对象，后面参数的属性优先。事件监听器被特殊处理，属性值被合并的而不是被覆盖的</p>
+<p>&emsp;&emsp;(13) useCssModule<br>&emsp;&emsp;允许在单文件组件函数中访问 CSS 模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">  import &#123; h, useCssModule &#125; from &#39;vue&#39;</span><br><span class="line">  export default &#123;</span><br><span class="line">    setup() &#123;</span><br><span class="line">      const style &#x3D; useCssModule()</span><br><span class="line">      return () &#x3D;&gt; h( &#39;div&#39;, &#123; class: style.color &#125;, &#39;Render函数动态渲染的文本&#39;) &#x2F;&#x2F; 页面显示红色文本</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&lt;style module&gt;</span><br><span class="line">  .color &#123; color: red; &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] useCssModule 只能在 render 或 setup 函数中使用</em><br>_&emsp;&emsp;[注] &lt;style module&gt; 标签会被编译为 CSS Modules 并且将生成的 CSS 类作为 <u>$style</u> 对象的键暴露给组件，可在 &lt;template&gt; 模板中使用</p>
+<p>&emsp;&emsp;(14) version<br>&emsp;&emsp;以字符串形式提供已安装的 Vue 的版本号</p>
  
       <!-- reward -->
       
