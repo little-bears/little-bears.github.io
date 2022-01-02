@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3.7k</span>
+            <span class="post-count">3.8k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">17 分钟</span>
+            <span class="post-count">18 分钟</span>
         </span>
     </span>
 </div>
@@ -111,13 +111,18 @@
     <div class="article-entry" itemprop="articleBody">
        
   <p>这部分主要讲Vue3项目的全局配置，Vue根实例属性与方法，以及Vue的全局方法</p>
-<h2 id="初始化Vue3项目"><a href="#初始化Vue3项目" class="headerlink" title="初始化Vue3项目"></a>初始化Vue3项目</h2><p>&emsp;&emsp;使用vue-cli初始化vue项目</p>
+<h2 id="初始化Vue3项目"><a href="#初始化Vue3项目" class="headerlink" title="初始化Vue3项目"></a>初始化Vue3项目</h2><p>&emsp;&emsp;(1) 使用vue-cli初始化vue项目</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vue create test</span><br><span class="line">  &#x2F;&#x2F; - 选择 Default (Vue 3) ([Vue 3] babel, eslint)</span><br><span class="line">cd test</span><br><span class="line">npm run serve</span><br><span class="line">  &#x2F;&#x2F; App running at:</span><br><span class="line">  &#x2F;&#x2F; - Local:   http:&#x2F;&#x2F;localhost:8080&#x2F;</span><br><span class="line">  &#x2F;&#x2F; - Network: http:&#x2F;&#x2F;172.17.4.18:8080&#x2F;</span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/vue/vue_init_page.jpg" alt="vue_init_page"></p>
 <p>&emsp;&emsp;入口文件：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; main.js</span><br><span class="line"></span><br><span class="line">import &#123; createApp &#125; from &#39;vue&#39;</span><br><span class="line">import App from &#39;.&#x2F;App.vue&#39; &#x2F;&#x2F; 引入根组件</span><br><span class="line"></span><br><span class="line">const app &#x3D; createApp(App) &#x2F;&#x2F; 创建 Vue 根组件实例 app</span><br><span class="line">app.mount(&#39;#app&#39;) &#x2F;&#x2F; 将根组件实例 app 挂载到 根节点 (public&#x2F;index.html：&lt;div id&#x3D;&quot;app&quot;&gt;&lt;&#x2F;div&gt;)</span><br></pre></td></tr></table></figure>
 <p><em>&emsp;&emsp;[注] Vue3允许&lt;template&gt;模板存在多标签</em></p>
+<p>&emsp;&emsp;(2) 使用vite初始化vue3项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">npm init vite-app test</span><br><span class="line">cd test</span><br><span class="line">npm install</span><br><span class="line">npm run dev</span><br><span class="line">  &#x2F;&#x2F; Dev server running at:</span><br><span class="line">  &#x2F;&#x2F; Network:  http:&#x2F;&#x2F;172.17.4.18:3000&#x2F;</span><br><span class="line">  &#x2F;&#x2F; Network:  http:&#x2F;&#x2F;172.17.19.27:3000&#x2F;</span><br><span class="line">  &#x2F;&#x2F; Local:    http:&#x2F;&#x2F;localhost:3000&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/vue/vite.jpg" alt="vite"></p>
+<p><em>&emsp;&emsp;[注] 去<a target="_blank" rel="noopener" href="https://vitejs.cn/">vite官网</a>获取更多详细配置</em></p>
 <h2 id="Vue打包生成的dist项目本地运行"><a href="#Vue打包生成的dist项目本地运行" class="headerlink" title="Vue打包生成的dist项目本地运行"></a>Vue打包生成的dist项目本地运行</h2><p>&emsp;&emsp;进入Vue项目根目录，运行入npm run build(在package.json的scripts配置)。经过打包工具编译打包，项目打包后在根目录下将会生成dist项目文件夹。但不能直接打开dist目录下的index.html在浏览器进行预览，因为index.html文件中引用使用的是绝对路径，直接运行时绝对路径’/‘指向磁盘根目录，index.html没成功加载打包后的js、css等文件，页面白屏。解决方法：让dist项目运行在服务器环境下即可</p>
 <p>① 修改打包工具对应配置，将打包时引用绝对路径方式改为相对路径</p>
 <p>② 使用http-server</p>
@@ -298,7 +303,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2020-2021
+        2020-2022
         <i class="ri-heart-fill heart_icon"></i> Xiong Gang
       </li>
     </ul>
