@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Vue单文件组件 |  码农日志</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link rel="alternate" href="/atom.xml" title="码农日志" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-vue/Vue单文件组件"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Vue单文件组件
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/01/24/vue/Vue%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/" class="article-date">
+  <time datetime="2022-01-24T07:39:34.000Z" itemprop="datePublished">2022-01-24</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.5k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">11 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这部分主要讲Vue3的单文件组件规范~</p>
+<h2 id="1、SFC语法规范"><a href="#1、SFC语法规范" class="headerlink" title="1、SFC语法规范"></a>1、SFC语法规范</h2><p>&emsp;&emsp;*.vue 文件是使用类 HTML 语法来描述 Vue 组件的一种自定义文件格式。每一个 *.vue 文件都由三种类型的顶层语法块所组成：&lt;template&gt;、&lt;style&gt;、&lt;script&gt;以及可选的附加自定义模块。在每个块中，注释应该使用相应语言 (HTML, CSS, JavaScript, Pug, 等等) 的语法，最外层使用HTML注释</p>
+<p>&emsp;&emsp;(1) 基本介绍<br>&emsp;&emsp;1) &lt;template&gt;<br>&emsp;&emsp;每个 *.vue 文件最多可同时包含一个顶层 &lt;template&gt; 块，其中的内容会被提取出来并传递给 @vue/compiler-dom，<u>预编译为 JavaScript 的渲染函数，并附属到导出的组件上作为其 render 选项</u><br>&emsp;&emsp;在Vue3 &lt;template&gt; 中使用pug模板进行预处理（非必须，个人不建议使用）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 在template标签上添加 lang&#x3D;&#39;pug&#39;</span><br><span class="line"></span><br><span class="line">&lt;template lang&#x3D;&#39;pug&#39;&gt;</span><br><span class="line">div.high_text &#123;&#123;msg&#125;&#125; &#x2F;&#x2F; 页面显示红色Hello SFC文本</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        msg: &#39;Hello SFC&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .high_text &#123;</span><br><span class="line">    color: #ff0000;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;① 安装pug相关依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install pug pug-html-loader pug-plain-loader -D</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;② 编写配置文件vue.config.js (没有在项目根目录新建此文件)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; vue.config.js，在chainWebpack: config &#x3D;&gt; &#123;&#125; 中添加pug相关规则</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  chainWebpack: config &#x3D;&gt; &#123;</span><br><span class="line">    config.module.rule(&#39;pug&#39;)</span><br><span class="line">      .test(&#x2F;\.pug$&#x2F;)</span><br><span class="line">      .use(&#39;pug-html-loader&#39;)</span><br><span class="line">      .loader(&#39;pug-html-loader&#39;)</span><br><span class="line">      .end();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;2) &lt;style&gt;<br>一个 *.vue 文件可以包含多个 &lt;style&gt; 标签，&lt;style&gt; 标签可以通过 scoped 或 module attribute 将样式封装在当前组件内。多个不同封装模式的 &lt;style&gt; 标签可以在同一个组件中混用<br>&emsp;&emsp;在Vue3 &lt;style&gt; 中单独使用sass模板进行预处理（非必须，不建议在Vue3使用pug模板）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 在style标签上添加 lang&#x3D;&#39;scss&#39;</span><br><span class="line"></span><br><span class="line">&lt;template lang&#x3D;&#39;pug&#39;&gt;</span><br><span class="line">div.high_text &#123;&#123;msg&#125;&#125; &#x2F;&#x2F; 页面显示红色Hello SFC文本</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        msg: &#39;Hello SFC&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang&#x3D;&#39;scss&#39;&gt;</span><br><span class="line">  $stress-color: #ff0000; </span><br><span class="line">  .high_text &#123;</span><br><span class="line">    color: $stress-color;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;① 安装sass相关依赖 (注意node-sass版本兼容)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install node-sass@4.14.1 sass-loader@7.3.1 style-loader -D</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;② 编写配置文件vue.config.js (没有在项目根目录新建此文件)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; vue.config.js，在pluginOptions对象中添加&#39;style-resources-loader&#39;相关配置</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  chainWebpack: config &#x3D;&gt; &#123;</span><br><span class="line">    config.module.rule(&#39;pug&#39;)</span><br><span class="line">      .test(&#x2F;\.pug$&#x2F;)</span><br><span class="line">      .use(&#39;pug-html-loader&#39;)</span><br><span class="line">      .loader(&#39;pug-html-loader&#39;)</span><br><span class="line">      .end();</span><br><span class="line">  &#125;,</span><br><span class="line">  pluginOptions: &#123;</span><br><span class="line">    &#39;style-resources-loader&#39;: &#123;</span><br><span class="line">        preProcessor: &#39;scss&#39;,</span><br><span class="line">        patterns: []</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;在Vue3 &lt;style&gt; CSS Module：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 在template中可使用$style对象访问类名，$style对象名可在&lt;style module&#x3D;&#39;XXX&#39;&gt;进行自定义</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div :class&#x3D;&quot;$style.high_text&quot;&gt;&#123;&#123;msg&#125;&#125;&lt;&#x2F;div&gt; &#x2F;&#x2F; 页面显示红色Hello SFC文本</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        msg: &#39;Hello SFC&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang&#x3D;&#39;scss&#39; module&gt;</span><br><span class="line">  $stress-color: #ff0000; </span><br><span class="line">  .high_text &#123;</span><br><span class="line">    color: $stress-color;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;CSS Module 对生成的类做 hash 计算以避免冲突，实现了和 scope CSS 一样将 CSS 仅作用于当前组件的效果</p>
+<p><em>&emsp;&emsp;[注] style module与pug模板同时使用时，在pug使用$style对象动态设置类名时总提示类名不存在，感觉两者不太兼容?</em></p>
+<p>&emsp;&emsp;3) &lt;script&gt;<br>&emsp;&emsp;每一个 *.vue 文件最多可同时包含一个 &lt;script&gt; 块，该脚本将作为 ES Module 来执行，其默认导出的内容应该是 Vue 组件选项对象，它要么是一个普通的对象，要么是 defineComponent 的返回值</p>
+<p>&lt;script&gt;可单独引入ts预处理器；也可在初始化Vue项目时直接引入sass、typescript支持（非必须）：<br>&emsp;&emsp;① 初始化项目时选择Manually select features选项(上下键切换、enter确定)<br><img src="/images/vue/df_vue_1.png" alt="df_vue3_1"><br>&emsp;&emsp;② 选择要集成的相关依赖(上下键切换、空格键选择、enter确定，这里选择了ts与css预处理器)<br><img src="/images/vue/df_vue_2.png" alt="df_vue3_2"><br>&emsp;&emsp;③ 选择Vue版本为3.x<br><img src="/images/vue/df_vue_3.png" alt="df_vue3_3"><br>&emsp;&emsp;④ 进一步配置第②步选择的依赖，确定后完成项目初始化(这里ts使用类的风格，css预处理器使用sass)<br><img src="/images/vue/df_vue_4.png" alt="df_vue3_4"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; components&#x2F;HelloWorld.vue</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;text&quot;&gt;</span><br><span class="line">    &lt;h1&gt;&#123;&#123; msg &#125;&#125;&lt;&#x2F;h1&gt; &#x2F;&#x2F; 页面显示红色h1标题</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang&#x3D;&quot;ts&quot;&gt;</span><br><span class="line">import &#123; Options, Vue &#125; from &#39;vue-class-component&#39;</span><br><span class="line"></span><br><span class="line">@Options(&#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    msg: String</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">export default class HelloWorld extends Vue &#123;</span><br><span class="line">  msg!: string</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped lang&#x3D;&quot;scss&quot;&gt;</span><br><span class="line">  .text &#123;</span><br><span class="line">    color: #ff0000;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;4) &lt;script setup&gt;<br>&emsp;&emsp;每个 *.vue 文件最多可同时包含一个 &lt;script setup&gt; 块，<u>该脚本会被预处理并作为组件的 setup() 函数使用，会在每个组件实例被创建的时候执行。&lt;script setup&gt; 的顶层绑定会自动暴露给模板</u>。&lt;script setup&gt;使得模板更加简洁、与Typescript更加契合、更好的运行效率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;high_text&quot;&gt;&#123;&#123;num&#125;&#125;&lt;&#x2F;div&gt; &#x2F;&#x2F; 页面显示红色Hello SFC文本</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">  const num &#x3D; &#39;Hello SFC&#39;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang&#x3D;&#39;scss&#39;&gt;</span><br><span class="line">  $stress-color: #ff0000; </span><br><span class="line">  .high_text &#123;</span><br><span class="line">    color: $stress-color;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] &lt;script setup&gt;中定义的变量在 pug 模板中使用会提示变量未使用从而运行失败，感觉两者不太兼容?</em></p>
+<h2 id="2、script-setup"><a href="#2、script-setup" class="headerlink" title="2、script setup"></a>2、script setup</h2><p>&emsp;&emsp;&lt;script setup&gt;是在单文件组件中使用组合式 API 的编译时语法糖，在组件创建前，props解析后执行</p>
+<p>&emsp;&emsp;(1) 在 script setup 中定义的变量，函数声明，以及 import 引入的内容都能在模板中直接使用<br>&emsp;&emsp;(2) 响应式状态需要明确使用响应式 APIs 来创建。和从 setup() 函数中返回值一样，在模板中使用会自动解包。reactive 将解包所有深层的 refs，同时维持 ref 的响应性<br><em>&emsp;&emsp;[注] 使用 script setup 的组件是默认不会暴露任何在 script setup 中声明的绑定，即通过模板 ref 或者 $parent 链获取不到 script setup 中申明的绑定，需要额外使用 defineExpose 明确要暴露出去的属性</em></p>
+<p>&emsp;&emsp;(3) 在 script setup 范围里的值也能被直接作为自定义组件的标签名使用</p>
+<p>&emsp;&emsp;(4) 在 script setup 中必须使用 defineProps 和 defineEmits API 来声明 props 和 emits ，它们具备完整的类型推断并且在 script setup 可直接使用，defineProps 接收与 props 选项相同的值，defineEmits 也接收 emits 选项相同的值。传入到 defineProps 和 defineEmits 的选项会从 setup 中提升到模块的范围。因此，传入的选项不能引用在 setup 范围中声明的局部变量,这样做会引起编译错误</p>
+<p>&emsp;&emsp;(5) <u>可以在 script setup 中使用组合式API、响应式API、路由、状态管理、生命周期钩子函数、await来实现系统具体的功能</u></p>
+<h2 id="3、style特性"><a href="#3、style特性" class="headerlink" title="3、style特性"></a>3、style特性</h2><p>&emsp;&emsp;(1) style scoped<br>&emsp;&emsp;CSS 只会应用到当前组件的元素上。这类似于浏览器对 Shadow DOM 中的样式封装，通过PostCSS转换类名（hash计算处理）来实现。父组件的样式将不会泄露到子组件当中，子组件的根节点除外，子组件根节点同时被父组件的作用域样式和子组件的作用域样式影响，从而达到父组件调整子组件布局的目的<br>&emsp;&emsp;一些选择器：<br>&emsp;&emsp;① :deep：深度选择器，通过此选择器可影响子组件样式<br>&emsp;&emsp;② :slotted：默认情况下，作用域样式不会影响到 &lt;slot/&gt; 渲染出来的内容，因为它们被认为是父组件所持有并传递进来的。使用 此选择器可以影响插槽内容样式<br>&emsp;&emsp;③ :global：想让其中一个样式规则应用到全局，比起另外创建一个 &lt;style&gt;，可以使用 :global 伪类来实现</p>
+<p>&emsp;&emsp;(2) style module<br>&emsp;&emsp;会被编译为 CSS Modules 并且将生成的 CSS 类作为 $style 对象的键暴露给组件，对生成的类做 hash 计算以避免冲突，实现了和 scope CSS 一样将 CSS 仅作用于当前组件的效果。注入的类可以通过 useCssModule API 在 setup() 和 script setup 中使用</p>
+<p>&emsp;&emsp;(3) 动态CSS<br>&emsp;&emsp;单文件组件的 &lt;style&gt; 标签可以通过 v-bind 这一 CSS 函数将 CSS 的值关联到动态的组件状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; HelloWorld.vue</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;high_text&quot;&gt;&#123;&#123;num&#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;!-- 点击按钮让count进行自增，count与obj.num的值会同步变化 --&gt;</span><br><span class="line">  &lt;button class&#x3D;&quot;btn&quot; @click&#x3D;&quot;count++&quot;&gt; </span><br><span class="line">  count 加 1 &lt;&#x2F;button&gt; count: &#123;&#123;count&#125;&#125; &#x2F; obj.num: &#123;&#123;obj.num&#125;&#125;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">  import &#123; reactive, ref &#125; from &#39;vue&#39;</span><br><span class="line">  const num &#x3D; &#39;Hello SFC&#39;</span><br><span class="line">  const textBg &#x3D; &#39;yellow&#39;</span><br><span class="line">  const count &#x3D; ref(0)</span><br><span class="line">  const obj &#x3D; reactive(&#123; num: count &#125;)</span><br><span class="line">  &#x2F;&#x2F; obj.count 与 count.value 状态会保持一致</span><br><span class="line">  setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">    obj.num &#x3D; 4</span><br><span class="line">    setTimeout(()&#x3D;&gt; &#123;</span><br><span class="line">      count.value &#x3D; 8</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">  &#125;, 1000);</span><br><span class="line">  </span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang&#x3D;&#39;scss&#39; scoped&gt;</span><br><span class="line">  $stress-color: #ff0000; </span><br><span class="line">  .high_text &#123;</span><br><span class="line">    line-height: 40px;</span><br><span class="line">    color: $stress-color;</span><br><span class="line">    &#x2F;&#x2F; 动态CSS</span><br><span class="line">    background: v-bind(&#39;textBg&#39;);</span><br><span class="line">  &#125;</span><br><span class="line">  .btn &#123;</span><br><span class="line">    margin-top: 20px;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br><span class="line"></span><br><span class="line">&lt;docs&gt;</span><br><span class="line">  单文件组件~</span><br><span class="line">&lt;&#x2F;docs&gt;</span><br></pre></td></tr></table></figure> 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/01/24/vue/Vue%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/02/08/react/React%E6%A6%82%E8%BF%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            React概述
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/10/22/vue/Vue3%E7%BB%84%E4%BB%B6%E8%AF%AD%E6%B3%95/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Vue3组件语法</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2022
+        <i class="ri-heart-fill heart_icon"></i> Xiong Gang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="码农日志"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay-payment-code.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat-payment-code.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>React概述 |  码农日志</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link rel="alternate" href="/atom.xml" title="码农日志" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-react/React概述"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  React概述
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/02/08/react/React%E6%A6%82%E8%BF%B0/" class="article-date">
+  <time datetime="2022-02-08T06:40:28.000Z" itemprop="datePublished">2022-02-08</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/React/">React</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>React 是用于构建用户界面的 JavaScript 库，这里主要简单介绍JSX语法与类组件的生命周期、初始化项目~</p>
+<h2 id="1、React特点"><a href="#1、React特点" class="headerlink" title="1、React特点"></a>1、React特点</h2><p>&emsp;&emsp;React 起源于Facebook的内部项目，具有声明式编程、组件化、高效灵活（JSX语法）等特点，这里主要介绍一下JSX这种 JavaScript 语法的扩展<br>&emsp;&emsp;React 认为渲染逻辑本质上与其他 UI 逻辑内在耦合，并没有采用将标记与逻辑进行分离到不同文件这种人为地分离方式，而是通过将二者共同存放在称之为“组件”的松散耦合单元之中，来实现关注点分离，JSX文件拓展名为’jsx’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const skill &#x3D; &#39;react&#39;;</span><br><span class="line">const element &#x3D; &lt;h1 className&#x3D;&#39;text&#39;&gt;Hello, &#123;skill&#125;!&lt;&#x2F;h1&gt;;</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] 为了便于阅读，我们会将 JSX 拆分为多行。同时，要将内容包裹在括号中，避免编译器在行尾自动添加分号找出编译错误</em><br>&emsp;&emsp;形如上面的标签语法，在 JavaScript 中它既不是标签也不是字符串，<u>在 JSX 语法中，可以在标签上添加属性，在大括号内放置任何有效的 JavaScript 表达式，例如简单计算、函数调用、逻辑运算、三目运算表达式等</u><br><em>&emsp;&emsp;[注] JSX 语法上更接近 JavaScript 而不是 HTML，所以 React DOM元素 使用 camelCase（小驼峰命名）来定义属性的名称。特别的，在 JSX 中，class属性变成了 className，而 tabindex 则变为 tabIndex</em></p>
+<p>&emsp;&emsp;Babel 会把 JSX 转译成一个名为 React.createElement() 函数调用，如上面的代码中element的定义会被转换成如下函数调用形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const element &#x3D; React.createElement(</span><br><span class="line">  &#39;h1&#39;,</span><br><span class="line">  &#123;className: &#39;text&#39;&#125;,</span><br><span class="line">  &#39;Hello, react!&#39;</span><br><span class="line">);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;React.createElement() 会预先执行一些检查，在实际代码执行过程中，React.createElement()函数调用会创建 “React 元素” 的对象，再将 React 元素渲染为 DOM 元素~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const element &#x3D; &#123;</span><br><span class="line">  type: &#39;h1&#39;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    className: &#39;text&#39;,</span><br><span class="line">    children: &#39;Hello, react!&#39;</span><br><span class="line">  &#125;</span><br><span class="line">  ... &#x2F;&#x2F; 这里还有更多的相关属性与方法</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、组件的生命周期"><a href="#2、组件的生命周期" class="headerlink" title="2、组件的生命周期"></a>2、组件的生命周期</h2><p>&emsp;&emsp;React 的组件可以定义为 class 或函数的形式。class 组件目前提供了更多的功能<br>&emsp;&emsp;(1) 定义 class 组件，需要继承 React.Component</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Hello.jsx</span><br><span class="line"></span><br><span class="line">import React from &quot;react&quot;</span><br><span class="line"></span><br><span class="line">class Hello extends React.Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    const skill &#x3D; &#39;react&#39;;</span><br><span class="line">    return &lt;h1 className&#x3D;&#39;text&#39;&gt;Hello, &#123;skill&#125;!&lt;&#x2F;h1&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default Hello</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] 在 React.Component 的子类中有个必须定义的 render() 函数</em></p>
+<p>&emsp;&emsp;(2) 定义组件最简单的方式就是编写 JavaScript 函数（纯函数），该函数接收参数并返回一个 React 元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Hello.jsx</span><br><span class="line"></span><br><span class="line">const Hello &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const skill &#x3D; &#39;react&#39;;</span><br><span class="line">  return &lt;h1 className&#x3D;&#39;text&#39;&gt;Hello, &#123;skill&#125;!&lt;&#x2F;h1&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default Hello</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] 函数定义除了使用这里的定义字面量形式，也可以使用 function 关键字定义函数</em></p>
+<p>&emsp;&emsp;<strong>特别的，类组件继承于React.Component，可以在组件中使用 state(组件状态) 以及生命周期函数。而函数组件为纯函数，不能在函数组件中使用state以及生命周期函数</strong>。为了在函数组件中使用类似于组件状态以及生命周期的功能，在 React 16.8 的新增特性中推出了 Hook。可以在不编写 class 的情况下使用 state 以及其他的 React 特性，如生命周期函数等，详见文章：<a href="">《React函数组件与HOOK》</a></p>
+<p>&emsp;&emsp;(3) 类组件的生命周期<br>&emsp;&emsp;React生命周期图谱<br><img src="/images/react/life_cycle.png" alt="react-life-cycle"></p>
+<p>&emsp;&emsp;其中，constructor、render、componentDidMount、componentDidUpdate、componentWillUnmount为主要的常用的生命周期，常用生命周期图谱如下：<br><img src="/images/react/life_cycle2.png" alt="react-life-cycle2"></p>
+<p>&emsp;&emsp;① constructor(props)<br>&emsp;&emsp;构造函数仅用于两种情况，通过给 this.state 赋值对象来初始化内部 state、为事件处理函数绑定实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">constructor(props) &#123;</span><br><span class="line">  super(props)</span><br><span class="line">  this.state &#x3D; &#123; count: 0 &#125;</span><br><span class="line">  this.increase &#x3D; this.increase.bind(this)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] 只能在构造函数中直接为 this.state 赋值。如需在其他方法中赋值，你应使用 this.setState() 替代。要避免在构造函数中引入任何副作用或订阅。避免将 props 的值复制给 state，当 props 更新时 state 不会被更新</em></p>
+<p>&emsp;&emsp;② render()<br>&emsp;&emsp;render 被调用时，它会检查 this.props 和 this.state 的变化并返回以下类型之一:<br>&emsp;&emsp;1) React 元素<br>&emsp;&emsp;2) 数组 或 fragments<br><em>&emsp;&emsp;[注] Fragments允许一个组件返回多个元素，允许你将子列表分组，而无需向 DOM 添加额外节点，使用&lt;React.Fragment&gt; 或 &lt;&gt; 标签来包裹多个元素，后者为简写形式，不支持 key 或属性</em><br>&emsp;&emsp;3) Portals<br><em>&emsp;&emsp;[注] Portal 提供了一种将子节点渲染到存在于父组件以外的 DOM 节点的方案</em><br>&emsp;&emsp;4) 字符串或数值类型 (在 DOM 中会被渲染为文本节点)<br>&emsp;&emsp;5) 布尔类型或 null (什么都不渲染，支持返回 boolean &amp;&amp; &lt;Child  /&gt;的场景) </p>
+<p>&emsp;&emsp;③ componentDidMount()<br>&emsp;&emsp;该会在组件挂载后（插入 DOM 树中）立即调用，可以在这里获取DOM元素进行相应初始化等操作，一般在这个生命周期中通过网络请求获取数据、添加订阅</p>
+<p>&emsp;&emsp;④ componentDidUpdate(prevProps, prevState, snapshot)<br>&emsp;&emsp;在更新后会被立即调用，首次渲染不会执行此方法<br><em>&emsp;&emsp;[注] 避免在 componentDidUpdate() 中直接调用 setState()，必须被包裹在一个条件语句里，否则会导致代码死循环。第三个参数 snapshot 为 getSnapshotBeforeUpdate() 生命周期函数返回的快照信息，未定义该函数时 snapshot 值为 undefined</em></p>
+<p>&emsp;&emsp;⑤ componentWillUnmount()<br>&emsp;&emsp;组件卸载及销毁之前直接调用，一般在这个方法中清空计时器、网络请求与消息订阅等，不应当在此生命周期中使用 setState()，因为该组件将永远不会重新渲染</p>
+<p>&emsp;&emsp;其他不常用生命周期：<br>&emsp;&emsp;⑥ static getDerivedStateFromProps(props, state)<br>&emsp;&emsp;在调用 render 方法之前调用，并且在初始挂载及后续更新时都会被调用。它应返回一个对象来更新 state，如果返回 null 则不更新任何内容</p>
+<p>&emsp;&emsp;⑦ shouldComponentUpdate(nextProps, nextState)<br>&emsp;&emsp;当 props 或 state 发生变化时，shouldComponentUpdate() 会在渲染执行之前被调用。首次渲染或使用 forceUpdate() 时不会调用该方法。目前，此生命周期函数返回 false，则不会调用render、getSnapshotBeforeUpdate、componentDidUpdate等</p>
+<p>&emsp;&emsp;⑧ getSnapshotBeforeUpdate(prevProps, prevState)<br>&emsp;&emsp;最近一次渲染输出（提交到 DOM 节点）之前调用。它使得组件能在发生更改之前从 DOM 中捕获一些信息。此生命周期方法的任何返回值将作为参数传递给 componentDidUpdate()</p>
+<p>&emsp;&emsp;示例代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Hello.jsx</span><br><span class="line"></span><br><span class="line">import React from &quot;react&quot;</span><br><span class="line"></span><br><span class="line">class Hello extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props)</span><br><span class="line">    this.state &#x3D; &#123; count: 0 &#125;</span><br><span class="line">    this.increase &#x3D; this.increase.bind(this)</span><br><span class="line">    console.log(&#39;constructor&#39;)</span><br><span class="line">  &#125;</span><br><span class="line">  static getDerivedStateFromProps(props, state) &#123;</span><br><span class="line">    console.log(&#39;getDerivedStateFromProps&#39;, props, state)</span><br><span class="line">    return null</span><br><span class="line">  &#125;</span><br><span class="line">  shouldComponentUpdate(nextProps, nextState) &#123;</span><br><span class="line">    console.log(&#39;shouldComponentUpdate&#39;, nextProps, nextState)</span><br><span class="line">    return true</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  getSnapshotBeforeUpdate(prevProps, prevState) &#123;</span><br><span class="line">    console.log(&#39;getSnapshotBeforeUpdate&#39;, prevProps, prevState)</span><br><span class="line">    return null</span><br><span class="line">  &#125;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    console.log(&#39;componentDidMount&#39;)</span><br><span class="line">  &#125;</span><br><span class="line">  componentDidUpdate() &#123;</span><br><span class="line">    console.log(&#39;componentDidUpdate&#39;)</span><br><span class="line">  &#125;</span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    console.log(&#39;componentWillUnmount&#39;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  increase () &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      count: this.state.count + 1</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    console.log(&#39;render&#39;)</span><br><span class="line">    return (</span><br><span class="line">      &lt;&gt;</span><br><span class="line">        &lt;h3 onClick&#x3D;&#123;this.increase&#125;&gt;Click to increase the count by 1&lt;&#x2F;h3&gt;</span><br><span class="line">        &lt;h1&gt;Count: &#123;this.state.count&#125;&lt;&#x2F;h1&gt;</span><br><span class="line">      &lt;&#x2F;&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default Hello</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 打印出的生命周期执行顺序：</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;首次加载组件触发的生命周期函数：</span><br><span class="line">constructor</span><br><span class="line">getDerivedStateFromProps &#123;&#125; &#123;count: 0&#125;</span><br><span class="line">render</span><br><span class="line">componentDidMount</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; state.count变化后触发的生命周期函数：</span><br><span class="line">getDerivedStateFromProps &#123;&#125; &#123;count: 1&#125;</span><br><span class="line">shouldComponentUpdate &#123;&#125; &#123;count: 1&#125;</span><br><span class="line">render</span><br><span class="line">getSnapshotBeforeUpdate &#123;&#125; &#123;count: 0&#125;</span><br><span class="line">componentDidUpdate</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 组件卸载时触发的生命周期函数：</span><br><span class="line">componentWillUnmount</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化React项目"><a href="#初始化React项目" class="headerlink" title="初始化React项目"></a>初始化React项目</h2> 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/02/08/react/React%E6%A6%82%E8%BF%B0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/01/24/vue/Vue%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Vue单文件组件</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2022
+        <i class="ri-heart-fill heart_icon"></i> Xiong Gang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="码农日志"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay-payment-code.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat-payment-code.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+</body>
+
+</html>

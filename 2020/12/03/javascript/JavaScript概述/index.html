@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.5k</span>
+            <span class="post-count">2.7k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">9 分钟</span>
+            <span class="post-count">10 分钟</span>
         </span>
     </span>
 </div>
@@ -130,6 +130,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function functionName(var1, var2, ...) &#123;</span><br><span class="line">  &#x2F;&#x2F; 代码</span><br><span class="line">  &#x2F;&#x2F; return value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="3、可维护的JavaScript代码"><a href="#3、可维护的JavaScript代码" class="headerlink" title="3、可维护的JavaScript代码"></a>3、可维护的JavaScript代码</h2><p>&emsp;&emsp;(1) 尽量不使用全局变量，更不能使用隐式全局变量<br>&emsp;&emsp;(2) 尽量使用let、const语句声明多个变量，并以逗号分隔<br>&emsp;&emsp;(3) 循环存储长度，只检索了一次循环对象的长度值。（’i–’优于’i+=i,i=i+1’优于’i++’）<br>&emsp;&emsp;(4) 数组使用正常的for循环，对象使用for-in循环。（在for-in中，属性列表的顺序（序列）是不能保证的）（hasOwnProperty()方法，可以过滤掉原型链上的属性）<br>&emsp;&emsp;(5) 不扩展内置原型Prototypes<br>&emsp;&emsp;(6) switch语句增强可读性和健壮性，以default结束switch<br>&emsp;&emsp;(7) 避免隐式类型转换<br>&emsp;&emsp;(8) 避免eval()（eval()会干扰作用域链），实在用使用eval(),可以用new Function()代替<br>&emsp;&emsp;(9) 给setInterval(), setTimeout()和Function()构造函数传递字符串或匿名函数<br>&emsp;&emsp;(10) parseInt()传递基数参数，+，Number()优于parseInt()<br>&emsp;&emsp;(11) 缩进<br>&emsp;&emsp;(12) 使用花括号{}，建议并始终把左花括号与之前的语句放在同一行<br>&emsp;&emsp;(13) 空格<br>&emsp;&emsp;(14) <u>命名方式</u><br>&emsp;&emsp;(15) 注释</p>
+<h2 id="数据结构相关补充"><a href="#数据结构相关补充" class="headerlink" title="数据结构相关补充"></a>数据结构相关补充</h2><p>&emsp;&emsp;’5’ + 4 // ‘54’<br>&emsp;&emsp;NaN * 4 // NaN<br>&emsp;&emsp;null * 4.5 // 0<br>&emsp;&emsp;null + 3 // 3<br><em>&emsp;&emsp;[注] 在关系运算符中，null，undefined会被Number()强制转换成数字类型； 在相等运算符中，null，undefined则不会转化为数字类型，而是经过特殊处理后转化为false</em></p>
+<p>&emsp;&emsp;5.075 === 5<em>1.015 // false (5</em>1.015=.074999999999999)<br>&emsp;&emsp;1-0.1 === 1-0.9 // false (1-0.9=0.09999999999999998)<br>&emsp;&emsp;1.335.toFixed(2) // ‘1.33’<br>&emsp;&emsp;Math.round(-1.5) // -1<br><em>&emsp;&emsp;[注] 浮点数的运算精度丢失问题就是因为，一些浮点数转化为该标准的二进制的过程中，会出现无限循环。但计算机数据存储结构能表示的尾数部分有限，机制转换时小数位最后一位出现了四舍五入导致数据不精确</em></p>
  
       <!-- reward -->
       
