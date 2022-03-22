@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-02-12T10:48:23.994Z</updated>
+  <updated>2022-03-22T02:00:16.142Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>React组件与基本语法</title>
+    <link href="http://example.com/2022/02/17/react/React%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/"/>
+    <id>http://example.com/2022/02/17/react/React%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</id>
+    <published>2022-02-17T05:47:02.000Z</published>
+    <updated>2022-03-22T02:00:16.142Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇主要介绍 React 基本语法，主要包括JSX语法、元素渲染、组件、生命周期、数据流、列表条件渲染、事件处理、表单、组件组合等~&lt;/p&gt;
+&lt;h2 id=&quot;1、JSX语法&quot;&gt;&lt;a href=&quot;#1、JSX语法&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="React" scheme="http://example.com/categories/React/"/>
+    
+    
+    <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title>React概述</title>
     <link href="http://example.com/2022/02/08/react/React%E6%A6%82%E8%BF%B0/"/>
     <id>http://example.com/2022/02/08/react/React%E6%A6%82%E8%BF%B0/</id>
     <published>2022-02-08T06:40:28.000Z</published>
-    <updated>2022-02-12T10:48:23.994Z</updated>
+    <updated>2022-03-22T15:43:11.488Z</updated>
     
     
       
@@ -486,32 +512,6 @@
         
         
     <summary type="html">&lt;p&gt;display属性规定元素应该生成的框的类型。display 属性可以设置元素的内部和外部等显示类型 display type。元素的外部显示类型 outer display type 将决定该元素在流式布局中的表现（块级或内联元素）；元素的内部显示类型 inner</summary>
-        
-      
-    
-    
-    
-    <category term="CSS" scheme="http://example.com/categories/CSS/"/>
-    
-    
-    <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CSS定位（Position）与3D坐标轴</title>
-    <link href="http://example.com/2020/09/27/css/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/"/>
-    <id>http://example.com/2020/09/27/css/CSS%E5%AE%9A%E4%BD%8D%EF%BC%88Position%EF%BC%89%E4%B8%8E3D%E5%9D%90%E6%A0%87%E8%BD%B4/</id>
-    <published>2020-09-27T06:59:46.000Z</published>
-    <updated>2021-05-30T09:32:15.427Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;用于指定一个元素在文档中的定位方式（元素在网页上的位置），对应的属性top，right，bottom 和 left属性则决定了该元素的最终定位的位置。&lt;/p&gt;
-&lt;h2 id=&quot;1、平面空间坐标轴（2D）&quot;&gt;&lt;a href=&quot;#1、平面空间坐标轴（2D）&quot;</summary>
         
       
     
