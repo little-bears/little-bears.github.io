@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>面试备注 |  码农日志</title>
+      <title>LeetCode题解 |  码农日志</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,74 +54,172 @@
       
     <main class="content on">
       <section class="outer">
-  
-  <ul class="ads">
+  <article
+  id="post-note/LeetCode题解"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
-</ul>
-  
-  
-  <article class="articles">
-    
-    
-    <h1 class="page-type-title">面试备注</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2021" class="archive-year">2021</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/09/28/note/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/" class="archive-article-date">
-  <time datetime="2021-09-28T06:10:25.000Z" itemprop="datePublished">09/28</time>
-</a>
+    <header class="article-header">
        
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/09/28/note/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/"
-    >面试备注 (2021.09)</a> 
-</h2>
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  LeetCode题解
+</h1>
  
 
+      
     </header>
-    
-      
+     
+    <div class="article-meta">
+      <a href="/2022/04/15/note/LeetCode%E9%A2%98%E8%A7%A3/" class="article-date">
+  <time datetime="2022-04-15T03:07:34.000Z" itemprop="datePublished">2022-04-15</time>
+</a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8/">面试备注</a>
+    <a class="article-category-link" href="/categories/%E5%A4%87%E6%B3%A8/">备注</a>
   </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">439</span>
+        </span>
+    </span>
 
-    
-    
-  </div>
-</article>
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">2 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
       
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>在这里备注一些LeetCode每日一题解题思路~</p>
+<h4 id="DFS解析数组字符串"><a href="#DFS解析数组字符串" class="headerlink" title="DFS解析数组字符串"></a>DFS解析数组字符串</h4><p>&nbsp;&nbsp;思路来源题目：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/mini-parser/">迷你语法分析器</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">const s &#x3D; &#39;[123,[456,[789]]]&#39;;</span><br><span class="line">let inx &#x3D; 0;</span><br><span class="line">const DFS &#x3D; (s) &#x3D;&gt; &#123;</span><br><span class="line">  if (s[inx] &#x3D;&#x3D;&#x3D; &#39;[&#39;) &#123; &#x2F;&#x2F; 当前遍历为一个列表</span><br><span class="line">    inx++;</span><br><span class="line">    const list &#x3D; new Array();</span><br><span class="line">    while (s[inx] !&#x3D;&#x3D; &#39;]&#39;) &#123; &#x2F;&#x2F; 列表未结束，递归遍历s</span><br><span class="line">      list.push(DFS(s))</span><br><span class="line">      &#x2F;&#x2F; 继续当前列表，判断下一个字符</span><br><span class="line">      if (s[inx] &#x3D;&#x3D;&#x3D; &#39;,&#39;) inx++;</span><br><span class="line">    &#125;</span><br><span class="line">    inx++; &#x2F;&#x2F; &#39;]&#39;,继续遍历</span><br><span class="line">    return list; &#x2F;&#x2F; 返回当前list上一层</span><br><span class="line">  &#125; else &#123; &#x2F;&#x2F; 当前遍历为数字</span><br><span class="line">    let bool &#x3D; false, value &#x3D; 0;</span><br><span class="line">    if (s[inx] &#x3D;&#x3D;&#x3D; &#39;-&#39;) &#123; &#x2F;&#x2F; 判断是否为负数</span><br><span class="line">      inx++, bool &#x3D; true;</span><br><span class="line">    &#125;</span><br><span class="line">    while (inx &lt; s.length &amp;&amp; Number(s[inx]).toString() !&#x3D;&#x3D; &#39;NaN&#39;) &#123; &#x2F;&#x2F; 计算当前数字的值</span><br><span class="line">      value &#x3D; value * 10 + Number(s[inx]);</span><br><span class="line">      inx++;</span><br><span class="line">    &#125;</span><br><span class="line">    return bool ? -1 * value : value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(DFS(s));</span><br></pre></td></tr></table></figure>
+
+<h4 id="利用二进制求数组子集"><a href="#利用二进制求数组子集" class="headerlink" title="利用二进制求数组子集"></a>利用二进制求数组子集</h4><p>&nbsp;&nbsp;思路来源题目：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sum-of-all-subset-xor-totals/">找出所有子集的异或总和再求和</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">function fn(nums) &#123;</span><br><span class="line">  let sum &#x3D; 0, current &#x3D; 0, A &#x3D; [];</span><br><span class="line">  &#x2F;&#x2F; 二进制法求数组子集取舍情况</span><br><span class="line">  const n &#x3D; nums.length;</span><br><span class="line">  let size &#x3D; 1 &lt;&lt; n, indexStatus &#x3D; [], list &#x3D; [];</span><br><span class="line">  for (let i &#x3D; 0; i &lt; size; ++i) &#123;</span><br><span class="line">    &#x2F;&#x2F; indexStatus记录数组当前位置的数组是否选取</span><br><span class="line">    indexStatus &#x3D; []</span><br><span class="line">    for (let j &#x3D; 0; j &lt; n; ++j) &#123;</span><br><span class="line">      if (i &gt;&gt; j &amp; 1 &#x3D;&#x3D;&#x3D; 1) indexStatus.push(j)</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 根据数组对应下标项是否被选取生成子集</span><br><span class="line">    list &#x3D; []</span><br><span class="line">    for (let k &#x3D; 0; k &lt; indexStatus.length; k++) &#123;</span><br><span class="line">      list.push(nums[indexStatus[k]])</span><br><span class="line">    &#125;</span><br><span class="line">    A.push(list) &#x2F;&#x2F; 将当前子集放入集合A </span><br><span class="line">  &#125;</span><br><span class="line">  return A</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(fn([1, 2, 3, 4]))</span><br></pre></td></tr></table></figure> 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/04/15/note/LeetCode%E9%A2%98%E8%A7%A3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LeetCode/" rel="tag">LeetCode</a></li></ul>
+
+    </footer>
   </div>
-  
-  
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            React函数组件的Hook
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/04/06/html/HTML%20SVG%E6%A6%82%E8%BF%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">HTML SVG概述</div>
+      </a>
+    
+  </nav>
 
   
+   
+     
+</article>
+
 </section>
       <footer class="footer">
   <div class="outer">
@@ -253,6 +351,22 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
 <link

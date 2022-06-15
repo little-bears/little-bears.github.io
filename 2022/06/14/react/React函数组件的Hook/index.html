@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>React函数组件的Hook |  码农日志</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link rel="alternate" href="/atom.xml" title="码农日志" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-react/React函数组件的Hook"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  React函数组件的Hook
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/" class="article-date">
+  <time datetime="2022-06-14T08:52:10.000Z" itemprop="datePublished">2022-06-14</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/React/">React</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.9k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>React 的组件可以定义为 Class 或函数的形式。本篇主要介绍<u>函数组件</u>及对应的Hook<br>Hook 使你在非 Class 组件的情况下可以使用更多的 React 特性（props， state，context，refs 以及生命周期等）<br>Hook将组件中相互关联的部分拆分成更小的函数（比如设置订阅或请求数据），并非强制按照生命周期划分，使编码更加灵活，代码更易理解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function fnComponent(props) &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;这是一个函数组件&lt;&#x2F;p&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default fnComponent;</span><br></pre></td></tr></table></figure>
+<h2 id="常见-Hook"><a href="#常见-Hook" class="headerlink" title="常见 Hook"></a>常见 Hook</h2><p>&emsp;&emsp;Hook 就是 JavaScript 函数，可以通过它使用 React 特性。使用遵循如下 <u>Hook 规则</u>：<br>&emsp;&emsp;① 只能在函数最外层调用 Hook（使得 Hook 的调用顺序在每次渲染中相同）, 可以在单个组件中使用多个 State Hook 或 Effect Hook，React 会按照声明的顺序依次调用执行<br>&emsp;&emsp;② 只能在 React 的函数组件（或自定义Hook）中调用 Hook，在其他 JavaScript 函数、Class 组件内部不起作用</p>
+<h4 id="1、useState"><a href="#1、useState" class="headerlink" title="1、useState"></a>1、useState</h4><p>&emsp;&emsp;useState() 方法里面唯一的参数就是初始的状态，可以是数字、字符串、对象或<u>函数（返回计算后的值，函数只在初始渲染时被调用）</u>，调用后返回当前状态已经更新此状态的更新函数（一般成对获取它们），从而达到 Class 组件 state，setState 相似的目的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import &#123; useState &#125; from &#39;react&#39;</span><br><span class="line"></span><br><span class="line">function FnComponent(props) &#123;</span><br><span class="line"></span><br><span class="line">  const [count, setCount] &#x3D; useState(0) &#x2F;&#x2F; [] 解构获取状态以及状态更新函数</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;这是一个函数组件&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;p&gt;当前数量：&#123;count&#125;&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;button onClick&#x3D;&#123;() &#x3D;&gt; setCount(count + 1)&#125;&gt;+1&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default FnComponent;</span><br></pre></td></tr></table></figure>
+<p>React 保持对当先渲染中的组件的追踪，使得在不同组件中调用 useState() 会得到各自独立的本地 state，从而达到保存<u>当前组件状态</u>的目的</p>
+<h4 id="2、Effect"><a href="#2、Effect" class="headerlink" title="2、Effect"></a>2、Effect</h4><p>&emsp;&emsp;useEffect() 方法可以在函数组件中执行副作用操作，与 Class 组件生命周期函数相似的目的<br>&emsp;&emsp;常见的副作用如网络请求、手动更新视图，打印日志等（无需清除的副作用）以及数据订阅、计时器等（需要清除的副作用）<br>&emsp;&emsp;每个 useEffect() 方法中都可以返回一个可选的清除函数（React 将会在执行清除操作时调用它），这是 Effect 的清除机制，从而可以将添加和移除订阅的逻辑放在一起<br>&emsp;&emsp;Hook 允许我们按照代码的用途分离他们， 而不是像生命周期函数那样。React 将按照 Effect 声明的顺序依次调用组件中的每一个 Effect</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import &#123; useState, useEffect &#125; from &#39;react&#39;</span><br><span class="line"></span><br><span class="line">function FnComponent(props) &#123;</span><br><span class="line"></span><br><span class="line">  const [count, setCount] &#x3D; useState(0)</span><br><span class="line"></span><br><span class="line">  useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">    console.log(&#39;数据更新啦~&#39;)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;这是一个函数组件&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;p&gt;当前数量：&#123;count&#125;&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;button onClick&#x3D;&#123;() &#x3D;&gt; setCount(count + 1)&#125;&gt;+1&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default FnComponent;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果某些特定值在两次重渲染之间没有发生变化，不需要执行相应的副作用操作，可以通知 React 跳过对 effect 的调用。传递数组作为 useEffect 的第二个可选参数，其中数组的值为对应状态，只有当状态发生变化的时才会执行 Effect 的调用操作（组件挂载和卸载时执行也会执行）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">  console.log(&#39;数据更新啦~&#39;)</span><br><span class="line">&#125;, [count]) &#x2F;&#x2F; 只有count变化了副作用操作才会执行</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;特别的，第二个参数传入空数组([])，可以使 Effect 仅在组件挂载和卸载时执行，<u>不依赖于 props 或 state 中的任何值</u>，props 或 state发生改变后也不会重复执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">  console.log(&#39;页面初始化啦~&#39;)</span><br><span class="line">&#125;, []) &#x2F;&#x2F; 组件挂载和卸载时副作用操作才会执行，一般用于初始化操作</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、自定义Hook"><a href="#3、自定义Hook" class="headerlink" title="3、自定义Hook"></a>3、自定义Hook</h4><p>&emsp;&emsp;自定义 Hook，可以将组件逻辑提取到可重用的函数中<br>&emsp;&emsp;自定义 Hook 是一种自然遵循 Hook 设计的约定，而并不是 React 的特性<br>&emsp;&emsp;Hook 必须以 “use” 开头，否则 React 将无法自动检查自定义 Hook 是否符合 Hook 规则<br>&emsp;&emsp;在两个组件中使用相同的 Hook 不会共享 state 状态，从 React 的角度来看，我们的调用 Hook（本身就是函数）只是调用了 useState 和 useEffect 等，影响是完全独立的</p>
+<p>&emsp;&emsp;一个自定义Hook定义和使用的例子：<br>&emsp;&emsp;① 自定义一个 Hook 名为 useIsPass，返回传入的分数是否及格</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hooks&#x2F;useIsPass.js</span><br><span class="line"></span><br><span class="line">const useIsPass &#x3D; (num) &#x3D;&gt; &#123;</span><br><span class="line">  return num &gt;&#x3D; 60</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default useIsPass;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;② 定义分数输入框函数组件 Input，传入初始分数，可编辑对应分数（通过父组件传入的更新函数对父组件对应状态进行更新），引入自定义的 钩子函数 useIsPass 并使用，通过分数及格情况展示不同背景颜色，及格时为绿色，不及格时为红色</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; components&#x2F;Input.jsx</span><br><span class="line"></span><br><span class="line">import useIsPass from &#39;..&#x2F;hooks&#x2F;useIsPass.js&#39;</span><br><span class="line"></span><br><span class="line">function Input(props) &#123;</span><br><span class="line">  return &lt;input</span><br><span class="line">    type&#x3D;&quot;number&quot;</span><br><span class="line">    value&#x3D;&#123;props.score&#125;</span><br><span class="line">    onChange&#x3D;&#123;(e) &#x3D;&gt; props.scoreChange(props.index, e)&#125;</span><br><span class="line">    style&#x3D;&#123;&#123;background: useIsPass(props.score) ? &#39;green&#39; : &#39;red&#39;&#125;&#125;</span><br><span class="line">  &#x2F;&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default Input;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;③ 定义分数提示框函数组件 Label，传入初始分数，引入自定义的 钩子函数 useIsPass 并使用，通过分数是否及格情况展示对应文案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; components&#x2F;Label.jsx</span><br><span class="line"></span><br><span class="line">import useIsPass from &#39;..&#x2F;hooks&#x2F;useIsPass.js&#39;</span><br><span class="line"></span><br><span class="line">function Label(props) &#123;</span><br><span class="line">  return &lt;p&gt;</span><br><span class="line">    &#123; useIsPass(props.score) ? &#39;通过(^_^)，再接再厉&#39; : &#39;不及格(-_-)，加油呀&#39; &#125;</span><br><span class="line">  &lt;&#x2F;p&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default Label;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;④ 定义分数展示组件 ScoreBox, 定义对应分数已经更新函数，引入 Input、Label 组件展示分数情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ScoreBox.jsx</span><br><span class="line">import &#123; useState &#125; from &#39;react&#39;</span><br><span class="line">import Input from &#39;.&#x2F;components&#x2F;Input&#39;</span><br><span class="line">import Label from &#39;.&#x2F;components&#x2F;Label&#39;</span><br><span class="line"></span><br><span class="line">function ScoreBox() &#123;</span><br><span class="line"></span><br><span class="line">  const [scores, setScores] &#x3D; useState([60, 60, 60]) &#x2F;&#x2F; 小明语文、数学、外语成绩</span><br><span class="line"></span><br><span class="line">  const updateScore &#x3D; (inx, e) &#x3D;&gt; &#123; &#x2F;&#x2F; 成绩更新函数</span><br><span class="line">    scores[inx] &#x3D; e.target.value</span><br><span class="line">    setScores([...scores])</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  return (</span><br><span class="line">    &lt;div style&#x3D;&#123;&#123;paddingLeft: &#39;20px&#39;&#125;&#125;&gt;</span><br><span class="line">      &lt;p&gt;小明的语文、数学、外语成绩&lt;&#x2F;p&gt;</span><br><span class="line">      &#123;scores &amp;&amp; scores.map((score, index) &#x3D;&gt;</span><br><span class="line">        &lt;div key&#x3D;&#123;index&#125; style&#x3D;&#123;&#123;display: &#39;inline-block&#39;&#125;&#125;&gt;</span><br><span class="line">          &lt;Input score&#x3D;&#123;score&#125; index&#x3D;&#123;index&#125; scoreChange&#x3D;&#123;updateScore&#125; &#x2F;&gt;</span><br><span class="line">          &lt;Label score&#x3D;&#123;score&#125; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">      )&#125;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default ScoreBox;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;示例效果：<br><img src="/images/react/hook.gif" alt="hook"></p>
+<p>&emsp;&emsp;示例中，我们自定义 useIsPass Hook，在 Input、Label React组件中使用，将根据分数判断是否及格这个逻辑提取到可重用的 useIsPass Hook 函数中，实际自定义 Hook 函数也实现更复杂的场景，如请求接口数据，实现订阅等。<u>Hook 解决了以前在 React 组件中无法灵活共享逻辑的问题</u><br><em>&emsp;&emsp;[注] 无法在 Class 组件中使用函数组件的 Hook，但两者可以在组件树中混用。目前 Hook 还没有 Class 组件一些不常用生命周期的等价写法，React 团队正在迭代，推荐使用函数组件，推荐使用 Hook。推荐把 state 切分成多个 state 变量，使用多个 useState，每个变量包含的不同值会在同时发生变化</em></p>
+<h2 id="其他-Hook"><a href="#其他-Hook" class="headerlink" title="其他 Hook"></a>其他 Hook</h2> 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/04/15/note/LeetCode%E9%A2%98%E8%A7%A3/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">LeetCode题解</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2022
+        <i class="ri-heart-fill heart_icon"></i> Xiong Gang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="码农日志"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay-payment-code.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat-payment-code.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+</body>
+
+</html>

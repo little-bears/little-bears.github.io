@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-03-22T02:00:16.142Z</updated>
+  <updated>2022-06-15T10:03:27.598Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,19 +17,94 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>React函数组件的Hook</title>
+    <link href="http://example.com/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/"/>
+    <id>http://example.com/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/</id>
+    <published>2022-06-14T08:52:10.000Z</published>
+    <updated>2022-06-15T10:03:27.598Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;React 的组件可以定义为 Class 或函数的形式。本篇主要介绍&lt;u&gt;函数组件&lt;/u&gt;及对应的Hook&lt;br&gt;Hook 使你在非 Class 组件的情况下可以使用更多的 React 特性（props， state，context，refs</summary>
+        
+      
+    
+    
+    
+    <category term="React" scheme="http://example.com/categories/React/"/>
+    
+    
+    <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode题解</title>
+    <link href="http://example.com/2022/04/15/note/LeetCode%E9%A2%98%E8%A7%A3/"/>
+    <id>http://example.com/2022/04/15/note/LeetCode%E9%A2%98%E8%A7%A3/</id>
+    <published>2022-04-15T03:07:34.000Z</published>
+    <updated>2022-06-15T14:31:29.040Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在这里备注一些LeetCode每日一题解题思路~&lt;/p&gt;
+&lt;h4 id=&quot;DFS解析数组字符串&quot;&gt;&lt;a href=&quot;#DFS解析数组字符串&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="备注" scheme="http://example.com/categories/%E5%A4%87%E6%B3%A8/"/>
+    
+    
+    <category term="LeetCode" scheme="http://example.com/tags/LeetCode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HTML SVG概述</title>
+    <link href="http://example.com/2022/04/06/html/HTML%20SVG%E6%A6%82%E8%BF%B0/"/>
+    <id>http://example.com/2022/04/06/html/HTML%20SVG%E6%A6%82%E8%BF%B0/</id>
+    <published>2022-04-06T03:14:20.000Z</published>
+    <updated>2022-06-15T14:26:38.055Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="HTML" scheme="http://example.com/categories/HTML/"/>
+    
+    
+    <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title>React组件与基本语法</title>
     <link href="http://example.com/2022/02/17/react/React%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/"/>
     <id>http://example.com/2022/02/17/react/React%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</id>
     <published>2022-02-17T05:47:02.000Z</published>
-    <updated>2022-03-22T02:00:16.142Z</updated>
+    <updated>2022-06-15T14:24:45.474Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;本篇主要介绍 React 基本语法，主要包括JSX语法、元素渲染、组件、生命周期、数据流、列表条件渲染、事件处理、表单、组件组合等~&lt;/p&gt;
-&lt;h2 id=&quot;1、JSX语法&quot;&gt;&lt;a href=&quot;#1、JSX语法&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;p&gt;本篇主要介绍 React 基本语法，主要包括JSX语法、元素渲染、组件、生命周期、事件处理、表单、状态提升、组件组合等。示例主要以 Class 组件的形式描述，函数组件对应的 Hook 见&lt;a</summary>
         
       
     
@@ -47,7 +122,7 @@
     <link href="http://example.com/2022/02/08/react/React%E6%A6%82%E8%BF%B0/"/>
     <id>http://example.com/2022/02/08/react/React%E6%A6%82%E8%BF%B0/</id>
     <published>2022-02-08T06:40:28.000Z</published>
-    <updated>2022-03-22T15:43:11.488Z</updated>
+    <updated>2022-05-30T07:15:44.308Z</updated>
     
     
       
@@ -176,7 +251,7 @@
     <link href="http://example.com/2021/09/28/note/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/"/>
     <id>http://example.com/2021/09/28/note/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/</id>
     <published>2021-09-28T06:10:25.000Z</published>
-    <updated>2021-10-21T13:52:11.274Z</updated>
+    <updated>2022-06-15T14:31:16.536Z</updated>
     
     
       
@@ -189,7 +264,7 @@
     
     
     
-    <category term="面试备注" scheme="http://example.com/categories/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8/"/>
+    <category term="备注" scheme="http://example.com/categories/%E5%A4%87%E6%B3%A8/"/>
     
     
     <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>
@@ -442,82 +517,6 @@
     
     
     <category term="JavaScript" scheme="http://example.com/categories/JavaScript/"/>
-    
-    
-    <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CSS动画（过渡、关键帧、3次贝塞尔曲线）</title>
-    <link href="http://example.com/2020/11/26/css/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/"/>
-    <id>http://example.com/2020/11/26/css/CSS%E5%8A%A8%E7%94%BB%EF%BC%88%E8%BF%87%E6%B8%A1%E3%80%81%E5%85%B3%E9%94%AE%E5%B8%A7%E3%80%813%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%EF%BC%89/</id>
-    <published>2020-11-26T03:03:30.000Z</published>
-    <updated>2021-10-20T12:48:36.883Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;CSS 动画可以在不借助 Javascript 的情况下做出一些相对简单的动画效果，例如缩放、移动、2D/3D旋转等。CSS动画有浏览器控制，表现得很流畅。 &lt;u&gt;CSS动画的时序函数主要为3次贝塞尔曲线。&lt;/u&gt;&lt;/p&gt;
-&lt;h2 id=&quot;CSS动画&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="CSS" scheme="http://example.com/categories/CSS/"/>
-    
-    
-    <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CSS布局（自适应、响应式、Layout）</title>
-    <link href="http://example.com/2020/11/02/css/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/"/>
-    <id>http://example.com/2020/11/02/css/CSS%E5%B8%83%E5%B1%80%EF%BC%88%E8%87%AA%E9%80%82%E5%BA%94%E3%80%81%E5%93%8D%E5%BA%94%E5%BC%8F%E3%80%81Layout%EF%BC%89/</id>
-    <published>2020-11-02T06:22:39.000Z</published>
-    <updated>2022-01-02T01:26:37.122Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;网页布局（layout）是 CSS 的一个重点应用。布局的传统解决方案，基于盒状模型，依赖 display、</summary>
-        
-      
-    
-    
-    
-    <category term="CSS" scheme="http://example.com/categories/CSS/"/>
-    
-    
-    <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CSS布局类型（Display、Flex、Grid）</title>
-    <link href="http://example.com/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/"/>
-    <id>http://example.com/2020/09/27/css/CSS%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Display%E3%80%81Flex%E3%80%81Grid%EF%BC%89/</id>
-    <published>2020-09-27T07:12:22.000Z</published>
-    <updated>2021-10-21T13:52:11.287Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;display属性规定元素应该生成的框的类型。display 属性可以设置元素的内部和外部等显示类型 display type。元素的外部显示类型 outer display type 将决定该元素在流式布局中的表现（块级或内联元素）；元素的内部显示类型 inner</summary>
-        
-      
-    
-    
-    
-    <category term="CSS" scheme="http://example.com/categories/CSS/"/>
     
     
     <category term="WEB技术" scheme="http://example.com/tags/WEB%E6%8A%80%E6%9C%AF/"/>

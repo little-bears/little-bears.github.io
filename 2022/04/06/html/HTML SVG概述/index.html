@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>Tag: WEB技术 |  码农日志</title>
+      <title>HTML SVG概述 |  码农日志</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,313 +54,165 @@
       
     <main class="content on">
       <section class="outer">
-  
-  <ul class="ads">
+  <article
+  id="post-html/HTML SVG概述"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  HTML SVG概述
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/04/06/html/HTML%20SVG%E6%A6%82%E8%BF%B0/" class="article-date">
+  <time datetime="2022-04-06T03:14:20.000Z" itemprop="datePublished">2022-04-06</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/HTML/">HTML</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">450</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">1 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">1、基本形状</span><br><span class="line">  rect(x, y, width, height, rx, ry,)</span><br><span class="line">  circle(cx, cy, r)</span><br><span class="line">  ellipse(cx, cy, rx, ry)</span><br><span class="line">  line(x1, y1, x2, y2)</span><br><span class="line">  polyline(points)</span><br><span class="line">  polygon(points)</span><br><span class="line">  注：svg公共属性: stroke、stroke-width、fill...</span><br><span class="line"></span><br><span class="line">2、path路径</span><br><span class="line">  (1) 移动画笔：</span><br><span class="line">    M x y &#x2F; m dx dy</span><br><span class="line">  (2) 画直线:</span><br><span class="line">    L x y &#x2F; l dx dy</span><br><span class="line">    H x &#x2F; h dx</span><br><span class="line">    V y &#x2F; v dy</span><br><span class="line">  (3) 闭合路径命令:</span><br><span class="line">    Z &#x2F; z</span><br><span class="line">  (4) 三次贝尔塞曲线：</span><br><span class="line">    C x1 y1, x2 y2, x y &#x2F; c dx1 dy1, dx2 dy2, dx dy</span><br><span class="line">    S x2 y2, x y &#x2F; s dx2 dy2, dx dy </span><br><span class="line">    注: C命令前两个点与控制点，第三个点为终点</span><br><span class="line">        S跟在C或S命令后，第一个控制点会被假设成前一个命令曲线的第二个控制点的中心对称点)</span><br><span class="line">        S单独使用，当前点将作为第一个控制点</span><br><span class="line">  (5) 二次贝尔塞曲线：</span><br><span class="line">    Q x1 y1, x y &#x2F; q dx1 dy1, dx dy</span><br><span class="line">    T x y &#x2F; t dx dy</span><br><span class="line">    注: Q命令第一个点为控制点，第二个点为终点</span><br><span class="line">        T跟在Q或T命令后，第一个控制点会被假设成前一个命令曲线控制点的中心对称点)</span><br><span class="line">        S单独使用，控制点就会被认为和终点是同一个点，将画出直线</span><br><span class="line">  (6) 圆弧：</span><br><span class="line">    A rx ry x-axis-rotation large-arc-flag sweep-flag x y</span><br><span class="line">    a rx ry x-axis-rotation large-arc-flag sweep-flag dx dy</span><br><span class="line">    注: rx ry 分别是是椭圆的x轴半径和y轴半径</span><br><span class="line">        x-axis-rotation 是椭圆相对于坐标系的旋转角度</span><br><span class="line">        large-arc-flag 是标记绘制大弧(1)还是小弧(0)部分</span><br><span class="line">        sweep-flag 是标记向顺时针(1)还是逆时针(0)方向绘制</span><br><span class="line">        x y 是圆弧终点的坐标</span><br><span class="line"></span><br><span class="line">3、其他</span><br><span class="line">  g元素与图形变换 (transform)</span><br><span class="line">  defs与渐变、图案，use呈现元素</span><br><span class="line">  SVG中使用Image标签</span><br><span class="line">  裁剪与遮罩、滤镜效果</span><br><span class="line">  ......</span><br></pre></td></tr></table></figure> 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
         <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
         </li>
-    
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
-</ul>
-  
-  
-  <article class="articles">
-    
-    
-    <h1 class="page-type-title">#&nbspWEB技术</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2022" class="archive-year">2022</a>
+      </ul>
     </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/" class="archive-article-date">
-  <time datetime="2022-06-14T08:52:10.000Z" itemprop="datePublished">06/14</time>
-</a>
+    
+    <footer class="article-footer">
        
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/"
-    >React函数组件的Hook</a> 
-</h2>
- 
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
 
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/04/06/html/HTML%20SVG%E6%A6%82%E8%BF%B0/" class="archive-article-date">
-  <time datetime="2022-04-06T03:14:20.000Z" itemprop="datePublished">04/06</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2022/04/06/html/HTML%20SVG%E6%A6%82%E8%BF%B0/"
-    >HTML SVG概述</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/02/17/react/React%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" class="archive-article-date">
-  <time datetime="2022-02-17T05:47:02.000Z" itemprop="datePublished">02/17</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2022/02/17/react/React%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/"
-    >React组件与基本语法</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/02/08/react/React%E6%A6%82%E8%BF%B0/" class="archive-article-date">
-  <time datetime="2022-02-08T06:40:28.000Z" itemprop="datePublished">02/08</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2022/02/08/react/React%E6%A6%82%E8%BF%B0/"
-    >React概述</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/01/24/vue/Vue%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/" class="archive-article-date">
-  <time datetime="2022-01-24T07:39:34.000Z" itemprop="datePublished">01/24</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2022/01/24/vue/Vue%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/"
-    >Vue单文件组件</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-  
-  </div>
-  </div>
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2021" class="archive-year">2021</a>
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/04/06/html/HTML%20SVG%E6%A6%82%E8%BF%B0/" alt="微信分享二维码">
     </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/10/22/vue/Vue3%E7%BB%84%E4%BB%B6%E8%AF%AD%E6%B3%95/" class="archive-article-date">
-  <time datetime="2021-10-22T09:54:19.000Z" itemprop="datePublished">10/22</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/10/22/vue/Vue3%E7%BB%84%E4%BB%B6%E8%AF%AD%E6%B3%95/"
-    >Vue3组件语法</a> 
-</h2>
- 
+</div>
 
-    </header>
-    
-    
-      
+<div id="share-mask"></div>  
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
 
-    
+    </footer>
   </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/10/21/vue/Vue3%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE/" class="archive-article-date">
-  <time datetime="2021-10-21T13:39:43.000Z" itemprop="datePublished">10/21</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/10/21/vue/Vue3%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE/"
-    >Vue3全局配置</a> 
-</h2>
- 
 
-    </header>
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/04/15/note/LeetCode%E9%A2%98%E8%A7%A3/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            LeetCode题解
+          
+        </div>
+      </a>
     
     
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
-
+      <a href="/2022/02/17/react/React%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">React组件与基本语法</div>
+      </a>
     
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/10/20/vue/Vue3%E6%A6%82%E8%BF%B0/" class="archive-article-date">
-  <time datetime="2021-10-20T05:20:59.000Z" itemprop="datePublished">10/20</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/10/20/vue/Vue3%E6%A6%82%E8%BF%B0/"
-    >Vue3概述</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/09/28/note/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/" class="archive-article-date">
-  <time datetime="2021-09-28T06:10:25.000Z" itemprop="datePublished">09/28</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/09/28/note/%E9%9D%A2%E8%AF%95%E5%A4%87%E6%B3%A8%20(2021.09)/"
-    >面试备注 (2021.09)</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/" class="archive-article-date">
-  <time datetime="2021-07-29T07:25:37.000Z" itemprop="datePublished">07/29</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/"
-    >JS modules模块化、按需引入</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
-
-    
-  </div>
-</article>
-      
-      
-    </div>
-  </div>
-  
-  
-
-  
-  <nav class="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/tags/WEB%E6%8A%80%E6%9C%AF/page/2/">2</a><a class="page-number" href="/tags/WEB%E6%8A%80%E6%9C%AF/page/3/">3</a><a class="extend next" rel="next" href="/tags/WEB%E6%8A%80%E6%9C%AF/page/2/">下一页</a>
   </nav>
+
   
+   
+     
+</article>
+
 </section>
       <footer class="footer">
   <div class="outer">
@@ -492,6 +344,22 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
 <link
