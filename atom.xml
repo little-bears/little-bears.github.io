@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-06-15T10:03:27.598Z</updated>
+  <updated>2022-06-16T14:26:17.342Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://example.com/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/"/>
     <id>http://example.com/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/</id>
     <published>2022-06-14T08:52:10.000Z</published>
-    <updated>2022-06-15T10:03:27.598Z</updated>
+    <updated>2022-06-16T14:26:17.342Z</updated>
     
     
       
@@ -97,14 +97,15 @@
     <link href="http://example.com/2022/02/17/react/React%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/"/>
     <id>http://example.com/2022/02/17/react/React%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</id>
     <published>2022-02-17T05:47:02.000Z</published>
-    <updated>2022-06-15T14:24:45.474Z</updated>
+    <updated>2022-06-16T14:18:06.640Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;本篇主要介绍 React 基本语法，主要包括JSX语法、元素渲染、组件、生命周期、事件处理、表单、状态提升、组件组合等。示例主要以 Class 组件的形式描述，函数组件对应的 Hook 见&lt;a</summary>
+    <summary type="html">&lt;p&gt;本篇主要介绍 React 基本语法，主要包括JSX语法、元素渲染、组件、生命周期、事件处理、表单、状态提升、组件组合等。因为 Class 组件功能更加完善，示例主要以 Class 组件的形式描述~&lt;/p&gt;
+&lt;h2 id=&quot;1、JSX语法&quot;&gt;&lt;a</summary>
         
       
     
