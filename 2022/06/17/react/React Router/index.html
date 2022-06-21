@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>React Router |  码农日志</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link rel="alternate" href="/atom.xml" title="码农日志" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-react/React Router"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  React Router
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/06/17/react/React%20Router/" class="article-date">
+  <time datetime="2022-06-17T09:37:23.000Z" itemprop="datePublished">2022-06-17</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/React/">React</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">18 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>React 属于单页面应用（SPA），相对于传统多页面应用不同页面跳转形式，单页面应用只有一个 Web 页面，通过隐藏显示对应的页面片段达到 UI 刷新的目的。示例使用更推荐的函数组件形式编写~</p>
+<h2 id="React-Router"><a href="#React-Router" class="headerlink" title="React Router"></a>React Router</h2><p>&emsp;&emsp;React Router 是完整的 React 路由解决方案，<u>保持 UI 与 URL 同步</u>。拥有简单的 API 与强大的功能例如代码缓冲加载、动态路由匹配、以及建立正确的位置过渡处理的能力</p>
+<p>&emsp;&emsp;不使用 React Router 完成页面简单交互<br>&emsp;&emsp;我们也可以不使用 React Router，通过 URL 来展示相应的页面片段，就能达到单页面应用交互的目的，如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; index.js</span><br><span class="line"></span><br><span class="line">import React, &#123;useState, useEffect&#125; from &#39;react&#39;;</span><br><span class="line">import &#39;.&#x2F;index.css&#39;;</span><br><span class="line">import ReactDOM from &#39;react-dom&#x2F;client&#39;;</span><br><span class="line">const root &#x3D; ReactDOM.createRoot(document.getElementById(&#39;root&#39;));</span><br><span class="line"></span><br><span class="line">const Home &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;主页&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line">const About &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;关于&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line">const Inbox &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;邮件&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line">const NotFound &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">return &lt;div style&#x3D;&#123;&#123; padding: &#39;20px&#39; &#125;&#125;&gt;</span><br><span class="line">  &lt;h1&gt;404&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;button className&#x3D;&quot;backHome&quot; onClick&#x3D;&#123;() &#x3D;&gt; window.location.href&#x3D;&quot;&#x2F;&quot;&#125;&gt;返回首页&lt;&#x2F;button&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let Child &#x3D; (() &#x3D;&gt; &#123;</span><br><span class="line">  const url &#x3D; window.location.hash.substr(1)</span><br><span class="line">  console.log(url)</span><br><span class="line">  if (url &#x3D;&#x3D;&#x3D; &#39;&#39; || url &#x3D;&#x3D;&#x3D; &#39;&#x2F;&#39;) return &lt;Home &#x2F;&gt;</span><br><span class="line">  else if (url &#x3D;&#x3D;&#x3D; &#39;&#x2F;about&#39;) return &lt;About &#x2F;&gt;</span><br><span class="line">  else if (url &#x3D;&#x3D;&#x3D; &#39;&#x2F;inbox&#39;) return &lt;Inbox &#x2F;&gt;</span><br><span class="line">  else return &lt;NotFound &#x2F;&gt;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [routeUrl, setRouteUrl] &#x3D; useState(window.location.hash.substr(1))</span><br><span class="line">  useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">    window.addEventListener(&#39;hashchange&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">      setRouteUrl(() &#x3D;&gt; &#123;</span><br><span class="line">        const url &#x3D; window.location.hash.substr(1)</span><br><span class="line">        switch (url) &#123;</span><br><span class="line">          case &#39;&#39;: Child &#x3D; &lt;Home &#x2F;&gt;; break</span><br><span class="line">          case &#39;&#x2F;&#39;: Child &#x3D; &lt;Home &#x2F;&gt;; break</span><br><span class="line">          case &#39;&#x2F;about&#39;: Child &#x3D; &lt;About &#x2F;&gt;; break</span><br><span class="line">          case &#39;&#x2F;inbox&#39;: Child &#x3D; &lt;Inbox &#x2F;&gt;; break</span><br><span class="line">          default: Child &#x3D; &lt;NotFound &#x2F;&gt;</span><br><span class="line">        &#125;</span><br><span class="line">        return url</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;, [])</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;div className&#x3D;&quot;App&quot;&gt;</span><br><span class="line">      &lt;div style&#x3D;&#123;&#123;marginBottom: &#39;20px&#39;&#125;&#125;&gt;</span><br><span class="line">        &lt;h1&gt;APP容器 页面路径：&#123;routeUrl ? routeUrl : &quot;&#x2F;&quot;&#125;&lt;&#x2F;h1&gt;</span><br><span class="line">        &lt;a className&#x3D;&#123; routeUrl &#x3D;&#x3D;&#x3D; &#39;&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; href&#x3D;&quot;#&#x2F;&quot;&gt;主页&lt;&#x2F;a&gt; </span><br><span class="line">        &lt;a className&#x3D;&#123; routeUrl &#x3D;&#x3D;&#x3D; &#39;&#x2F;about&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; href&#x3D;&quot;#&#x2F;about&quot;&gt;关于&lt;&#x2F;a&gt; </span><br><span class="line">        &lt;a className&#x3D;&#123; routeUrl &#x3D;&#x3D;&#x3D; &#39;&#x2F;inbox&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; href&#x3D;&quot;#&#x2F;inbox&quot;&gt;邮件&lt;&#x2F;a&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">      &#123; Child &#125;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">root.render(&lt;App &#x2F;&gt;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; index.css</span><br><span class="line"></span><br><span class="line">html, body &#123;padding: 0;margin: 0;background: #ffeabf; &#125;</span><br><span class="line">.App &#123; width: 90%; height: 60vh; display: flex; flex-direction: column; padding: 20px; &#125;</span><br><span class="line">.link &#123; display: inline-block; margin-right: 20px; font-size: 16px;  font-weight: bold; color: #333; text-decoration: none; &#125;</span><br><span class="line">.link-active &#123;color: #ff8800; text-decoration: underline; &#125;</span><br><span class="line">.content &#123; margin-top: 20px; flex: 1; background: #fff; padding: 0 20px; &#125;</span><br><span class="line">.backHome &#123; width: 100px; height: 36px; border-radius: 4px; border: none; background: #f9f9f9; color: #333; font-size: 17px; &#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;我们定义了3个组件，分别是主页 Home，关于页面 About，邮件页面 Inbox，根据 url 变化来动态展示 Child 组件（Child 也根据当前页面的 url 进行初始化），效果如下：<br><img src="/images/react/hashchange.gif" alt="hashchange"></p>
+<p>&emsp;&emsp;但我们的页面足够复杂时（页面组件层级太深，数量太多，同一页面会根据不同的状态进行不同的展示），通过 url 来定制 Child 的逻辑会变得特别复杂且难以维护，我们使用 React Router 来重构页面，简化交互<br>&emsp;&emsp;安装 react-router-dom 依赖（目前版本：6.3.0，示例代码基于6.x）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-router-dom@6.3.0 --save</span><br></pre></td></tr></table></figure>
+<p><em>&emsp;&emsp;[注] 这里使用功能更加完善 react-router-dom 库，基于 react-router</em><br>&emsp;&emsp;重构后的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; index.js</span><br><span class="line"></span><br><span class="line">import React from &#39;react&#39;;</span><br><span class="line">import &#123; BrowserRouter, Routes, Route, Link, Outlet, useLocation, useNavigate &#125; from &quot;react-router-dom&quot;; &#x2F;&#x2F; 引入路由组件</span><br><span class="line">import &#39;.&#x2F;index.css&#39;;</span><br><span class="line">import ReactDOM from &quot;react-dom&#x2F;client&quot;;</span><br><span class="line">const root &#x3D; ReactDOM.createRoot(document.getElementById(&#39;root&#39;));</span><br><span class="line"></span><br><span class="line">const Home &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;主页&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line">const About &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;关于&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line">const Inbox &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;邮件&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line">const NotFound &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const navigate &#x3D; useNavigate();</span><br><span class="line">  return &lt;div style&#x3D;&#123;&#123; padding: &#39;20px&#39; &#125;&#125;&gt;</span><br><span class="line">    &lt;h1&gt;404&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;button className&#x3D;&quot;backHome&quot; onClick&#x3D;&#123;() &#x3D;&gt; navigate(&#39;&#x2F;&#39;, &#123; replace: true &#125;)&#125;&gt;返回首页&lt;&#x2F;button&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const &#123; pathname &#125; &#x3D; useLocation()</span><br><span class="line">  return (</span><br><span class="line">    &lt;div className&#x3D;&quot;App&quot;&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;APP容器 页面路径：&#123;pathname&#125;&lt;&#x2F;h1&gt;</span><br><span class="line">        &#123;&#x2F;* 使用 Link 组件替换 a 标签，设置导航路径为 to 的属性值 *&#x2F;&#125;</span><br><span class="line">        &lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;&#x2F;&quot;&gt;主页&lt;&#x2F;Link&gt;</span><br><span class="line">        &lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;about&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;about&quot;&gt;关于&lt;&#x2F;Link&gt;</span><br><span class="line">        &lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;inbox&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;inbox&quot;&gt;邮件&lt;&#x2F;Link&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">      &#123;&#x2F;* 组件展示的容器 *&#x2F;&#125;</span><br><span class="line">      &lt;Outlet &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">root.render(</span><br><span class="line">  &#x2F;&#x2F; 使用&lt;BrowserRouter&gt; &lt;Routes&gt; 组件包裹路由规则 &lt;Route&gt;, 路由规则可以嵌套，</span><br><span class="line">  &#x2F;&#x2F; path表示要匹配的路由（:paramName 接收动态参数），element表示要渲染的组件，</span><br><span class="line">  &#x2F;&#x2F; index 属性设置当前路径默认渲染的组件</span><br><span class="line">  &lt;BrowserRouter&gt;</span><br><span class="line">    &lt;Routes&gt;</span><br><span class="line">      &lt;Route path&#x3D;&quot;&#x2F;&quot; element&#x3D;&#123;&lt;App &#x2F;&gt;&#125;&gt;</span><br><span class="line">        &lt;Route index element&#x3D;&#123;&lt;Home &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line">        &lt;Route path&#x3D;&quot;about&quot; element&#x3D;&#123;&lt;About &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line">        &lt;Route path&#x3D;&quot;inbox&quot; element&#x3D;&#123;&lt;Inbox &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;Route&gt;</span><br><span class="line">      &lt;Route path&#x3D;&quot;*&quot; element&#x3D;&#123;&lt;NotFound &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;Routes&gt;</span><br><span class="line">  &lt;&#x2F;BrowserRouter&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;使用 React 路由大致需要3个步骤，引入路由组件、设置交互规则、设置路由规则，大致如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 引入路由组件</span><br><span class="line">import &#123; BrowserRouter, Routes, Route, Link, Outlet, useLocation, useNavigate &#125; from &quot;react-router-dom&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 设置交互规则</span><br><span class="line">&lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;&#x2F;&quot;&gt;主页&lt;&#x2F;Link&gt;</span><br><span class="line">&lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;about&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;about&quot;&gt;关于&lt;&#x2F;Link&gt;</span><br><span class="line">&lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;inbox&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;inbox&quot;&gt;邮件&lt;&#x2F;Link&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 设置路由规则，BrowserRouter 为其他路由组件提供上下文环境</span><br><span class="line">&lt;BrowserRouter&gt;</span><br><span class="line">  &lt;Routes&gt;</span><br><span class="line">    &lt;Route path&#x3D;&quot;&#x2F;&quot; element&#x3D;&#123;&lt;App &#x2F;&gt;&#125;&gt;</span><br><span class="line">      &lt;Route index element&#x3D;&#123;&lt;Home &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line">      &lt;Route path&#x3D;&quot;about&quot; element&#x3D;&#123;&lt;About &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line">      &lt;Route path&#x3D;&quot;inbox&quot; element&#x3D;&#123;&lt;Inbox &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;Route&gt;</span><br><span class="line">    &lt;Route path&#x3D;&quot;*&quot; element&#x3D;&#123;&lt;NotFound &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;Routes&gt;</span><br><span class="line">&lt;&#x2F;BrowserRouter&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;参数传递<br>传递简单参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;inbox&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;inbox&#x2F;100&quot;&gt;邮件&lt;&#x2F;Link&gt; &#x2F;&#x2F; params参数</span><br><span class="line"></span><br><span class="line">&lt;Route path&#x3D;&quot;inbox&#x2F;:id&quot; element&#x3D;&#123;&lt;Inbox &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">const Inbox &#x3D; () &#x3D;&gt; &#123; &#x2F;&#x2F; 引入 useParams Hook 并使用</span><br><span class="line">  console.log(useLocation())</span><br><span class="line">  console.log(useParams())</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;邮件&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 输出：</span><br><span class="line">&#x2F;&#x2F; &#123; pathname: &quot;&#x2F;inbox&#x2F;100&quot;, search: &quot;&quot;, hash: &quot;&quot;, state: null, key: &quot;jx421e6p&quot; &#125;</span><br><span class="line">&#x2F;&#x2F; &#123; id: &quot;100&quot; &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;inbox&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;inbox?id&#x3D;100&quot;&gt;邮件&lt;&#x2F;Link&gt; &#x2F;&#x2F; search参数</span><br><span class="line"></span><br><span class="line">&lt;Route path&#x3D;&quot;inbox&quot; element&#x3D;&#123;&lt;Inbox &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">const Inbox &#x3D; () &#x3D;&gt; &#123; &#x2F;&#x2F; 引入 useSearchParams Hook 并使用</span><br><span class="line">  console.log(useLocation())</span><br><span class="line">  const [searchParams] &#x3D; useSearchParams();</span><br><span class="line">  console.log(searchParams.get(&quot;id&quot;))</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;邮件&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 输出：</span><br><span class="line">&#x2F;&#x2F; &#123; pathname: &quot;&#x2F;inbox&quot;, search: &quot;?id&#x3D;100&quot;, hash: &quot;&quot;, state: null, key: &quot;default&quot; &#125;</span><br><span class="line">&#x2F;&#x2F; 100</span><br></pre></td></tr></table></figure>
+<p>传递对象参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;inbox&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;inbox&quot; state&#x3D;&#123;&#123; id: 100, type: 3 &#125;&#125;&gt;邮件&lt;&#x2F;Link&gt; &#x2F;&#x2F; state参数</span><br><span class="line"></span><br><span class="line">&lt;Route path&#x3D;&quot;inbox&quot; element&#x3D;&#123;&lt;Inbox &#x2F;&gt;&#125; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">const Inbox &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const &#123; state &#125; &#x3D; useLocation()</span><br><span class="line">  console.log(state)</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;邮件&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 输出：</span><br><span class="line">&#x2F;&#x2F; &#123; id: 100, type: 3 &#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;几个常用的Hooks<br>&emsp;&emsp;useLocation、useParams、searchParams（用法见上面代码），useNavigate<br>&emsp;&emsp;useNavigate() 返回一个函数，使用该函数能以编程的方式进行导航，可设置 replace 属性为 true 可以使导航目标页替换当前页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const NotFound &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const navigate &#x3D; useNavigate();</span><br><span class="line">  return &lt;div style&#x3D;&#123;&#123; padding: &#39;20px&#39; &#125;&#125;&gt;</span><br><span class="line">    &lt;h1&gt;404&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;button onClick&#x3D;&#123;() &#x3D;&gt; navigate(&#39;&#x2F;&#39;, &#123; replace: true &#125;)&#125;&gt;返回首页&lt;&#x2F;button&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;<strong>扁平化路由配置，将路由进行封装</strong>（可按照实际使用进行修改）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 定义路由数组 (一般单独封装为js文件)</span><br><span class="line">const router &#x3D; [</span><br><span class="line">  &#123; path: &#39;&#x2F;&#39;, element: &lt;App &#x2F;&gt;, </span><br><span class="line">    children: [</span><br><span class="line">      &#123; index: true, element: &lt;Home &#x2F;&gt; &#125;,</span><br><span class="line">      &#123; path: &#39;about&#39;, element: &lt;About &#x2F;&gt; &#125;,</span><br><span class="line">      &#123; path: &#39;inbox&#39;, element: &lt;Inbox &#x2F;&gt; &#125;,</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123; path: &#39;*&#39;, element: &lt;NotFound &#x2F;&gt; &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义递归函数将路由数组转换为嵌套的&lt;Route&gt;</span><br><span class="line">const toRoutes &#x3D; (router) &#x3D;&gt; &#123;</span><br><span class="line">  if (router.children) &#123;</span><br><span class="line">    if (router.index) return &lt;Route key&#x3D;&#123;Math.random()&#125; index element&#x3D;&#123; router.element &#125;&gt;</span><br><span class="line">      &#123; router.children.map(item &#x3D;&gt; toRoutes(item)) &#125;</span><br><span class="line">    &lt;&#x2F;Route&gt;</span><br><span class="line">    else return &lt;Route key&#x3D;&#123;router.path&#125; path&#x3D;&#123; router.path &#125; element&#x3D;&#123; router.element &#125;&gt;</span><br><span class="line">      &#123; router.children.map(item &#x3D;&gt; toRoutes(item)) &#125;</span><br><span class="line">    &lt;&#x2F;Route&gt;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    if (router.index) return &lt;Route key&#x3D;&#123;Math.random()&#125; index element&#x3D;&#123; router.element &#125; &#x2F;&gt;</span><br><span class="line">    else return &lt;Route key&#x3D;&#123;router.path&#125; path&#x3D;&#123; router.path &#125; element&#x3D;&#123; router.element &#125; &#x2F;&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">&#x2F;&#x2F; 使用路由数组</span><br><span class="line">&lt;BrowserRouter&gt;</span><br><span class="line">  &lt;Routes&gt;</span><br><span class="line">    &#123; router &amp;&amp; router.map(item &#x3D;&gt; toRouters(item)) &#125;</span><br><span class="line">  &lt;&#x2F;Routes&gt;</span><br><span class="line">&lt;&#x2F;BrowserRouter&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;完整代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">import React from &#39;react&#39;;</span><br><span class="line">import &#123; BrowserRouter, Routes, Route, Link, Outlet, useLocation, useNavigate &#125; from &quot;react-router-dom&quot;;</span><br><span class="line">import &#39;.&#x2F;index.css&#39;;</span><br><span class="line">import ReactDOM from &quot;react-dom&#x2F;client&quot;;</span><br><span class="line">const root &#x3D; ReactDOM.createRoot(document.getElementById(&#39;root&#39;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">const Home &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;主页&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line">const About &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;关于&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line">const Inbox &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;div className&#x3D;&quot;content&quot;&gt;</span><br><span class="line">    &lt;h1&gt;邮件&lt;&#x2F;h1&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const NotFound &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const navigate &#x3D; useNavigate();</span><br><span class="line">  return &lt;div style&#x3D;&#123;&#123; padding: &#39;20px&#39; &#125;&#125;&gt;</span><br><span class="line">    &lt;h1&gt;404&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;button className&#x3D;&quot;backHome&quot; onClick&#x3D;&#123;() &#x3D;&gt; navigate(&#39;&#x2F;&#39;, &#123; replace: true &#125;)&#125;&gt;返回首页&lt;&#x2F;button&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const &#123; pathname &#125; &#x3D; useLocation()</span><br><span class="line">  return (</span><br><span class="line">    &lt;div className&#x3D;&quot;App&quot;&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;APP容器 页面路径：&#123;pathname&#125;&lt;&#x2F;h1&gt;</span><br><span class="line">        &lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;&#x2F;&quot;&gt;主页&lt;&#x2F;Link&gt;</span><br><span class="line">        &lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;about&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;about&quot;&gt;关于&lt;&#x2F;Link&gt;</span><br><span class="line">        &lt;Link className&#x3D;&#123; pathname &#x3D;&#x3D;&#x3D; &#39;&#x2F;inbox&#39; ? &#39;link link-active&#39; : &#39;link&#39; &#125; to&#x3D;&quot;inbox&quot;&gt;邮件&lt;&#x2F;Link&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">      &lt;Outlet &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const router &#x3D; [</span><br><span class="line">  &#123; path: &#39;&#x2F;&#39;, element: &lt;App &#x2F;&gt;, </span><br><span class="line">    children: [</span><br><span class="line">      &#123; index: true, element: &lt;Home &#x2F;&gt; &#125;,</span><br><span class="line">      &#123; path: &#39;about&#39;, element: &lt;About &#x2F;&gt; &#125;,</span><br><span class="line">      &#123; path: &#39;inbox&#39;, element: &lt;Inbox &#x2F;&gt; &#125;,</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123; path: &#39;*&#39;, element: &lt;NotFound &#x2F;&gt; &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">const toRoutes &#x3D; (router) &#x3D;&gt; &#123;</span><br><span class="line">  if (router.children) &#123;</span><br><span class="line">    if (router.index) return &lt;Route key&#x3D;&#123;Math.random()&#125; index element&#x3D;&#123; router.element &#125;&gt;</span><br><span class="line">      &#123; router.children.map(item &#x3D;&gt; toRoutes(item)) &#125;</span><br><span class="line">    &lt;&#x2F;Route&gt;</span><br><span class="line">    else return &lt;Route key&#x3D;&#123;router.path&#125; path&#x3D;&#123; router.path &#125; element&#x3D;&#123; router.element &#125;&gt;</span><br><span class="line">      &#123; router.children.map(item &#x3D;&gt; toRoutes(item)) &#125;</span><br><span class="line">    &lt;&#x2F;Route&gt;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    if (router.index) return &lt;Route key&#x3D;&#123;Math.random()&#125; index element&#x3D;&#123; router.element &#125; &#x2F;&gt;</span><br><span class="line">    else return &lt;Route key&#x3D;&#123;router.path&#125; path&#x3D;&#123; router.path &#125; element&#x3D;&#123; router.element &#125; &#x2F;&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">root.render(</span><br><span class="line">  &lt;BrowserRouter&gt;</span><br><span class="line">    &lt;Routes&gt;</span><br><span class="line">      &#123; router &amp;&amp; router.map(item &#x3D;&gt; toRoutes(item)) &#125;</span><br><span class="line">    &lt;&#x2F;Routes&gt;</span><br><span class="line">  &lt;&#x2F;BrowserRouter&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><em>&emsp;&emsp;[注] React Router 官方文档：<a target="_blank" rel="noopener" href="https://github.com/remix-run/react-router/tree/main/docs">https://github.com/remix-run/react-router/tree/main/docs</a></em></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://little-bears.github.io/2022/06/17/react/React%20Router/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E6%8A%80%E6%9C%AF/" rel="tag">WEB技术</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/06/21/react/React%20Redux/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            React Redux
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">React函数组件的Hook</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2022
+        <i class="ri-heart-fill heart_icon"></i> 熊小刚
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img style="border-radius: 4px;" src="/images/logo.jpg" alt="码农日志"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我吃个雪糕吧，谢谢~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay-payment-code.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat-payment-code.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+</body>
+
+</html>

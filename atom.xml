@@ -6,7 +6,7 @@
   <link href="https://little-bears.github.io/atom.xml" rel="self"/>
   
   <link href="https://little-bears.github.io/"/>
-  <updated>2022-06-19T10:56:19.755Z</updated>
+  <updated>2022-06-21T14:09:57.854Z</updated>
   <id>https://little-bears.github.io/</id>
   
   <author>
@@ -17,11 +17,62 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>React Redux</title>
+    <link href="https://little-bears.github.io/2022/06/21/react/React%20Redux/"/>
+    <id>https://little-bears.github.io/2022/06/21/react/React%20Redux/</id>
+    <published>2022-06-21T02:57:35.000Z</published>
+    <updated>2022-06-21T14:09:57.854Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Redux 是集中式存储和管理应用的状态的 JavaScript 应用的状态容器，状态变化可预测，也支持其他 UI 框架，React Redux 是 Redux 官方为 React UI</summary>
+        
+      
+    
+    
+    
+    <category term="React" scheme="https://little-bears.github.io/categories/React/"/>
+    
+    
+    <category term="WEB技术" scheme="https://little-bears.github.io/tags/WEB%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>React Router</title>
+    <link href="https://little-bears.github.io/2022/06/17/react/React%20Router/"/>
+    <id>https://little-bears.github.io/2022/06/17/react/React%20Router/</id>
+    <published>2022-06-17T09:37:23.000Z</published>
+    <updated>2022-06-21T09:10:35.676Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;React 属于单页面应用（SPA），相对于传统多页面应用不同页面跳转形式，单页面应用只有一个 Web 页面，通过隐藏显示对应的页面片段达到 UI 刷新的目的。示例使用更推荐的函数组件形式编写~&lt;/p&gt;
+&lt;h2 id=&quot;React-Router&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="React" scheme="https://little-bears.github.io/categories/React/"/>
+    
+    
+    <category term="WEB技术" scheme="https://little-bears.github.io/tags/WEB%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title>React函数组件的Hook</title>
     <link href="https://little-bears.github.io/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/"/>
     <id>https://little-bears.github.io/2022/06/14/react/React%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84Hook/</id>
     <published>2022-06-14T08:52:10.000Z</published>
-    <updated>2022-06-19T10:56:19.755Z</updated>
+    <updated>2022-06-21T11:23:44.197Z</updated>
     
     
       
@@ -123,14 +174,14 @@
     <link href="https://little-bears.github.io/2022/02/08/react/React%E6%A6%82%E8%BF%B0/"/>
     <id>https://little-bears.github.io/2022/02/08/react/React%E6%A6%82%E8%BF%B0/</id>
     <published>2022-02-08T06:40:28.000Z</published>
-    <updated>2022-05-30T07:15:44.308Z</updated>
+    <updated>2022-06-21T11:48:47.524Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;React 是用于构建用户界面的 JavaScript 库，这里主要简单介绍JSX语法与类组件的生命周期、初始化项目~&lt;/p&gt;
+    <summary type="html">&lt;p&gt;React 是用于构建用户界面的 JavaScript 库，这里主要简单介绍 JSX 语法与类组件的生命周期、初始化项目~&lt;/p&gt;
 &lt;h2 id=&quot;1、React特点&quot;&gt;&lt;a href=&quot;#1、React特点&quot; class=&quot;headerlink&quot;</summary>
         
       
@@ -175,7 +226,7 @@
     <link href="https://little-bears.github.io/2021/10/22/vue/Vue3%E7%BB%84%E4%BB%B6%E8%AF%AD%E6%B3%95/"/>
     <id>https://little-bears.github.io/2021/10/22/vue/Vue3%E7%BB%84%E4%BB%B6%E8%AF%AD%E6%B3%95/</id>
     <published>2021-10-22T09:54:19.000Z</published>
-    <updated>2022-01-02T01:51:06.436Z</updated>
+    <updated>2022-06-21T14:03:06.103Z</updated>
     
     
       
@@ -277,7 +328,7 @@
     <link href="https://little-bears.github.io/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/"/>
     <id>https://little-bears.github.io/2021/07/29/javascript/JS%20modules%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/</id>
     <published>2021-07-29T07:25:37.000Z</published>
-    <updated>2021-10-24T00:29:56.226Z</updated>
+    <updated>2022-06-21T14:00:27.474Z</updated>
     
     
       
@@ -462,56 +513,6 @@
         
         
     <summary type="html">&lt;p&gt;在JavaScript中，每个实例对象（ object ）都有一个私有属性（称之为 __proto__ ）指向它的构造函数的原型对象（prototype ）。该原型对象也有一个自己的原型对象( __proto__ ) ，层层向上直到一个对象的原型对象为</summary>
-        
-      
-    
-    
-    
-    <category term="JavaScript" scheme="https://little-bears.github.io/categories/JavaScript/"/>
-    
-    
-    <category term="WEB技术" scheme="https://little-bears.github.io/tags/WEB%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JS预解析、作用域、执行上下文、this</title>
-    <link href="https://little-bears.github.io/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/"/>
-    <id>https://little-bears.github.io/2020/12/05/javascript/JS%E9%A2%84%E8%A7%A3%E6%9E%90%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81this/</id>
-    <published>2020-12-05T03:28:36.000Z</published>
-    <updated>2022-02-12T11:14:06.316Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;这部分是JavaScript比较基础的部分。JS代码运行前的极短时间内会进行语法分析、代码预解析以及解释执行。其中预解析最重要。分为全局预解析和局部预解析，全局预解析发生在页面加载完成时执行，而局部预解析发生在函数执行的前一刻(在极短时间内完成)。会进行变量与函数声明（变量</summary>
-        
-      
-    
-    
-    
-    <category term="JavaScript" scheme="https://little-bears.github.io/categories/JavaScript/"/>
-    
-    
-    <category term="WEB技术" scheme="https://little-bears.github.io/tags/WEB%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JavaScript概述</title>
-    <link href="https://little-bears.github.io/2020/12/03/javascript/JavaScript%E6%A6%82%E8%BF%B0/"/>
-    <id>https://little-bears.github.io/2020/12/03/javascript/JavaScript%E6%A6%82%E8%BF%B0/</id>
-    <published>2020-12-03T07:53:39.000Z</published>
-    <updated>2022-02-12T10:59:06.633Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;JavaScript ( JS ) 是一种具有函数优先的轻量级，解释型或即时编译型，单线程的脚本语言，它可以在网页上实现复杂的功能，网页展现给你的不再是简单的静态页面信息，而是实时的内容更新，交互式的地图，2D/3D</summary>
         
       
     
