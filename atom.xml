@@ -6,7 +6,7 @@
   <link href="https://little-bears.github.io/atom.xml" rel="self"/>
   
   <link href="https://little-bears.github.io/"/>
-  <updated>2022-06-22T14:27:09.246Z</updated>
+  <updated>2022-06-23T13:58:53.716Z</updated>
   <id>https://little-bears.github.io/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>React使用antd UI</title>
+    <link href="https://little-bears.github.io/2022/06/22/react/React%E4%BD%BF%E7%94%A8antd%20UI/"/>
+    <id>https://little-bears.github.io/2022/06/22/react/React%E4%BD%BF%E7%94%A8antd%20UI/</id>
+    <published>2022-06-22T08:18:04.000Z</published>
+    <updated>2022-06-23T13:58:53.716Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发后台相关系统，主要简单介绍常见如下组件的使用：Table(Tooltip, Image, pagination属性)、Modal（confirm方法）、Form（Input,</summary>
+        
+      
+    
+    
+    
+    <category term="React" scheme="https://little-bears.github.io/categories/React/"/>
+    
+    
+    <category term="WEB技术" scheme="https://little-bears.github.io/tags/WEB%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title>React Redux</title>
     <link href="https://little-bears.github.io/2022/06/21/react/React%20Redux/"/>
     <id>https://little-bears.github.io/2022/06/21/react/React%20Redux/</id>
     <published>2022-06-21T02:57:35.000Z</published>
-    <updated>2022-06-22T14:27:09.246Z</updated>
+    <updated>2022-06-23T14:14:48.516Z</updated>
     
     
       
@@ -488,31 +513,6 @@
         
         
     <summary type="html">&lt;p&gt;Javascript语言的执行环境是”单线程”（single thread），单个脚本只能在一个线程上运行（主线程）。原因在于浏览器内核中JavaScript引擎中负责解释和执行JavaScript代码的主线程是唯一的，同一时间只能执行一件任务。在浏览器内核中，GUI</summary>
-        
-      
-    
-    
-    
-    <category term="JavaScript" scheme="https://little-bears.github.io/categories/JavaScript/"/>
-    
-    
-    <category term="WEB技术" scheme="https://little-bears.github.io/tags/WEB%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JS原型（prototype）链与继承（Class）</title>
-    <link href="https://little-bears.github.io/2020/12/23/javascript/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/"/>
-    <id>https://little-bears.github.io/2020/12/23/javascript/JS%E5%8E%9F%E5%9E%8B%EF%BC%88prototype%EF%BC%89%E9%93%BE%E4%B8%8E%E7%BB%A7%E6%89%BF%EF%BC%88Class%EF%BC%89/</id>
-    <published>2020-12-23T10:00:00.000Z</published>
-    <updated>2021-10-21T13:52:11.257Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;在JavaScript中，每个实例对象（ object ）都有一个私有属性（称之为 __proto__ ）指向它的构造函数的原型对象（prototype ）。该原型对象也有一个自己的原型对象( __proto__ ) ，层层向上直到一个对象的原型对象为</summary>
         
       
     
