@@ -6,7 +6,7 @@
   <link href="https://little-bears.github.io/atom.xml" rel="self"/>
   
   <link href="https://little-bears.github.io/"/>
-  <updated>2022-06-23T13:58:53.716Z</updated>
+  <updated>2022-06-24T10:24:23.629Z</updated>
   <id>https://little-bears.github.io/</id>
   
   <author>
@@ -21,14 +21,14 @@
     <link href="https://little-bears.github.io/2022/06/22/react/React%E4%BD%BF%E7%94%A8antd%20UI/"/>
     <id>https://little-bears.github.io/2022/06/22/react/React%E4%BD%BF%E7%94%A8antd%20UI/</id>
     <published>2022-06-22T08:18:04.000Z</published>
-    <updated>2022-06-23T13:58:53.716Z</updated>
+    <updated>2022-06-24T10:24:23.629Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发后台相关系统，主要简单介绍常见如下组件的使用：Table(Tooltip, Image, pagination属性)、Modal（confirm方法）、Form（Input,</summary>
+    <summary type="html">&lt;p&gt;antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于开发后台相关系统，主要简单介绍常见如下组件的使用：&lt;br&gt;Table(Tooltip, Image, pagination属性)、Modal（confirm方法）、Form（Input,</summary>
         
       
     
@@ -46,7 +46,7 @@
     <link href="https://little-bears.github.io/2022/06/21/react/React%20Redux/"/>
     <id>https://little-bears.github.io/2022/06/21/react/React%20Redux/</id>
     <published>2022-06-21T02:57:35.000Z</published>
-    <updated>2022-06-23T14:14:48.516Z</updated>
+    <updated>2022-06-23T14:35:38.728Z</updated>
     
     
       
@@ -71,7 +71,7 @@
     <link href="https://little-bears.github.io/2022/06/17/react/React%20Router/"/>
     <id>https://little-bears.github.io/2022/06/17/react/React%20Router/</id>
     <published>2022-06-17T09:37:23.000Z</published>
-    <updated>2022-06-22T14:35:17.825Z</updated>
+    <updated>2022-06-27T12:48:19.689Z</updated>
     
     
       
